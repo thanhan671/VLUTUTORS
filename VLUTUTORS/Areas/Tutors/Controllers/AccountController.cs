@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace VLUTUTORS.Areas.Admin.Controllers
+namespace VLUTUTORS.Areas.Tutors.Controllers
 {
-    [Area("Admin")]
+    [Area("Tutors")]
     public class AccountController : Controller
     {
         public IActionResult Index()
