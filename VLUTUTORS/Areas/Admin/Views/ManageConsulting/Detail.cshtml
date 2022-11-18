@@ -1,0 +1,77 @@
+﻿
+@{
+    ViewData["Title"] = "Chi tiết tư vấn";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Danh sách đăng ký tư vấn</a></li>
+                    <li class="breadcrumb-item active">Chi tiết đăng ký tư vấn</li>
+                </ol>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container" style="margin-top: 20px; margin-bottom: 20px">
+            <div class="main-body">
+                <div class="row gutters-sm">
+                    <div class="col-md-8">
+                        <div class="card mb-3">
+                            <div class="card-body" style="justify-content: space-around">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Họ Tên</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        Nguyễn Thanh An
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Môn cần tư vấn</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">Anh văn cơ bản</div>
+                                </div>
+                                <hr />
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Số Điện Thoại</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">0922222222</div>
+                                </div>
+                                <hr />
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Trạng thái</h6>
+                                    </div>
+                                    <select>
+                                        <option value="1">Đang chờ</option>
+                                        <option value="2">Hoàn thành</option>
+                                    </select>
+                                </div>
+                                <hr />
+                                <div class="row">
+                                    <div class="col-12 flex-right mb-4">
+                                        <a href="consulting-management.html" class="btn btn-secondary mr-3">Quay Lại</a>
+                                        <input type="submit" value="Lưu" class="btn btn-success" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+
