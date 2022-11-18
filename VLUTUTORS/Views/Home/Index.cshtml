@@ -1,8 +1,289 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿
+@{
+    ViewData["Title"] = "Trang Chủ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!--====== SLIDER PART START ======-->
+<section id="slider-part-3"
+         class="bg_cover"
+         style="background-image: url(images/background.jpg)">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="slider-cont-3 text-center">
+                    <h2>Chào Mừng Đến Với Gia Sư Văn Lang</h2>
+                    <span>Đáp Ứng Nhu Cầu Cải Thiện Học Tập Của Bạn</span>
+                </div>
+                <!-- slider cont3 -->
+            </div>
+        </div>
+        <!-- row -->
+        <div class="slider-feature pt-30 d-none d-md-block">
+            <div class="row justify-content-center">
+                <div class="col-lg-4 col-md-6">
+                    <div class="singel-slider-feature justify-content-center mt-30">
+                        <div class="icon">
+                            <img src="images/all-icon/man.png" alt="icon" />
+                        </div>
+                        <div class="cont">
+                            <h3 class="counter">130</h3>
+                            <span>Gia Sư</span>
+                        </div>
+                    </div>
+                    <!-- singel slider feature -->
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="singel-slider-feature justify-content-center mt-30">
+                        <div class="icon">
+                            <img src="images/all-icon/book.png" alt="icon" />
+                        </div>
+                        <div class="cont">
+                            <h3 class="counter">5</h3>
+                            <span>Môn Học Khác Nhau</span>
+                        </div>
+                    </div>
+                    <!-- singel slider feature -->
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="singel-slider-feature justify-content-center mt-30">
+                        <div class="icon">
+                            <img src="images/all-icon/expert.png" alt="icon" />
+                        </div>
+                        <div class="cont">
+                            <h3 class="counter">50</h3>
+                            <span>Học Viên Từng Học</span>
+                        </div>
+                    </div>
+                    <!-- singel slider feature -->
+                </div>
+            </div>
+            <!-- row -->
+        </div>
+        <!-- slider feature -->
+    </div>
+    <!-- container -->
+</section>
+
+<!--====== SLIDER PART ENDS ======-->
+<!--====== CATEGORY PART START ======-->
+
+<section id="category-3" class="category-2-items pt-50 pb-80 gray-bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-6">
+                <div class="singel-items text-center mt-30">
+                    <div class="items-image">
+                        <img src="images/category/ctg-1.jpg" alt="Category" />
+                    </div>
+                    <div class="items-cont">
+                        <a href="#">
+                            <h5>Anh văn cơ bản</h5>
+                            <span>10 Gia sư</span>
+                        </a>
+                    </div>
+                </div>
+                <!-- singel items -->
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="singel-items text-center mt-30">
+                    <div class="items-image">
+                        <img src="images/category/ctg-1.jpg" alt="Category" />
+                    </div>
+                    <div class="items-cont">
+                        <a href="#">
+                            <h5>Tin học cơ bản</h5>
+                            <span>10 Gia sư</span>
+                        </a>
+                    </div>
+                </div>
+                <!-- singel items -->
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="singel-items text-center mt-30">
+                    <div class="items-image">
+                        <img src="images/category/ctg-1.jpg" alt="Category" />
+                    </div>
+                    <div class="items-cont">
+                        <a href="#">
+                            <h5>Coming soon</h5>
+                            <span>Coming soon</span>
+                        </a>
+                    </div>
+                </div>
+                <!-- singel items -->
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="singel-items text-center mt-30">
+                    <div class="items-image">
+                        <img src="images/category/ctg-1.jpg" alt="Category" />
+                    </div>
+                    <div class="items-cont">
+                        <a href="#">
+                            <h5>Coming soon</h5>
+                            <span>Coming soon</span>
+                        </a>
+                    </div>
+                </div>
+                <!-- singel items -->
+            </div>
+        </div>
+        <!-- row -->
+    </div>
+    <!-- container -->
+</section>
+
+<!--====== CATEGORY PART ENDS ======-->
+<!--====== CONSULTING PART START ======-->
+<section>
+    <div class="container">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-lg-6">
+                <div class="count-down-cont mt-50">
+                    <img src="images/teacher-up-down.png" />
+                </div>
+                <!-- count down cont -->
+            </div>
+            <div class="col-lg-5 offset-lg-1 col-md-8">
+                <div class="category-form category-form-3 mt-150">
+                    <div class="form-title text-center">
+                        <h3>Đăng ký tư vấn</h3>
+                        <span>Miễn phí </span>
+                    </div>
+                    <div class="main-form">
+                        <form action="#">
+                            <div class="singel-form">
+                                <input type="text" placeholder="Tên của bạn" />
+                            </div>
+                            <div class="singel-form">
+                                <input type="email" placeholder="Điện thoại" />
+                            </div>
+                            <div class="singel-form">
+                                <input type="text" placeholder="Môn học" />
+                            </div>
+                            <div class="singel-form">
+                                <button class="main-btn" type="button">
+                                    Đăng ký tư vấn
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- category form -->
+            </div>
+        </div>
+        <!-- row -->
+    </div>
+    <!-- container -->
+</section>
+<!--====== CONSULTING PART ENDS ======-->
+<!--====== TEACHERS PART START ======-->
+
+<section id="teachers-part" class="pt-65 pb-120 gray-bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="section-title mt-50 pb-25">
+                    <h5>Top Gia Sư</h5>
+                    <h2>Gia Sư Nổi Bật</h2>
+                </div>
+                <!-- section title -->
+                <div class="teachers-2">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="teachers-2-singel mt-30">
+                                <div class="thum">
+                                    <img src="images/teachers/teacher-2/tc-1.jpg"
+                                         alt="Teacher" />
+                                </div>
+                                <div class="cont">
+                                    <a href="teachers-singel.html"><h5>Thanh Tiến</h5></a>
+                                    <span><i class="fa fa-book"></i>Tin học cơ bản</span>
+                                </div>
+                            </div>
+                            <!-- teachers 2 singel -->
+                        </div>
+                        <div class="col-md-6">
+                            <div class="teachers-2-singel mt-30">
+                                <div class="thum">
+                                    <img src="images/teachers/teacher-2/tc-2.jpg"
+                                         alt="Teacher" />
+                                </div>
+                                <div class="cont">
+                                    <a href="teachers-singel.html"><h5>Văn Khánh</h5></a>
+                                    <span><i class="fa fa-book"></i>Anh văn cơ bản</span>
+                                </div>
+                            </div>
+                            <!-- teachers 2 singel -->
+                        </div>
+                        <div class="col-md-6">
+                            <div class="teachers-2-singel mt-30">
+                                <div class="thum">
+                                    <img src="images/teachers/teacher-2/tc-1.jpg"
+                                         alt="Teacher" />
+                                </div>
+                                <div class="cont">
+                                    <a href="teachers-singel.html"><h5>Văn Đạt</h5></a>
+                                    <span><i class="fa fa-book"></i>Tin học cơ bản</span>
+                                </div>
+                            </div>
+                            <!-- teachers 2 singel -->
+                        </div>
+                        <div class="col-md-6">
+                            <div class="teachers-2-singel mt-30">
+                                <div class="thum">
+                                    <img src="images/teachers/teacher-2/tc-1.jpg"
+                                         alt="Teacher" />
+                                </div>
+                                <div class="cont">
+                                    <a href="teachers-singel.html"><h5>Thanh An</h5></a>
+                                    <span><i class="fa fa-book"></i>Anh văn cơ bản</span>
+                                </div>
+                            </div>
+                            <!-- teachers 2 singel -->
+                        </div>
+                    </div>
+                    <!-- row -->
+                </div>
+                <!-- teachers 2 -->
+            </div>
+            <div class="col-lg-6">
+                <div class="happy-student mt-55">
+                    <div class="happy-title">
+                        <h3>TẠI SAO CHỌN GIA SƯ VĂN LANG?</h3>
+                    </div>
+                    <div class="student-slied">
+                        <div class="singel-student">
+                            <img src="images/teachers/teacher-2/quote.png" alt="Quote" />
+                            <p>
+                                Những gia sư Văn Lang đều được xét duyệt rất kỹ càng và có
+                                trình độ phù hợp để giảng dạy
+                            </p>
+                            <h6>Văn Hùng</h6>
+                            <span>Gia sư anh văn cơ bản</span>
+                        </div>
+                        <!-- singel student -->
+                        <div class="singel-student">
+                            <img src="images/teachers/teacher-2/quote.png" alt="Quote" />
+                            <p>
+                                Môi trường học tập tại Gia sư Văn Lang vô cùng linh động,
+                                hiện đại và tiện lợi cho cả người học và gia sư
+                            </p>
+                            <h6>Thanh Long</h6>
+                            <span>Gia sư tin học cơ bản</span>
+                        </div>
+                    </div>
+                    <!-- student slied -->
+                    <div class="student-image">
+                        <img src="images/teachers/teacher-2/happy.png" alt="Image" />
+                    </div>
+                </div>
+                <!-- happy student -->
+            </div>
+        </div>
+        <!-- row -->
+    </div>
+    <!-- container -->
+</section>
+
+<!--====== TEACHERS PART ENDS ======-->
