@@ -23,7 +23,7 @@ namespace VLUTUTORS.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult RegisterAsTutor()
         {
             return View();
         }
