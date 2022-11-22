@@ -26,17 +26,17 @@
     <div class="container">
         <div class="forms-container">
             <div class="signin-signup">
-                <form action="#" class="sign-in-form">
+                <form action="#" class="sign-in-form" method="post" enctype="multipart/form-data" asp-controller="Accounts" asp-action="Login">
                     <h2 class="title">Đăng Nhập</h2>
                     <div class="input-field">
                         <i class="fas fa-user"></i>
-                        <input type="text" placeholder="Email" />
+                        <input type="text" name="email" placeholder="Email" />
                     </div>
                     <div class="input-field">
                         <i class="fas fa-lock"></i>
-                        <input type="password" placeholder="Mật Khẩu" />
+                        <input type="password" name="password" placeholder="Mật Khẩu" />
                     </div>
-                    <input type="submit" value="Đăng Nhập" class="btn solid" />
+                    <button type="submit" class ="btn" onclick="Button1_Click">Đăng Nhập</button>
                     <a href="forgotpass.html">
                         <span>Bạn quên mật khẩu? </span>
                     </a>
