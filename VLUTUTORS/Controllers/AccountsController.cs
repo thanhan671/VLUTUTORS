@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,21 +31,29 @@ namespace VLUTUTORS.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    var taiKhoan = _context.Taikhoannguoidungs.AsNoTracking().SingleOrDefault(x => x.Email.ToLower() == Email.ToLower());
 
-                    Taikhoannguoidung taikhoannguoidung = new Taikhoannguoidung
+                    if(taiKhoan != null)
                     {
-                        HoTen = HoTen,
-                        Email = Email,
-                        MatKhau = MatKhau
-                    };
-                    try
-                    {
-                        _context.Add(taikhoannguoidung);
-                        await _context.SaveChangesAsync();
+                        return View();
                     }
-                    catch
+                    else
                     {
-                        return RedirectToAction("Login", "Accounts");
+                        Taikhoannguoidung taiKhoanNguoiDung = new Taikhoannguoidung
+                        {
+                            HoTen = HoTen,
+                            Email = Email,
+                            MatKhau = MatKhau
+                        };
+                        try
+                        {
+                            _context.Add(taiKhoanNguoiDung);
+                            await _context.SaveChangesAsync();
+                        }
+                        catch
+                        {
+                            return RedirectToAction("Login", "Accounts");
+                        }
                     }
                 }
                 else
