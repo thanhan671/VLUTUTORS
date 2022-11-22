@@ -10,27 +10,52 @@ namespace VLUTUTORS.Controllers
 {
     public class AccountsController : Controller
     {
+
+        private readonly CP25Team01Context _context;
+
+        public AccountsController(CP25Team01Context context)
+        {
+            _context = context;
+        }
+
         public IActionResult Login()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult Login(string HoTen, string Email, string MatKhau)
+        public async Task<IActionResult> Login(string HoTen, string Email, string MatKhau)
         {
-            string conString = @"Server=tuleap.vanlanguni.edu.vn,18082;Database=CP25Team01;User Id=CP25Team01; Password=Cap25t01;Integrated Security=True;Trusted_Connection=False;ApplicationIntent=ReadWrite;MultipleActiveResultSets=False";
-            SqlConnection con = new SqlConnection(conString);
             try
             {
-                string query = "insert into Taikhoannguoidung(HoTen,Email,MatKhau) values('" + HoTen + "', '" + Email + "','" + MatKhau + "')";
-                SqlDataAdapter da = new SqlDataAdapter(query, con);
-                con.Open();
-                da.SelectCommand.ExecuteNonQuery();
-                con.Close();
+                if (ModelState.IsValid)
+                {
+
+                    Taikhoannguoidung taikhoannguoidung = new Taikhoannguoidung
+                    {
+                        HoTen = HoTen,
+                        Email = Email,
+                        MatKhau = MatKhau
+                    };
+                    try
+                    {
+                        _context.Add(taikhoannguoidung);
+                        await _context.SaveChangesAsync();
+                    }
+                    catch
+                    {
+                        return RedirectToAction("Login", "Accounts");
+                    }
+                }
+                else
+                {
+                    return View();
+                }
             }
             catch
             {
-                con.Close();
+                return View();
+
             }
             return View();
         }
