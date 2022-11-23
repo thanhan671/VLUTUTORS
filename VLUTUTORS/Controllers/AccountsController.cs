@@ -13,7 +13,7 @@ namespace VLUTUTORS.Controllers
 
         public IActionResult Login()
         {
-            //Taikhoannguoidung taikhoannguoidung = new Taikhoannguoidung();
+            Taikhoannguoidung _taikhoannguoidung = new Taikhoannguoidung();
             //if(ModelState.IsValid)
             //{
             //    Console.WriteLine("first account: " + db.Taikhoannguoidungs.Count());
@@ -22,43 +22,58 @@ namespace VLUTUTORS.Controllers
             //{
             //    Console.WriteLine("Model not valid");
             //}
-            return View();
+            return View(_taikhoannguoidung);
         }
 
         [HttpPost]
         public IActionResult Login(string email, string password)
         {
-            string emailTest = "test@gmail.com";
-            string passwordTest = "test1234";
-            Console.WriteLine("emailfaill");
-            _loginSuccessCallback = LoginSuccessCall;
-            using(db)
-            {
-                //var checkAccount = db.Taikhoannguoidungs.Where(acc => acc.Email.Equals(email.Trim())).FirstOrDefault();
-                //if (checkAccount == null)
-                //{
-                //    return View();
-                //}
-                if(!emailTest.Equals(email.Trim()))
-                {
-                    Console.WriteLine("emailfaill");
-                    return View();
-                }
+            Taikhoannguoidung taikhoannguoidung = new Taikhoannguoidung();
+            taikhoannguoidung.Email = email;
+            taikhoannguoidung.MatKhau = password;
 
-                //if(password.Trim().Equals(checkAccount.MatKhau.Trim()))
-                //{
-                //    _loginSuccessCallback.Invoke(true);
-                //}
-                if (passwordTest.Equals(password.Trim()))
-                {
-                    Console.WriteLine("true");
-                    return _loginSuccessCallback.Invoke(true);
-                }
-                //else
-                //{
-                //    return View();
-                //}
-            }
+            _loginSuccessCallback = LoginSuccessCall;
+
+            var checkAccount = db.Gioitinhs.First();
+            Console.WriteLine(checkAccount.GioiTinh1);
+
+            //if (checkAccount == null)
+            //{
+            //    return View();
+            //}
+
+            //if (checkAccount.MatKhau.Equals(password.Trim()))
+            //{
+            //    Console.WriteLine("true");
+            //    return _loginSuccessCallback.Invoke(true);
+            //}
+            //using (db)
+            //{
+            //    //var checkAccount = db.Taikhoannguoidungs.Where(acc => acc.Email.Equals(email.Trim())).FirstOrDefault();
+            //    //if (checkAccount == null)
+            //    //{
+            //    //    return View();
+            //    //}
+            //    if(!emailTest.Equals(email.Trim()))
+            //    {
+            //        Console.WriteLine("emailfaill");
+            //        return View();
+            //    }
+
+            //    //if(password.Trim().Equals(checkAccount.MatKhau.Trim()))
+            //    //{
+            //    //    _loginSuccessCallback.Invoke(true);
+            //    //}
+            //    if (passwordTest.Equals(password.Trim()))
+            //    {
+            //        Console.WriteLine("true");
+            //        return _loginSuccessCallback.Invoke(true);
+            //    }
+            //    //else
+            //    //{
+            //    //    return View();
+            //    //}
+            //}
 
             return View();
         }
