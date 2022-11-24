@@ -28,52 +28,27 @@ namespace VLUTUTORS.Controllers
         [HttpPost]
         public IActionResult Login(string email, string password)
         {
-            Taikhoannguoidung taikhoannguoidung = new Taikhoannguoidung();
-            taikhoannguoidung.Email = email;
-            taikhoannguoidung.MatKhau = password;
 
             _loginSuccessCallback = LoginSuccessCall;
 
-            var checkAccount = db.Taikhoannguoidungs.First();
-            Console.WriteLine(checkAccount.Email);
-
-            //if (checkAccount == null)
-            //{
-            //    return View();
-            //}
-
-            //if (checkAccount.MatKhau.Equals(password.Trim()))
-            //{
-            //    Console.WriteLine("true");
-            //    return _loginSuccessCallback.Invoke(true);
-            //}
-            //using (db)
-            //{
-            //    //var checkAccount = db.Taikhoannguoidungs.Where(acc => acc.Email.Equals(email.Trim())).FirstOrDefault();
-            //    //if (checkAccount == null)
-            //    //{
-            //    //    return View();
-            //    //}
-            //    if(!emailTest.Equals(email.Trim()))
-            //    {
-            //        Console.WriteLine("emailfaill");
-            //        return View();
-            //    }
-
-            //    //if(password.Trim().Equals(checkAccount.MatKhau.Trim()))
-            //    //{
-            //    //    _loginSuccessCallback.Invoke(true);
-            //    //}
-            //    if (passwordTest.Equals(password.Trim()))
-            //    {
-            //        Console.WriteLine("true");
-            //        return _loginSuccessCallback.Invoke(true);
-            //    }
-            //    //else
-            //    //{
-            //    //    return View();
-            //    //}
-            //}
+            using (db)
+            {
+                var checkAccount = new Taikhoannguoidung();
+                try
+                {
+                    checkAccount = db.Taikhoannguoidungs.Where(acc => acc.Email.Equals(email.Trim())).FirstOrDefault();
+                    Console.WriteLine(checkAccount.Email);
+                }
+                catch (Exception ex)
+                {
+                    return View();
+                }
+                
+                if (checkAccount.MatKhau.Equals(password.Trim()))
+                {
+                    return _loginSuccessCallback.Invoke(true);
+                }
+            }
 
             return View();
         }
