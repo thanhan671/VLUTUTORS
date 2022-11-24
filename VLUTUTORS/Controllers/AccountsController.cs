@@ -34,8 +34,8 @@ namespace VLUTUTORS.Controllers
 
             _loginSuccessCallback = LoginSuccessCall;
 
-            var checkAccount = db.Gioitinhs.First();
-            Console.WriteLine(checkAccount.GioiTinh1);
+            var checkAccount = db.Taikhoannguoidungs.First();
+            Console.WriteLine(checkAccount.Email);
 
             //if (checkAccount == null)
             //{
