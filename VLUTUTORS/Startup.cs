@@ -24,6 +24,14 @@ namespace VLUTUTORS
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
+            services.AddDistributedMemoryCache();
+
+            services.AddSession((optional) =>
+            {
+                optional.Cookie.Name = "VLUTutors";
+                optional.IdleTimeout = new TimeSpan(0, 60, 0); // 60m login session
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,6 +49,7 @@ namespace VLUTUTORS
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseSession();
 
             app.UseRouting();
 

@@ -14,14 +14,6 @@ namespace VLUTUTORS.Controllers
         public IActionResult Login()
         {
             Taikhoannguoidung _taikhoannguoidung = new Taikhoannguoidung();
-            //if(ModelState.IsValid)
-            //{
-            //    Console.WriteLine("first account: " + db.Taikhoannguoidungs.Count());
-            //}   
-            //else
-            //{
-            //    Console.WriteLine("Model not valid");
-            //}
             return View(_taikhoannguoidung);
         }
 
@@ -60,6 +52,8 @@ namespace VLUTUTORS.Controllers
 
         private IActionResult LoginSuccessCall(bool status)
         {
+            // add session info here
+            //HttpContext.Session.
             Console.WriteLine("login success");
             return RedirectToAction("Index", "Home");
         }
