@@ -25,7 +25,7 @@ namespace VLUTUTORS.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(string HoTen, string Email, string MatKhau)
+        public async Task<IActionResult> Register(string HoTen, string Email, string MatKhau)
         {
             try
             {
@@ -33,9 +33,9 @@ namespace VLUTUTORS.Controllers
                 {
                     var taiKhoan = _context.Taikhoannguoidungs.AsNoTracking().SingleOrDefault(x => x.Email.ToLower() == Email.ToLower());
 
-                    if(taiKhoan != null)
+                    if (taiKhoan != null)
                     {
-                        return View();
+                        return RedirectToAction("Login", "Accounts");
                     }
                     else
                     {
@@ -58,15 +58,15 @@ namespace VLUTUTORS.Controllers
                 }
                 else
                 {
-                    return View();
+                    return RedirectToAction("Login", "Accounts");
                 }
             }
             catch
             {
-                return View();
+                return RedirectToAction("Login", "Accounts");
 
             }
-            return View();
+            return RedirectToAction("Login", "Accounts");
         }
     }
 }

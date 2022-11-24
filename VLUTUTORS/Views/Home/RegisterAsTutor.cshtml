@@ -12,12 +12,16 @@
     <link rel="stylesheet" href="~/css/form_style.css" />
     <link rel="shortcut icon" href="~/images/favicon2.png" type="image/png" />
     <title>Gia Sư Văn Lang | Trở Thành Gia Sư</title>
-    <script src="js/app.js"></script>
+    <script src="~/js/app.js"></script>
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
           integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
           crossorigin="anonymous"
           referrerpolicy="no-referrer" />
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous" />
 </head>
 <body>
     <div class="container-bat">
@@ -31,151 +35,247 @@
         </div>
 
         <div class="sign-up">
-            <a href="~/Home" class="back-btn">
+            <a href="/Home" class="back-btn">
                 <i class="fa-solid fa-arrow-left"></i>
             </a>
             <div class="container-sign-up">
                 <p class="sign-up__desc">
                     <span>Trở thành gia sư chỉ với 1 bước</span>
                 </p>
-                <!-- the form itself -->
-                <form class="sign-up__form" action="" method="get" novalidate>
-                    <div class="form__input">
-                        <input class=""
-                               type="tel"
-                               name="phone"
-                               id="phone"
-                               placeholder="Số điện thoại"
-                               value=""
-                               required />
-                        <span class="warning-icon">!</span>
-                        <p class="warning">Vui lòng điền đầy đủ thông tin</p>
-                    </div>
-                    <div class="form__input">
-                        <input class=""
-                               type="text"
-                               name="faculty-name"
-                               id="faculty-name"
-                               placeholder="Khoa đang học"
-                               value=""
-                               required />
-                        <span class="warning-icon">!</span>
-                        <p class="warning">Vui lòng điền đầy đủ thông tin</p>
-                    </div>
-                    <div class="form__input">
-                        <input class=""
-                               type="text"
-                               name="bank-number"
-                               id="bank-number"
-                               placeholder="Số tài khoản"
-                               value=""
-                               required />
-                        <span class="warning-icon">!</span>
-                        <p class="warning">Vui lòng điền đầy đủ thông tin</p>
-                    </div>
-                    <div class="form__input">
-                        <input class=""
-                               type="text"
-                               name="bank-name"
-                               id="bank-name"
-                               placeholder="Tên Ngân Hàng"
-                               value=""
-                               required />
-                        <span class="warning-icon">!</span>
-                        <p class="warning">Vui lòng điền đầy đủ thông tin</p>
-                    </div>
-                    <div class="form__input">
-                        <label for="form__label" class="form__label">Ảnh đại diện</label>
-                        <input class=""
-                               type="file"
-                               name="avt"
-                               id="avt"
-                               value=""
-                               required
-                               accept=".jpg, .jpeg, .png" />
-                        <span class="warning-icon">!</span>
-                        <p class="warning">Vui lòng điền đầy đủ thông tin</p>
-                    </div>
+                <form action="" class="form-regis__tutor sign-up__form">
+                    <div class="container--tt">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <p><b>Thông Tin Cá Nhân</b></p>
+                                        <div class="form-radio">
+                                            <label for="form__label" class="form__label">Giới tính</label>
+                                            <li>
+                                                <input class=""
+                                                       type="radio"
+                                                       name="sex"
+                                                       id="male"
+                                                       checked="checked"
+                                                       value=""
+                                                       required />
+                                                <label class="lb-radio" for="male">Nam</label>
+                                            </li>
+                                            <li>
+                                                <input class=""
+                                                       type="radio"
+                                                       name="sex"
+                                                       id="female"
+                                                       value="Nữ"
+                                                       required />
+                                                <label class="lb-radio" for="female">Nữ</label>
+                                            </li>
+                                        </div>
+                                        <div class="form__input">
+                                            <input class=""
+                                                   type="date"
+                                                   name="dob"
+                                                   id="dob"
+                                                   placeholder="Ngày sinh"
+                                                   value=""
+                                                   required />
+                                            <span class="warning-icon">!</span>
+                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                                        </div>
+                                        <div class="form__input">
+                                            <input class=""
+                                                   type="tel"
+                                                   name="phone"
+                                                   id="phone"
+                                                   placeholder="Số điện thoại"
+                                                   value=""
+                                                   required />
+                                            <span class="warning-icon">!</span>
+                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                                        </div>
 
-                    <div class="form__input">
-                        <div class="form__select">
-                            <select>
-                                <option value="1">Chọn Môn Gia Sư</option>
-                                <option value="2">Anh văn</option>
-                                <option value="3">Tin học</option>
-                            </select>
+                                        <div class="form__input">
+                                            <input class=""
+                                                   type="text"
+                                                   name="bank-number"
+                                                   id="bank-number"
+                                                   placeholder="Số tài khoản"
+                                                   value=""
+                                                   required />
+                                            <span class="warning-icon">!</span>
+                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                                        </div>
+                                        <div class="form__input">
+                                            <input class=""
+                                                   type="text"
+                                                   name="bank-name"
+                                                   id="bank-name"
+                                                   placeholder="Tên Ngân Hàng"
+                                                   value=""
+                                                   required />
+                                            <span class="warning-icon">!</span>
+                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                                        </div>
+
+                                        <div class="form__input">
+                                            <label for="form__label" class="form__label">Ảnh đại diện</label>
+                                            <input class=""
+                                                   type="file"
+                                                   name="avt"
+                                                   id="avt"
+                                                   value=""
+                                                   required
+                                                   accept=".jpg, .jpeg, .png" />
+                                            <span class="warning-icon">!</span>
+                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                                        </div>
+                                        <div class="form__input">
+                                            <textarea class=""
+                                                      type="text"
+                                                      name="intro-urself"
+                                                      id="intro-urself"
+                                                      placeholder="Giới thiệu bản thân"
+                                                      value=""
+                                                      required></textarea>
+                                            <span class="warning-icon">!</span>
+                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <p><b>Thông Tin Môn Gia Sư 1</b></p>
+                                        <div class="form__input">
+                                            <div class="form__select">
+                                                <select>
+                                                    <option value="1">Chọn Môn Gia Sư</option>
+                                                    <option value="2">Anh văn</option>
+                                                    <option value="3">Tin học</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form__input">
+                                            <input class=""
+                                                   type="text"
+                                                   name="avr-subject"
+                                                   id="avr-subject"
+                                                   placeholder="Điểm trung bình / Tên chứng chỉ"
+                                                   value=""
+                                                   required />
+                                            <span class="warning-icon">!</span>
+                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                                        </div>
+
+                                        <div class="form__input">
+                                            <label for="form__label" class="form__label">Chứng chỉ hoặc mình chứng kèm theo</label>
+                                            <input class=""
+                                                   type="file"
+                                                   name="certificate"
+                                                   id="certificate"
+                                                   placeholder="Chứng Chỉ"
+                                                   value=""
+                                                   required
+                                                   multiple="multiple"
+                                                   accept=".jpg, .jpeg, .png" />
+                                            <span class="warning-icon">!</span>
+                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                                        </div>
+
+                                        <div class="form__input">
+                                            <textarea class=""
+                                                      type="text"
+                                                      name="rate-urself"
+                                                      id="rate-urself"
+                                                      placeholder="Đánh giá bản thân về việc gia sư"
+                                                      value=""
+                                                      required></textarea>
+                                            <span class="warning-icon">!</span>
+                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                                        </div>
+
+                                        <div class="form__input">
+                                            <textarea class=""
+                                                      type="text"
+                                                      name="intro-subject"
+                                                      id="intro-subject"
+                                                      placeholder="Giới thiệu về môn muốn gia sư"
+                                                      value=""
+                                                      required></textarea>
+                                            <span class="warning-icon">!</span>
+                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <p><b>Thông Tin Môn Gia Sư 2 (nếu có)</b></p>
+                                        <div class="form__input">
+                                            <div class="form__select">
+                                                <select>
+                                                    <option value="1">Chọn Môn Gia Sư</option>
+                                                    <option value="2">Anh văn</option>
+                                                    <option value="3">Tin học</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form__input">
+                                            <input class=""
+                                                   type="text"
+                                                   name="avr-subject"
+                                                   id="avr-subject"
+                                                   placeholder="Điểm trung bình / Tên chứng chỉ"
+                                                   value=""
+                                                   required />
+                                            <span class="warning-icon">!</span>
+                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                                        </div>
+
+                                        <div class="form__input">
+                                            <label for="form__label" class="form__label">Chứng chỉ hoặc mình chứng kèm theo</label>
+                                            <input class=""
+                                                   type="file"
+                                                   name="certificate"
+                                                   id="certificate"
+                                                   placeholder="Chứng Chỉ"
+                                                   value=""
+                                                   required
+                                                   multiple="multiple"
+                                                   accept=".jpg, .jpeg, .png" />
+                                            <span class="warning-icon">!</span>
+                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                                        </div>
+
+                                        <div class="form__input">
+                                            <textarea class=""
+                                                      type="text"
+                                                      name="rate-urself"
+                                                      id="rate-urself"
+                                                      placeholder="Đánh giá bản thân về việc gia sư"
+                                                      value=""
+                                                      required></textarea>
+                                            <span class="warning-icon">!</span>
+                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                                        </div>
+
+                                        <div class="form__input">
+                                            <textarea class=""
+                                                      type="text"
+                                                      name="intro-subject"
+                                                      id="intro-subject"
+                                                      placeholder="Giới thiệu về môn muốn gia sư"
+                                                      value=""
+                                                      required></textarea>
+                                            <span class="warning-icon">!</span>
+                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="form__input">
-                        <input class=""
-                               type="text"
-                               name="avr-subject"
-                               id="avr-subject"
-                               placeholder="Điểm trung bình / Tên chứng chỉ"
-                               value=""
-                               required />
-                        <span class="warning-icon">!</span>
-                        <p class="warning">Vui lòng điền đầy đủ thông tin</p>
-                    </div>
-
-                    <div class="form__input">
-                        <label for="form__label" class="form__label">Chứng chỉ hoặc mình chứng kèm theo</label>
-                        <input class=""
-                               type="file"
-                               name="certificate"
-                               id="certificate"
-                               placeholder="Chứng Chỉ"
-                               value=""
-                               required
-                               multiple="multiple"
-                               accept=".jpg, .jpeg, .png" />
-                        <span class="warning-icon">!</span>
-                        <p class="warning">Vui lòng điền đầy đủ thông tin</p>
-                    </div>
-
-                    <div class="form__input">
-                        <textarea class=""
-                                  type="text"
-                                  name="intro-urself"
-                                  id="intro-urself"
-                                  placeholder="Giới thiệu bản thân"
-                                  value=""
-                                  required></textarea>
-                        <span class="warning-icon">!</span>
-                        <p class="warning">Vui lòng điền đầy đủ thông tin</p>
-                    </div>
-
-                    <div class="form__input">
-                        <textarea class=""
-                                  type="text"
-                                  name="rate-urself"
-                                  id="rate-urself"
-                                  placeholder="Đánh giá bản thân về việc gia sư"
-                                  value=""
-                                  required></textarea>
-                        <span class="warning-icon">!</span>
-                        <p class="warning">Vui lòng điền đầy đủ thông tin</p>
-                    </div>
-
-                    <div class="form__input">
-                        <textarea class=""
-                                  type="text"
-                                  name="intro-subject"
-                                  id="intro-subject"
-                                  placeholder="Giới thiệu về môn muốn gia sư"
-                                  value=""
-                                  required></textarea>
-                        <span class="warning-icon">!</span>
-                        <p class="warning">Vui lòng điền đầy đủ thông tin</p>
-                    </div>
-
                     <input class="submit-btn" type="submit" value="Đăng Ký" />
-                    <p class="form__terms">
+                    <br />
+                    <p class="form__terms text-center">
                         Bằng cách nhấp vào nút đăng ký, bạn đồng ý với
                         <span>Điều khoản và Dịch vụ</span> của chúng tôi
                     </p>
                 </form>
-                <!-- form ends -->
             </div>
         </div>
         <!-- sign-up ends -->
@@ -204,18 +304,6 @@
         let inputValue = input.firstElementChild;
         inputValue.value = '';
       });
-    }
-
-    function validateEmail(email, parent) {
-      const validRegex =
-        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-      if (!email.value.match(validRegex)) {
-        parent.classList.add('warning');
-        email.style.color = 'var(--Red)';
-      } else {
-        parent.classList.remove('warning');
-        email.style.color = 'var(--Dark-Blue)';
-      }
     }
 
     function validateLength(string, parent) {

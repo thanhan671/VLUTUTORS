@@ -1,4 +1,5 @@
-﻿
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
 @{
     Layout = null;
 }
@@ -41,7 +42,7 @@
                         <span>Bạn quên mật khẩu? </span>
                     </a>
                 </form>
-                <form class="sign-up-form" method="post" enctype="multipart/form-data" asp-controller="Accounts" asp-action="Login">
+                <form class="sign-up-form" method="post" enctype="multipart/form-data" asp-controller="Accounts" asp-action="Register">
                     <h2 class="title">Đăng Ký Tài Khoản</h2>
                     <div class="input-field">
                         <i class="fas fa-user"></i>
@@ -88,4 +89,5 @@
     <script src="~/js/app.js"></script>
 </body>
 </html>
+
 
