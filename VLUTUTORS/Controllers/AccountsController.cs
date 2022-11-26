@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using VLUTUTORS.Models;
+
 namespace VLUTUTORS.Controllers
 {
     public class AccountsController : Controller
@@ -18,12 +19,14 @@ namespace VLUTUTORS.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(string email, string password)
+        [ValidateAntiForgeryToken]
+        public IActionResult Login([Bind(include:"Email, MatKhau")] Taikhoannguoidung taikhoannguoidung)
         {
-
+            string email = taikhoannguoidung.Email;
+            string password = taikhoannguoidung.MatKhau;
             _loginSuccessCallback = LoginSuccessCall;
 
-            using (db)
+            if (ModelState.IsValid)
             {
                 var checkAccount = new Taikhoannguoidung();
                 try
@@ -35,7 +38,7 @@ namespace VLUTUTORS.Controllers
                 {
                     return View();
                 }
-                
+
                 if (checkAccount.MatKhau.Equals(password.Trim()))
                 {
                     return _loginSuccessCallback.Invoke(true);
