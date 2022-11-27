@@ -10,7 +10,7 @@ namespace VLUTUTORS.Controllers
     public class AccountsController : Controller
     {
         private CP25Team01Context db = new CP25Team01Context();
-        private Func<bool, IActionResult> _loginSuccessCallback;
+        private Func<IActionResult> _loginSuccessCallback;
 
         public IActionResult Login()
         {
@@ -41,7 +41,7 @@ namespace VLUTUTORS.Controllers
 
                 if (checkAccount.MatKhau.Equals(password.Trim()))
                 {
-                    return _loginSuccessCallback.Invoke(true);
+                    return _loginSuccessCallback.Invoke();
                 }
             }
 
@@ -53,7 +53,7 @@ namespace VLUTUTORS.Controllers
             return View();
         }
 
-        private IActionResult LoginSuccessCall(bool status)
+        private IActionResult LoginSuccessCall()
         {
             // add session info here
             //HttpContext.Session.
