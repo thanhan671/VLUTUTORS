@@ -1,16 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using VLUTUTORS.Models;
+using Newtonsoft.Json;
 
 namespace VLUTUTORS.Controllers
 {
     public class AccountsController : Controller
     {
         private CP25Team01Context db = new CP25Team01Context();
-        private Func<IActionResult> _loginSuccessCallback;
+        private Func<Taikhoannguoidung, IActionResult> _loginSuccessCallback;
 
         public IActionResult Login()
         {
@@ -24,7 +26,7 @@ namespace VLUTUTORS.Controllers
         {
             string email = taikhoannguoidung.Email;
             string password = taikhoannguoidung.MatKhau;
-            _loginSuccessCallback = LoginSuccessCall;
+            
 
             if (ModelState.IsValid)
             {
@@ -32,7 +34,7 @@ namespace VLUTUTORS.Controllers
                 try
                 {
                     checkAccount = db.Taikhoannguoidungs.Where(acc => acc.Email.Equals(email.Trim())).FirstOrDefault();
-                    Console.WriteLine(checkAccount.Email);
+                    _loginSuccessCallback = LoginSuccessCall;
                 }
                 catch (Exception ex)
                 {
@@ -41,7 +43,7 @@ namespace VLUTUTORS.Controllers
 
                 if (checkAccount.MatKhau.Equals(password.Trim()))
                 {
-                    return _loginSuccessCallback.Invoke();
+                    return _loginSuccessCallback.Invoke(checkAccount);
                 }
             }
 
@@ -53,10 +55,14 @@ namespace VLUTUTORS.Controllers
             return View();
         }
 
-        private IActionResult LoginSuccessCall()
+        private IActionResult LoginSuccessCall(Taikhoannguoidung taikhoannguoidung)
         {
             // add session info here
             //HttpContext.Session.
+            HttpContext.Session.SetInt32("LoginId", taikhoannguoidung.Id);
+            //HttpContext.Session.SetString("LoginName", taikhoannguoidung.HoTen);
+            HttpContext.Session.SetString("SessionInfo", JsonConvert.SerializeObject(taikhoannguoidung));
+
             Console.WriteLine("login success");
             return RedirectToAction("Index", "Home");
         }

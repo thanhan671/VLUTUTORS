@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,10 +28,13 @@ namespace VLUTUTORS
 
             services.AddDistributedMemoryCache();
 
-            services.AddSession((optional) =>
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            services.AddSession(options =>
             {
-                optional.Cookie.Name = "VLUTutors";
-                optional.IdleTimeout = new TimeSpan(0, 60, 0); // 60m login session
+                options.IdleTimeout = new TimeSpan(0, 60, 0);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
             });
         }
 

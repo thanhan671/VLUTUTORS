@@ -1,4 +1,7 @@
-﻿<header id="header-part">
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor httpContextAccessor
+
+<header id="header-part">
     <div class="navigation navigation-2 navigation-3 nav-nob">
         <div class="container">
             <div class="row no-gutters">
@@ -39,8 +42,17 @@
                                     <a href="~/Home/RegisterAsTutor">Trở Thành Gia Sư</a>
                                 </li>
                                 <li>
-                                    <a href="/Accounts/Login" >Đăng Nhập</a>
-                                    <ul class="sub-menu">
+                                        @if (@httpContextAccessor.HttpContext.Session.GetString("LoginId") != null)
+                                        {
+                                        <a href="/Accounts/Login">
+                                            @httpContextAccessor.HttpContext.Session.GetString("LoginId") </a>
+                                        }
+                                        else
+                                        {
+                                        <a href="/Accounts/Login">
+                                            Đăng Nhập</a>
+                                        }
+                                        <ul class="sub-menu">
                                         <li><a href="/Accounts/Details">Tài Khoản</a></li>
                                         <!--<li><a href="history.html">Lịch Sử Đặt Lịch</a></li>
                                         <li><a href="#">Gia Sư Yêu Thích</a></li>-->
