@@ -1,4 +1,4 @@
-﻿
+﻿@model VLUTUTORS.Models.Taikhoannguoidung
 @{
     Layout = null;
 }
@@ -40,7 +40,7 @@
                         <input type="password" name="MatKhau" placeholder="Mật Khẩu" />
                         @Html.ValidationMessageFor(m => m.MatKhau, "", new { @class = "text-danger" })
                     </div>
-                    <button type="submit" class ="btn" onclick="Button1_Click">Đăng Nhập</button>
+                    <button type="submit" class="btn" onclick="Button1_Click">Đăng Nhập</button>
                     <a href="forgotpass.html">
                         <span>Bạn quên mật khẩu? </span>
                     </a>

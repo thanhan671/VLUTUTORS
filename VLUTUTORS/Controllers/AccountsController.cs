@@ -65,7 +65,7 @@ namespace VLUTUTORS.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var taiKhoan = _context.Taikhoannguoidungs.AsNoTracking().SingleOrDefault(x => x.Email.ToLower() == Email.ToLower());
+                    var taiKhoan = db.Taikhoannguoidungs.AsNoTracking().SingleOrDefault(x => x.Email.ToLower() == Email.ToLower());
 
                     if (taiKhoan != null)
                     {
@@ -81,8 +81,8 @@ namespace VLUTUTORS.Controllers
                         };
                         try
                         {
-                            _context.Add(taiKhoanNguoiDung);
-                            await _context.SaveChangesAsync();
+                            db.Add(taiKhoanNguoiDung);
+                            await db.SaveChangesAsync();
                         }
                         catch
                         {
