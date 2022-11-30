@@ -20,6 +20,7 @@ namespace VLUTUTORS.Models
         public virtual DbSet<Gioitinh> Gioitinhs { get; set; }
         public virtual DbSet<Mongiasu> Mongiasus { get; set; }
         public virtual DbSet<Taikhoannguoidung> Taikhoannguoidungs { get; set; }
+        public virtual DbSet<Trangthaituvan> Trangthaituvans { get; set; }
         public virtual DbSet<Tuvan> Tuvans { get; set; }
         public virtual DbSet<Xetduyet> Xetduyets { get; set; }
 
@@ -27,7 +28,7 @@ namespace VLUTUTORS.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseSqlServer("Server=tuleap.vanlanguni.edu.vn,18082;Database=CP25Team01;User Id=CP25Team01; Password=Cap25t01;Integrated Security=True;Trusted_Connection=False;ApplicationIntent=ReadWrite;MultipleActiveResultSets=False");
             }
         }
@@ -106,6 +107,19 @@ namespace VLUTUTORS.Models
                     .HasColumnName("ThongTinTKNganHang");
             });
 
+            modelBuilder.Entity<Trangthaituvan>(entity =>
+            {
+                entity.HasKey(e => e.IdtrangThai);
+
+                entity.ToTable("TRANGTHAITUVAN");
+
+                entity.Property(e => e.IdtrangThai).HasColumnName("IDTrangThai");
+
+                entity.Property(e => e.TrangThai)
+                    .IsRequired()
+                    .HasMaxLength(30);
+            });
+
             modelBuilder.Entity<Tuvan>(entity =>
             {
                 entity.HasKey(e => e.IdtuVan);
@@ -117,6 +131,8 @@ namespace VLUTUTORS.Models
                 entity.Property(e => e.HoVaTen)
                     .IsRequired()
                     .HasMaxLength(50);
+
+                entity.Property(e => e.IdtrangThai).HasColumnName("IDTrangThai");
 
                 entity.Property(e => e.NoiDungTuVan).IsRequired();
 

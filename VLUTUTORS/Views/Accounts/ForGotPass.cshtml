@@ -1,0 +1,61 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gia Sư Văn Lang | Khôi phục mật khẩu</title>
+    <!--====== Favicon Icon ======-->
+    <link rel="shortcut icon" href="~/images/favicon2.png" type="image/png" />
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/style.css" />
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="text-center">
+                            <h3><i class="fa fa-lock fa-4x"></i></h3>
+                            <h2 class="text-center">Bạn quên mật khẩu?</h2>
+                            <p>Hãy nhập email đã đăng ký để lấy lại mật khẩu</p>
+                            <div class="panel-body">
+                                <form id="register-form" method="get" enctype="multipart/form-data" asp-controller="ForGotPassWord" asp-action="Index">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="glyphicon glyphicon-envelope color-blue"></i>
+                                            </span>
+                                            <input id="email"
+                                                   name="Email"
+                                                   placeholder="Địa chỉ email"
+                                                   class="form-control"
+                                                   type="email" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="margin-top: 20px">
+                                        <input name="recover-submit"
+                                               class="btn main-btn"
+                                               value="Khôi phục mật khẩu"
+                                               type="submit" />
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

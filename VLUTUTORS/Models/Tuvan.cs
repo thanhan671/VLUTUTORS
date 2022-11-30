@@ -11,5 +11,6 @@ namespace VLUTUTORS.Models
         public string HoVaTen { get; set; }
         public string Sdt { get; set; }
         public string NoiDungTuVan { get; set; }
+        public int IdtrangThai { get; set; }
     }
 }

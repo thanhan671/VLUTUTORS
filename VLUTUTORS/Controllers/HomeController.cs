@@ -8,11 +8,13 @@ using System.Threading.Tasks;
 using VLUTUTORS.Models;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using Microsoft.EntityFrameworkCore;
 
 namespace VLUTUTORS.Controllers
 {
     public class HomeController : Controller
     {
+        private CP25Team01Context db = new CP25Team01Context();
         private readonly ILogger<HomeController> _logger;
         //private readonly ISession session;
 
@@ -29,7 +31,7 @@ namespace VLUTUTORS.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            if(HttpContext.Session.GetString("LoginName") != null) 
+            if (HttpContext.Session.GetString("LoginName") != null)
             {
                 Console.WriteLine(JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo")).HoTen);
             }
@@ -46,5 +48,38 @@ namespace VLUTUTORS.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        //Send consulting register
+
+        [HttpPost]
+        public async Task<IActionResult> SendConsulting(string HoTen, string SDT, string NoiDung)
+        {
+            try
+            {
+                Tuvan tuVan = new Tuvan
+                {
+                    HoVaTen = HoTen,
+                    Sdt = SDT,
+                    NoiDungTuVan = NoiDung,
+                    IdtrangThai = 1
+                };
+                try
+                {
+                    db.Add(tuVan);
+                    await db.SaveChangesAsync();
+                }
+                catch
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+            catch
+            {
+                return RedirectToAction("Index", "Home");
+
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
     }
 }

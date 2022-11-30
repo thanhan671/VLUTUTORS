@@ -1,4 +1,4 @@
-﻿
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     ViewData["Title"] = "Trang Chủ";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -246,18 +246,18 @@
                         <span>Miễn phí </span>
                     </div>
                     <div class="main-form">
-                        <form action="#">
+                        <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="SendConsulting">
                             <div class="singel-form">
-                                <input type="text" placeholder="Tên của bạn" />
+                                <input type="text" name="HoTen" placeholder="Tên của bạn" />
                             </div>
                             <div class="singel-form">
-                                <input type="email" placeholder="Điện thoại" />
+                                <input type="tel" name="SDT" placeholder="Điện thoại" />
                             </div>
                             <div class="singel-form">
-                                <input type="text" placeholder="Nội dung cần tư vấn" />
+                                <input type="text" name="NoiDung" placeholder="Nội dung cần tư vấn" />
                             </div>
                             <div class="singel-form">
-                                <button class="main-btn" type="button">
+                                <button class="main-btn" type="submit">
                                     Đăng ký tư vấn
                                 </button>
                             </div>
