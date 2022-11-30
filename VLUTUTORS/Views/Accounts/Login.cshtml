@@ -1,5 +1,5 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-
+@model VLUTUTORS.Models.Taikhoannguoidung
 @{
     Layout = null;
 }
@@ -28,14 +28,18 @@
         <div class="forms-container">
             <div class="signin-signup">
                 <form class="sign-in-form">
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     <h2 class="title">Đăng Nhập</h2>
                     <div class="input-field">
                         <i class="fas fa-user"></i>
                         <input type="text" placeholder="Email" />
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                     </div>
                     <div class="input-field">
                         <i class="fas fa-lock"></i>
                         <input type="password" placeholder="Mật Khẩu" />
+                        @Html.ValidationMessageFor(m => m.MatKhau, "", new { @class = "text-danger" })
                     </div>
                     <input type="submit" value="Đăng Nhập" class="btn solid" />
                     <a href="forgotpass.html">

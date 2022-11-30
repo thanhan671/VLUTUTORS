@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="~/css/form_style.css" />
     <link rel="shortcut icon" href="~/images/favicon2.png" type="image/png" />
-    <title>Gia Sư Văn Lang | Trở Thành Gia Sư</title>
+    <title>VLU TUTORS - Trở Thành Gia Sư</title>
     <script src="~/js/app.js"></script>
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
@@ -26,7 +26,7 @@
 <body>
     <div class="container-bat">
         <div class="hero">
-            <a class="logo-link" href="index.html">
+            <a class="logo-link" href='javascript:history.go(-1)'>
                 <img class="hero-logo" src="~/images/logo-vlu.png" alt="" />
             </a>
             <p class="hero-content">
@@ -35,7 +35,7 @@
         </div>
 
         <div class="sign-up">
-            <a href="/Home" class="back-btn">
+            <a href='javascript:history.go(-1)' class="back-btn">
                 <i class="fa-solid fa-arrow-left"></i>
             </a>
             <div class="container-sign-up">
@@ -49,6 +49,30 @@
                                 <div class="row">
                                     <div class="col-4">
                                         <p><b>Thông Tin Cá Nhân</b></p>
+                                        <div class="form__input">
+                                            <input class=""
+                                                   type="tel"
+                                                   name="phone"
+                                                   id="phone"
+                                                   placeholder="Nguyen Thanh An"
+                                                   value=""
+                                                   required
+                                                   readonly />
+                                            <span class="warning-icon">!</span>
+                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                                        </div>
+                                        <div class="form__input">
+                                            <input class=""
+                                                   type="tel"
+                                                   name="phone"
+                                                   id="phone"
+                                                   placeholder="an.197pm09415@vanlanguni.vn"
+                                                   value=""
+                                                   required
+                                                   readonly />
+                                            <span class="warning-icon">!</span>
+                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                                        </div>
                                         <div class="form-radio">
                                             <label for="form__label" class="form__label">Giới tính</label>
                                             <li>
@@ -140,7 +164,19 @@
                                             <span class="warning-icon">!</span>
                                             <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                                         </div>
+                                        <div class="form__input">
+                                            <textarea class=""
+                                                      type="text"
+                                                      name="rate-urself"
+                                                      id="rate-urself"
+                                                      placeholder="Đánh giá bản thân về việc gia sư"
+                                                      value=""
+                                                      required></textarea>
+                                            <span class="warning-icon">!</span>
+                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                                        </div>
                                     </div>
+
                                     <div class="col-4">
                                         <p><b>Thông Tin Môn Gia Sư 1</b></p>
                                         <div class="form__input">
@@ -157,13 +193,23 @@
                                                    type="text"
                                                    name="avr-subject"
                                                    id="avr-subject"
-                                                   placeholder="Điểm trung bình / Tên chứng chỉ"
+                                                   placeholder="Điểm trung bình"
                                                    value=""
                                                    required />
                                             <span class="warning-icon">!</span>
                                             <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                                         </div>
-
+                                        <div class="form__input">
+                                            <input class=""
+                                                   type="text"
+                                                   name="avr-subject"
+                                                   id="avr-subject"
+                                                   placeholder="Tên chứng chỉ"
+                                                   value=""
+                                                   required />
+                                            <span class="warning-icon">!</span>
+                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                                        </div>
                                         <div class="form__input">
                                             <label for="form__label" class="form__label">Chứng chỉ hoặc mình chứng kèm theo</label>
                                             <input class=""
@@ -175,18 +221,6 @@
                                                    required
                                                    multiple="multiple"
                                                    accept=".jpg, .jpeg, .png" />
-                                            <span class="warning-icon">!</span>
-                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
-                                        </div>
-
-                                        <div class="form__input">
-                                            <textarea class=""
-                                                      type="text"
-                                                      name="rate-urself"
-                                                      id="rate-urself"
-                                                      placeholder="Đánh giá bản thân về việc gia sư"
-                                                      value=""
-                                                      required></textarea>
                                             <span class="warning-icon">!</span>
                                             <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                                         </div>
@@ -219,7 +253,18 @@
                                                    type="text"
                                                    name="avr-subject"
                                                    id="avr-subject"
-                                                   placeholder="Điểm trung bình / Tên chứng chỉ"
+                                                   placeholder="Điểm trung bình"
+                                                   value=""
+                                                   required />
+                                            <span class="warning-icon">!</span>
+                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                                        </div>
+                                        <div class="form__input">
+                                            <input class=""
+                                                   type="text"
+                                                   name="avr-subject"
+                                                   id="avr-subject"
+                                                   placeholder="Tên chứng chỉ"
                                                    value=""
                                                    required />
                                             <span class="warning-icon">!</span>
@@ -237,18 +282,6 @@
                                                    required
                                                    multiple="multiple"
                                                    accept=".jpg, .jpeg, .png" />
-                                            <span class="warning-icon">!</span>
-                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
-                                        </div>
-
-                                        <div class="form__input">
-                                            <textarea class=""
-                                                      type="text"
-                                                      name="rate-urself"
-                                                      id="rate-urself"
-                                                      placeholder="Đánh giá bản thân về việc gia sư"
-                                                      value=""
-                                                      required></textarea>
                                             <span class="warning-icon">!</span>
                                             <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                                         </div>
@@ -304,16 +337,6 @@
         let inputValue = input.firstElementChild;
         inputValue.value = '';
       });
-    }
-
-    function validateLength(string, parent) {
-      if (!string.value.length > 0) {
-        parent.classList.add('warning');
-        string.style.color = 'var(--Red)';
-      } else {
-        parent.classList.remove('warning');
-        string.style.color = 'var(--Dark-Blue)';
-      }
     }
 </script>
 
