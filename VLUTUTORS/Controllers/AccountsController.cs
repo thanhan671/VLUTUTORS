@@ -13,15 +13,8 @@ namespace VLUTUTORS.Controllers
 {
     public class AccountsController : Controller
     {
-
-        private readonly CP25Team01Context _context;
         private CP25Team01Context db = new CP25Team01Context();
         private Func<Taikhoannguoidung, IActionResult> _loginSuccessCallback;
-
-        public AccountsController(CP25Team01Context context)
-        {
-            _context = context;
-        }
 
         public IActionResult Login()
         {
@@ -31,11 +24,11 @@ namespace VLUTUTORS.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Login([Bind(include: "Email, MatKhau")] Taikhoannguoidung taikhoannguoidung)
+        public IActionResult Login([Bind(include:"Email, MatKhau")] Taikhoannguoidung taikhoannguoidung)
         {
             string email = taikhoannguoidung.Email;
             string password = taikhoannguoidung.MatKhau;
-
+            
 
             if (ModelState.IsValid)
             {
@@ -56,6 +49,11 @@ namespace VLUTUTORS.Controllers
                 }
             }
 
+            return View();
+        }
+
+        public IActionResult Details()
+        {
             return View();
         }
 

@@ -29,7 +29,7 @@ namespace VLUTUTORS.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            if (HttpContext.Session.GetString("LoginName") != null)
+            if(HttpContext.Session.GetString("LoginName") != null) 
             {
                 Console.WriteLine(JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo")).HoTen);
             }

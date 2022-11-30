@@ -42,19 +42,17 @@
                                     <a href="~/Home/RegisterAsTutor">Trở Thành Gia Sư</a>
                                 </li>
                                 <li>
-                                    @if (@httpContextAccessor.HttpContext.Session.GetString("LoginId") != null)
-                                    {
+                                        @if (@httpContextAccessor.HttpContext.Session.GetString("LoginId") != null)
+                                        {
                                         <a href="/Accounts/Login">
-                                            @httpContextAccessor.HttpContext.Session.GetString("LoginId")
-                                        </a>
-                                    }
-                                    else
-                                    {
+                                            @httpContextAccessor.HttpContext.Session.GetString("LoginId") </a>
+                                        }
+                                        else
+                                        {
                                         <a href="/Accounts/Login">
-                                            Đăng Nhập
-                                        </a>
-                                    }
-                                    <ul class="sub-menu">
+                                            Đăng Nhập</a>
+                                        }
+                                        <ul class="sub-menu">
                                         <li><a href="/Accounts/Details">Tài Khoản</a></li>
                                         <!--<li><a href="history.html">Lịch Sử Đặt Lịch</a></li>
                                         <li><a href="#">Gia Sư Yêu Thích</a></li>-->

@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace VLUTUTORS.Models
 {
-    public partial class Taikhoannguoidung
+    public partial class Taikhoannguoidung 
     {
         public int Id { get; set; }
         public string HoTen { get; set; }
