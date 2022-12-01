@@ -129,7 +129,28 @@ namespace VLUTUTORS.Controllers
             Random pass = new Random();
             int newPass = pass.Next(100000, 999999);
 
-            
+            var sqlStringBuilder = new SqlConnectionStringBuilder();
+            sqlStringBuilder["Server"] = "tuleap.vanlanguni.edu.vn,18082";
+            sqlStringBuilder["Database"] = "CP25Team01";
+            sqlStringBuilder["UID"] = "CP25Team01";
+            sqlStringBuilder["PWD"] = "Cap25t01";
+
+            var sqlStringConnection = sqlStringBuilder.ToString();
+
+            using var connection = new SqlConnection(sqlStringConnection);
+
+            connection.Open();
+
+            using var command = new SqlCommand();
+            command.Connection = connection;
+            command.CommandText = "UPDATE TAIKHOANNGUOIDUNG SET MatKhau = @MatKhau WHERE Email = @Email";
+
+            command.Parameters.AddWithValue("@MatKhau", newPass);
+            command.Parameters.AddWithValue("@Email", Email);
+
+            command.ExecuteNonQuery();
+
+            connection.Close();
 
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress("Gia Sư Văn Lang", "giasuvanlang@gmail.com"));
@@ -137,7 +158,7 @@ namespace VLUTUTORS.Controllers
             message.Subject = "Khôi phục mật khẩu Gia Sư Văn Lang";
             message.Body = new TextPart("plain")
             {
-                Text = "Mật khẩu mới của bạn là: </br>" + newPass.ToString() + "Vui lòng đăng nhập với mật khẩu mới để khôi phục mật khẩu."
+                Text = "Mật khẩu mới của bạn là: " + newPass.ToString() + " Vui lòng đăng nhập với mật khẩu mới để khôi phục mật khẩu."
             };
             using (var client = new SmtpClient())
             {
