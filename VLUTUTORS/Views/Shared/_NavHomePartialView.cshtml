@@ -33,30 +33,37 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <a href="about.html">Về Chúng Tôi</a>
+                                    <a href="~/Home/AboutUs">Về Chúng Tôi</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="contact.html">Liên Hệ</a>
+                                    <a href="~/Home/Contact">Liên Hệ</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="~/Home/RegisterAsTutor">Trở Thành Gia Sư</a>
                                 </li>
                                 <li>
-                                        @if (@httpContextAccessor.HttpContext.Session.GetString("LoginId") != null)
-                                        {
+                                    @if (@httpContextAccessor.HttpContext.Session.GetString("LoginId") != null)
+                                    {
                                         <a href="/Accounts/Login">
-                                            @httpContextAccessor.HttpContext.Session.GetString("LoginId") </a>
-                                        }
-                                        else
-                                        {
+                                            @httpContextAccessor.HttpContext.Session.GetString("LoginId")
+                                        </a>
+                                    }
+                                    else
+                                    {
                                         <a href="/Accounts/Login">
-                                            Đăng Nhập</a>
-                                        }
-                                        <ul class="sub-menu">
+                                            Đăng Nhập
+                                        </a>
+                                    }
+                                    <ul class="sub-menu">
                                         <li><a href="/Accounts/Details">Tài Khoản</a></li>
                                         <!--<li><a href="history.html">Lịch Sử Đặt Lịch</a></li>
                                         <li><a href="#">Gia Sư Yêu Thích</a></li>-->
-                                        <li><a href="" id="logout">Đăng Xuất</a></li>
+                                        <li>
+                                            <a href=""
+                                               data-toggle="modal"
+                                               data-target="#logoutModal"
+                                               id="logout">Đăng Xuất</a>
+                                        </li>
                                     </ul>
                                 </li>
                             </ul>
@@ -68,5 +75,36 @@
             <!-- row -->
         </div>
         <!-- container -->
+    </div>
+    <div class="modal fade"
+         id="logoutModal"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        Bạn muốn đăng xuất?
+                    </h5>
+                    <button class="close"
+                            type="button"
+                            data-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Chọn "Đồng ý" để kết thúc phiên đăng nhập của bạn</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default" type="button" data-dismiss="modal">
+                        Hủy
+                    </button>
+                    <button class="btn btn-primary" type="button" onclick="">
+                        Đồng ý
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 </header>

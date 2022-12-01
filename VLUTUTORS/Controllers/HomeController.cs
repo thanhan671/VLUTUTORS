@@ -81,5 +81,15 @@ namespace VLUTUTORS.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        public IActionResult Contact()
+        {
+            return View();
+        }
+
+        public IActionResult AboutUs()
+        {
+            return View();
+        }
+
     }
 }

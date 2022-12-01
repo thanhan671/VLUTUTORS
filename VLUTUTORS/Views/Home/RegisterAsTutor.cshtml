@@ -73,6 +73,17 @@
                                             <span class="warning-icon">!</span>
                                             <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                                         </div>
+                                        <div class="form__input">
+                                            <input class=""
+                                                   type="text"
+                                                   name=""
+                                                   id=""
+                                                   placeholder="Khoa"
+                                                   value=""
+                                                   required />
+                                            <span class="warning-icon">!</span>
+                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                                        </div>
                                         <div class="form-radio">
                                             <label for="form__label" class="form__label">Giới tính</label>
                                             <li>
@@ -321,22 +332,22 @@
 
     clearInputs(inputs);
     form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      inputs.forEach((input) => {
-        let inputValue = input.firstElementChild;
-        if (inputValue.getAttribute('id') === 'email') {
-          validateEmail(inputValue, input);
-        } else {
-          validateLength(inputValue, input);
-        }
-      });
+        e.preventDefault();
+        inputs.forEach((input) => {
+            let inputValue = input.firstElementChild;
+            if (inputValue.getAttribute('id') === 'email') {
+                validateEmail(inputValue, input);
+            } else {
+                validateLength(inputValue, input);
+            }
+        });
     });
 
     function clearInputs() {
-      inputs.forEach((input) => {
-        let inputValue = input.firstElementChild;
-        inputValue.value = '';
-      });
+        inputs.forEach((input) => {
+            let inputValue = input.firstElementChild;
+            inputValue.value = '';
+        });
     }
 </script>
 

@@ -750,7 +750,7 @@ i.active,
 .navigation .navbar .navbar-nav li .sub-menu {
   position: absolute;
   top: 65px;
-  right: 0;
+  left: 0;
   background-color: #07294d;
   width: 150px;
   opacity: 0;
@@ -811,7 +811,6 @@ i.active,
   background: #fff;
   color: #07294d;
 }
-
 
 .navigation .navbar .navbar-nav li .sub-menu li:last-child a {
   border-bottom: 0;
@@ -1015,8 +1014,10 @@ i.active,
 
 .search-container .right-search {
   background-color: #e5e7eb;
-  width: 1132px;
+  width: 100%;
   height: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .search-container .search-price {
@@ -1043,6 +1044,16 @@ i.active,
   height: 200px;
   padding: 20px;
   font-size: 16px;
+}
+
+.search-container .search-card .tutor-desc .tutor-rating {
+  display: flex;
+  align-items: center;
+}
+
+.search-container .search-card .tutor-desc .tutor-rating i {
+  color: #ffad27;
+  font-size: 13px;
 }
 
 .search-container .search-card .tutor-desc .card-price {
@@ -4238,11 +4249,11 @@ p.form-message.error {
 .tutor-view .fav-tutor {
   width: 40px;
   height: 40px;
-  background-color: #eee;
+  background-color: #ccc;
   display: flex;
   align-items: center;
-  padding-left: 9px;
-  border-radius: 5px;
+  justify-content: center;
+  border-radius: 50%;
   color: #fff;
   border: none;
   outline: none;
@@ -4251,6 +4262,13 @@ p.form-message.error {
 .tutor-view .fav-tutor .icon-heart {
   font-size: 22px;
   cursor: pointer;
+}
+
+.tutor-view .fav-tutor:hover {
+  background: #bbb;
+  width: 44px;
+  height: 44px;
+  transition: 0.3s ease;
 }
 
 .pink-color {
@@ -4293,9 +4311,48 @@ p.form-message.error {
 .edit-avt:hover {
   opacity: 1;
 }
-.rounded-circle{
-  border-radius:50%!important;
-  width: 200px;
-  height: 200px;
-  object-fit:cover;
+
+.row-item {
+  display: flex;
+  padding: 0 0 10px 0;
+  overflow: scroll;
+}
+
+.row-item::-webkit-scrollbar {
+  margin-left: 15px;
+  height: 5px;
+  margin-top: 4px;
+}
+
+.row-item::-webkit-scrollbar-track {
+  background-color: #ebebeb;
+  -webkit-border-radius: 7px;
+  border-radius: 7px;
+}
+
+.row-item::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 7px;
+  border-radius: 7px;
+  background: #6d6d6d;
+}
+
+.table-schedule .table-header th {
+  width: 33.3333%;
+}
+.table-schedule .table-body tr {
+  text-align: center;
+}
+
+.table-schedule .table-body tr select {
+  width: 100%;
+}
+
+.table-schedule .table-body .nice-select {
+  width: 100% !important;
+}
+
+.table-schedule .table-body .table-btn {
+  line-height: 30px;
+  font-weight: 500;
+  width: 150px;
 }
