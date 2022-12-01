@@ -81,9 +81,42 @@ namespace VLUTUTORS.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [HttpGet]
         public IActionResult Contact()
         {
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Contact(string Ten, string Email, string Mon, string SDT, string NoiDung)
+        {
+            try
+            {
+                Lienhe lienHe = new Lienhe
+                {
+                    HoVaTen = Ten,
+                    Email = Email,
+                    MonHoc = Mon,
+                    Sdt = SDT,
+                    NoiDung = NoiDung,
+                    IdtrangThai = 1
+                };
+                try
+                {
+                    db.Add(lienHe);
+                    await db.SaveChangesAsync();
+                }
+                catch
+                {
+                    return RedirectToAction("Contact", "Home");
+                }
+            }
+            catch
+            {
+                return RedirectToAction("Contact", "Home");
+
+            }
+            return RedirectToAction("Contact", "Home");
         }
 
         public IActionResult AboutUs()

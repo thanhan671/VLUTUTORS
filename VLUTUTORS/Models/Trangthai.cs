@@ -5,9 +5,9 @@ using System.Collections.Generic;
 
 namespace VLUTUTORS.Models
 {
-    public partial class Trangthaituvan
+    public partial class Trangthai
     {
         public int IdtrangThai { get; set; }
-        public string TrangThai { get; set; }
+        public string TrangThai1 { get; set; }
     }
 }

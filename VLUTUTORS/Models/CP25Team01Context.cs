@@ -18,9 +18,10 @@ namespace VLUTUTORS.Models
         }
 
         public virtual DbSet<Gioitinh> Gioitinhs { get; set; }
+        public virtual DbSet<Lienhe> Lienhes { get; set; }
         public virtual DbSet<Mongiasu> Mongiasus { get; set; }
         public virtual DbSet<Taikhoannguoidung> Taikhoannguoidungs { get; set; }
-        public virtual DbSet<Trangthaituvan> Trangthaituvans { get; set; }
+        public virtual DbSet<Trangthai> Trangthais { get; set; }
         public virtual DbSet<Tuvan> Tuvans { get; set; }
         public virtual DbSet<Xetduyet> Xetduyets { get; set; }
 
@@ -49,6 +50,37 @@ namespace VLUTUTORS.Models
                     .IsRequired()
                     .HasMaxLength(10)
                     .HasColumnName("GioiTinh");
+            });
+
+            modelBuilder.Entity<Lienhe>(entity =>
+            {
+                entity.HasKey(e => e.IdlienHe);
+
+                entity.ToTable("LIENHE");
+
+                entity.Property(e => e.IdlienHe).HasColumnName("IDLienHe");
+
+                entity.Property(e => e.Email)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.HoVaTen)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.IdtrangThai).HasColumnName("IDTrangThai");
+
+                entity.Property(e => e.MonHoc)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.NoiDung).IsRequired();
+
+                entity.Property(e => e.Sdt)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .HasColumnName("SDT")
+                    .IsFixedLength(true);
             });
 
             modelBuilder.Entity<Mongiasu>(entity =>
@@ -107,17 +139,19 @@ namespace VLUTUTORS.Models
                     .HasColumnName("ThongTinTKNganHang");
             });
 
-            modelBuilder.Entity<Trangthaituvan>(entity =>
+            modelBuilder.Entity<Trangthai>(entity =>
             {
-                entity.HasKey(e => e.IdtrangThai);
+                entity.HasKey(e => e.IdtrangThai)
+                    .HasName("PK_TRANGTHAITUVAN");
 
-                entity.ToTable("TRANGTHAITUVAN");
+                entity.ToTable("TRANGTHAI");
 
                 entity.Property(e => e.IdtrangThai).HasColumnName("IDTrangThai");
 
-                entity.Property(e => e.TrangThai)
+                entity.Property(e => e.TrangThai1)
                     .IsRequired()
-                    .HasMaxLength(30);
+                    .HasMaxLength(30)
+                    .HasColumnName("TrangThai");
             });
 
             modelBuilder.Entity<Tuvan>(entity =>

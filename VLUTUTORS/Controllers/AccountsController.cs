@@ -117,32 +117,41 @@ namespace VLUTUTORS.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        //[HttpPost]
+        [HttpGet]
+        public IActionResult ForGotPass()
+        {
+            return View();
+        }
+
+        [HttpPost]
         public async Task<IActionResult> ForGotPass(string Email)
         {
-            //Random pass = new Random();
-            //int newPass = pass.Next(100000, 999999);
+            Random pass = new Random();
+            int newPass = pass.Next(100000, 999999);
 
+            
 
-            //var message = new MimeMessage();
-            //message.From.Add(new MailboxAddress("Gia Sư Văn Lang", "giasuvanlang@gmail.com"));
-            //message.To.Add(new MailboxAddress("Thanh An", "thanhannguyen67@gmail.com"));
-            //message.Subject = "Khôi phục mật khẩu Gia Sư Văn Lang";
-            //message.Body = new TextPart("plain")
-            //{
-            //    Text = newPass.ToString()
-            //};
-            //using (var client = new SmtpClient())
-            //{
-            //    client.Connect("smtp.gmail.com", 587, false);
-            //    client.Authenticate("thanhannguyen671@gmail.com", "thanhannguyen672001");
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("Gia Sư Văn Lang", "giasuvanlang@gmail.com"));
+            message.To.Add(new MailboxAddress("Gia Sư Văn Lang", Email));
+            message.Subject = "Khôi phục mật khẩu Gia Sư Văn Lang";
+            message.Body = new TextPart("plain")
+            {
+                Text = "Mật khẩu mới của bạn là: </br>" + newPass.ToString() + "Vui lòng đăng nhập với mật khẩu mới để khôi phục mật khẩu."
+            };
+            using (var client = new SmtpClient())
+            {
+                client.Connect("smtp.gmail.com", 587, false);
+                client.Authenticate("thanhannguyen67@gmail.com", "zepyqmhzacjzgsid");
 
-            //    client.Send(message);
+                client.Send(message);
 
-            //    client.Disconnect(true);
-            //}
+                client.Disconnect(true);
 
-            return View();
+                client.Dispose();
+            }
+
+            return RedirectToAction("Login", "Accounts");
         }
     }
 }

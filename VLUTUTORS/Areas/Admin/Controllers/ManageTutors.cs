@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace VLUTUTORS.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class ManageTutors : Controller
     {
         public IActionResult Index()
