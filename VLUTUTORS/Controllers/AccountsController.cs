@@ -31,16 +31,16 @@ namespace VLUTUTORS.Controllers
             string email = taikhoannguoidung.Email;
             string password = taikhoannguoidung.MatKhau;
             
-
             if (ModelState.IsValid)
             {
-                var checkAccount = new Taikhoannguoidung();
-                try
+                Taikhoannguoidung checkAccount;
+                checkAccount = db.Taikhoannguoidungs.Where(acc => acc.Email.Equals(email.Trim())).FirstOrDefault();
+
+                if (checkAccount != null)
                 {
-                    checkAccount = db.Taikhoannguoidungs.Where(acc => acc.Email.Equals(email.Trim())).FirstOrDefault();
                     _loginSuccessCallback = LoginSuccessCall;
                 }
-                catch (Exception ex)
+                else
                 {
                     return View();
                 }
