@@ -14,5 +14,7 @@ namespace VLUTUTORS.Models
         public string Sdt { get; set; }
         public string NoiDung { get; set; }
         public int IdtrangThai { get; set; }
+
+        public virtual Trangthai IdtrangThaiNavigation { get; set; }
     }
 }

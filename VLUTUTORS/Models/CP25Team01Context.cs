@@ -81,6 +81,12 @@ namespace VLUTUTORS.Models
                     .HasMaxLength(10)
                     .HasColumnName("SDT")
                     .IsFixedLength(true);
+
+                entity.HasOne(d => d.IdtrangThaiNavigation)
+                    .WithMany(p => p.Lienhes)
+                    .HasForeignKey(d => d.IdtrangThai)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_LIENHE_TRANGTHAI");
             });
 
             modelBuilder.Entity<Mongiasu>(entity =>
@@ -175,6 +181,12 @@ namespace VLUTUTORS.Models
                     .HasMaxLength(10)
                     .IsUnicode(false)
                     .HasColumnName("SDT");
+
+                entity.HasOne(d => d.IdtrangThaiNavigation)
+                    .WithMany(p => p.Tuvans)
+                    .HasForeignKey(d => d.IdtrangThai)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TUVAN_TRANGTHAI");
             });
 
             modelBuilder.Entity<Xetduyet>(entity =>
