@@ -26,6 +26,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\admin\bootstrap\js\bootstrap.bundle.min.js" />
+    <None Include="wwwroot\admin\fonts\fontawesome\webfonts\fa-brands-400.svg" />
+    <None Include="wwwroot\admin\fonts\fontawesome\webfonts\fa-brands-400.woff2" />
+    <None Include="wwwroot\admin\fonts\fontawesome\webfonts\fa-regular-400.svg" />
+    <None Include="wwwroot\admin\fonts\fontawesome\webfonts\fa-regular-400.woff2" />
+    <None Include="wwwroot\admin\fonts\fontawesome\webfonts\fa-solid-900.svg" />
+    <None Include="wwwroot\admin\fonts\fontawesome\webfonts\fa-solid-900.woff2" />
+    <None Include="wwwroot\admin\jquery\jquery.min.js" />
+    <None Include="wwwroot\admin\js\adminlte.min.js" />
+    <None Include="wwwroot\admin\js\chart\Chart.min.js" />
+    <None Include="wwwroot\admin\js\chart\uPlot.iife.min.js" />
+    <None Include="wwwroot\admin\js\datatables.js" />
+    <None Include="wwwroot\admin\js\demo.js" />
+    <None Include="wwwroot\admin\js\pages\dashboard3.js" />
     <None Include="wwwroot\js\site.js" />
   </ItemGroup>
 
