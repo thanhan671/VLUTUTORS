@@ -232,6 +232,7 @@ textarea {
   line-height: inherit;
 }
 button,
+select,
 input {
   overflow: visible;
   border: 2px solid hsla(246, 25%, 77%, 0.25);
@@ -53032,11 +53033,12 @@ a.text-muted:hover {
   flex-wrap: nowrap;
 }
 
-.row-nowrap textarea,
-.row-nowrap input {
-  width: 100%;
-  border-radius: 0.5rem;
-}
+    .row-nowrap textarea,
+    .row-nowrap select,
+    .row-nowrap input {
+        width: 100%;
+        border-radius: 0.5rem;
+    }
 
 .center-card {
   position: relative;
