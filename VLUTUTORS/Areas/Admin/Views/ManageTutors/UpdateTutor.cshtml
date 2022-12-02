@@ -1,0 +1,121 @@
+﻿
+@{
+    ViewData["Title"] = "Cập nhật trạng thái tài khoản";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="/Admin">Trang chủ</a></li>
+                    <li class="breadcrumb-item"><a href='javascript:history.go(-1)'>Quản lý gia sư</a></li>
+                    <li class="breadcrumb-item active">Cập nhật trạng thái tài khoản</li>
+                </ol>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container" style="margin-top: 20px; margin-bottom: 20px">
+            <div class="main-body">
+                <div class="row gutters-sm">
+                    <div class="col-md-4 mb-3 center-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex flex-column align-items-center text-center">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/f/fe/Son_Tung_M-TP_1_%282017%29.png"
+                                         alt="Admin"
+                                         class="rounded-circle"
+                                         width="150" />
+                                    <div class="mt-3">
+                                        <h4>Nguyễn Thanh An</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="row-nowrap">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Email</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        an.197pm09415@vanlanguni.vn
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="row-nowrap">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Khoa</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        Công nghệ thông tin
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="row-nowrap">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Ngày sinh</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        06/07/2001
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="row-nowrap">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Giới tính</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        Nam
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="row-nowrap">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Số Điện Thoại</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        0779110856
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="row-nowrap">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Trạng thái tài khoản</h6>
+                                    </div>
+                                    <select class="profile-input">
+                                        <option value="1">Đang hoạt động</option>
+                                        <option value="2">Tạm khóa</option>
+                                    </select>
+                                </div>
+
+                                <hr />
+                                <div class="row">
+                                    <div class="col-12 flex-right mb-4">
+                                        <a href='javascript:history.go(-1)' class="btn btn-dark">
+                                            Hủy
+                                        </a>
+
+                                        <input type="submit"
+                                               value="Lưu thay đổi"
+                                               class="btn btn-success" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+
