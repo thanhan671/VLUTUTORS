@@ -47,18 +47,23 @@
                     </a>
                 </form>
                 <form class="sign-up-form" method="post" enctype="multipart/form-data" asp-controller="Accounts" asp-action="Register">
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     <h2 class="title">Đăng Ký Tài Khoản</h2>
                     <div class="input-field">
                         <i class="fas fa-user"></i>
                         <input type="text" id="txtHoTen" name="HoTen" placeholder="Họ tên của bạn" />
+                        @Html.ValidationMessageFor(m => m.HoTen, "", new { @class = "text-danger" })
                     </div>
                     <div class="input-field">
                         <i class="fas fa-envelope"></i>
                         <input type="email" id="txtEmail" name="Email" placeholder="Email" />
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                     </div>
                     <div class="input-field">
                         <i class="fas fa-lock"></i>
                         <input type="password" id="txtMatKhau" name="MatKhau" placeholder="Mật Khẩu" />
+                        @Html.ValidationMessageFor(m => m.MatKhau, "", new { @class = "text-danger" })
                     </div>
                     <div class="input-field">
                         <i class="fas fa-lock"></i>

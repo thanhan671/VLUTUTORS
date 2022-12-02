@@ -26,11 +26,11 @@ namespace VLUTUTORS.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Login([Bind(include:"Email, MatKhau")] Taikhoannguoidung taikhoannguoidung)
+        public IActionResult Login([Bind(include: "Email, MatKhau")] Taikhoannguoidung taikhoannguoidung)
         {
             string email = taikhoannguoidung.Email;
             string password = taikhoannguoidung.MatKhau;
-            
+
 
             if (ModelState.IsValid)
             {
