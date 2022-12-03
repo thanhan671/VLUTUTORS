@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -8,8 +9,13 @@ namespace VLUTUTORS.Models
     public partial class Taikhoannguoidung
     {
         public int Id { get; set; }
+        [Required(ErrorMessage = "Vui lòng điền trường này!")]
         public string HoTen { get; set; }
+        [Required(ErrorMessage = "Vui lòng điền trường này!")]
+        [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "Không hợp lệ")]
         public string Email { get; set; }
+        [Required(ErrorMessage = "Vui lòng điền trường này!")]
+        [MinLength(6, ErrorMessage = "Mật khẩu phải trên 6 ký tự")]
         public string MatKhau { get; set; }
         public int? IdgioiTinh { get; set; }
         public string Sdt { get; set; }
