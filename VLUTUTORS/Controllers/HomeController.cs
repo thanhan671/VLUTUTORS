@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using VLUTUTORS.Models;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace VLUTUTORS.Controllers
 {
@@ -31,15 +31,31 @@ namespace VLUTUTORS.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            if (HttpContext.Session.GetString("LoginName") != null)
+            if (HttpContext.Session.GetInt32("LoginId") != 0)
             {
-                Console.WriteLine(JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo")).HoTen);
+                Console.WriteLine("login id: " + HttpContext.Session.GetInt32("LoginId"));
+                //Console.WriteLine(JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo")).HoTen);
             }
             return View();
         }
 
+        [HttpGet]
         public IActionResult RegisterAsTutor()
         {
+            //if (HttpContext.Session.GetInt32("LoginId") == null)
+            //{
+            //    return RedirectToAction("Login", "Accounts");
+            //}
+            //Taikhoannguoidung taikhoannguoidung = new Taikhoannguoidung();
+            //taikhoannguoidung.Khoas = new SelectList(db.Khoas, "Idkhoa", "TenKhoa");
+            //return View(taikhoannguoidung);
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult RegisterAsTutor([Bind(include:"Email")]Taikhoannguoidung taikhoannguoidung)
+        {
+
             return View();
         }
 

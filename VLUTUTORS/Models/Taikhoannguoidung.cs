@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 #nullable disable
 
@@ -9,11 +10,14 @@ namespace VLUTUTORS.Models
     public partial class Taikhoannguoidung
     {
         public int Id { get; set; }
+
         [Required(ErrorMessage = "Vui lòng điền trường này!")]
         public string HoTen { get; set; }
+
         [Required(ErrorMessage = "Vui lòng điền trường này!")]
         [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "Không hợp lệ")]
         public string Email { get; set; }
+
         [Required(ErrorMessage = "Vui lòng điền trường này!")]
         [MinLength(6, ErrorMessage = "Mật khẩu phải trên 6 ký tự")]
         public string MatKhau { get; set; }
@@ -42,5 +46,8 @@ namespace VLUTUTORS.Models
         public virtual Mongiasu IdmonGiaSu2Navigation { get; set; }
         public virtual Nganhang IdnganHangNavigation { get; set; }
         public virtual Xetduyet IdxetDuyetNavigation { get; set; }
+
+        //public SelectList Khoas { get; set; }
+
     }
 }
