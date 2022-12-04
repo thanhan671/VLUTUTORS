@@ -56,6 +56,12 @@ namespace VLUTUTORS.Controllers
             return View();
         }
 
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Login", "Accounts");
+        }
+
         [HttpPost]
         public async Task<IActionResult> Register(string HoTen, string Email, string MatKhau)
         {
