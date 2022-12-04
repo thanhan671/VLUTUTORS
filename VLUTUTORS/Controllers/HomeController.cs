@@ -31,9 +31,10 @@ namespace VLUTUTORS.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            if (HttpContext.Session.GetString("LoginName") != null)
+            if (HttpContext.Session.GetInt32("LoginId") != 0)
             {
-                Console.WriteLine(JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo")).HoTen);
+                Console.WriteLine("login id: " + HttpContext.Session.GetInt32("LoginId"));
+                //Console.WriteLine(JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo")).HoTen);
             }
             return View();
         }

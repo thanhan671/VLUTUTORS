@@ -59,7 +59,7 @@ namespace VLUTUTORS.Controllers
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
-            return RedirectToAction("Login", "Accounts");
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
