@@ -20,17 +20,27 @@ namespace VLUTUTORS.Models
         public int? IdgioiTinh { get; set; }
         public string Sdt { get; set; }
         public DateTime? NgaySinh { get; set; }
-        public string KhoaDangHoc { get; set; }
+        public int? Idkhoa { get; set; }
         public byte[] AnhDaiDien { get; set; }
         public bool? TrangThaiTaiKhoan { get; set; }
-        public string ThongTinTknganHang { get; set; }
+        public string SoTaiKhoan { get; set; }
+        public int? IdnganHang { get; set; }
         public string GioiThieu { get; set; }
-        public int? IdmonGiaSu { get; set; }
         public string DanhGiaVeViecGiaSu { get; set; }
-        public string GioiThieuVeMonGiaSu { get; set; }
         public double? DiemTrungBinh { get; set; }
-        public string TenChungChi { get; set; }
-        public byte[] AnhChungChi { get; set; }
+        public int? IdmonGiaSu1 { get; set; }
+        public string ChungChiMon1 { get; set; }
+        public string GioiThieuVeMonGiaSu1 { get; set; }
+        public int? IdmonGiaSu2 { get; set; }
+        public string ChungChiMon2 { get; set; }
+        public string GioiThieuVeMonGiaSu2 { get; set; }
         public int? IdxetDuyet { get; set; }
+
+        public virtual Gioitinh IdgioiTinhNavigation { get; set; }
+        public virtual Khoa IdkhoaNavigation { get; set; }
+        public virtual Mongiasu IdmonGiaSu1Navigation { get; set; }
+        public virtual Mongiasu IdmonGiaSu2Navigation { get; set; }
+        public virtual Nganhang IdnganHangNavigation { get; set; }
+        public virtual Xetduyet IdxetDuyetNavigation { get; set; }
     }
 }

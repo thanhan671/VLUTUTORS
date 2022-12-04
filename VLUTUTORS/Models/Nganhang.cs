@@ -5,15 +5,15 @@ using System.Collections.Generic;
 
 namespace VLUTUTORS.Models
 {
-    public partial class Gioitinh
+    public partial class Nganhang
     {
-        public Gioitinh()
+        public Nganhang()
         {
             Taikhoannguoidungs = new HashSet<Taikhoannguoidung>();
         }
 
-        public int IdgioiTinh { get; set; }
-        public string GioiTinh1 { get; set; }
+        public int Id { get; set; }
+        public string TenNganHangHoacViDienTu { get; set; }
 
         public virtual ICollection<Taikhoannguoidung> Taikhoannguoidungs { get; set; }
     }

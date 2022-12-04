@@ -18,8 +18,10 @@ namespace VLUTUTORS.Models
         }
 
         public virtual DbSet<Gioitinh> Gioitinhs { get; set; }
+        public virtual DbSet<Khoa> Khoas { get; set; }
         public virtual DbSet<Lienhe> Lienhes { get; set; }
         public virtual DbSet<Mongiasu> Mongiasus { get; set; }
+        public virtual DbSet<Nganhang> Nganhangs { get; set; }
         public virtual DbSet<Taikhoannguoidung> Taikhoannguoidungs { get; set; }
         public virtual DbSet<Trangthai> Trangthais { get; set; }
         public virtual DbSet<Tuvan> Tuvans { get; set; }
@@ -50,6 +52,19 @@ namespace VLUTUTORS.Models
                     .IsRequired()
                     .HasMaxLength(10)
                     .HasColumnName("GioiTinh");
+            });
+
+            modelBuilder.Entity<Khoa>(entity =>
+            {
+                entity.HasKey(e => e.Idkhoa);
+
+                entity.ToTable("KHOA");
+
+                entity.Property(e => e.Idkhoa).HasColumnName("IDKhoa");
+
+                entity.Property(e => e.TenKhoa)
+                    .IsRequired()
+                    .HasMaxLength(200);
             });
 
             modelBuilder.Entity<Lienhe>(entity =>
@@ -102,15 +117,28 @@ namespace VLUTUTORS.Models
                     .HasMaxLength(500);
             });
 
+            modelBuilder.Entity<Nganhang>(entity =>
+            {
+                entity.ToTable("NGANHANG");
+
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.TenNganHangHoacViDienTu)
+                    .IsRequired()
+                    .HasMaxLength(150);
+            });
+
             modelBuilder.Entity<Taikhoannguoidung>(entity =>
             {
                 entity.ToTable("TAIKHOANNGUOIDUNG");
 
                 entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.AnhChungChi).HasColumnType("image");
-
                 entity.Property(e => e.AnhDaiDien).HasColumnType("image");
+
+                entity.Property(e => e.ChungChiMon1).IsUnicode(false);
+
+                entity.Property(e => e.ChungChiMon2).IsUnicode(false);
 
                 entity.Property(e => e.Email)
                     .IsRequired()
@@ -123,11 +151,15 @@ namespace VLUTUTORS.Models
 
                 entity.Property(e => e.IdgioiTinh).HasColumnName("IDGioiTinh");
 
-                entity.Property(e => e.IdmonGiaSu).HasColumnName("IDMonGiaSu");
+                entity.Property(e => e.Idkhoa).HasColumnName("IDKhoa");
+
+                entity.Property(e => e.IdmonGiaSu1).HasColumnName("IDMonGiaSu1");
+
+                entity.Property(e => e.IdmonGiaSu2).HasColumnName("IDMonGiaSu2");
+
+                entity.Property(e => e.IdnganHang).HasColumnName("IDNganHang");
 
                 entity.Property(e => e.IdxetDuyet).HasColumnName("IDXetDuyet");
-
-                entity.Property(e => e.KhoaDangHoc).HasMaxLength(100);
 
                 entity.Property(e => e.MatKhau)
                     .IsRequired()
@@ -140,9 +172,37 @@ namespace VLUTUTORS.Models
                     .HasMaxLength(10)
                     .IsUnicode(false);
 
-                entity.Property(e => e.ThongTinTknganHang)
-                    .HasMaxLength(200)
-                    .HasColumnName("ThongTinTKNganHang");
+                entity.Property(e => e.SoTaiKhoan).HasMaxLength(200);
+
+                entity.HasOne(d => d.IdgioiTinhNavigation)
+                    .WithMany(p => p.Taikhoannguoidungs)
+                    .HasForeignKey(d => d.IdgioiTinh)
+                    .HasConstraintName("FK_TAIKHOANNGUOIDUNG_GIOITINH");
+
+                entity.HasOne(d => d.IdkhoaNavigation)
+                    .WithMany(p => p.Taikhoannguoidungs)
+                    .HasForeignKey(d => d.Idkhoa)
+                    .HasConstraintName("FK_TAIKHOANNGUOIDUNG_KHOA");
+
+                entity.HasOne(d => d.IdmonGiaSu1Navigation)
+                    .WithMany(p => p.TaikhoannguoidungIdmonGiaSu1Navigations)
+                    .HasForeignKey(d => d.IdmonGiaSu1)
+                    .HasConstraintName("FK_TAIKHOANNGUOIDUNG_MONGIASU");
+
+                entity.HasOne(d => d.IdmonGiaSu2Navigation)
+                    .WithMany(p => p.TaikhoannguoidungIdmonGiaSu2Navigations)
+                    .HasForeignKey(d => d.IdmonGiaSu2)
+                    .HasConstraintName("FK_TAIKHOANNGUOIDUNG_MONGIASU1");
+
+                entity.HasOne(d => d.IdnganHangNavigation)
+                    .WithMany(p => p.Taikhoannguoidungs)
+                    .HasForeignKey(d => d.IdnganHang)
+                    .HasConstraintName("FK_TAIKHOANNGUOIDUNG_NGANHANG");
+
+                entity.HasOne(d => d.IdxetDuyetNavigation)
+                    .WithMany(p => p.Taikhoannguoidungs)
+                    .HasForeignKey(d => d.IdxetDuyet)
+                    .HasConstraintName("FK_TAIKHOANNGUOIDUNG_XETDUYET");
             });
 
             modelBuilder.Entity<Trangthai>(entity =>
