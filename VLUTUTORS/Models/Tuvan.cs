@@ -15,9 +15,11 @@ namespace VLUTUTORS.Models
         public string NoiDungTuVan { get; set; }
         public int IdtrangThai { get; set; }
 
-        [NotMapped] 
-        public string TrangThai { get; set; }
+        public virtual Trangthai IdtrangThaiNavigation { get; set; }
+
         [NotMapped]
-        public SelectList TrangThais { get; set; }
+        public string TrangThai  { get; set; }
+        [NotMapped]
+        public SelectList TrangThais  { get; set; }
     }
 }
