@@ -23,22 +23,37 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index([Bind("Id,GioiThieuChanTrang,DiaChi,Sdt,Email,Facebook,GioiThieu,Slogan")] Noidung noiDung)
+        public async Task<IActionResult> Index( string GioiThieuChanTrang, string DiaChi, string Sdt, string Email, string Facebook, string GioiThieu, string Slogan)
         {
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(noiDung);
-                    await _context.SaveChangesAsync();
-                }
-                catch (Exception ex)
-                {
-                    return RedirectToAction(nameof(Index));
-                }
-                return View(noiDung);
-            }
-            return View(noiDung);
+            var sqlStringBuilder = new SqlConnectionStringBuilder();
+            sqlStringBuilder["Server"] = "tuleap.vanlanguni.edu.vn,18082";
+            sqlStringBuilder["Database"] = "CP25Team01";
+            sqlStringBuilder["UID"] = "CP25Team01";
+            sqlStringBuilder["PWD"] = "Cap25t01";
+
+            var sqlStringConnection = sqlStringBuilder.ToString();
+
+            using var connection = new SqlConnection(sqlStringConnection);
+
+            connection.Open();
+
+            using var command = new SqlCommand();
+            command.Connection = connection;
+            command.CommandText = "UPDATE NOIDUNG SET GioiThieuChanTrang = @GioiThieuChanTrang, DiaChi=@DiaChi,Sdt=@Sdt,Email=@Email,Facebook=@Facebook,GioiThieu=@GioiThieu,Slogan=@Slogan WHERE ID=1";
+
+            command.Parameters.AddWithValue("@GioiThieuChanTrang", GioiThieuChanTrang);
+            command.Parameters.AddWithValue("@DiaChi", DiaChi);
+            command.Parameters.AddWithValue("@Sdt", Sdt);
+            command.Parameters.AddWithValue("@Email", Email);
+            command.Parameters.AddWithValue("@Facebook", Facebook);
+            command.Parameters.AddWithValue("@GioiThieu", GioiThieu);
+            command.Parameters.AddWithValue("@Slogan", Slogan);
+
+            command.ExecuteNonQuery();
+
+            connection.Close();
+
+            return RedirectToAction("Index");
         }
     }
 }

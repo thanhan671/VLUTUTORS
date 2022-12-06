@@ -131,9 +131,9 @@ namespace VLUTUTORS.Models
 
             modelBuilder.Entity<Noidung>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("NOIDUNG");
+
+                entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.DiaChi).IsRequired();
 
@@ -146,8 +146,6 @@ namespace VLUTUTORS.Models
                 entity.Property(e => e.GioiThieu).IsRequired();
 
                 entity.Property(e => e.GioiThieuChanTrang).IsRequired();
-
-                entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.Sdt)
                     .IsRequired()
