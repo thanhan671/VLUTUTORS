@@ -20,14 +20,16 @@
 
     <!-- Main content -->
     <form asp-action="Index">
-        <input type="hidden" asp-for="Id" />
+
+        <input type="hidden" asp-for="Slogan" />
         <input type="hidden" asp-for="GioiThieuChanTrang" />
         <input type="hidden" asp-for="DiaChi" />
         <input type="hidden" asp-for="Sdt" />
         <input type="hidden" asp-for="Email" />
         <input type="hidden" asp-for="Facebook" />
         <input type="hidden" asp-for="GioiThieu" />
-        <input type="hidden" asp-for="Slogan" />
+        <input type="hidden" asp-for="Id" />
+
         <section class="content">
             <div class="container" style="margin-top: 20px; margin-bottom: 20px">
                 <div class="main-body">
@@ -41,14 +43,14 @@
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Câu Slogan</h6>
                                         </div>
-                                        <input class="col-sm-9 text-secondary" name="" type="text" value="@Model.Slogan">
+                                        <input class="col-sm-9 text-secondary" name="Slogan" type="text" value="@Model.Slogan">
                                     </div>
                                     <hr />
                                     <div class="row">
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Đoạn giới thiệu ở chân trang</h6>
                                         </div>
-                                        <textarea class="col-sm-9 text-secondary" name="" id="" cols="30" rows="10">@Model.GioiThieuChanTrang</textarea>
+                                        <textarea class="col-sm-9 text-secondary" name="gtChanTrang" id="" cols="30" rows="10">@Model.GioiThieuChanTrang</textarea>
                                     </div>
                                     <hr />
 
@@ -58,7 +60,7 @@
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Địa chỉ</h6>
                                         </div>
-                                        <input class="col-sm-9 text-secondary" name="diachi" type="text" value="@Model.DiaChi">
+                                        <input class="col-sm-9 text-secondary" name="diaChi" type="text" value="@Model.DiaChi">
                                     </div>
                                     <hr />
                                     <div class="row">
@@ -88,7 +90,7 @@
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Đoạn giới thiệu</h6>
                                         </div>
-                                        <textarea class="col-sm-9 text-secondary" name="" id="" cols="30" rows="10">@Model.GioiThieu</textarea>
+                                        <textarea class="col-sm-9 text-secondary" name="gioiThieu" id="" cols="30" rows="10">@Model.GioiThieu</textarea>
                                     </div>
                                     <hr />
 
