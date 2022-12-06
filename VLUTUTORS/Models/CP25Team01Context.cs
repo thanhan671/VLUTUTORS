@@ -147,15 +147,15 @@ namespace VLUTUTORS.Models
 
                 entity.Property(e => e.GioiThieuChanTrang).IsRequired();
 
+                entity.Property(e => e.Id).HasColumnName("ID");
+
                 entity.Property(e => e.Sdt)
                     .IsRequired()
-                    .HasMaxLength(10)
+                    .HasMaxLength(11)
                     .IsUnicode(false)
                     .HasColumnName("SDT");
 
-                entity.Property(e => e.Slogan)
-                    .IsRequired()
-                    .HasMaxLength(500);
+                entity.Property(e => e.Slogan).IsRequired();
             });
 
             modelBuilder.Entity<Taikhoannguoidung>(entity =>

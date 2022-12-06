@@ -14,23 +14,16 @@ namespace VLUTUTORS.Areas.Admin.Controllers
     {
         private readonly CP25Team01Context _context = new CP25Team01Context();
 
-        [HttpGet]
+        
         public async Task<IActionResult> Index()
         {
-            var tuVans = await _context.Tuvans.ToListAsync();
-            var trangThais = await _context.Trangthais.ToListAsync();
-            foreach (var tuVan in tuVans)
-            {
-                var trangThai = trangThais.FirstOrDefault(it => it.IdtrangThai == tuVan.IdtrangThai);
-                if (trangThai != null)
-                    tuVan.TrangThai = trangThai.TrangThai1;
-            }
-            return View(tuVans);
+            var noiDung = await _context.Noidungs.FirstOrDefaultAsync(m => m.Id == 1);
+            return View(noiDung);
         }
 
-            [HttpPost]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index([Bind("Slogan,GioiThieuChanTrang,DiaChi,Sdt,Email,Facebook,GioiThieu")] Noidung noiDung)
+        public async Task<IActionResult> Index([Bind("Id,GioiThieuChanTrang,DiaChi,Sdt,Email,Facebook,GioiThieu,Slogan")] Noidung noiDung)
         {
             if (ModelState.IsValid)
             {
