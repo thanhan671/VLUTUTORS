@@ -44,8 +44,9 @@
                                 <li>
                                     @if (@httpContextAccessor.HttpContext.Session.GetString("LoginId") != null)
                                     {
-                                        <a href="/Accounts/Login">
-                                            @httpContextAccessor.HttpContext.Session.GetString("LoginId")
+                                        <a href="/Accounts/Details">
+                                            @httpContextAccessor.HttpContext.Session.GetString("loginName")
+                                            <i class="fa fa-caret-down"></i>
                                         </a>
                                         <ul class="sub-menu">
                                             <li><a href="/Accounts/Details">Tài Khoản</a></li>
