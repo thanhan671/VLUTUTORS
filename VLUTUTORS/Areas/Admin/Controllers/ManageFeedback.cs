@@ -63,7 +63,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 {
                     return RedirectToAction(nameof(Index));
                 }
-                return RedirectToAction("Detail", new { id = lienHe.IdlienHe });
+                return RedirectToAction("Index");
             }
             return View(lienHe);
         }
