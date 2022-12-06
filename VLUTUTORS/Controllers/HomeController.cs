@@ -42,14 +42,16 @@ namespace VLUTUTORS.Controllers
         [HttpGet]
         public IActionResult RegisterAsTutor()
         {
-            //if (HttpContext.Session.GetInt32("LoginId") == null)
-            //{
-            //    return RedirectToAction("Login", "Accounts");
-            //}
-            //Taikhoannguoidung taikhoannguoidung = new Taikhoannguoidung();
-            //taikhoannguoidung.Khoas = new SelectList(db.Khoas, "Idkhoa", "TenKhoa");
-            //return View(taikhoannguoidung);
-            return View();
+            Taikhoannguoidung taikhoannguoidung = new Taikhoannguoidung();
+            taikhoannguoidung.KhoaItems = db.Khoas.Select(k => new SelectListItem { Text = k.TenKhoa, Value = k.Idkhoa.ToString()}).ToList();
+
+            //var khoaData = db.Khoas;
+            foreach (var item in taikhoannguoidung.KhoaItems)
+            {
+                Console.WriteLine("item: " + item.Text);
+            }
+            //taikhoannguoidung.Khoas = db.Khoas.Select(x => new Khoa{ Idkhoa = x.Idkhoa, TenKhoa = x.TenKhoa }).ToList();
+            return View(taikhoannguoidung);
         }
 
         [HttpPost]

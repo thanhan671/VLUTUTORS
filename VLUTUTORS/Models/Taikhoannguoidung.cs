@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable disable
 
@@ -47,7 +48,8 @@ namespace VLUTUTORS.Models
         public virtual Nganhang IdnganHangNavigation { get; set; }
         public virtual Xetduyet IdxetDuyetNavigation { get; set; }
 
-        //public SelectList Khoas { get; set; }
+        [NotMapped]
+        public List<SelectListItem> KhoaItems { get; set; }
 
     }
 }

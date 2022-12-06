@@ -73,15 +73,8 @@
                                             <span class="warning-icon">!</span>
                                             <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                                         </div>
-                                        <p><b>Khoa đang học</b></p>
-                                        <div class="form__input">
-                                            <div class="form__select">
-                                                <select>
-                                                    <option value="1">Chọn Khoa</option>
-                                                    <option value="2"></option>
-                                                </select>
-                                            </div>
-                                        </div>
+                                        <b>Khoa đang học</b>
+                                                @Html.DropDownListFor(m => m.KhoaItems, Model.KhoaItems, new { @class = "form-control select-region" })
                                         <div class="form-radio">
                                             <label for="form__label" class="form__label">Giới tính</label>
                                             <li>
