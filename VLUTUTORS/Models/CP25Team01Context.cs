@@ -22,6 +22,7 @@ namespace VLUTUTORS.Models
         public virtual DbSet<Lienhe> Lienhes { get; set; }
         public virtual DbSet<Mongiasu> Mongiasus { get; set; }
         public virtual DbSet<Nganhang> Nganhangs { get; set; }
+        public virtual DbSet<Noidung> Noidungs { get; set; }
         public virtual DbSet<Taikhoannguoidung> Taikhoannguoidungs { get; set; }
         public virtual DbSet<Trangthai> Trangthais { get; set; }
         public virtual DbSet<Tuvan> Tuvans { get; set; }
@@ -126,6 +127,35 @@ namespace VLUTUTORS.Models
                 entity.Property(e => e.TenNganHangHoacViDienTu)
                     .IsRequired()
                     .HasMaxLength(150);
+            });
+
+            modelBuilder.Entity<Noidung>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("NOIDUNG");
+
+                entity.Property(e => e.DiaChi).IsRequired();
+
+                entity.Property(e => e.Email)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.Facebook).IsRequired();
+
+                entity.Property(e => e.GioiThieu).IsRequired();
+
+                entity.Property(e => e.GioiThieuChanTrang).IsRequired();
+
+                entity.Property(e => e.Sdt)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnName("SDT");
+
+                entity.Property(e => e.Slogan)
+                    .IsRequired()
+                    .HasMaxLength(500);
             });
 
             modelBuilder.Entity<Taikhoannguoidung>(entity =>
