@@ -43,14 +43,11 @@ namespace VLUTUTORS.Controllers
         public IActionResult RegisterAsTutor()
         {
             Taikhoannguoidung taikhoannguoidung = new Taikhoannguoidung();
-            taikhoannguoidung.KhoaItems = db.Khoas.Select(k => new SelectListItem { Text = k.TenKhoa, Value = k.Idkhoa.ToString()}).ToList();
+            taikhoannguoidung.DepartmentItems = db.Khoas.Select(k => new SelectListItem { Text = k.TenKhoa, Value = k.Idkhoa.ToString()}).ToList();
+            taikhoannguoidung.BankItems = db.Nganhangs.Select(k => new SelectListItem { Text = k.TenNganHangHoacViDienTu, Value = k.Id.ToString() }).ToList();
+            taikhoannguoidung.Subject1Items = db.Mongiasus.Select(k => new SelectListItem { Text = k.TenMonGiaSu, Value = k.IdmonGiaSu.ToString() }).ToList();
+            taikhoannguoidung.Subject2Items = db.Mongiasus.Select(k => new SelectListItem { Text = k.TenMonGiaSu, Value = k.IdmonGiaSu.ToString() }).ToList();
 
-            //var khoaData = db.Khoas;
-            foreach (var item in taikhoannguoidung.KhoaItems)
-            {
-                Console.WriteLine("item: " + item.Text);
-            }
-            //taikhoannguoidung.Khoas = db.Khoas.Select(x => new Khoa{ Idkhoa = x.Idkhoa, TenKhoa = x.TenKhoa }).ToList();
             return View(taikhoannguoidung);
         }
 

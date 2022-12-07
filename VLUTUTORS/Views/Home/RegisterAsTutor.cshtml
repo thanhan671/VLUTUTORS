@@ -74,7 +74,7 @@
                                             <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                                         </div>
                                         <b>Khoa đang học</b>
-                                                @Html.DropDownListFor(m => m.KhoaItems, Model.KhoaItems, new { @class = "form-control select-region" })
+                                                @Html.DropDownListFor(m => m.DepartmentItems, Model.DepartmentItems, new { @class = "form-control select-region" })
                                         <div class="form-radio">
                                             <label for="form__label" class="form__label">Giới tính</label>
                                             <li>
@@ -131,17 +131,9 @@
                                             <span class="warning-icon">!</span>
                                             <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                                         </div>
-                                        <div class="form__input">
-                                            <input class=""
-                                                   type="text"
-                                                   name="bank-name"
-                                                   id="bank-name"
-                                                   placeholder="Tên Ngân Hàng"
-                                                   value=""
-                                                   required />
-                                            <span class="warning-icon">!</span>
+                                        <b>Tên ngân hàng hoặc ví điện tử</b>
+                                                @Html.DropDownListFor(m => m.BankItems, Model.BankItems, new { @class = "form-control select-region" })
                                             <p class="warning">Vui lòng điền đầy đủ thông tin</p>
-                                        </div>
                                         <div class="form__input">
                                             <input class=""
                                                    type="text"
@@ -191,15 +183,8 @@
 
                                     <div class="col-4">
                                         <p><b>Thông Tin Môn Gia Sư 1</b></p>
-                                        <div class="form__input">
-                                            <div class="form__select">
-                                                <select>
-                                                    <option value="1">Chọn Môn Gia Sư</option>
-                                                    <option value="2">Anh văn</option>
-                                                    <option value="3">Tin học</option>
-                                                </select>
-                                            </div>
-                                        </div>
+                                        <b>Chọn môn gia sư</b>
+                                                @Html.DropDownListFor(m => m.Subject1Items, Model.Subject1Items, new { @class = "form-control select-region" })
                                         <div class="form__input">
                                             <label for="form__label" class="form__label">Tên chứng chỉ/Điểm trung bình môn</label>
                                             <input class=""
@@ -241,15 +226,8 @@
                                     </div>
                                     <div class="col-4">
                                         <p><b>Thông Tin Môn Gia Sư 2 (nếu có)</b></p>
-                                        <div class="form__input">
-                                            <div class="form__select">
-                                                <select>
-                                                    <option value="1">Chọn Môn Gia Sư</option>
-                                                    <option value="2">Anh văn</option>
-                                                    <option value="3">Tin học</option>
-                                                </select>
-                                            </div>
-                                        </div>
+                                         <b>Chọn môn gia sư</b>
+                                                @Html.DropDownListFor(m => m.Subject2Items, Model.Subject2Items, new { @class = "form-control select-region" })
                                         <div class="form__input">
                                             <label for="form__label" class="form__label">Tên chứng chỉ/Điểm trung bình môn</label>
                                             <input class=""
