@@ -52,9 +52,13 @@ namespace VLUTUTORS.Controllers
             return View();
         }
 
-        public IActionResult Details()
+        public async Task<IActionResult> Details()
         {
-            return View();
+            var taiKhoan = await db.Taikhoannguoidungs.FirstOrDefaultAsync(m => m.Id == 3);
+            var gioiTinhs = await db.Gioitinhs.ToListAsync();
+            SelectList ddlStatus = new SelectList(gioiTinhs, "IdgioiTinh", "GioiTinh1");
+            taiKhoan.GioiTinhs = ddlStatus;
+            return View(taiKhoan);
         }
 
 

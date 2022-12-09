@@ -1,4 +1,5 @@
-﻿
+﻿@model VLUTUTORS.Models.Taikhoannguoidung
+
 @{
     ViewData["Title"] = "Chi tiết tài khoản";
     Layout = "~/Views/Shared/_otherPageLayout.cshtml";
@@ -52,21 +53,21 @@
                             <div class="col-sm-3 p-0 mt-1">
                                 <h6 class="mb-0">Giới Tính</h6>
                             </div>
-                            <input type="text" name="sex" id="" value="Nam" class="profile-input">
+                            @Html.DropDownListFor(model => model.IdgioiTinh, Model.GioiTinhs, new { @class = "profile-input" })
                         </div>
                         <hr />
                         <div class="row-profile">
                             <div class="col-sm-3 p-0 mt-1">
                                 <h6 class="mb-0">Ngày sinh</h6>
                             </div>
-                            <input type="text" name="dob" id="" value="07/06/2001" class="profile-input">
+                            @Html.TextBoxFor(model => model.NgaySinh, "{0:dd/MM/yyyy}", new { @class = "profile-input" })
                         </div>
                         <hr />
                         <div class="row-profile">
                             <div class="col-sm-3 p-0 mt-1">
                                 <h6 class="mb-0">Số điện thoại</h6>
                             </div>
-                            <input type="tel" name="tel" id="" value="0222222222" class="profile-input">
+                            @Html.TextBoxFor(model => model.Sdt, "", new { @class = "profile-input" })
                         </div>
                         <hr />
                         <div class="row-profile">
