@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -42,6 +43,10 @@ namespace VLUTUTORS.Models
         public string GioiThieuVeMonGiaSu2 { get; set; }
         public int? IdxetDuyet { get; set; }
 
+        [NotMapped]
+        public string GioiTinh { get; set; }
+        [NotMapped]
+        public SelectList GioiTinhs { get; set; }
         public virtual Gioitinh IdgioiTinhNavigation { get; set; }
         public virtual Khoa IdkhoaNavigation { get; set; }
         public virtual Mongiasu IdmonGiaSu1Navigation { get; set; }

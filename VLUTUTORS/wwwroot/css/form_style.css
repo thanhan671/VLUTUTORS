@@ -139,6 +139,8 @@ form.sign-in-form {
   line-height: 1;
   font-weight: 600;
   font-size: 1.1rem;
+  border-radius: 30px;
+  padding: 10px;
   color: #333;
 }
 

@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
 using MimeKit;
 using MailKit.Net.Smtp;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace VLUTUTORS.Controllers
 {
@@ -55,6 +56,8 @@ namespace VLUTUTORS.Controllers
         {
             return View();
         }
+
+
 
         public IActionResult Logout()
         {
