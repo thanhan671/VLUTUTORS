@@ -1,4 +1,5 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model VLUTUTORS.Models.Noidung
 @{
     ViewData["Title"] = "Trang Chủ";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -13,7 +14,7 @@
             <div class="col-lg-10">
                 <div class="slider-cont-3 text-center">
                     <h2>Chào Mừng Đến Với Gia Sư Văn Lang</h2>
-                    <span>Đáp Ứng Nhu Cầu Cải Thiện Học Tập Của Bạn</span>
+                    <span>@Model.Slogan</span>
                 </div>
                 <!-- slider cont3 -->
             </div>

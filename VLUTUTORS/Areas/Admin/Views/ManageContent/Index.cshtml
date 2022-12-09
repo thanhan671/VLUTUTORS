@@ -87,7 +87,7 @@
 
                                     <div class="row">
                                         <div class="col-12 flex-right mb-4">
-                                            <input type="submit" value="Lưu" class="btn btn-success" asp-route-id="@Model.Id==1" />
+                                            <input type="submit" value="Lưu" class="btn btn-success" asp-route-id="@Model.Id==1" onclick="popup()" />
                                         </div>
                                     </div>
                                 </div>
@@ -100,4 +100,12 @@
     </form>
     <!-- /.content -->
 </div>
+<script>
+    function popup() {
+        alert('Cập nhật thành công!');
+    }
+    $('#myForm').on('submit', function (e) {
+        e.preventDefault(); // Now nothing will happen
+    });
+</script>
 

@@ -83,17 +83,21 @@
                             <input type="text" name="sc-year" id="" class="profile-input">
                         </div>
                         <hr />
-                        <div class="row">
-                            <div class="col-12 flex-right mb-4">
-                                <input type="submit" value="Lưu thay đổi" class="btn btn-success" />
-                            </div>
+                        <div class="d-flex justify-content-end">
+                            <a href='javascript:history.go(-1)' class="btn btn-secondary mr-3">Quay Lại</a>
+                            <input type="submit" value="Lưu thay đổi" class="btn btn-success" onclick="popup()" />
                         </div>
                     </div>
-
                 </div>
-
             </div>
         </div>
-
     </div>
 </div>
+<script>
+    function popup() {
+        alert('Cập nhật trạng thái thành công!');
+    }
+    $('#myForm').on('submit', function (e) {
+        e.preventDefault(); // Now nothing will happen
+    });
+</script>
