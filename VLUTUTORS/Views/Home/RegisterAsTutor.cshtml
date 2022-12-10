@@ -1,4 +1,5 @@
-﻿@model VLUTUTORS.Models.Taikhoannguoidung
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model VLUTUTORS.Models.Taikhoannguoidung
 @{
     Layout = null;
 }
@@ -42,7 +43,7 @@
                 <p class="sign-up__desc">
                     <span>Trở thành gia sư chỉ với 1 bước</span>
                 </p>
-                 <form class="form-regis__tutor sign-up__form" method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="RegisterAsTutor">
+                <form class="form-regis__tutor sign-up__form" method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="RegisterAsTutor">
                     <div class="container--tt">
                         <div class="row">
                             <div class="col-12">
@@ -51,24 +52,24 @@
                                         <p><b>Thông Tin Cá Nhân</b></p>
                                         <div class="input-wrapper">
                                             <input class="ip-form" type="text" id="tax" contenteditable="false" readonly @Html.TextBoxFor(m => m.HoTen)
-                                            @*<span class="warning-icon">!</span>
+                                                   @*<span class="warning-icon">!</span>
                                             <p class="warning">Vui lòng điền đầy đủ thông tin</p>*@
                                         </div>
                                         <div class="input-wrapper">
                                             <input class="ip-form" type="text" id="tax" contenteditable="false" readonly @Html.TextBoxFor(m => m.Email)
-                                            @*<span class="warning-icon">!</span>
+                                                   @*<span class="warning-icon">!</span>
                                             <p class="warning">Vui lòng điền đầy đủ thông tin</p>*@
                                         </div>
                                         <b>Khoa đang học</b>
-                                                @Html.DropDownListFor(m => m.DepartmentItems, Model.DepartmentItems, new { @class = "form-control select-region" })
+                                        @Html.DropDownListFor(m => m.DepartmentItems, Model.DepartmentItems, new { @class = "form-control select-region" })
                                         <div class="form-radio">
                                             <label for="form__label" class="form__label">Giới tính</label>
                                             <li>
                                                 @foreach (var gioiTinh in @Model.GenderItems)
                                                 {
-                                                    <input id="@gioiTinh.Value" type="radio" name="Gender" value="@gioiTinh.Value"/>
+                                                    <input id="@gioiTinh.Value" type="radio" name="IdgioiTinh" value="@gioiTinh.Value" />
                                                     <label for="@gioiTinh.Value">@gioiTinh.Text</label>
-                                                    <br/>
+                                                    <br />
                                                 }
                                             </li>
                                         </div>
@@ -79,7 +80,7 @@
                                                    id="dob"
                                                    placeholder="Ngày sinh"
                                                    value=""
-                                                   required />
+                                                   @*required*@ />
                                             <span class="warning-icon">!</span>
                                             <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                                         </div>
@@ -102,13 +103,13 @@
                                                    id="bank-number"
                                                    placeholder="Số tài khoản"
                                                    value=""
-                                                   required />
+                                                   @*required*@ />
                                             <span class="warning-icon">!</span>
                                             <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                                         </div>
                                         <b>Tên ngân hàng hoặc ví điện tử</b>
-                                                @Html.DropDownListFor(m => m.BankItems, Model.BankItems, new { @class = "form-control select-region" })
-                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                                        @Html.DropDownListFor(m => m.BankItems, Model.BankItems, new { @class = "form-control select-region" })
+                                        <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                                         <div class="form__input">
                                             <input class=""
                                                    type="text"
@@ -159,7 +160,7 @@
                                     <div class="col-4">
                                         <p><b>Thông Tin Môn Gia Sư 1</b></p>
                                         <b>Chọn môn gia sư</b>
-                                                @Html.DropDownListFor(m => m.Subject1Items, Model.Subject1Items, new { @class = "form-control select-region" })
+                                        @Html.DropDownListFor(m => m.Subject1Items, Model.Subject1Items, new { @class = "form-control select-region" })
                                         <div class="form__input">
                                             <label for="form__label" class="form__label">Tên chứng chỉ/Điểm trung bình môn</label>
                                             <input class=""
@@ -173,24 +174,24 @@
                                             <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                                         </div>
                                         @*<div class="form__input">
-                                            <label for="form__label" class="form__label">Chứng chỉ hoặc mình chứng kèm theo</label>
-                                            <input class=""
-                                                   type="file"
-                                                   name="certificate"
-                                                   id="certificate"
-                                                   placeholder="Chứng Chỉ"
-                                                   value=""
-                                                   required
-                                                   multiple="multiple"
-                                                   accept=".jpg, .jpeg, .png" />
-                                            <span class="warning-icon">!</span>
-                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
-                                        </div>*@
+                                <label for="form__label" class="form__label">Chứng chỉ hoặc mình chứng kèm theo</label>
+                                <input class=""
+                                       type="file"
+                                       name="certificate"
+                                       id="certificate"
+                                       placeholder="Chứng Chỉ"
+                                       value=""
+                                       required
+                                       multiple="multiple"
+                                       accept=".jpg, .jpeg, .png" />
+                                <span class="warning-icon">!</span>
+                                <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                            </div>*@
                                         <div class="form__input">
                                             <label for="form__label" class="form__label">Chứng chỉ hoặc mình chứng kèm theo</label>
-                                                <span>Select File:</span>
-                                                <input type="file" name="postedFiles" multiple />
-                                                <br/>
+                                            <span>Select File:</span>
+                                            <input type="file" name="postedFiles" multiple />
+                                            <br />
                                             <span style="color:green">@Html.Raw(ViewBag.Message)</span>
                                         </div>
 
@@ -208,8 +209,8 @@
                                     </div>
                                     <div class="col-4">
                                         <p><b>Thông Tin Môn Gia Sư 2 (nếu có)</b></p>
-                                         <b>Chọn môn gia sư</b>
-                                                @Html.DropDownListFor(m => m.Subject2Items, Model.Subject2Items, new { @class = "form-control select-region" })
+                                        <b>Chọn môn gia sư</b>
+                                        @Html.DropDownListFor(m => m.Subject2Items, Model.Subject2Items, new { @class = "form-control select-region" })
                                         <div class="form__input">
                                             <label for="form__label" class="form__label">Tên chứng chỉ/Điểm trung bình môn</label>
                                             <input class=""
@@ -217,8 +218,7 @@
                                                    name="avr-subject"
                                                    id="avr-subject"
                                                    placeholder="Cách nhau dấu ,"
-                                                   value=""
-                                                   required />
+                                                   value=""/>
                                             <span class="warning-icon">!</span>
                                             <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                                         </div>
@@ -231,7 +231,6 @@
                                                    id="certificate"
                                                    placeholder="Chứng Chỉ"
                                                    value=""
-                                                   required
                                                    multiple="multiple"
                                                    accept=".jpg, .jpeg, .png" />
                                             <span class="warning-icon">!</span>
@@ -244,8 +243,7 @@
                                                       name="intro-subject"
                                                       id="intro-subject"
                                                       placeholder="Giới thiệu về môn muốn gia sư"
-                                                      value=""
-                                                      required></textarea>
+                                                      value=""></textarea>
                                             <span class="warning-icon">!</span>
                                             <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                                         </div>
@@ -255,12 +253,12 @@
                         </div>
                     </div>
                     @*<input class="submit-btn" type="submit" value="Đăng Ký" />*@
-                    <button type="submit" class="submit-btn">Đăng ký</button>
                     <br />
                     <p class="form__terms text-center">
                         Bằng cách nhấp vào nút đăng ký, bạn đồng ý với
                         <span>Điều khoản và Dịch vụ</span> của chúng tôi
                     </p>
+                    <button type="submit" class="submit-btn">Đăng ký</button>
                 </form>
             </div>
         </div>

@@ -2,21 +2,27 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using VLUTUTORS.Models;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 
 namespace VLUTUTORS.Support.Services
 {
-    public class TutorServices
+    public static class TutorServices
     {
-        public void SaveUploadImages(string path)
+        public static void SaveUploadImages(string path)
         {
             
         }
 
-        public Taikhoannguoidung FindUserAccountByEmail(string email)
+        public static Taikhoannguoidung FindUserAccountByEmail(string email)
         {
-            Taikhoannguoidung taikhoannguoidung = new Taikhoannguoidung(); // temp -> update when write new datamanager with singleton pattern and change this to linq find user with email
+            return DataManager.Instance().db().Taikhoannguoidungs.Where(u => u.Email.Equals(email)).FirstOrDefault(); 
+        }
 
-            return taikhoannguoidung;
+        public static void UpdateUserInfo(Taikhoannguoidung user)
+        {
+            DataManager.Instance().db().Entry(user).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            DataManager.Instance().db().SaveChanges();
         }
     }
 }

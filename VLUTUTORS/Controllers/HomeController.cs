@@ -65,6 +65,7 @@ namespace VLUTUTORS.Controllers
         [HttpPost]
         public IActionResult RegisterAsTutor([Bind(include: "HoTen, Email, IdgioiTinh, Sdt, NgaySinh, IdKhoa, AnhDaiDien, TrangThaiTaiKhoan, SoTaiKhoan, IdNganHang, GioiThieu, DanhGiaVeViecGiaSu, DiemTrungBinh, IdmonGiaSu1, ChungChiMon1, GioiThieuVeMonGiaSu1, IdmonGiaSu2, ChungChiMon2, GioiThieuVeMonGiaSu2")]Taikhoannguoidung taikhoannguoidung, List<IFormFile> postedFiles)
         {
+            Console.WriteLine("run this when click button");
             string path = Path.Combine(this._environment.WebRootPath, "Uploads");
             if (!Directory.Exists(path))
             {
@@ -84,7 +85,8 @@ namespace VLUTUTORS.Controllers
                 }
             }
 
-            _db.Taikhoannguoidungs = TutorServices.FindUserAccountByEmail(taikhoannguoidung.Email);
+            var user = TutorServices.FindUserAccountByEmail(taikhoannguoidung.Email);
+            TutorServices.UpdateUserInfo(user);
 
             return View();
         }
