@@ -23,6 +23,7 @@
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Tutors\Data\" />
     <Folder Include="Areas\Tutors\Models\" />
+    <Folder Include="wwwroot\certificates\" />
   </ItemGroup>
 
   <ItemGroup>

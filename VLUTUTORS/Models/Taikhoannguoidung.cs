@@ -52,6 +52,9 @@ namespace VLUTUTORS.Models
         public List<SelectListItem> DepartmentItems { get; set; }
 
         [NotMapped]
+        public List<SelectListItem> GenderItems { get; set; }
+
+        [NotMapped]
         public List<SelectListItem> BankItems { get; set; }
 
         [NotMapped]

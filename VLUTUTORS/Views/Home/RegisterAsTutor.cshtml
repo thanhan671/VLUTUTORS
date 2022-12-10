@@ -42,59 +42,34 @@
                 <p class="sign-up__desc">
                     <span>Trở thành gia sư chỉ với 1 bước</span>
                 </p>
-                <form action="" class="form-regis__tutor sign-up__form">
+                 <form class="form-regis__tutor sign-up__form" method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="RegisterAsTutor">
                     <div class="container--tt">
                         <div class="row">
                             <div class="col-12">
                                 <div class="row">
                                     <div class="col-4">
                                         <p><b>Thông Tin Cá Nhân</b></p>
-                                        <div class="form__input">
-                                            <input class=""
-                                                   type="tel"
-                                                   name="phone"
-                                                   id="phone"
-                                                   placeholder="Nguyen Thanh An"
-                                                   value=""
-                                                   required
-                                                   readonly />
-                                            <span class="warning-icon">!</span>
-                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                                        <div class="input-wrapper">
+                                            <input class="ip-form" type="text" id="tax" contenteditable="false" readonly @Html.TextBoxFor(m => m.HoTen)
+                                            @*<span class="warning-icon">!</span>
+                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>*@
                                         </div>
-                                        <div class="form__input">
-                                            <input class=""
-                                                   type="tel"
-                                                   name="phone"
-                                                   id="phone"
-                                                   placeholder="an.197pm09415@vanlanguni.vn"
-                                                   value=""
-                                                   required
-                                                   readonly />
-                                            <span class="warning-icon">!</span>
-                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                                        <div class="input-wrapper">
+                                            <input class="ip-form" type="text" id="tax" contenteditable="false" readonly @Html.TextBoxFor(m => m.Email)
+                                            @*<span class="warning-icon">!</span>
+                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>*@
                                         </div>
                                         <b>Khoa đang học</b>
                                                 @Html.DropDownListFor(m => m.DepartmentItems, Model.DepartmentItems, new { @class = "form-control select-region" })
                                         <div class="form-radio">
                                             <label for="form__label" class="form__label">Giới tính</label>
                                             <li>
-                                                <input class=""
-                                                       type="radio"
-                                                       name="sex"
-                                                       id="male"
-                                                       checked="checked"
-                                                       value=""
-                                                       required />
-                                                <label class="lb-radio" for="male">Nam</label>
-                                            </li>
-                                            <li>
-                                                <input class=""
-                                                       type="radio"
-                                                       name="sex"
-                                                       id="female"
-                                                       value="Nữ"
-                                                       required />
-                                                <label class="lb-radio" for="female">Nữ</label>
+                                                @foreach (var gioiTinh in @Model.GenderItems)
+                                                {
+                                                    <input id="@gioiTinh.Value" type="radio" name="Gender" value="@gioiTinh.Value"/>
+                                                    <label for="@gioiTinh.Value">@gioiTinh.Text</label>
+                                                    <br/>
+                                                }
                                             </li>
                                         </div>
                                         <div class="form__input">
@@ -197,7 +172,7 @@
                                             <span class="warning-icon">!</span>
                                             <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                                         </div>
-                                        <div class="form__input">
+                                        @*<div class="form__input">
                                             <label for="form__label" class="form__label">Chứng chỉ hoặc mình chứng kèm theo</label>
                                             <input class=""
                                                    type="file"
@@ -210,6 +185,13 @@
                                                    accept=".jpg, .jpeg, .png" />
                                             <span class="warning-icon">!</span>
                                             <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                                        </div>*@
+                                        <div class="form__input">
+                                            <label for="form__label" class="form__label">Chứng chỉ hoặc mình chứng kèm theo</label>
+                                                <span>Select File:</span>
+                                                <input type="file" name="postedFiles" multiple />
+                                                <br/>
+                                            <span style="color:green">@Html.Raw(ViewBag.Message)</span>
                                         </div>
 
                                         <div class="form__input">
@@ -272,7 +254,8 @@
                             </div>
                         </div>
                     </div>
-                    <input class="submit-btn" type="submit" value="Đăng Ký" />
+                    @*<input class="submit-btn" type="submit" value="Đăng Ký" />*@
+                    <button type="submit" class="submit-btn">Đăng ký</button>
                     <br />
                     <p class="form__terms text-center">
                         Bằng cách nhấp vào nút đăng ký, bạn đồng ý với
