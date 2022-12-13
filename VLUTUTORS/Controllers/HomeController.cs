@@ -37,6 +37,7 @@ namespace VLUTUTORS.Controllers
                 //Console.WriteLine(JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo")).HoTen);
             }
             var noiDung = await db.Noidungs.FirstOrDefaultAsync(m => m.Id == 1);
+            ViewData["Slogan"] = noiDung.Slogan;
             return View(noiDung);
         }
 

@@ -18,6 +18,7 @@ namespace VLUTUTORS.Controllers
     {
         private CP25Team01Context db = new CP25Team01Context();
         private Func<Taikhoannguoidung, IActionResult> _loginSuccessCallback;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public IActionResult Login()
         {
@@ -52,9 +53,14 @@ namespace VLUTUTORS.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Details()
+        public async Task<IActionResult> Details(int? id = -1)
         {
-            var taiKhoan = await db.Taikhoannguoidungs.FirstOrDefaultAsync(m => m.Id == 3);
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var taiKhoan = await db.Taikhoannguoidungs.FirstOrDefaultAsync(m => m.Id == id);
             var gioiTinhs = await db.Gioitinhs.ToListAsync();
             SelectList ddlStatus = new SelectList(gioiTinhs, "IdgioiTinh", "GioiTinh1");
             taiKhoan.GioiTinhs = ddlStatus;
@@ -115,7 +121,7 @@ namespace VLUTUTORS.Controllers
             return RedirectToAction("Login", "Accounts");
         }
 
-        private IActionResult LoginSuccessCall(Taikhoannguoidung taikhoannguoidung)
+        public IActionResult LoginSuccessCall(Taikhoannguoidung taikhoannguoidung)
         {
             // add session info here
             //HttpContext.Session.
