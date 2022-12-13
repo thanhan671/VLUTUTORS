@@ -18,7 +18,6 @@ namespace VLUTUTORS.Controllers
     {
         private CP25Team01Context db = new CP25Team01Context();
         private Func<Taikhoannguoidung, IActionResult> _loginSuccessCallback;
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public IActionResult Login()
         {
@@ -67,7 +66,30 @@ namespace VLUTUTORS.Controllers
             return View(taiKhoan);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Details(int id, [Bind("Id,IdgioiTinh,NgaySinh,Sdt,MatKhau")] Taikhoannguoidung taikhoannguoidung)
+        {
+            if (id != taikhoannguoidung.Id)
+            {
+                return NotFound();
+            }
 
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    db.Update(taikhoannguoidung);
+                    await db.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                return RedirectToAction("Index");
+            }
+            return View(taikhoannguoidung);
+        }
 
         public IActionResult Logout()
         {
