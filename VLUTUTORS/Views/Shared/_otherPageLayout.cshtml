@@ -82,12 +82,13 @@
                                 <a href="#"><img src="~/images/logo-vlu.png" alt="Logo" /></a>
                             </div>
                             <p>
-                                Gia sư Văn Lang nơi kết nối và giúp bạn cải thiện kết quả học tập của bản thân. 
-                                Bằng cách học mới mẻ, hiện đại gia sư Văn Lang sẽ là người bạn đồng hành thân thiết của các bạn sinh viên!
+                                @ViewData["gtChanTrang"]
                             </p>
                             <ul class="mt-20">
                                 <li>
-                                    <a href="https://www.facebook.com/ctsvvlu"><i class="fa-brands fa-facebook"></i></a>
+                                    <a href="@ViewData["Fb"]">
+                                        <i class="fa-brands fa-facebook"></i>
+                                    </a>
                                 </li>
                             </ul>
                         </div>
@@ -146,7 +147,7 @@
                                     </div>
                                     <div class="cont">
                                         <p>
-                                            Phòng 1.04, Tòa nhà A, Cơ sở chính, 69/68 Đặng Thùy Trâm, P. 13, Q. Bình Thạnh, Tp. HCM
+                                            @ViewData["diaChi"]
                                         </p>
                                     </div>
                                 </li>
@@ -155,9 +156,7 @@
                                         <i class="fa fa-phone"></i>
                                     </div>
                                     <div class="cont">
-                                        <p>
-                                            02871099218
-                                        </p>
+                                        <p>@ViewData["Sdt"]</p>
                                     </div>
                                 </li>
                                 <li>
@@ -165,10 +164,7 @@
                                         <i class="fa fa-envelope-o"></i>
                                     </div>
                                     <div class="cont">
-                                        <p>
-
-                                            t.sv@vanlanguni.edu.vn
-                                        </p>
+                                        <p>@ViewData["Email"]</p>
                                     </div>
                                 </li>
                             </ul>

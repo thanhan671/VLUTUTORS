@@ -38,6 +38,12 @@ namespace VLUTUTORS.Controllers
             }
             var noiDung = await db.Noidungs.FirstOrDefaultAsync(m => m.Id == 1);
             ViewData["Slogan"] = noiDung.Slogan;
+            ViewData["gtChanTrang"] = noiDung.GioiThieuChanTrang;
+            ViewData["diaChi"] = noiDung.DiaChi;
+            ViewData["Sdt"] = noiDung.Sdt;
+            ViewData["Email"] = noiDung.Email;
+            ViewData["Fb"] = noiDung.Facebook;
+            ViewData["gioiThieu"] = noiDung.GioiThieu;
             return View(noiDung);
         }
 
@@ -88,6 +94,13 @@ namespace VLUTUTORS.Controllers
         public async Task<IActionResult> Contact()
         {
             var noiDung = await db.Noidungs.FirstOrDefaultAsync(m => m.Id == 1);
+            ViewData["Slogan"] = noiDung.Slogan;
+            ViewData["gtChanTrang"] = noiDung.GioiThieuChanTrang;
+            ViewData["diaChi"] = noiDung.DiaChi;
+            ViewData["Sdt"] = noiDung.Sdt;
+            ViewData["Email"] = noiDung.Email;
+            ViewData["Fb"] = noiDung.Facebook;
+            ViewData["gioiThieu"] = noiDung.GioiThieu;
             return View(noiDung);
         }
 
@@ -126,6 +139,13 @@ namespace VLUTUTORS.Controllers
         public async Task<IActionResult> AboutUs()
         {
             var noiDung = await db.Noidungs.FirstOrDefaultAsync(m => m.Id == 1);
+            ViewData["Slogan"] = noiDung.Slogan;
+            ViewData["gtChanTrang"] = noiDung.GioiThieuChanTrang;
+            ViewData["diaChi"] = noiDung.DiaChi;
+            ViewData["Sdt"] = noiDung.Sdt;
+            ViewData["Email"] = noiDung.Email;
+            ViewData["Fb"] = noiDung.Facebook;
+            ViewData["gioiThieu"] = noiDung.GioiThieu;
             return View(noiDung);
         }
 

@@ -1,5 +1,4 @@
-﻿@model VLUTUTORS.Models.Noidung
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <!--====== Required meta tags ======-->
@@ -89,11 +88,11 @@
                                 <a href="#"><img src="images/logo-vlu.png" alt="Logo" /></a>
                             </div>
                             <p>
-                                @Model.GioiThieuChanTrang
+                                @ViewData["gtChanTrang"]
                             </p>
                             <ul class="mt-20">
                                 <li>
-                                    <a href="@Model.Facebook">
+                                    <a href="@ViewData["Fb"]">
                                         <i class="fa-brands fa-facebook"></i>
                                     </a>
                                 </li>
@@ -153,7 +152,7 @@
                                     </div>
                                     <div class="cont">
                                         <p>
-                                            @Model.DiaChi
+                                            @ViewData["diaChi"]
                                         </p>
                                     </div>
                                 </li>
@@ -162,7 +161,7 @@
                                         <i class="fa fa-phone"></i>
                                     </div>
                                     <div class="cont">
-                                        <p>@Model.Sdt</p>
+                                        <p>@ViewData["Sdt"]</p>
                                     </div>
                                 </li>
                                 <li>
@@ -170,7 +169,7 @@
                                         <i class="fa fa-envelope-o"></i>
                                     </div>
                                     <div class="cont">
-                                        <p>@Model.Email</p>
+                                        <p>@ViewData["Email"]</p>
                                     </div>
                                 </li>
                             </ul>
