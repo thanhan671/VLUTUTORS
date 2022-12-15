@@ -68,7 +68,7 @@ namespace VLUTUTORS.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Details(int id, [Bind("Id,IdgioiTinh,NgaySinh,Sdt,MatKhau")] Taikhoannguoidung taikhoannguoidung)
+        public async Task<IActionResult> Details(int id, [Bind("Id,HoTen,Email,IdgioiTinh,NgaySinh,Sdt,MatKhau")] Taikhoannguoidung taikhoannguoidung)
         {
             if (id != taikhoannguoidung.Id)
             {
@@ -86,9 +86,9 @@ namespace VLUTUTORS.Controllers
                 {
                     return RedirectToAction(nameof(Index));
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id });
             }
-            return View(taikhoannguoidung);
+            return RedirectToAction("Details", new { id });
         }
 
         public IActionResult Logout()
