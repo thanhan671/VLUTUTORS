@@ -68,7 +68,7 @@ namespace VLUTUTORS.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Details(int id, [Bind("Id,HoTen,Email,IdgioiTinh,NgaySinh,Sdt,MatKhau")] Taikhoannguoidung taikhoannguoidung)
+        public async Task<IActionResult> Details(int id, [Bind("Id,HoTen,Email,MatKhau,IdgioiTinh,Sdt,NgaySinh")] Taikhoannguoidung taikhoannguoidung)
         {
             if (id != taikhoannguoidung.Id)
             {

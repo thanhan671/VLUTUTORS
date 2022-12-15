@@ -23,6 +23,8 @@ namespace VLUTUTORS.Models
         public virtual DbSet<Mongiasu> Mongiasus { get; set; }
         public virtual DbSet<Nganhang> Nganhangs { get; set; }
         public virtual DbSet<Noidung> Noidungs { get; set; }
+        public virtual DbSet<Quyen> Quyens { get; set; }
+        public virtual DbSet<Taikhoanadmin> Taikhoanadmins { get; set; }
         public virtual DbSet<Taikhoannguoidung> Taikhoannguoidungs { get; set; }
         public virtual DbSet<Trangthai> Trangthais { get; set; }
         public virtual DbSet<Tuvan> Tuvans { get; set; }
@@ -154,6 +156,36 @@ namespace VLUTUTORS.Models
                     .HasColumnName("SDT");
 
                 entity.Property(e => e.Slogan).IsRequired();
+            });
+
+            modelBuilder.Entity<Quyen>(entity =>
+            {
+                entity.HasKey(e => e.IdQuyen);
+
+                entity.ToTable("QUYEN");
+
+                entity.Property(e => e.TenQuyen)
+                    .IsRequired()
+                    .HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<Taikhoanadmin>(entity =>
+            {
+                entity.ToTable("TAIKHOANADMIN");
+
+                entity.Property(e => e.MatKhau)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.TaiKhoan)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.HasOne(d => d.IdQuyenNavigation)
+                    .WithMany(p => p.Taikhoanadmins)
+                    .HasForeignKey(d => d.IdQuyen)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TAIKHOANADMIN_QUYEN");
             });
 
             modelBuilder.Entity<Taikhoannguoidung>(entity =>
