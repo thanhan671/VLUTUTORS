@@ -1,4 +1,6 @@
-﻿
+﻿@using Microsoft.AspNetCore.Http
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model VLUTUTORS.Models.Taikhoanadmin
 @{
     ViewData["Title"] = "Chỉnh sửa tài khoản";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
@@ -21,8 +23,7 @@
     </section>
 
     <!-- Main content -->
-    <form asp-action="Index">
-
+    <form method="post" asp-controller="ManageAccounts" asp-action="EditAccounts">
         <section class="content">
             <div class="container" style="margin-top: 20px; margin-bottom: 20px">
                 <div class="main-body">
@@ -30,38 +31,33 @@
                         <div class="col-md-8">
                             <div class="card mb-3">
                                 <div class="card-body">
-                                    <h3>Chỉnh sửa tài khoản</h3>
+                                    <h3>Thêm mới tài khoản</h3>
                                     <hr />
                                     <div class="row">
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Username</h6>
                                         </div>
-                                        <input class="col-sm-9 text-secondary" name="Username" id="Username" type="text" value="adminvlu">
+                                        <input class="col-sm-9 text-secondary" name="TaiKhoan" id="TaiKhoan" type="text" value="@Model.TaiKhoan">
                                     </div>
                                     <hr />
                                     <div class="row">
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Mật Khẩu</h6>
                                         </div>
-                                        <input class="col-sm-9 text-secondary" name="MatKhau" id="MatKhau" type="text" value="adminvlututor">
+                                        <input class="col-sm-9 text-secondary" name="MatKhau" id="MatKhau" type="text" value="@Model.MatKhau">
                                     </div>
                                     <hr />
                                     <div class="row">
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Mật Khẩu</h6>
                                         </div>
-                                        <select class="profile-input">
-                                            <option value="1">Quản trị viên hệ thống</option>
-                                            <option value="2">Quản trị viên gia sư</option>
-                                            <option value="3">Quản trị viên học viên</option>
-                                            <option value="4">Trung tâm hỗ trợ sinh viên</option>
-                                        </select>
+                                        @Html.DropDownListFor(model => model.IdQuyen, Model.Quyens, new { @class = "col-sm-9 text-secondary" })
                                     </div>
                                     <hr />
                                     <div class="row">
                                         <div class="col-12 flex-right mb-4">
                                             <a href='javascript:history.go(-1)' class="btn btn-secondary mr-3">Quay Lại</a>
-                                            <input type="submit" value="Lưu" class="btn btn-success" asp-route-id="" onclick="popup()" />
+                                            <input type="submit" value="Lưu" class="btn btn-success" onclick="popup()" />
                                         </div>
                                     </div>
                                 </div>

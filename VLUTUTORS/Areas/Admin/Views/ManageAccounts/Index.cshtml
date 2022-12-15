@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<VLUTUTORS.Models.Taikhoanadmin>
 @{
     ViewData["Title"] = "Quản lý tài khoản";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
@@ -43,21 +43,34 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>
-                                <a>adminvlu</a>
-                            </td>
-                            <td>adminvlututor</td>
-                            <td>Quản trị viên hệ thống</td>
-                            <td class="project-actions text-right">
-                                <a class="btn btn-primary btn-sm"
-                                   href="~/Admin/ManageAccounts/EditAccounts">
-                                    <i class="fas fa-pen"> </i>
-                                    Chỉnh sửa
-                                </a>
-                            </td>
-                        </tr>
+                        @{
+                            var index = 0;
+                            foreach (var item in Model)
+                            {
+                                index++;
+                                <tr>
+                                    <td>
+                                        @index
+                                    </td>
+                                    <td>
+                                        <a>@Html.DisplayFor(modelItem => item.TaiKhoan)</a>
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.MatKhau)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Quyen)
+                                    </td>
+                                    <td class="project-actions text-right">
+                                        <a class="btn btn-primary btn-sm"
+                                            asp-action="EditAccounts" asp-controller="ManageAccounts" asp-route-id="@item.Id">
+                                            <i class="fas fa-pen"> </i>
+                                            Chỉnh sửa
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
                     </tbody>
                 </table>
             </div>

@@ -13,9 +13,17 @@ namespace VLUTUTORS.Areas.Admin.Controllers
     public class ManageAccounts : Controller
     {
         private readonly CP25Team01Context _context = new CP25Team01Context();
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var taiKhoans = await _context.Taikhoanadmins.ToListAsync();
+            var quyens = await _context.Quyens.ToListAsync();
+            foreach (var taiKhoan in taiKhoans)
+            {
+                var quyen = quyens.FirstOrDefault(it => it.IdQuyen == taiKhoan.IdQuyen);
+                if (quyen != null)
+                    taiKhoan.Quyen = quyen.TenQuyen;
+            }
+            return View(taiKhoans);
         }
 
         [HttpGet]
@@ -33,9 +41,58 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                var taiKhoan = _context.Taikhoanadmins.AsNoTracking().SingleOrDefault(x => x.TaiKhoan.ToLower() == taikhoanadmin.TaiKhoan.ToLower());
+                if(taiKhoan != null)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    try
+                    {
+                        _context.Add(taikhoanadmin);
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (Exception ex)
+                    {
+                        return RedirectToAction(nameof(Index));
+                    }
+                    return RedirectToAction("Index");
+                }
+            }
+            return View(taikhoanadmin);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditAccounts(int? id = -1)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var taiKhoan = await _context.Taikhoanadmins.FirstOrDefaultAsync(m => m.Id == id);
+            if (taiKhoan == null)
+                return NotFound();
+            var quyens = await _context.Quyens.ToListAsync();
+            SelectList ddlStatus = new SelectList(quyens, "IdQuyen", "TenQuyen");
+            taiKhoan.Quyens = ddlStatus;
+            return View(taiKhoan);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditAccounts(int id, [Bind(include: "Id,TaiKhoan,MatKhau,IdQuyen")] Taikhoanadmin taikhoanadmin)
+        {
+            if (id != taikhoanadmin.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
                 try
                 {
-                    _context.Add(taikhoanadmin);
+                    _context.Update(taikhoanadmin);
                     await _context.SaveChangesAsync();
                 }
                 catch (Exception ex)
@@ -45,10 +102,6 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
             return View(taikhoanadmin);
-        }
-        public IActionResult EditAccounts()
-        {
-            return View();
         }
     }
 }
