@@ -1,17 +1,46 @@
-﻿using System.IO;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using VLUTUTORS.Models;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Mvc;
+using VLUTUTORS.Models;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using System.Data;
+using Newtonsoft.Json;
 
 namespace VLUTUTORS.Support.Services
 {
     public static class TutorServices
     {
-        public static void SaveUploadImages(string path)
+        public static string SaveUploadImages(string path, List<IFormFile> certificates)
         {
-            
+            List<string> filesName = new List<string>();
+            string namesJson;
+            if (!Directory.Exists(path))
+            {
+                Console.WriteLine("directory not exists");
+                Directory.CreateDirectory(path);
+            }
+            else
+            {
+                Console.WriteLine("directory exists" + certificates.Capacity);
+            }
+
+            List<string> uploadedFiles = new List<string>();
+            foreach (IFormFile postedFile in certificates)
+            {
+                string fileName = Path.GetFileName(postedFile.FileName);
+                Console.WriteLine("get file name: " + fileName);
+                using (FileStream stream = new FileStream(Path.Combine(path, fileName), FileMode.Create))
+                {
+                    postedFile.CopyTo(stream);
+                    uploadedFiles.Add(fileName);
+                    //ViewBag.Message += string.Format("<b>{0}</b> uploaded.<br />", fileName);
+                }
+                filesName.Add(fileName);
+                
+            }
+            namesJson = JsonConvert.SerializeObject(filesName);
+            return namesJson;
         }
 
         public static Taikhoannguoidung FindUserAccountByEmail(string email)
@@ -24,5 +53,7 @@ namespace VLUTUTORS.Support.Services
             DataManager.Instance().db().Entry(user).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             DataManager.Instance().db().SaveChanges();
         }
+
+
     }
 }

@@ -49,19 +49,20 @@ namespace VLUTUTORS.Models
         public virtual Xetduyet IdxetDuyetNavigation { get; set; }
 
         [NotMapped]
-        public List<SelectListItem> DepartmentItems { get; set; }
+        public SelectList DepartmentItems { get; set; }
 
         [NotMapped]
-        public List<SelectListItem> GenderItems { get; set; }
+        //public List<SelectListItem> GenderItems { get; set; }
+        public SelectList GenderItems { get; set; }
 
         [NotMapped]
-        public List<SelectListItem> BankItems { get; set; }
+        public SelectList BankItems { get; set; }
 
         [NotMapped]
-        public List<SelectListItem> Subject1Items { get; set; }
+        public SelectList Subject1Items { get; set; }
 
         [NotMapped]
-        public List<SelectListItem> Subject2Items { get; set; }
+        public SelectList Subject2Items { get; set; }
 
     }
 }

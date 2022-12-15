@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using VLUTUTORS.Support.Services;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+using System.Data;
 
 
 namespace VLUTUTORS.Controllers
@@ -50,45 +50,44 @@ namespace VLUTUTORS.Controllers
         {
             Taikhoannguoidung taikhoannguoidung = new Taikhoannguoidung();
             var userInfo = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
+            taikhoannguoidung.Id = userInfo.Id;
             taikhoannguoidung.HoTen = userInfo.HoTen;
             taikhoannguoidung.Email = userInfo.Email;
+            taikhoannguoidung.MatKhau = userInfo.MatKhau;
 
-            taikhoannguoidung.DepartmentItems = _db.Khoas.Select(k => new SelectListItem { Text = k.TenKhoa, Value = k.Idkhoa.ToString() }).ToList();
-            taikhoannguoidung.GenderItems = _db.Gioitinhs.Select(k => new SelectListItem { Text = k.GioiTinh1, Value = k.IdgioiTinh.ToString() }).ToList();
-            taikhoannguoidung.BankItems = _db.Nganhangs.Select(k => new SelectListItem { Text = k.TenNganHangHoacViDienTu, Value = k.Id.ToString() }).ToList();
-            taikhoannguoidung.Subject1Items = _db.Mongiasus.Select(k => new SelectListItem { Text = k.TenMonGiaSu, Value = k.IdmonGiaSu.ToString() }).ToList();
-            taikhoannguoidung.Subject2Items = _db.Mongiasus.Select(k => new SelectListItem { Text = k.TenMonGiaSu, Value = k.IdmonGiaSu.ToString() }).ToList();
+            taikhoannguoidung.DepartmentItems = new SelectList(_db.Khoas, "Idkhoa", "TenKhoa", taikhoannguoidung.Idkhoa);
+            taikhoannguoidung.GenderItems = new SelectList(_db.Gioitinhs, "IdgioiTinh", "GioiTinh1", taikhoannguoidung.IdgioiTinh);
+            //taikhoannguoidung.GenderItems = _db.Gioitinhs.Select(k => new SelectListItem { Text = k.GioiTinh1, Value = k.IdgioiTinh.ToString() }).ToList();
+            taikhoannguoidung.BankItems = new SelectList(_db.Nganhangs, "Id", "TenNganHangHoacViDienTu", taikhoannguoidung.IdnganHang); 
+            taikhoannguoidung.Subject1Items = new SelectList(_db.Mongiasus, "IdmonGiaSu", "TenMonGiaSu", taikhoannguoidung.IdmonGiaSu1);
+            taikhoannguoidung.Subject2Items = new SelectList(_db.Mongiasus, "IdmonGiaSu", "TenMonGiaSu", taikhoannguoidung.IdmonGiaSu2);
 
             return View(taikhoannguoidung);
         }
 
         [HttpPost]
-        public IActionResult RegisterAsTutor([Bind(include: "HoTen, Email, IdgioiTinh, Sdt, NgaySinh, IdKhoa, AnhDaiDien, TrangThaiTaiKhoan, SoTaiKhoan, IdNganHang, GioiThieu, DanhGiaVeViecGiaSu, DiemTrungBinh, IdmonGiaSu1, ChungChiMon1, GioiThieuVeMonGiaSu1, IdmonGiaSu2, ChungChiMon2, GioiThieuVeMonGiaSu2")]Taikhoannguoidung taikhoannguoidung, List<IFormFile> postedFiles)
+        [ValidateAntiForgeryToken]
+        public IActionResult RegisterAsTutor([Bind(include: "Id, HoTen, Email, MatKhau, IdgioiTinh, Sdt, NgaySinh, Idkhoa, AnhDaiDien, TrangThaiTaiKhoan, SoTaiKhoan, IdNganHang, GioiThieu, DanhGiaVeViecGiaSu, DiemTrungBinh, IdmonGiaSu1, ChungChiMon1, GioiThieuVeMonGiaSu1, IdmonGiaSu2, ChungChiMon2, GioiThieuVeMonGiaSu2")]Taikhoannguoidung taikhoannguoidung, List<IFormFile> certificates1, List<IFormFile> certificates2)
         {
-            Console.WriteLine("run this when click button");
-            string path = Path.Combine(this._environment.WebRootPath, "Uploads");
-            if (!Directory.Exists(path))
+            string path = Path.Combine(this._environment.WebRootPath, "certificates");
+            taikhoannguoidung.ChungChiMon1 = TutorServices.SaveUploadImages(path, certificates1);
+            taikhoannguoidung.ChungChiMon2 = TutorServices.SaveUploadImages(path, certificates2);
+            Console.WriteLine("chung chi: " + JsonConvert.DeserializeObject(taikhoannguoidung.ChungChiMon1));
+            if (ModelState.IsValid)
             {
-                Directory.CreateDirectory(path);
+                Console.WriteLine("run this in model valid");
+
+                _db.Entry(taikhoannguoidung).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                _db.SaveChanges();
             }
+            Console.WriteLine("test: " + taikhoannguoidung.HoTen + " : " + taikhoannguoidung.Email + " : " + taikhoannguoidung.Idkhoa.ToString() + " : " + taikhoannguoidung.NgaySinh);
+            taikhoannguoidung.DepartmentItems = new SelectList(_db.Khoas, "Idkhoa", "TenKhoa", taikhoannguoidung.Idkhoa);
+            taikhoannguoidung.GenderItems = new SelectList(_db.Gioitinhs, "IdgioiTinh", "GioiTinh1", taikhoannguoidung.IdgioiTinh);
+            taikhoannguoidung.BankItems = new SelectList(_db.Nganhangs, "Id", "TenNganHangHoacViDienTu", taikhoannguoidung.IdnganHang);
+            taikhoannguoidung.Subject1Items = new SelectList(_db.Mongiasus, "IdmonGiaSu", "TenMonGiaSu", taikhoannguoidung.IdmonGiaSu1);
+            taikhoannguoidung.Subject2Items = new SelectList(_db.Mongiasus, "IdmonGiaSu", "TenMonGiaSu", taikhoannguoidung.IdmonGiaSu2);
 
-            List<string> uploadedFiles = new List<string>();
-            foreach (IFormFile postedFile in postedFiles)
-            {
-                string fileName = Path.GetFileName(postedFile.FileName);
-                Console.WriteLine("get file name: " + fileName);
-                using (FileStream stream = new FileStream(Path.Combine(path, fileName), FileMode.Create))
-                {
-                    postedFile.CopyTo(stream);
-                    uploadedFiles.Add(fileName);
-                    ViewBag.Message += string.Format("<b>{0}</b> uploaded.<br />", fileName);
-                }
-            }
-
-            var user = TutorServices.FindUserAccountByEmail(taikhoannguoidung.Email);
-            TutorServices.UpdateUserInfo(user);
-
-            return View();
+            return View(taikhoannguoidung);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
