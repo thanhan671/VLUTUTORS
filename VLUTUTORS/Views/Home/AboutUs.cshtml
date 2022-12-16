@@ -1,4 +1,4 @@
-﻿
+﻿@model VLUTUTORS.Models.Noidung
 @{
     ViewData["Title"] = "Về Chúng Tôi";
     Layout = "~/Views/Shared/_otherPageLayout.cshtml";
@@ -15,20 +15,21 @@
                 <!-- section title -->
                 <div class="about-cont">
                     <p>
-                        Website VLU TUTORS - Gia sư Văn Lang được xây dựng nhằm mục đích kết nối những học sinh khá giỏi các
-                        lĩnh vực Ngoại ngữ, Tin học, ... với những học sinh có nhu cầu củng cố kiến thức tại trường.
-                        Trong giai đoạn 1, trang web sẽ được sử dụng cho sinh viên trường Đại học Văn Lang, sau đó sẽ mở rộng
-                        cho sinh viên các trường đại học khác. <br />
-                        <br />
-                        Chức năng chính của VLU TUTORS là kết nối người dạy kèm và người học, nhằm tạo ra một cộng đồng học
-                        tập sinh động cho sinh viên Văn Lang.
+                        @Model.GioiThieu
+                        @*Website VLU TUTORS - Gia sư Văn Lang được xây dựng nhằm mục đích kết nối những học sinh khá giỏi các
+                            lĩnh vực Ngoại ngữ, Tin học, ... với những học sinh có nhu cầu củng cố kiến thức tại trường.
+                            Trong giai đoạn 1, trang web sẽ được sử dụng cho sinh viên trường Đại học Văn Lang, sau đó sẽ mở rộng
+                            cho sinh viên các trường đại học khác. <br />
+                            <br />
+                            Chức năng chính của VLU TUTORS là kết nối người dạy kèm và người học, nhằm tạo ra một cộng đồng học
+                            tập sinh động cho sinh viên Văn Lang.*@
                     </p>
                 </div>
             </div>
             <!-- about cont -->
             <div class="col-lg-7">
                 <div class="about-image mt-50">
-                    <img src="~/images/about/imageabout.jpg" alt="About"  />
+                    <img src="~/images/about/imageabout.jpg" alt="About" />
                 </div>
                 <!-- about imag -->
             </div>

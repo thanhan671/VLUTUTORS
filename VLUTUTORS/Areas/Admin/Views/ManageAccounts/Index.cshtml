@@ -1,7 +1,6 @@
-﻿@model IEnumerable<VLUTUTORS.Models.Lienhe>
-
+﻿@model IEnumerable<VLUTUTORS.Models.Taikhoanadmin>
 @{
-    ViewData["Title"] = "Phản hồi";
+    ViewData["Title"] = "Quản lý tài khoản";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
@@ -11,9 +10,8 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Danh sách phản hồi</h1>
+                    <h1>Quản lý tài khoản</h1>
                 </div>
-                <div class="col-sm-6"></div>
             </div>
         </div>
         <!-- /.container-fluid -->
@@ -23,15 +21,24 @@
     <section class="content">
         <!-- Default box -->
         <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Danh sách tài khoản</h3>
+                <div class="card-tools">
+                    <a class="btn btn-primary btn-sm"
+                       href="~/Admin/ManageAccounts/AddNewAccounts">
+                        <i class="fas fa-plus"> </i>
+                        Thêm tài khoản
+                    </a>
+                </div>
+            </div>
             <div class="card-body p-0">
                 <table class="table table-striped projects">
                     <thead>
                         <tr>
                             <th style="width: 1%">#</th>
-                            <th style="width: 20%">Họ tên</th>
-                            <th style="width: 20%">SĐT</th>
-                            <th style="width: 20%">Môn học</th>
-                            <th style="width: 8%" class="text-center">Trạng thái</th>
+                            <th style="width: 20%">Username</th>
+                            <th style="width: 20%">Mật Khẩu</th>
+                            <th style="width: 20%">Quyền</th>
                             <th style="width: 20%"></th>
                         </tr>
                     </thead>
@@ -46,24 +53,19 @@
                                         @index
                                     </td>
                                     <td>
-                                        <a>@Html.DisplayFor(modelItem => item.HoVaTen)</a>
+                                        <a>@Html.DisplayFor(modelItem => item.TaiKhoan)</a>
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Sdt)
+                                        @Html.DisplayFor(modelItem => item.MatKhau)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.MonHoc)
-                                    </td>
-                                    <td class="project-state">
-
-                                        <span class="badge @(item.IdtrangThai == 1 ? "badge-block" : "badge-success")">
-                                            @Html.DisplayFor(modelItem => item.TrangThai)
-                                        </span>
+                                        @Html.DisplayFor(modelItem => item.Quyen)
                                     </td>
                                     <td class="project-actions text-right">
-                                        <a asp-action="Detail" asp-route-id="@item.IdlienHe" class="btn btn-primary btn-sm">
-                                            <i class="fas fa-folder"> </i>
-                                            Xem
+                                        <a class="btn btn-primary btn-sm"
+                                            asp-action="EditAccounts" asp-controller="ManageAccounts" asp-route-id="@item.Id">
+                                            <i class="fas fa-pen"> </i>
+                                            Chỉnh sửa
                                         </a>
                                     </td>
                                 </tr>
@@ -79,3 +81,4 @@
     </section>
     <!-- /.content -->
 </div>
+

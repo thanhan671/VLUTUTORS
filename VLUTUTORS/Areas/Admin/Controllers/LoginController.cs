@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 namespace VLUTUTORS.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    
-    public class HomeController : Controller
+    public class LoginController : Controller
     {
         public IActionResult Index()
         {

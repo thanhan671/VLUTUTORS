@@ -60,10 +60,11 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                     _context.Update(tuVan);
                     await _context.SaveChangesAsync();
                 }
-                catch (Exception ex) {
+                catch (Exception ex) 
+                {
                     return RedirectToAction(nameof(Index));
                 }
-                return RedirectToAction("Detail", new {id = tuVan.IdtuVan});
+                return RedirectToAction("Index");
             }
             return View(tuVan);
         }

@@ -18,8 +18,8 @@ namespace VLUTUTORS.Models
         public virtual Trangthai IdtrangThaiNavigation { get; set; }
 
         [NotMapped]
-        public string TrangThai  { get; set; }
+        public string TrangThai { get; set; }
         [NotMapped]
-        public SelectList TrangThais  { get; set; }
+        public SelectList TrangThais { get; set; }
     }
 }
