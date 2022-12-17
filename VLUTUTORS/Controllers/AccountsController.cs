@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 using MimeKit;
 using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json.Linq;
 
 namespace VLUTUTORS.Controllers
 {
@@ -68,9 +69,10 @@ namespace VLUTUTORS.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Details(int id, [Bind("Id,HoTen,Email,IdgioiTinh,NgaySinh,Sdt,MatKhau")] Taikhoannguoidung taikhoannguoidung)
+        public async Task<IActionResult> Details(int id, [FromForm] int IdgioiTinh, [FromForm] DateTime NgaySinh, [FromForm] string Sdt, [FromForm] string MatKhau, [FromForm] string ReMatKhau)
         {
-            if (id != taikhoannguoidung.Id)
+            var dbTaikhoannguoidung = await db.Taikhoannguoidungs.FindAsync(id);
+            if (dbTaikhoannguoidung == null || (dbTaikhoannguoidung != null && id != dbTaikhoannguoidung.Id))
             {
                 return NotFound();
             }
@@ -79,16 +81,24 @@ namespace VLUTUTORS.Controllers
             {
                 try
                 {
-                    db.Update(taikhoannguoidung);
+                    dbTaikhoannguoidung.IdgioiTinh = IdgioiTinh;
+                    dbTaikhoannguoidung.NgaySinh = NgaySinh;
+                    dbTaikhoannguoidung.Sdt = Sdt;
+                    if (!string.IsNullOrEmpty(MatKhau))
+                        dbTaikhoannguoidung.MatKhau = MatKhau;
+
+                    db.Update(dbTaikhoannguoidung);
                     await db.SaveChangesAsync();
                 }
                 catch (Exception ex)
                 {
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction("Details", new { id });
                 }
                 return RedirectToAction("Details", new { id });
             }
+
             return RedirectToAction("Details", new { id });
+
         }
 
         public IActionResult Logout()
