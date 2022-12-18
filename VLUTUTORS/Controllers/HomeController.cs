@@ -13,7 +13,7 @@ using VLUTUTORS.Support.Services;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using System.Data;
-
+using VLUTUTORS.Support.Manager;
 
 namespace VLUTUTORS.Controllers
 {
@@ -57,7 +57,6 @@ namespace VLUTUTORS.Controllers
 
             taikhoannguoidung.DepartmentItems = new SelectList(_db.Khoas, "Idkhoa", "TenKhoa", taikhoannguoidung.Idkhoa);
             taikhoannguoidung.GenderItems = new SelectList(_db.Gioitinhs, "IdgioiTinh", "GioiTinh1", taikhoannguoidung.IdgioiTinh);
-            //taikhoannguoidung.GenderItems = _db.Gioitinhs.Select(k => new SelectListItem { Text = k.GioiTinh1, Value = k.IdgioiTinh.ToString() }).ToList();
             taikhoannguoidung.BankItems = new SelectList(_db.Nganhangs, "Id", "TenNganHangHoacViDienTu", taikhoannguoidung.IdnganHang); 
             taikhoannguoidung.Subject1Items = new SelectList(_db.Mongiasus, "IdmonGiaSu", "TenMonGiaSu", taikhoannguoidung.IdmonGiaSu1);
             taikhoannguoidung.Subject2Items = new SelectList(_db.Mongiasus, "IdmonGiaSu", "TenMonGiaSu", taikhoannguoidung.IdmonGiaSu2);
@@ -72,6 +71,8 @@ namespace VLUTUTORS.Controllers
             string path = Path.Combine(this._environment.WebRootPath, "certificates");
             taikhoannguoidung.ChungChiMon1 = TutorServices.SaveUploadImages(path, certificates1);
             taikhoannguoidung.ChungChiMon2 = TutorServices.SaveUploadImages(path, certificates2);
+            taikhoannguoidung.IdxetDuyet = (int) ApprovalStatus.TRAINING;
+
             Console.WriteLine("chung chi: " + JsonConvert.DeserializeObject(taikhoannguoidung.ChungChiMon1));
             if (ModelState.IsValid)
             {
