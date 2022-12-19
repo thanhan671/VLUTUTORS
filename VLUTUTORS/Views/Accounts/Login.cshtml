@@ -34,14 +34,13 @@
                     <div class="input-field">
                         <i class="fas fa-user"></i>
                         <input type="text" name="email" placeholder="Email" />
-
                     </div>
-                    <div style="color:red">@Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })</div>
+                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                     <div class="input-field">
                         <i class="fas fa-lock"></i>
                         <input type="password" name="MatKhau" placeholder="Mật Khẩu" />
                     </div>
-                    <div style="color:red; text-align:left" >@Html.ValidationMessageFor(m => m.MatKhau, "", new { @class = "text-danger" })</div>
+                    @Html.ValidationMessageFor(m => m.MatKhau, "", new { @class = "text-danger" })
                     <button type="submit" class="btn" onclick="Button1_Click">Đăng Nhập</button>
                     <a href="~/Accounts/ForGotPass">
                         <span>Bạn quên mật khẩu? </span>
