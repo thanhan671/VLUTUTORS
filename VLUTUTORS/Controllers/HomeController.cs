@@ -66,22 +66,27 @@ namespace VLUTUTORS.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult RegisterAsTutor([Bind(include: "Id, HoTen, Email, MatKhau, IdgioiTinh, Sdt, NgaySinh, Idkhoa, AnhDaiDien, TrangThaiTaiKhoan, SoTaiKhoan, IdNganHang, GioiThieu, DanhGiaVeViecGiaSu, DiemTrungBinh, IdmonGiaSu1, ChungChiMon1, GioiThieuVeMonGiaSu1, IdmonGiaSu2, ChungChiMon2, GioiThieuVeMonGiaSu2")]Taikhoannguoidung taikhoannguoidung, List<IFormFile> certificates1, List<IFormFile> certificates2)
+        public IActionResult RegisterAsTutor([Bind(include: "Id, HoTen, Email, MatKhau, IdgioiTinh, Sdt, NgaySinh, Idkhoa, AnhDaiDien, TrangThaiTaiKhoan, SoTaiKhoan, IdnganHang, GioiThieu, DanhGiaVeViecGiaSu, DiemTrungBinh, IdmonGiaSu1, TenChungChiHoacDiemMon1, ChungChiMon1, GioiThieuVeMonGiaSu1, IdmonGiaSu2, TenChungChiHoacDiemMon2, ChungChiMon2, GioiThieuVeMonGiaSu2")]Taikhoannguoidung taikhoannguoidung, List<IFormFile> certificates1, List<IFormFile> certificates2)
         {
-            string path = Path.Combine(this._environment.WebRootPath, "certificates");
-            taikhoannguoidung.ChungChiMon1 = TutorServices.SaveUploadImages(path, certificates1);
-            taikhoannguoidung.ChungChiMon2 = TutorServices.SaveUploadImages(path, certificates2);
+            string certificates1Path = Path.Combine(this._environment.WebRootPath, "certificates", taikhoannguoidung.Id.ToString(), "cer1");
+            string certificates2Path = Path.Combine(this._environment.WebRootPath, "certificates", taikhoannguoidung.Id.ToString(), "cer2");
+            //if (!Directory.Exists(certificates1Path))
+            //{
+            //    Directory.CreateDirectory(certificates1Path);
+            //    Directory.CreateDirectory(certificates2Path);
+            //}
+
+            taikhoannguoidung.ChungChiMon1 = TutorServices.SaveUploadImages(certificates1Path, certificates1);
+            taikhoannguoidung.ChungChiMon2 = TutorServices.SaveUploadImages(certificates2Path, certificates2);
             taikhoannguoidung.IdxetDuyet = (int) ApprovalStatus.TRAINING;
 
             Console.WriteLine("chung chi: " + JsonConvert.DeserializeObject(taikhoannguoidung.ChungChiMon1));
             if (ModelState.IsValid)
             {
-                Console.WriteLine("run this in model valid");
-
                 _db.Entry(taikhoannguoidung).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 _db.SaveChanges();
             }
-            Console.WriteLine("test: " + taikhoannguoidung.HoTen + " : " + taikhoannguoidung.Email + " : " + taikhoannguoidung.Idkhoa.ToString() + " : " + taikhoannguoidung.NgaySinh);
+
             taikhoannguoidung.DepartmentItems = new SelectList(_db.Khoas, "Idkhoa", "TenKhoa", taikhoannguoidung.Idkhoa);
             taikhoannguoidung.GenderItems = new SelectList(_db.Gioitinhs, "IdgioiTinh", "GioiTinh1", taikhoannguoidung.IdgioiTinh);
             taikhoannguoidung.BankItems = new SelectList(_db.Nganhangs, "Id", "TenNganHangHoacViDienTu", taikhoannguoidung.IdnganHang);

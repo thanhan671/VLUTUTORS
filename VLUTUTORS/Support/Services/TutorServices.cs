@@ -22,7 +22,11 @@ namespace VLUTUTORS.Support.Services
             }
             else
             {
-                Console.WriteLine("directory exists" + certificates.Capacity);
+                DirectoryInfo directoryInfo = new DirectoryInfo(path);
+                foreach (FileInfo file in directoryInfo.GetFiles())
+                {
+                    file.Delete();
+                }
             }
 
             List<string> uploadedFiles = new List<string>();

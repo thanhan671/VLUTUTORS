@@ -40,6 +40,8 @@ namespace VLUTUTORS.Models
         public string ChungChiMon2 { get; set; }
         public string GioiThieuVeMonGiaSu2 { get; set; }
         public int? IdxetDuyet { get; set; }
+        public string TenChungChiHoacDiemMon1 { get; set; }
+        public string TenChungChiHoacDiemMon2 { get; set; }
 
         public virtual Gioitinh IdgioiTinhNavigation { get; set; }
         public virtual Khoa IdkhoaNavigation { get; set; }
