@@ -47,6 +47,11 @@ namespace VLUTUTORS.Support.Services
             return namesJson;
         }
 
+        public static void LoadImages(string path)
+        {
+
+        }
+
         public static Taikhoannguoidung FindUserAccountByEmail(string email)
         {
             return DataManager.Instance().db().Taikhoannguoidungs.Where(u => u.Email.Equals(email)).FirstOrDefault(); 
