@@ -37042,16 +37042,19 @@ a.disabled.mailbox-attachment-close {
 }
 .login-page,
 .register-page {
-  -ms-flex-align: center;
-  align-items: center;
-  background-color: #e9ecef;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  height: 100vh;
-  -ms-flex-pack: center;
-  justify-content: center;
+    -ms-flex-align: center;
+    align-items: center;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    height: 100vh;
+    -ms-flex-pack: center;
+    justify-content: center;
+    background-image: url(https://huongnghiep.hocmai.vn/wp-content/uploads/2022/03/152166687_2149163368548048_1971264751875744463_n.jpg);
+    background-size: cover;
+    background-position: top;
+    background-repeat: no-repeat;
 }
 .login-box,
 .register-box {
