@@ -1,4 +1,6 @@
-﻿
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model VLUTUTORS.Models.Taikhoannguoidung
+
 @{
     Layout = null;
 }
@@ -42,123 +44,58 @@
                 <p class="sign-up__desc">
                     <span>Trở thành gia sư chỉ với 1 bước</span>
                 </p>
-                <form action="" class="form-regis__tutor sign-up__form">
+                <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="RegisterAsTutor">
                     <div class="container--tt">
                         <div class="row">
                             <div class="col-12">
                                 <div class="row">
                                     <div class="col-4">
                                         <p><b>Thông Tin Cá Nhân</b></p>
-                                        <div class="form__input">
-                                            <input class=""
-                                                   type="tel"
-                                                   name="phone"
-                                                   id="phone"
-                                                   placeholder="Nguyen Thanh An"
-                                                   value=""
-                                                   required
-                                                   readonly />
-                                            <span class="warning-icon">!</span>
-                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                                        @Html.HiddenFor(m => m.Id)
+                                        @Html.HiddenFor(m => m.MatKhau)
+                                        <div class="input-wrapper">
+                                            <label class="lb-form">Họ Tên</label>
+                                            <input class="ip-form" type="text" contenteditable="true" @Html.TextBoxFor(m => m.HoTen, new { @readonly = true })/>
                                         </div>
-                                        <div class="form__input">
-                                            <input class=""
-                                                   type="tel"
-                                                   name="phone"
-                                                   id="phone"
-                                                   placeholder="an.197pm09415@vanlanguni.vn"
-                                                   value=""
-                                                   required
-                                                   readonly />
-                                            <span class="warning-icon">!</span>
-                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                                        <div class="input-wrapper">
+                                            <label class="lb-form">Email</label>
+                                            <input class="ip-form" type="email" contenteditable="true" @Html.TextBoxFor(m => m.Email, new { @readonly = true })/>
                                         </div>
-                                        <div class="form__input">
-                                            <input class=""
-                                                   type="text"
-                                                   name=""
-                                                   id=""
-                                                   placeholder="Khoa"
-                                                   value=""
-                                                   required />
-                                            <span class="warning-icon">!</span>
-                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                                        <div class="input-wrapper">
+                                            <label class="lb-form" for="name">Khoa</label>
+                                            @Html.DropDownListFor(m => m.Idkhoa, Model.DepartmentItems, new { @class = "form-control select-region" })
                                         </div>
                                         <div class="form-radio">
                                             <label for="form__label" class="form__label">Giới tính</label>
                                             <li>
-                                                <input class=""
-                                                       type="radio"
-                                                       name="sex"
-                                                       id="male"
-                                                       checked="checked"
-                                                       value=""
-                                                       required />
-                                                <label class="lb-radio" for="male">Nam</label>
-                                            </li>
-                                            <li>
-                                                <input class=""
-                                                       type="radio"
-                                                       name="sex"
-                                                       id="female"
-                                                       value="Nữ"
-                                                       required />
-                                                <label class="lb-radio" for="female">Nữ</label>
+                                                @foreach (var gioiTinh in @Model.GenderItems)
+                                                {
+                                                    <input id="@gioiTinh.Value" type="radio" name="IdgioiTinh" value="@gioiTinh.Value" />
+                                                    <label for="@gioiTinh.Value">@gioiTinh.Text</label>
+                                                }
                                             </li>
                                         </div>
                                         <div class="form__input">
-                                            <input class=""
-                                                   type="date"
-                                                   name="dob"
-                                                   id="dob"
-                                                   placeholder="Ngày sinh"
-                                                   value=""
-                                                   required />
+                                            <input type="date" name="NgaySinh" placeholder="Ngày sinh" required />
                                             <span class="warning-icon">!</span>
                                             <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                                         </div>
                                         <div class="form__input">
-                                            <input class=""
-                                                   type="tel"
-                                                   name="phone"
-                                                   id="phone"
-                                                   placeholder="Số điện thoại"
-                                                   value=""
-                                                   required />
-                                            <span class="warning-icon">!</span>
-                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
-                                        </div>
-
-                                        <div class="form__input">
-                                            <input class=""
-                                                   type="text"
-                                                   name="bank-number"
-                                                   id="bank-number"
-                                                   placeholder="Số tài khoản"
-                                                   value=""
-                                                   required />
+                                            <input type="text" name="Sdt" placeholder="Số điện thoại" required/>
                                             <span class="warning-icon">!</span>
                                             <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                                         </div>
                                         <div class="form__input">
-                                            <input class=""
-                                                   type="text"
-                                                   name="bank-name"
-                                                   id="bank-name"
-                                                   placeholder="Tên Ngân Hàng"
-                                                   value=""
-                                                   required />
+                                            <input type="text" name="SoTaiKhoan" placeholder="Số tài khoản" required/>
                                             <span class="warning-icon">!</span>
                                             <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                                         </div>
+                                        <div class="input-wrapper">
+                                            <label class="lb-form" for="name">Khoa</label>
+                                            @Html.DropDownListFor(m => m.IdnganHang, Model.BankItems, new { @class = "form-control select-region" })
+                                        </div>
                                         <div class="form__input">
-                                            <input class=""
-                                                   type="text"
-                                                   name="avr-subject"
-                                                   id="avr-subject"
-                                                   placeholder="Điểm trung bình tích lũy"
-                                                   value=""
-                                                   required />
+                                            <input type="text" name="DiemTrungBinh" placeholder="Điểm trung bình" required/>
                                             <span class="warning-icon">!</span>
                                             <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                                         </div>
@@ -166,33 +103,20 @@
                                             <label for="form__label" class="form__label">Ảnh đại diện</label>
                                             <input class=""
                                                    type="file"
-                                                   name="avt"
-                                                   id="avt"
-                                                   value=""
+                                                   name="AnhDaiDien"
+                                                   placeholder="Ảnh đại diện"
                                                    required
                                                    accept=".jpg, .jpeg, .png" />
                                             <span class="warning-icon">!</span>
                                             <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                                         </div>
                                         <div class="form__input">
-                                            <textarea class=""
-                                                      type="text"
-                                                      name="intro-urself"
-                                                      id="intro-urself"
-                                                      placeholder="Giới thiệu bản thân"
-                                                      value=""
-                                                      required></textarea>
+                                            <input type="text" name="GioiThieu" placeholder="Giới thiệu về bản thân" required/>
                                             <span class="warning-icon">!</span>
                                             <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                                         </div>
                                         <div class="form__input">
-                                            <textarea class=""
-                                                      type="text"
-                                                      name="rate-urself"
-                                                      id="rate-urself"
-                                                      placeholder="Đánh giá bản thân về việc gia sư"
-                                                      value=""
-                                                      required></textarea>
+                                            <input type="text" name="DanhGiaVeViecGiaSu" placeholder="Đánh giá của bản thân về việc gia sư" required/>
                                             <span class="warning-icon">!</span>
                                             <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                                         </div>
@@ -200,24 +124,12 @@
 
                                     <div class="col-4">
                                         <p><b>Thông Tin Môn Gia Sư 1</b></p>
-                                        <div class="form__input">
-                                            <div class="form__select">
-                                                <select>
-                                                    <option value="1">Chọn Môn Gia Sư</option>
-                                                    <option value="2">Anh văn</option>
-                                                    <option value="3">Tin học</option>
-                                                </select>
-                                            </div>
+                                        <div class="input-wrapper">
+                                            <label class="lb-form" for="name">Khoa</label>
+                                            @Html.DropDownListFor(m => m.IdmonGiaSu1, Model.Subject1Items, new { @class = "form-control select-region" })
                                         </div>
                                         <div class="form__input">
-                                            <label for="form__label" class="form__label">Tên chứng chỉ/Điểm trung bình môn</label>
-                                            <input class=""
-                                                   type="text"
-                                                   name="avr-subject"
-                                                   id="avr-subject"
-                                                   placeholder="Cách nhau dấu ,"
-                                                   value=""
-                                                   required />
+                                            <input type="text" name="TenChungChiHoacDiemMon1" placeholder="Điểm trung bình hoặc chứng chỉ môn 1" required/>
                                             <span class="warning-icon">!</span>
                                             <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                                         </div>
@@ -225,10 +137,8 @@
                                             <label for="form__label" class="form__label">Chứng chỉ hoặc mình chứng kèm theo</label>
                                             <input class=""
                                                    type="file"
-                                                   name="certificate"
-                                                   id="certificate"
+                                                   name="certificates1"
                                                    placeholder="Chứng Chỉ"
-                                                   value=""
                                                    required
                                                    multiple="multiple"
                                                    accept=".jpg, .jpeg, .png" />
@@ -237,49 +147,29 @@
                                         </div>
 
                                         <div class="form__input">
-                                            <textarea class=""
-                                                      type="text"
-                                                      name="intro-subject"
-                                                      id="intro-subject"
-                                                      placeholder="Giới thiệu về môn muốn gia sư"
-                                                      value=""
-                                                      required></textarea>
+                                            <input type="text" name="GioiThieuVeMonGiaSu1" placeholder="Giới thiệu về môn gia sư" required/>
                                             <span class="warning-icon">!</span>
                                             <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                                         </div>
                                     </div>
                                     <div class="col-4">
                                         <p><b>Thông Tin Môn Gia Sư 2 (nếu có)</b></p>
-                                        <div class="form__input">
-                                            <div class="form__select">
-                                                <select>
-                                                    <option value="1">Chọn Môn Gia Sư</option>
-                                                    <option value="2">Anh văn</option>
-                                                    <option value="3">Tin học</option>
-                                                </select>
-                                            </div>
+                                        <div class="input-wrapper">
+                                            <label class="lb-form" for="name">Khoa</label>
+                                            @Html.DropDownListFor(m => m.IdmonGiaSu2, Model.Subject2Items, new { @class = "form-control select-region" })
                                         </div>
                                         <div class="form__input">
-                                            <label for="form__label" class="form__label">Tên chứng chỉ/Điểm trung bình môn</label>
-                                            <input class=""
-                                                   type="text"
-                                                   name="avr-subject"
-                                                   id="avr-subject"
-                                                   placeholder="Cách nhau dấu ,"
-                                                   value=""
-                                                   required />
+                                            <input type="text" name="TenChungChiHoacDiemMon2" placeholder="Điểm trung bình hoặc chứng chỉ môn 2" required/>
                                             <span class="warning-icon">!</span>
                                             <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                                         </div>
 
                                         <div class="form__input">
                                             <label for="form__label" class="form__label">Chứng chỉ hoặc mình chứng kèm theo</label>
-                                            <input class=""
+                                            <input  class=""
                                                    type="file"
-                                                   name="certificate"
-                                                   id="certificate"
+                                                   name="certificates2"
                                                    placeholder="Chứng Chỉ"
-                                                   value=""
                                                    required
                                                    multiple="multiple"
                                                    accept=".jpg, .jpeg, .png" />
@@ -288,13 +178,7 @@
                                         </div>
 
                                         <div class="form__input">
-                                            <textarea class=""
-                                                      type="text"
-                                                      name="intro-subject"
-                                                      id="intro-subject"
-                                                      placeholder="Giới thiệu về môn muốn gia sư"
-                                                      value=""
-                                                      required></textarea>
+                                            <input type="text" name="GioiThieuVeMonGiaSu2" placeholder="Giới thiệu về môn gia sư" required/>
                                             <span class="warning-icon">!</span>
                                             <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                                         </div>
@@ -303,12 +187,11 @@
                             </div>
                         </div>
                     </div>
-                    <input class="submit-btn" type="submit" value="Đăng Ký" />
-                    <br />
                     <p class="form__terms text-center">
                         Bằng cách nhấp vào nút đăng ký, bạn đồng ý với
                         <span>Điều khoản và Dịch vụ</span> của chúng tôi
                     </p>
+                    <button type="submit" class="submit-btn" onclick="Button1_Click">Đăng ký</button>
                 </form>
             </div>
         </div>
@@ -319,7 +202,6 @@
 <script>
     const form = document.querySelector('.sign-up__form');
     const inputs = document.querySelectorAll('.form__input');
-
     clearInputs(inputs);
     form.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -332,7 +214,6 @@
             }
         });
     });
-
     function clearInputs() {
         inputs.forEach((input) => {
             let inputValue = input.firstElementChild;

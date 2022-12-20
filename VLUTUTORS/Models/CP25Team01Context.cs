@@ -18,6 +18,8 @@ namespace VLUTUTORS.Models
         }
 
         public virtual DbSet<Gioitinh> Gioitinhs { get; set; }
+        public virtual DbSet<Ketquakiemtra> Ketquakiemtras { get; set; }
+        public virtual DbSet<Khoa> Khoas { get; set; }
         public virtual DbSet<Khoa> Khoas { get; set; }
         public virtual DbSet<Lienhe> Lienhes { get; set; }
         public virtual DbSet<Mongiasu> Mongiasus { get; set; }
@@ -55,6 +57,26 @@ namespace VLUTUTORS.Models
                     .IsRequired()
                     .HasMaxLength(10)
                     .HasColumnName("GioiTinh");
+            });
+
+            modelBuilder.Entity<Ketquakiemtra>(entity =>
+            {
+                entity.ToTable("KETQUAKIEMTRA");
+
+                entity.Property(e => e.DapAnDaChon).IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Khoa>(entity =>
+            {
+                entity.HasKey(e => e.Idkhoa);
+
+                entity.ToTable("KHOA");
+
+                entity.Property(e => e.Idkhoa).HasColumnName("IDKhoa");
+
+                entity.Property(e => e.TenKhoa)
+                    .IsRequired()
+                    .HasMaxLength(200);
             });
 
             modelBuilder.Entity<Khoa>(entity =>
@@ -195,9 +217,13 @@ namespace VLUTUTORS.Models
                 entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.AnhDaiDien).HasColumnType("image");
+                entity.Property(e => e.AnhDaiDien).HasColumnType("image");
 
                 entity.Property(e => e.ChungChiMon1).IsUnicode(false);
 
+                entity.Property(e => e.ChungChiMon1).IsUnicode(false);
+
+                entity.Property(e => e.ChungChiMon2).IsUnicode(false);
                 entity.Property(e => e.ChungChiMon2).IsUnicode(false);
 
                 entity.Property(e => e.Email)
