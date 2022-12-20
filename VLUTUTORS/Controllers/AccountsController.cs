@@ -223,11 +223,5 @@ namespace VLUTUTORS.Controllers
 
             return RedirectToAction("Login", "Accounts");
         }
-
-        public IActionResult Logout()
-        {
-            HttpContext.Session.Clear();
-            return RedirectToAction("Login", "Accounts");
-        }
     }
 }

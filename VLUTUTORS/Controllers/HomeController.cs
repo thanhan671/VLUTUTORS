@@ -14,6 +14,7 @@ using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using System.Data;
 using VLUTUTORS.Support.Manager;
+using Microsoft.EntityFrameworkCore;
 
 namespace VLUTUTORS.Controllers
 {
@@ -42,7 +43,7 @@ namespace VLUTUTORS.Controllers
                 Console.WriteLine("login id: " + HttpContext.Session.GetInt32("LoginId"));
                 //Console.WriteLine(JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo")).HoTen);
             }
-            var noiDung = await db.Noidungs.FirstOrDefaultAsync(m => m.Id == 1);
+            var noiDung = await _db.Noidungs.FirstOrDefaultAsync(m => m.Id == 1);
             ViewData["Slogan"] = noiDung.Slogan;
             ViewData["gtChanTrang"] = noiDung.GioiThieuChanTrang;
             ViewData["diaChi"] = noiDung.DiaChi;
@@ -145,7 +146,7 @@ namespace VLUTUTORS.Controllers
         [HttpGet]
         public async Task<IActionResult> Contact()
         {
-            var noiDung = await db.Noidungs.FirstOrDefaultAsync(m => m.Id == 1);
+            var noiDung = await _db.Noidungs.FirstOrDefaultAsync(m => m.Id == 1);
             ViewData["Slogan"] = noiDung.Slogan;
             ViewData["gtChanTrang"] = noiDung.GioiThieuChanTrang;
             ViewData["diaChi"] = noiDung.DiaChi;
@@ -190,7 +191,7 @@ namespace VLUTUTORS.Controllers
 
         public async Task<IActionResult> AboutUs()
         {
-            var noiDung = await db.Noidungs.FirstOrDefaultAsync(m => m.Id == 1);
+            var noiDung = await _db.Noidungs.FirstOrDefaultAsync(m => m.Id == 1);
             ViewData["Slogan"] = noiDung.Slogan;
             ViewData["gtChanTrang"] = noiDung.GioiThieuChanTrang;
             ViewData["diaChi"] = noiDung.DiaChi;

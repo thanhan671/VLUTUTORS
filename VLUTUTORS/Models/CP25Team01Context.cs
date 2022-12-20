@@ -20,7 +20,6 @@ namespace VLUTUTORS.Models
         public virtual DbSet<Gioitinh> Gioitinhs { get; set; }
         public virtual DbSet<Ketquakiemtra> Ketquakiemtras { get; set; }
         public virtual DbSet<Khoa> Khoas { get; set; }
-        public virtual DbSet<Khoa> Khoas { get; set; }
         public virtual DbSet<Lienhe> Lienhes { get; set; }
         public virtual DbSet<Mongiasu> Mongiasus { get; set; }
         public virtual DbSet<Nganhang> Nganhangs { get; set; }

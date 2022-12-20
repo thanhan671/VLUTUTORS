@@ -18,15 +18,9 @@ namespace VLUTUTORS.Models
         [Required(ErrorMessage = "Vui lòng điền trường này!")]
         public string HoTen { get; set; }
 
-        public string HoTen { get; set; } = null!;
-
         [Required(ErrorMessage = "Vui lòng điền trường này!")]
         [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "Không hợp lệ")]
         public string Email { get; set; }
-
-        [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "Email không đúng định dạng")]
-        [Remote(action: "Register", controller: "Accounts")]
-        public string Email { get; set; } = null!;
 
         [Required(ErrorMessage = "Vui lòng điền trường này!")]
         [MinLength(6, ErrorMessage = "Mật khẩu phải trên 6 ký tự")]
@@ -80,13 +74,6 @@ namespace VLUTUTORS.Models
         public string GioiTinh { get; set; }
         [NotMapped]
         public SelectList GioiTinhs { get; set; }
-
-        public virtual Gioitinh IdgioiTinhNavigation { get; set; }
-        public virtual Khoa IdkhoaNavigation { get; set; }
-        public virtual Mongiasu IdmonGiaSu1Navigation { get; set; }
-        public virtual Mongiasu IdmonGiaSu2Navigation { get; set; }
-        public virtual Nganhang IdnganHangNavigation { get; set; }
-        public virtual Xetduyet IdxetDuyetNavigation { get; set; }
 
         //public SelectList Khoas { get; set; }
 
