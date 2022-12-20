@@ -56,7 +56,7 @@
                                     </td>
                                     <td class="project-state">
 
-                                        <span class="badge @(item.IdtrangThai == 1 ? "badge-block" : "badge-success")">
+                                        <span class="badge @(item.IdtrangThai == 1 ? "badge-block" : (item.IdtrangThai == 2 ?"badge-warning":"badge-success"))">
                                             @Html.DisplayFor(modelItem => item.TrangThai)
                                         </span>
                                     </td>
