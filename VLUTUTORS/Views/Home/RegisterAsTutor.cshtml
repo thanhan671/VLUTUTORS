@@ -52,7 +52,7 @@
                             <div class="col-12">
                                 <div class="row">
                                     <div class="col-4">
-                                        <p><b>Thông Tin Cá Nhân</b></p>
+                                        <p><b class="lb-form-title">Thông Tin Cá Nhân</b></p>
                                         <div class="form__input">
                                             <label class="lb-form">Họ Tên</label>
                                             @Html.TextBoxFor(m => m.HoTen, new { @readonly = true })
@@ -71,7 +71,7 @@
                                                 @foreach (var gioiTinh in @Model.GenderItems)
                                                 {
                                                     <input id="@gioiTinh.Value" type="radio" name="IdgioiTinh" value="@gioiTinh.Value" />
-                                                    <label for="@gioiTinh.Value">@gioiTinh.Text</label>
+                                                    <label class="lb-radio"  for="@gioiTinh.Value">@gioiTinh.Text</label>
                                                 }
                                             </li>
                                         </div>
@@ -104,7 +104,6 @@
                                             <input class=""
                                                    type="file"
                                                    name="AnhDaiDien"
-                                                   placeholder="Ảnh đại diện"
                                                    required
                                                    accept=".jpg, .jpeg, .png" />
                                             <span class="warning-icon">!</span>
@@ -123,7 +122,7 @@
                                     </div>
 
                                     <div class="col-4">
-                                        <p><b>Thông Tin Môn Gia Sư 1</b></p>
+                                        <p><b class="lb-form-title">Thông Tin Môn Gia Sư 1</b></p>
                                         <div class="form__input">
                                             <label class="lb-form" for="name">Môn</label>
                                             @Html.DropDownListFor(m => m.IdmonGiaSu1, Model.Subject1Items, new { @class = "form__select" })
@@ -134,7 +133,7 @@
                                             <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                                         </div>
                                         <div class="form__input">
-                                            <label for="form__label" class="form__label">Chứng chỉ hoặc mình chứng kèm theo</label>
+                                            <label for="form__label" class="form__label">Minh chứng kèm theo</label>
                                             <input class=""
                                                    type="file"
                                                    name="certificates1"
@@ -153,7 +152,7 @@
                                         </div>
                                     </div>
                                     <div class="col-4">
-                                        <p><b>Thông Tin Môn Gia Sư 2 (nếu có)</b></p>
+                                        <p><b class="lb-form-title">Thông Tin Môn Gia Sư 2 (nếu có)</b></p>
                                         <div class="form__input">
                                             <label class="lb-form" for="name">Môn</label>
                                             @Html.DropDownListFor(m => m.IdmonGiaSu2, Model.Subject2Items, new { @class = "form__select" })
@@ -165,7 +164,7 @@
                                         </div>
 
                                         <div class="form__input">
-                                            <label for="form__label" class="form__label">Chứng chỉ hoặc mình chứng kèm theo</label>
+                                            <label for="form__label" class="form__label">Minh chứng kèm theo</label>
                                             <input class=""
                                                    type="file"
                                                    name="certificates2"
