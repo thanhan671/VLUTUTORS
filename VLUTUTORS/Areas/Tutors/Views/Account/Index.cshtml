@@ -1,4 +1,4 @@
-﻿
+﻿@model VLUTUTORS.Models.Taikhoannguoidung
 @{
     ViewData["Title"] = "Chi tiết tài khoản";
     Layout = "~/Areas/Tutors/Views/Shared/_TutorsLayout.cshtml";
@@ -22,259 +22,227 @@
     <section class="content">
         <div class="container" style="margin-top: 20px; margin-bottom: 20px">
             <div class="main-body">
-                <div class="row gutters-sm">
-                    <div class="col-md-4 mb-3 center-card">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex flex-column align-items-center text-center">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/f/fe/Son_Tung_M-TP_1_%282017%29.png"
-                                         alt="Admin"
-                                         class="rounded-circle"
-                                         width="150" />
-                                    <div class="mt-3">
-                                        <input style="width: 80px"
-                                               type="file"
-                                               name=""
-                                               id="" /><br />
-                                        <span>Định dạng: .JPEG, .PNG</span>
+                <form method="post" enctype="multipart/form-data" asp-controller="Account" asp-action="Index">
+                    <div class="row gutters-sm">
+                        <div class="col-md-4 mb-3 center-card">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex flex-column align-items-center text-center">
+                                        <img src="https://upload.wikimedia.org/wikipedia/commons/f/fe/Son_Tung_M-TP_1_%282017%29.png"
+                                             alt="Admin"
+                                             class="rounded-circle"
+                                             width="150" />
+                                        <div class="mt-3">
+                                            <input style="width: 80px"
+                                                   type="file"
+                                                   name=""
+                                                   id="" /><br />
+                                            <span>Định dạng: .JPEG, .PNG</span>
+                                        </div>
+                                        <div class="mt-3">
+                                            <h6>@Html.TextBoxFor(m => m.HoTen, new { @readonly = true })</h6>
+                                        </div>
                                     </div>
-                                    <div class="mt-3">
-                                        <h4>Nguyễn Thanh An</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    @Html.HiddenFor(m => m.Id)
+                                    @Html.HiddenFor(m => m.MatKhau)
+                                    <div class="row-nowrap">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Email</h6>
+                                        </div>
+                                        <div class="col-sm-9 text-secondary">
+                                            @Html.TextBoxFor(m => m.Email, new { @readonly = true })
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div class="row-nowrap">
+                                        <div class="col-sm-3">
+                                             <h6 class="mb-0">Khoa</h6>
+                                        </div>
+                                         @Html.DropDownListFor(m => m.Idkhoa, Model.DepartmentItems, new { disabled = "disabled" })
+                                    </div>
+                                    <hr />
+                                    <div class="row-nowrap">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Ngày sinh</h6>
+                                        </div>
+                                        <div class="col-sm-9 text-secondary">
+                                            @Html.TextBoxFor(m => m.NgaySinh, new { @readonly = true })
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div class="row-nowrap">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Giới tính</h6>
+                                        </div>
+                                            @Html.DropDownListFor(m => m.IdgioiTinh, Model.GenderItems, new { @class = "form-control select-region" })
+                                    </div>
+                                    <hr />
+                                    <div class="row-nowrap">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Số Điện Thoại</h6>
+                                        </div>
+                                        <input @Html.TextBoxFor(m => m.Sdt, new { htmlAttributes = new { @class = "ip-form", @required = "required" } }) 
+                                    </div>
+                                    <hr />
+                                    <div class="row-nowrap">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Số tài khoản</h6>
+                                        </div>
+                                        <input @Html.TextBoxFor(m => m.SoTaiKhoan, new { htmlAttributes = new { @class = "ip-form", @required = "required" } }) 
+                                    </div>
+                                    <hr />
+                                    <div class="row-nowrap">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Tên ngân hàng</h6>
+                                        </div>
+                                            @Html.DropDownListFor(m => m.IdnganHang, Model.BankItems, new { @class = "form-control select-region" })
+                                    </div>
+                                    <hr />
+                                    <div class="row-nowrap">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Điểm trung bình tích lũy</h6>
+                                        </div>
+                                        <input @Html.TextBoxFor(m => m.DiemTrungBinh, new { htmlAttributes = new { @class = "ip-form", @required = "required" } }) 
+                                    </div>
+                                    <hr />
+                                   @* <div class="row-nowrap">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Mật Khẩu Mới</h6>
+                                        </div>
+                                        <input type="text"
+                                               name="sc-year"
+                                               id=""
+                                               class="profile-input" />
+                                    </div>
+                                    <hr />
+                                    <div class="row-nowrap">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Nhập Lại Mật Khẩu</h6>
+                                        </div>
+                                        <input type="text"
+                                               name="sc-year"
+                                               id=""
+                                               class="profile-input" />
+                                    </div>
+                                    <hr />*@
+                                    <div class="row-nowrap">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Giới thiệu bản thân</h6>
+                                        </div>
+                                         @Html.TextAreaFor(m => m.GioiThieu, new { htmlAttributes = new { @class = "ip-form", @required = "required" } }) 
+                                        @*<textarea name="" id="" cols="30" rows="10">
+                                             @Html.EditorFor(m => m.GioiThieu, new { htmlAttributes = new { @class = "ip-form", @required = "required" } }) 
+                                        </textarea>*@
+                                    </div>
+                                    <hr />
+                                    <div class="row-nowrap">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">
+                                                Giới thiệu bản thân về việc gia sư
+                                            </h6>
+                                        </div>
+                                        @Html.TextAreaFor(m => m.DanhGiaVeViecGiaSu, new { htmlAttributes = new { @class = "ip-form", @required = "required" } }) 
+                                        @*<textarea name="" id="" cols="30" rows="10">
+                                            @Html.EditorFor(m => m.DanhGiaVeViecGiaSu, new { htmlAttributes = new { @class = "ip-form", @required = "required" } }) 
+                                        </textarea>*@
+                                    </div>
+                                    <hr />
+                                    <div class="row-nowrap">
+                                        <h4>Môn gia sư thứ 1:</h4>
+                                    </div>
+                                    <hr />
+                                    <div class="row-nowrap">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Môn gia sư</h6>
+                                        </div>
+                                        @Html.DropDownListFor(m => m.IdmonGiaSu1, Model.Subject1Items, new { disabled = "disabled" })
+                                    </div>
+                                    <hr />
+                                    <div class="row-nowrap">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Tên chứng chỉ/Điểm trung bình môn</h6>
+                                        </div>
+                                        <input @Html.TextBoxFor(m => m.TenChungChiHoacDiemMon1, new { @readonly = true })
+                                    </div>
+                                    <hr />
+                                    <div class="row-nowrap">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Ảnh minh chứng</h6>
+                                        </div>
+                                        <input type="text"
+                                               name="img-cer"
+                                               id="img-cer"
+                                               onmouseover="(this.type='file')"
+                                               onmouseleave="(this.type='text')"
+                                               value="certificate.png"
+                                               class="profile-input" />
+                                    </div>
+
+                                    <hr />
+                                    <div class="row-nowrap">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Giới thiệu về môn gia sư</h6>
+                                        </div>
+                                          @Html.TextAreaFor(m => m.GioiThieuVeMonGiaSu1, new { htmlAttributes = new { @class = "ip-form", @required = "required" } }) 
+                                    </div>
+                                    <hr />
+                                    <div class="row-nowrap">
+                                        <h4>Môn gia sư thứ 2:</h4>
+                                    </div>
+                                    <hr />
+                                    <div class="row-nowrap">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Môn gia sư</h6>
+                                        </div>
+                                         @Html.DropDownListFor(m => m.IdmonGiaSu2, Model.Subject2Items, new { disabled = "disabled" })
+                                    </div>
+                                    <hr />
+                                    <div class="row-nowrap">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Tên chứng chỉ/Điểm trung bình môn</h6>
+                                        </div>
+                                        <input @Html.TextBoxFor(m => m.TenChungChiHoacDiemMon1, new { @readonly = true })
+                                    </div>
+
+                                    <hr />
+                                    <div class="row-nowrap">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Ảnh minh chứng</h6>
+                                        </div>
+                                        <input type="text"
+                                               name="img-cer"
+                                               id="img-cer"
+                                               onmouseover="(this.type='file')"
+                                               onmouseleave="(this.type='text')"
+                                               value="certificate.png"
+                                               class="profile-input" />
+                                    </div>
+
+                                    <hr />
+                                    <div class="row-nowrap">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Giới thiệu về môn gia sư</h6>
+                                        </div>
+                                        @Html.TextAreaFor(m => m.GioiThieuVeMonGiaSu1, new { htmlAttributes = new { @class = "ip-form"/*, @required = "required" */} }) 
+                                    </div>
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-12 flex-right mb-4">
+                                            <a href='javascript:history.go(-1)' class="btn btn-dark">Hủy</a>
+                                        <button type="submit"  class="btn btn-success" onclick="Button1_Click">Lưu thay đổi</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-12">
-                        <div class="card mb-3">
-                            <div class="card-body">
-                                <div class="row-nowrap">
-                                    <div class="col-sm-3">
-                                        <h6 class="mb-0">Email</h6>
-                                    </div>
-                                    <div class="col-sm-9 text-secondary">
-                                        an.197pm09415@vanlanguni.vn
-                                    </div>
-                                </div>
-                                <hr />
-                                <div class="row-nowrap">
-                                    <div class="col-sm-3">
-                                        <h6 class="mb-0">Khoa</h6>
-                                    </div>
-                                    <div class="col-sm-9 text-secondary">
-                                        Công nghệ thông tin
-                                    </div>
-                                </div>
-                                <hr />
-                                <div class="row-nowrap">
-                                    <div class="col-sm-3">
-                                        <h6 class="mb-0">Ngày sinh</h6>
-                                    </div>
-                                    <div class="col-sm-9 text-secondary">
-                                        06/07/2001
-                                    </div>
-                                </div>
-                                <hr />
-                                <div class="row-nowrap">
-                                    <div class="col-sm-3">
-                                        <h6 class="mb-0">Giới tính</h6>
-                                    </div>
-                                    <select class="profile-input">
-                                        <option value="1">Nam</option>
-                                        <option value="2">Nữ</option>
-                                    </select>
-                                </div>
-                                <hr />
-                                <div class="row-nowrap">
-                                    <div class="col-sm-3">
-                                        <h6 class="mb-0">Số Điện Thoại</h6>
-                                    </div>
-                                    <input type="text"
-                                           name="sc-year"
-                                           id=""
-                                           value="0123456789"
-                                           class="profile-input" />
-                                </div>
-                                <hr />
-                                <div class="row-nowrap">
-                                    <div class="col-sm-3">
-                                        <h6 class="mb-0">Số tài khoản</h6>
-                                    </div>
-                                    <input type="text"
-                                           name="sc-year"
-                                           id=""
-                                           value="123456789"
-                                           class="profile-input" />
-                                </div>
-                                <hr />
-                                <div class="row-nowrap">
-                                    <div class="col-sm-3">
-                                        <h6 class="mb-0">Tên ngân hàng</h6>
-                                    </div>
-                                    <input type="text"
-                                           name="sc-year"
-                                           id=""
-                                           value="Vietcombank"
-                                           class="profile-input" />
-                                </div>
-                                <hr />
-                                <div class="row-nowrap">
-                                    <div class="col-sm-3">
-                                        <h6 class="mb-0">Điểm trung bình tích lũy</h6>
-                                    </div>
-                                    <input type="text"
-                                           name="sc-year"
-                                           id=""
-                                           value="8,5"
-                                           class="profile-input" />
-                                </div>
-                                <hr />
-                                <div class="row-nowrap">
-                                    <div class="col-sm-3">
-                                        <h6 class="mb-0">Mật Khẩu Mới</h6>
-                                    </div>
-                                    <input type="text"
-                                           name="sc-year"
-                                           id=""
-                                           class="profile-input" />
-                                </div>
-                                <hr />
-                                <div class="row-nowrap">
-                                    <div class="col-sm-3">
-                                        <h6 class="mb-0">Nhập Lại Mật Khẩu</h6>
-                                    </div>
-                                    <input type="text"
-                                           name="sc-year"
-                                           id=""
-                                           class="profile-input" />
-                                </div>
-                                <hr />
-                                <div class="row-nowrap">
-                                    <div class="col-sm-3">
-                                        <h6 class="mb-0">Giới thiệu bản thân</h6>
-                                    </div>
-                                    <textarea name="" id="" cols="30" rows="10">
-Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tenetur earum aliquam ducimus officia odio illo animi rem deleniti incidunt, laborum, ipsum assumenda veritatis enim hic rerum reiciendis, maxime cum maiores.</textarea>
-                                </div>
-                                <hr />
-                                <div class="row-nowrap">
-                                    <div class="col-sm-3">
-                                        <h6 class="mb-0">
-                                            Giới thiệu bản thân về việc gia sư
-                                        </h6>
-                                    </div>
-                                    <textarea name="" id="" cols="30" rows="10">
-Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tenetur earum aliquam ducimus officia odio illo animi rem deleniti incidunt, laborum, ipsum assumenda veritatis enim hic rerum reiciendis, maxime cum maiores.</textarea>
-                                </div>
-                                <hr />
-                                <div class="row-nowrap">
-                                    <h4>Môn gia sư thứ 1:</h4>
-                                </div>
-                                <hr />
-                                <div class="row-nowrap">
-                                    <div class="col-sm-3">
-                                        <h6 class="mb-0">Môn gia sư</h6>
-                                    </div>
-                                    <div class="col-sm-9 text-secondary">
-                                        Anh văn cơ bản
-                                    </div>
-                                </div>
-                                <hr />
-                                <div class="row-nowrap">
-                                    <div class="col-sm-3">
-                                        <h6 class="mb-0">Tên chứng chỉ/Điểm trung bình môn</h6>
-                                    </div>
-                                    <input type="text"
-                                           name="sc-year"
-                                           id=""
-                                           value="8.5"
-                                           class="profile-input" />
-                                </div>
-                                <hr />
-                                <div class="row-nowrap">
-                                    <div class="col-sm-3">
-                                        <h6 class="mb-0">Ảnh minh chứng</h6>
-                                    </div>
-                                    <input type="text"
-                                           name="img-cer"
-                                           id="img-cer"
-                                           onmouseover="(this.type='file')"
-                                           onmouseleave="(this.type='text')"
-                                           value="certificate.png"
-                                           class="profile-input" />
-                                </div>
-
-                                <hr />
-                                <div class="row-nowrap">
-                                    <div class="col-sm-3">
-                                        <h6 class="mb-0">Giới thiệu về môn gia sư</h6>
-                                    </div>
-                                    <textarea name="" id="" cols="30" rows="10">
-Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tenetur earum aliquam ducimus officia odio illo animi rem deleniti incidunt, laborum, ipsum assumenda veritatis enim hic rerum reiciendis, maxime cum maiores.</textarea>
-                                </div>
-                                <hr />
-                                <div class="row-nowrap">
-                                    <h4>Môn gia sư thứ 2:</h4>
-                                </div>
-                                <hr />
-                                <div class="row-nowrap">
-                                    <div class="col-sm-3">
-                                        <h6 class="mb-0">Môn gia sư</h6>
-                                    </div>
-                                    <div class="col-sm-9 text-secondary">
-                                        Tin học cơ bản
-                                    </div>
-                                </div>
-                                <hr />
-                                <div class="row-nowrap">
-                                    <div class="col-sm-3">
-                                        <h6 class="mb-0">Tên chứng chỉ/Điểm trung bình môn</h6>
-                                    </div>
-                                    <input type="text"
-                                           name="sc-year"
-                                           id=""
-                                           value="MOS Expert"
-                                           class="profile-input" />
-                                </div>
-
-                                <hr />
-                                <div class="row-nowrap">
-                                    <div class="col-sm-3">
-                                        <h6 class="mb-0">Ảnh minh chứng</h6>
-                                    </div>
-                                    <input type="text"
-                                           name="img-cer"
-                                           id="img-cer"
-                                           onmouseover="(this.type='file')"
-                                           onmouseleave="(this.type='text')"
-                                           value="certificate.png"
-                                           class="profile-input" />
-                                </div>
-
-                                <hr />
-                                <div class="row-nowrap">
-                                    <div class="col-sm-3">
-                                        <h6 class="mb-0">Giới thiệu về môn gia sư</h6>
-                                    </div>
-                                    <textarea name="" id="" cols="30" rows="10">
-Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tenetur earum aliquam ducimus officia odio illo animi rem deleniti incidunt, laborum, ipsum assumenda veritatis enim hic rerum reiciendis, maxime cum maiores.</textarea>
-                                </div>
-                                <hr />
-                                <div class="row">
-                                    <div class="col-12 flex-right mb-4">
-                                        <a href='javascript:history.go(-1)' class="btn btn-dark">
-                                            Hủy
-                                        </a>
-
-                                        <input type="submit"
-                                               value="Lưu thay đổi"
-                                               class="btn btn-success" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
     </section>
