@@ -11,7 +11,7 @@ namespace VLUTUTORS.Support.Services
 {
     public static class TutorServices
     {
-        public static string SaveUploadImages(string path, List<IFormFile> certificates)
+        public static string SaveUploadImages(string enviromentPath, string path, List<IFormFile> certificates)
         {
             List<string> filesName = new List<string>();
             string namesJson;
@@ -34,23 +34,31 @@ namespace VLUTUTORS.Support.Services
             {
                 string fileName = Path.GetFileName(postedFile.FileName);
                 Console.WriteLine("get file name: " + fileName);
-                using (FileStream stream = new FileStream(Path.Combine(path, fileName), FileMode.Create))
+                using (FileStream stream = new FileStream(Path.Combine(enviromentPath, path, fileName), FileMode.Create))
                 {
                     postedFile.CopyTo(stream);
                     uploadedFiles.Add(fileName);
                     //ViewBag.Message += string.Format("<b>{0}</b> uploaded.<br />", fileName);
                 }
-                filesName.Add(fileName);
+                filesName.Add(Path.Combine(path, fileName));
                 
             }
             namesJson = JsonConvert.SerializeObject(filesName);
             return namesJson;
         }
 
-        public static void LoadImages(string path)
-        {
+        //public static List<string> LoadImages(List<string> imagesNameList)
+        //{
+        //    var db = DataManager.Instance().db();
+        //    var imagesName = imagesNameList.ToList();
+        //    List<string> pathToImages = new List<string>();
+        //    foreach(var item in imagesName)
+        //    {
+        //        pathToImages.Add(Path.Combine(path, item));
+        //    }
 
-        }
+        //    return pathToImages;
+        //}
 
         public static Taikhoannguoidung FindUserAccountByEmail(string email)
         {

@@ -68,18 +68,18 @@ namespace VLUTUTORS.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult RegisterAsTutor([Bind(include: "Id, HoTen, Email, MatKhau, IdgioiTinh, Sdt, NgaySinh, Idkhoa, AnhDaiDien, TrangThaiTaiKhoan, SoTaiKhoan, IdnganHang, GioiThieu, DanhGiaVeViecGiaSu, DiemTrungBinh, IdmonGiaSu1, TenChungChiHoacDiemMon1, ChungChiMon1, GioiThieuVeMonGiaSu1, IdmonGiaSu2, TenChungChiHoacDiemMon2, ChungChiMon2, GioiThieuVeMonGiaSu2")]Taikhoannguoidung taikhoannguoidung, List<IFormFile> avatar, List<IFormFile> certificates1, List<IFormFile> certificates2)
         {
-            string certificates1Path = Path.Combine(this._environment.WebRootPath, "certificates", taikhoannguoidung.Id.ToString(), "cer1");
-            string certificates2Path = Path.Combine(this._environment.WebRootPath, "certificates", taikhoannguoidung.Id.ToString(), "cer2");
-            string avatarPath = Path.Combine(this._environment.WebRootPath, "avatars", taikhoannguoidung.Id.ToString());
+            string certificates1Path = Path.Combine("certificates", taikhoannguoidung.Id.ToString(), "cer1");
+            string certificates2Path = Path.Combine("certificates", taikhoannguoidung.Id.ToString(), "cer2");
+            string avatarPath = Path.Combine("avatars", taikhoannguoidung.Id.ToString());
             //if (!Directory.Exists(certificates1Path))
             //{
             //    Directory.CreateDirectory(certificates1Path);
             //    Directory.CreateDirectory(certificates2Path);
             //}
 
-            taikhoannguoidung.ChungChiMon1 = TutorServices.SaveUploadImages(certificates1Path, certificates1);
-            taikhoannguoidung.ChungChiMon2 = TutorServices.SaveUploadImages(certificates2Path, certificates2);
-            taikhoannguoidung.AnhDaiDien = TutorServices.SaveUploadImages(avatarPath, avatar);
+            taikhoannguoidung.ChungChiMon1 = TutorServices.SaveUploadImages(this._environment.WebRootPath, certificates1Path, certificates1);
+            taikhoannguoidung.ChungChiMon2 = TutorServices.SaveUploadImages(this._environment.WebRootPath, certificates2Path, certificates2);
+            taikhoannguoidung.AnhDaiDien = TutorServices.SaveUploadImages(this._environment.WebRootPath, avatarPath, avatar);
             taikhoannguoidung.IdxetDuyet = (int) ApprovalStatus.TRAINING;
 
             Console.WriteLine("chung chi: " + JsonConvert.DeserializeObject(taikhoannguoidung.ChungChiMon1));

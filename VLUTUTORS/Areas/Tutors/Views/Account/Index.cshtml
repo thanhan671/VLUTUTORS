@@ -1,4 +1,5 @@
 ﻿@model VLUTUTORS.Models.Taikhoannguoidung
+
 @{
     ViewData["Title"] = "Chi tiết tài khoản";
     Layout = "~/Areas/Tutors/Views/Shared/_TutorsLayout.cshtml";
@@ -175,13 +176,13 @@
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Ảnh minh chứng</h6>
                                         </div>
-                                        <input type="text"
-                                               name="img-cer"
-                                               id="img-cer"
-                                               onmouseover="(this.type='file')"
-                                               onmouseleave="(this.type='text')"
-                                               value="certificate.png"
-                                               class="profile-input" />
+                                       <input class=""
+                                                   type="file"
+                                                   name="certificates1"
+                                                   placeholder="Chứng Chỉ"
+                                                   required
+                                                   multiple="multiple"
+                                                   accept=".jpg, .jpeg, .png" />
                                     </div>
 
                                     <hr />
@@ -207,7 +208,7 @@
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Tên chứng chỉ/Điểm trung bình môn</h6>
                                         </div>
-                                        <input @Html.TextBoxFor(m => m.TenChungChiHoacDiemMon1, new { @readonly = true })
+                                        <input @Html.TextBoxFor(m => m.TenChungChiHoacDiemMon2, new { @readonly = true })
                                     </div>
 
                                     <hr />
@@ -215,13 +216,19 @@
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Ảnh minh chứng</h6>
                                         </div>
-                                        <input type="text"
-                                               name="img-cer"
-                                               id="img-cer"
-                                               onmouseover="(this.type='file')"
-                                               onmouseleave="(this.type='text')"
-                                               value="certificate.png"
-                                               class="profile-input" />
+                                        <input 
+                                            @foreach(var img in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.ChungChiMon1))
+                                            {
+                                                @*<td><img src = "~\\@img" class="detailImage"/></td>*@
+                                                <td><img src = "@Url.Content(img)"/></td>
+                                            }
+                                           @* class=""
+                                            type="file"
+                                            name="certificates2"
+                                            placeholder="Chứng Chỉ"
+                                            required
+                                            multiple="multiple"
+                                            accept=".jpg, .jpeg, .png" />*@
                                     </div>
 
                                     <hr />
@@ -229,7 +236,7 @@
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Giới thiệu về môn gia sư</h6>
                                         </div>
-                                        @Html.TextAreaFor(m => m.GioiThieuVeMonGiaSu1, new { htmlAttributes = new { @class = "ip-form"/*, @required = "required" */} }) 
+                                        @Html.TextAreaFor(m => m.GioiThieuVeMonGiaSu2, new { htmlAttributes = new { @class = "ip-form"/*, @required = "required" */} }) 
                                     </div>
                                     <hr />
                                     <div class="row">
