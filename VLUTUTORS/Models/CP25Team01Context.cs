@@ -17,9 +17,11 @@ namespace VLUTUTORS.Models
         {
         }
 
+        public virtual DbSet<Baihoc> Baihocs { get; set; }
+        public virtual DbSet<Baikiemtra> Baikiemtras { get; set; }
         public virtual DbSet<Gioitinh> Gioitinhs { get; set; }
-        public virtual DbSet<Ketquakiemtra> Ketquakiemtras { get; set; }
         public virtual DbSet<Khoa> Khoas { get; set; }
+        public virtual DbSet<Khoadaotao> Khoadaotaos { get; set; }
         public virtual DbSet<Lienhe> Lienhes { get; set; }
         public virtual DbSet<Mongiasu> Mongiasus { get; set; }
         public virtual DbSet<Nganhang> Nganhangs { get; set; }
@@ -44,6 +46,52 @@ namespace VLUTUTORS.Models
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
 
+            modelBuilder.Entity<Baihoc>(entity =>
+            {
+                entity.HasKey(e => e.IdBaiHoc);
+
+                entity.ToTable("BAIHOC");
+
+                entity.Property(e => e.LinkBaiHoc)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.TenBaiHoc)
+                    .IsRequired()
+                    .HasMaxLength(500);
+
+                entity.HasOne(d => d.IdKhoaHocNavigation)
+                    .WithMany(p => p.Baihocs)
+                    .HasForeignKey(d => d.IdKhoaHoc)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_BAIHOC_KHOADAOTAO");
+            });
+
+            modelBuilder.Entity<Baikiemtra>(entity =>
+            {
+                entity.HasKey(e => e.IdBaiKiemTra);
+
+                entity.ToTable("BAIKIEMTRA");
+
+                entity.Property(e => e.CauHoi).IsRequired();
+
+                entity.Property(e => e.DapAnA).IsRequired();
+
+                entity.Property(e => e.DapAnB).IsRequired();
+
+                entity.Property(e => e.DapAnD).IsRequired();
+
+                entity.Property(e => e.DapAnDung).IsRequired();
+
+                entity.Property(e => e.DapAnc).IsRequired();
+
+                entity.HasOne(d => d.IdKhoaHocNavigation)
+                    .WithMany(p => p.Baikiemtras)
+                    .HasForeignKey(d => d.IdKhoaHoc)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_BAIKIEMTRA_KHOADAOTAO");
+            });
+
             modelBuilder.Entity<Gioitinh>(entity =>
             {
                 entity.HasKey(e => e.IdgioiTinh);
@@ -58,13 +106,6 @@ namespace VLUTUTORS.Models
                     .HasColumnName("GioiTinh");
             });
 
-            modelBuilder.Entity<Ketquakiemtra>(entity =>
-            {
-                entity.ToTable("KETQUAKIEMTRA");
-
-                entity.Property(e => e.DapAnDaChon).IsUnicode(false);
-            });
-
             modelBuilder.Entity<Khoa>(entity =>
             {
                 entity.HasKey(e => e.Idkhoa);
@@ -78,17 +119,15 @@ namespace VLUTUTORS.Models
                     .HasMaxLength(200);
             });
 
-            modelBuilder.Entity<Khoa>(entity =>
+            modelBuilder.Entity<Khoadaotao>(entity =>
             {
-                entity.HasKey(e => e.Idkhoa);
+                entity.HasKey(e => e.IdKhoaHoc);
 
-                entity.ToTable("KHOA");
+                entity.ToTable("KHOADAOTAO");
 
-                entity.Property(e => e.Idkhoa).HasColumnName("IDKhoa");
-
-                entity.Property(e => e.TenKhoa)
+                entity.Property(e => e.TenKhoaHoc)
                     .IsRequired()
-                    .HasMaxLength(200);
+                    .HasMaxLength(500);
             });
 
             modelBuilder.Entity<Lienhe>(entity =>
@@ -216,13 +255,9 @@ namespace VLUTUTORS.Models
                 entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.AnhDaiDien).HasColumnType("image");
-                entity.Property(e => e.AnhDaiDien).HasColumnType("image");
 
                 entity.Property(e => e.ChungChiMon1).IsUnicode(false);
 
-                entity.Property(e => e.ChungChiMon1).IsUnicode(false);
-
-                entity.Property(e => e.ChungChiMon2).IsUnicode(false);
                 entity.Property(e => e.ChungChiMon2).IsUnicode(false);
 
                 entity.Property(e => e.Email)

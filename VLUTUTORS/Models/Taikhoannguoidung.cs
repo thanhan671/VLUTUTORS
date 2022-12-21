@@ -45,6 +45,7 @@ namespace VLUTUTORS.Models
         public int? IdxetDuyet { get; set; }
         public string TenChungChiHoacDiemMon1 { get; set; }
         public string TenChungChiHoacDiemMon2 { get; set; }
+        public int? DiemBaiTest { get; set; }
 
         public virtual Gioitinh IdgioiTinhNavigation { get; set; }
         public virtual Khoa IdkhoaNavigation { get; set; }
