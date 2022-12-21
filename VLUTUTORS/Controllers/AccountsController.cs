@@ -207,7 +207,7 @@ namespace VLUTUTORS.Controllers
             message.Subject = "Khôi phục mật khẩu Gia Sư Văn Lang";
             message.Body = new TextPart("plain")
             {
-                Text = "Mật khẩu mới của bạn là: " + newPass.ToString() + " Vui lòng đăng nhập với mật khẩu mới để khôi phục mật khẩu."
+                Text = "Mật khẩu mới của bạn là: " + newPass.ToString() + " Vui lòng đăng nhập với mật khẩu mới để đặt lại mật khẩu."
             };
             using (var client = new SmtpClient())
             {

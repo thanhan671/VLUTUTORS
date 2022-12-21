@@ -75,10 +75,11 @@ namespace VLUTUTORS.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult RegisterAsTutor([Bind(include: "Id, HoTen, Email, MatKhau, IdgioiTinh, Sdt, NgaySinh, Idkhoa, AnhDaiDien, TrangThaiTaiKhoan, SoTaiKhoan, IdnganHang, GioiThieu, DanhGiaVeViecGiaSu, DiemTrungBinh, IdmonGiaSu1, TenChungChiHoacDiemMon1, ChungChiMon1, GioiThieuVeMonGiaSu1, IdmonGiaSu2, TenChungChiHoacDiemMon2, ChungChiMon2, GioiThieuVeMonGiaSu2")]Taikhoannguoidung taikhoannguoidung, List<IFormFile> certificates1, List<IFormFile> certificates2)
+        public IActionResult RegisterAsTutor([Bind(include: "Id, HoTen, Email, MatKhau, IdgioiTinh, Sdt, NgaySinh, Idkhoa, AnhDaiDien, TrangThaiTaiKhoan, SoTaiKhoan, IdnganHang, GioiThieu, DanhGiaVeViecGiaSu, DiemTrungBinh, IdmonGiaSu1, TenChungChiHoacDiemMon1, ChungChiMon1, GioiThieuVeMonGiaSu1, IdmonGiaSu2, TenChungChiHoacDiemMon2, ChungChiMon2, GioiThieuVeMonGiaSu2")] Taikhoannguoidung taikhoannguoidung, List<IFormFile> avatar, List<IFormFile> certificates1, List<IFormFile> certificates2)
         {
             string certificates1Path = Path.Combine(this._environment.WebRootPath, "certificates", taikhoannguoidung.Id.ToString(), "cer1");
             string certificates2Path = Path.Combine(this._environment.WebRootPath, "certificates", taikhoannguoidung.Id.ToString(), "cer2");
+            string avatarPath = Path.Combine(this._environment.WebRootPath, "avatars", taikhoannguoidung.Id.ToString());
             //if (!Directory.Exists(certificates1Path))
             //{
             //    Directory.CreateDirectory(certificates1Path);
@@ -87,7 +88,8 @@ namespace VLUTUTORS.Controllers
 
             taikhoannguoidung.ChungChiMon1 = TutorServices.SaveUploadImages(certificates1Path, certificates1);
             taikhoannguoidung.ChungChiMon2 = TutorServices.SaveUploadImages(certificates2Path, certificates2);
-            taikhoannguoidung.IdxetDuyet = (int) ApprovalStatus.TRAINING;
+            taikhoannguoidung.AnhDaiDien = TutorServices.SaveUploadImages(avatarPath, avatar);
+            taikhoannguoidung.IdxetDuyet = (int)ApprovalStatus.TRAINING;
 
             Console.WriteLine("chung chi: " + JsonConvert.DeserializeObject(taikhoannguoidung.ChungChiMon1));
             if (ModelState.IsValid)

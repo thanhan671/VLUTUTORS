@@ -29,7 +29,7 @@ namespace VLUTUTORS.Models
         public string Sdt { get; set; }
         public DateTime? NgaySinh { get; set; }
         public int? Idkhoa { get; set; }
-        public byte[] AnhDaiDien { get; set; }
+        public string AnhDaiDien { get; set; }
         public bool? TrangThaiTaiKhoan { get; set; }
         public string SoTaiKhoan { get; set; }
         public int? IdnganHang { get; set; }
