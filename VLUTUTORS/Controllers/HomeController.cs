@@ -14,6 +14,7 @@ using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using System.Data;
 using VLUTUTORS.Support.Manager;
+using Microsoft.EntityFrameworkCore;
 
 namespace VLUTUTORS.Controllers
 {
@@ -35,14 +36,22 @@ namespace VLUTUTORS.Controllers
         //}
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             if (HttpContext.Session.GetInt32("LoginId") != 0)
             {
                 Console.WriteLine("login id: " + HttpContext.Session.GetInt32("LoginId"));
                 //Console.WriteLine(JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo")).HoTen);
             }
-            return View();
+            var noiDung = await _db.Noidungs.FirstOrDefaultAsync(m => m.Id == 1);
+            ViewData["Slogan"] = noiDung.Slogan;
+            ViewData["gtChanTrang"] = noiDung.GioiThieuChanTrang;
+            ViewData["diaChi"] = noiDung.DiaChi;
+            ViewData["Sdt"] = noiDung.Sdt;
+            ViewData["Email"] = noiDung.Email;
+            ViewData["Fb"] = noiDung.Facebook;
+            ViewData["gioiThieu"] = noiDung.GioiThieu;
+            return View(noiDung);
         }
 
         [HttpGet]
@@ -57,7 +66,7 @@ namespace VLUTUTORS.Controllers
 
             taikhoannguoidung.DepartmentItems = new SelectList(_db.Khoas, "Idkhoa", "TenKhoa", taikhoannguoidung.Idkhoa);
             taikhoannguoidung.GenderItems = new SelectList(_db.Gioitinhs, "IdgioiTinh", "GioiTinh1", taikhoannguoidung.IdgioiTinh);
-            taikhoannguoidung.BankItems = new SelectList(_db.Nganhangs, "Id", "TenNganHangHoacViDienTu", taikhoannguoidung.IdnganHang); 
+            taikhoannguoidung.BankItems = new SelectList(_db.Nganhangs, "Id", "TenNganHangHoacViDienTu", taikhoannguoidung.IdnganHang);
             taikhoannguoidung.Subject1Items = new SelectList(_db.Mongiasus, "IdmonGiaSu", "TenMonGiaSu", taikhoannguoidung.IdmonGiaSu1);
             taikhoannguoidung.Subject2Items = new SelectList(_db.Mongiasus, "IdmonGiaSu", "TenMonGiaSu", taikhoannguoidung.IdmonGiaSu2);
 
@@ -77,10 +86,11 @@ namespace VLUTUTORS.Controllers
             //    Directory.CreateDirectory(certificates2Path);
             //}
 
+            taikhoannguoidung.TrangThaiTaiKhoan = true;
             taikhoannguoidung.ChungChiMon1 = TutorServices.SaveUploadImages(this._environment.WebRootPath, certificates1Path, certificates1);
             taikhoannguoidung.ChungChiMon2 = TutorServices.SaveUploadImages(this._environment.WebRootPath, certificates2Path, certificates2);
             taikhoannguoidung.AnhDaiDien = TutorServices.SaveUploadImages(this._environment.WebRootPath, avatarPath, avatar);
-            taikhoannguoidung.IdxetDuyet = (int) ApprovalStatus.TRAINING;
+            taikhoannguoidung.IdxetDuyet = (int)ApprovalStatus.TRAINING;
 
             Console.WriteLine("chung chi: " + JsonConvert.DeserializeObject(taikhoannguoidung.ChungChiMon1));
             if (ModelState.IsValid)
@@ -137,9 +147,17 @@ namespace VLUTUTORS.Controllers
         }
 
         [HttpGet]
-        public IActionResult Contact()
+        public async Task<IActionResult> Contact()
         {
-            return View();
+            var noiDung = await _db.Noidungs.FirstOrDefaultAsync(m => m.Id == 1);
+            ViewData["Slogan"] = noiDung.Slogan;
+            ViewData["gtChanTrang"] = noiDung.GioiThieuChanTrang;
+            ViewData["diaChi"] = noiDung.DiaChi;
+            ViewData["Sdt"] = noiDung.Sdt;
+            ViewData["Email"] = noiDung.Email;
+            ViewData["Fb"] = noiDung.Facebook;
+            ViewData["gioiThieu"] = noiDung.GioiThieu;
+            return View(noiDung);
         }
 
         [HttpPost]
@@ -174,9 +192,17 @@ namespace VLUTUTORS.Controllers
             return RedirectToAction("Contact", "Home");
         }
 
-        public IActionResult AboutUs()
+        public async Task<IActionResult> AboutUs()
         {
-            return View();
+            var noiDung = await _db.Noidungs.FirstOrDefaultAsync(m => m.Id == 1);
+            ViewData["Slogan"] = noiDung.Slogan;
+            ViewData["gtChanTrang"] = noiDung.GioiThieuChanTrang;
+            ViewData["diaChi"] = noiDung.DiaChi;
+            ViewData["Sdt"] = noiDung.Sdt;
+            ViewData["Email"] = noiDung.Email;
+            ViewData["Fb"] = noiDung.Facebook;
+            ViewData["gioiThieu"] = noiDung.GioiThieu;
+            return View(noiDung);
         }
 
     }

@@ -41,7 +41,6 @@ namespace VLUTUTORS.Support.Services
                     //ViewBag.Message += string.Format("<b>{0}</b> uploaded.<br />", fileName);
                 }
                 filesName.Add(Path.Combine(path, fileName));
-                
             }
             namesJson = JsonConvert.SerializeObject(filesName);
             return namesJson;
@@ -62,7 +61,7 @@ namespace VLUTUTORS.Support.Services
 
         public static Taikhoannguoidung FindUserAccountByEmail(string email)
         {
-            return DataManager.Instance().db().Taikhoannguoidungs.Where(u => u.Email.Equals(email)).FirstOrDefault(); 
+            return DataManager.Instance().db().Taikhoannguoidungs.Where(u => u.Email.Equals(email)).FirstOrDefault();
         }
 
         public static void UpdateUserInfo(Taikhoannguoidung user)

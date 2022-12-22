@@ -139,6 +139,8 @@ form.sign-in-form {
   line-height: 1;
   font-weight: 600;
   font-size: 1.1rem;
+  border-radius: 30px;
+  padding: 10px;
   color: #333;
 }
 
@@ -556,7 +558,7 @@ form.sign-in-form {
   width: auto;
   cursor: pointer;
   margin-bottom: 1.3rem;
-  width: 200px;
+  width: 100%;
 }
 
 .form__input .form__select select {
@@ -565,6 +567,14 @@ form.sign-in-form {
   height: 100%;
   font-weight: 600;
   color: #07294d;
+}
+.form__input .lb-form {
+font-weight: 600;
+    color: #07294d;
+}
+.col-4 .lb-form-title {
+    font-weight: 900;
+    color: #07294d;
 }
 
 .sign-up__desc {
@@ -614,13 +624,13 @@ form.sign-in-form {
 }
 
 .form__label {
-  position: absolute;
-  top: -13px;
-  left: 14px;
-  display: block;
-  background: #fff;
-  margin: 3px 3px;
-  font-weight: 600;
+    position: absolute;
+    top: -13px;
+    left: 14px;
+    display: block;
+    margin: 3px 3px;
+    font-weight: 600;
+    color: #07294d;
 }
 
 .form__input.warning span {

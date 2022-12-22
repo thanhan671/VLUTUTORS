@@ -10,6 +10,8 @@ using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
 using MimeKit;
 using MailKit.Net.Smtp;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json.Linq;
 
 namespace VLUTUTORS.Controllers
 {
@@ -51,9 +53,60 @@ namespace VLUTUTORS.Controllers
             return View();
         }
 
-        public IActionResult Details()
+        public async Task<IActionResult> Details(int? id = -1)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var taiKhoan = await db.Taikhoannguoidungs.FirstOrDefaultAsync(m => m.Id == id);
+            string newString = taiKhoan.AnhDaiDien.TrimStart('[','"');
+            ViewData["image"] = newString.TrimEnd('"',']').ToString();
+            var gioiTinhs = await db.Gioitinhs.ToListAsync();
+            SelectList ddlStatus = new SelectList(gioiTinhs, "IdgioiTinh", "GioiTinh1");
+            taiKhoan.GioiTinhs = ddlStatus;
+            return View(taiKhoan);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Details(int id, [FromForm] int IdgioiTinh, [FromForm] DateTime NgaySinh, [FromForm] string Sdt, [FromForm] string MatKhau, [FromForm] string ReMatKhau)
+        {
+            var dbTaikhoannguoidung = await db.Taikhoannguoidungs.FindAsync(id);
+            if (dbTaikhoannguoidung == null || (dbTaikhoannguoidung != null && id != dbTaikhoannguoidung.Id))
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    dbTaikhoannguoidung.IdgioiTinh = IdgioiTinh;
+                    dbTaikhoannguoidung.NgaySinh = NgaySinh;
+                    dbTaikhoannguoidung.Sdt = Sdt;
+                    if (!string.IsNullOrEmpty(MatKhau))
+                        dbTaikhoannguoidung.MatKhau = MatKhau;
+
+                    db.Update(dbTaikhoannguoidung);
+                    await db.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    return RedirectToAction("Details", new { id });
+                }
+                return RedirectToAction("Details", new { id });
+            }
+
+            return RedirectToAction("Details", new { id });
+
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
@@ -102,11 +155,12 @@ namespace VLUTUTORS.Controllers
             return RedirectToAction("Login", "Accounts");
         }
 
-        private IActionResult LoginSuccessCall(Taikhoannguoidung taikhoannguoidung)
+        public IActionResult LoginSuccessCall(Taikhoannguoidung taikhoannguoidung)
         {
             // add session info here
             //HttpContext.Session.
             HttpContext.Session.SetInt32("LoginId", taikhoannguoidung.Id);
+            HttpContext.Session.SetString("loginName", taikhoannguoidung.HoTen);
             //HttpContext.Session.SetString("LoginName", taikhoannguoidung.HoTen);
             HttpContext.Session.SetString("SessionInfo", JsonConvert.SerializeObject(taikhoannguoidung));
 
@@ -155,7 +209,7 @@ namespace VLUTUTORS.Controllers
             message.Subject = "Khôi phục mật khẩu Gia Sư Văn Lang";
             message.Body = new TextPart("plain")
             {
-                Text = "Mật khẩu mới của bạn là: " + newPass.ToString() + " Vui lòng đăng nhập với mật khẩu mới để khôi phục mật khẩu."
+                Text = "Mật khẩu mới của bạn là: " + newPass.ToString() + " Vui lòng đăng nhập với mật khẩu mới để đặt lại mật khẩu."
             };
             using (var client = new SmtpClient())
             {
@@ -169,12 +223,6 @@ namespace VLUTUTORS.Controllers
                 client.Dispose();
             }
 
-            return RedirectToAction("Login", "Accounts");
-        }
-
-        public IActionResult Logout()
-        {
-            HttpContext.Session.Clear();
             return RedirectToAction("Login", "Accounts");
         }
     }

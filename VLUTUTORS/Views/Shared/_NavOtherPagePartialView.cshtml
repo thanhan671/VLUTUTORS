@@ -1,4 +1,8 @@
 ﻿    <!--====== HEADER PART START ======-->
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor httpContextAccessor
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
 
 <header id="header-part">
     <!-- header logo support -->
@@ -35,8 +39,9 @@
                 <div class="col-lg-2 col-md-2 col-sm-3 col-4">
                     <div class="right-icon text-right">
                         <ul>
+
                             <li>
-                                <a href="/Accounts/Details"><i class="fa-solid fa-user-tie active"></i></a>
+                                <a asp-controller="Accounts" asp-action="Details" asp-route-id="@httpContextAccessor.HttpContext.Session.GetInt32("LoginId")"><i class="fa-solid fa-user-tie active"></i></a>
                             </li>
                         </ul>
                     </div>

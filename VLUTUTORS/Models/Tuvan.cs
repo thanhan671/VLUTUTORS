@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable disable
 
@@ -14,5 +16,10 @@ namespace VLUTUTORS.Models
         public int IdtrangThai { get; set; }
 
         public virtual Trangthai IdtrangThaiNavigation { get; set; }
+
+        [NotMapped]
+        public string TrangThai { get; set; }
+        [NotMapped]
+        public SelectList TrangThais { get; set; }
     }
 }

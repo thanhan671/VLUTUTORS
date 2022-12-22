@@ -58,7 +58,8 @@ body {
 }
 
 img {
-  max-width: 100%;
+  max-width: 70%;
+  max-height: 90%;
 }
 
 a:focus,
@@ -4119,7 +4120,7 @@ p.form-message.error {
 
 .contact-address {
   background-color: #fff;
-  padding: 20px 50px 50px;
+  padding: 20px 20px 40px;
   border-radius: 5px;
 }
 

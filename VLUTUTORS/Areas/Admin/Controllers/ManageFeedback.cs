@@ -1,22 +1,71 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.ObjectPool;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using VLUTUTORS.Models;
 
 namespace VLUTUTORS.Areas.Admin.Controllers
 {
     [Area("Admin")]
     public class ManageFeedback : Controller
     {
-        public IActionResult Index()
+        private readonly CP25Team01Context _context = new CP25Team01Context();
+
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var lienHes = await _context.Lienhes.ToListAsync();
+            var trangThais = await _context.Trangthais.ToListAsync();
+            foreach (var lienHe in lienHes)
+            {
+                var trangThai = trangThais.FirstOrDefault(it => it.IdtrangThai == lienHe.IdtrangThai);
+                if (trangThai != null)
+                    lienHe.TrangThai = trangThai.TrangThai1;
+            }
+            return View(lienHes);
+        }
+        public async Task<IActionResult> Detail(int? id = -1)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var lienHe = await _context.Lienhes.FirstOrDefaultAsync(m => m.IdlienHe == id);
+            if (lienHe == null)
+                return NotFound();
+            var trangThais = await _context.Trangthais.ToListAsync();
+            SelectList ddlStatus = new SelectList(trangThais, "IdtrangThai", "TrangThai1");
+            lienHe.TrangThais = ddlStatus;
+            return View(lienHe);
         }
 
-        public IActionResult Detail()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Detail(int id, [Bind("IdlienHe,HoVaTen,Email,MonHoc,Sdt,NoiDung,IdtrangThai")] Lienhe lienHe)
         {
-            return View();
+            if (id != lienHe.IdlienHe)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(lienHe);
+                    await _context.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                return RedirectToAction("Index");
+            }
+            return View(lienHe);
         }
     }
 }
