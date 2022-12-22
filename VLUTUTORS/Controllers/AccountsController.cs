@@ -61,6 +61,8 @@ namespace VLUTUTORS.Controllers
             }
 
             var taiKhoan = await db.Taikhoannguoidungs.FirstOrDefaultAsync(m => m.Id == id);
+            string newString = taiKhoan.AnhDaiDien.TrimStart('[','"');
+            ViewData["image"] = newString.TrimEnd('"',']').ToString();
             var gioiTinhs = await db.Gioitinhs.ToListAsync();
             SelectList ddlStatus = new SelectList(gioiTinhs, "IdgioiTinh", "GioiTinh1");
             taiKhoan.GioiTinhs = ddlStatus;
@@ -71,7 +73,7 @@ namespace VLUTUTORS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Details(int id, [FromForm] int IdgioiTinh, [FromForm] DateTime NgaySinh, [FromForm] string Sdt, [FromForm] string MatKhau, [FromForm] string ReMatKhau)
         {
-            var dbTaikhoannguoidung = await  db.Taikhoannguoidungs.FindAsync(id);
+            var dbTaikhoannguoidung = await db.Taikhoannguoidungs.FindAsync(id);
             if (dbTaikhoannguoidung == null || (dbTaikhoannguoidung != null && id != dbTaikhoannguoidung.Id))
             {
                 return NotFound();
@@ -84,7 +86,7 @@ namespace VLUTUTORS.Controllers
                     dbTaikhoannguoidung.IdgioiTinh = IdgioiTinh;
                     dbTaikhoannguoidung.NgaySinh = NgaySinh;
                     dbTaikhoannguoidung.Sdt = Sdt;
-                    if(!string.IsNullOrEmpty(MatKhau))
+                    if (!string.IsNullOrEmpty(MatKhau))
                         dbTaikhoannguoidung.MatKhau = MatKhau;
 
                     db.Update(dbTaikhoannguoidung);
@@ -207,7 +209,7 @@ namespace VLUTUTORS.Controllers
             message.Subject = "Khôi phục mật khẩu Gia Sư Văn Lang";
             message.Body = new TextPart("plain")
             {
-                Text = "Mật khẩu mới của bạn là: " + newPass.ToString() + " Vui lòng đăng nhập với mật khẩu mới để khôi phục mật khẩu."
+                Text = "Mật khẩu mới của bạn là: " + newPass.ToString() + " Vui lòng đăng nhập với mật khẩu mới để đặt lại mật khẩu."
             };
             using (var client = new SmtpClient())
             {

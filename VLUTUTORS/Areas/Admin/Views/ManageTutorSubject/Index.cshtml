@@ -1,0 +1,74 @@
+﻿@model IEnumerable<VLUTUTORS.Models.Mongiasu>
+@{
+    ViewData["Title"] = "Quản lý môn gia sư";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Quản lý môn gia sư</h1>
+                </div>
+                <div class="col-sm-6"></div>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <!-- Default box -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Danh sách môn gia sư</h3>
+                <div class="card-tools">
+                    <a class="btn btn-primary btn-sm"
+                       asp-action="AddSubject" asp-controller="ManageTutorSubject">
+                        <i class="fas fa-plus"> </i>
+                        Thêm môn gia sư
+                    </a>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-striped projects">
+                    <thead>
+                        <tr>
+                            <th style="width: 20%">STT</th>
+                            <th style="width: 20%">Tên môn gia sư</th>
+                            <th style="width: 15%">Chức năng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            var index = 0;
+                            foreach (var item in Model)
+                            {
+                                index++;
+                                <tr>
+                                    <td>@index</td>
+                                    <td>
+                                        @Html.DisplayFor(modeItem => item.TenMonGiaSu)
+                                    </td>
+                                    <td class="project-actions">
+                                        <a class="btn btn-info btn-sm" asp-action="EditSubject" asp-controller="ManageTutorSubject" asp-route-id="@item.IdmonGiaSu">
+                                            <i class="fas fa-pencil-alt"> </i>
+                                            Sửa
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+
+        <!-- /.card -->
+    </section>
+    <!-- /.content -->
+</div>
+
