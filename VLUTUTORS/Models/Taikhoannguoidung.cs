@@ -25,7 +25,7 @@ namespace VLUTUTORS.Models
         [Required(ErrorMessage = "Vui lòng điền trường này!")]
         [MinLength(6, ErrorMessage = "Mật khẩu phải trên 6 ký tự")]
         public string MatKhau { get; set; } = null!;
-        public int IdgioiTinh { get; set; }
+        public int? IdgioiTinh { get; set; }
         public string Sdt { get; set; }
         public DateTime? NgaySinh { get; set; }
         public int? Idkhoa { get; set; }
