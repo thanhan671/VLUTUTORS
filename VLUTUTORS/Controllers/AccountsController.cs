@@ -12,13 +12,21 @@ using MimeKit;
 using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json.Linq;
+using VLUTUTORS.Security;
+using System.Net.Http;
 
 namespace VLUTUTORS.Controllers
 {
     public class AccountsController : Controller
     {
+        UserManager _userManager;
         private CP25Team01Context db = new CP25Team01Context();
-        private Func<Taikhoannguoidung, IActionResult> _loginSuccessCallback;
+
+        public AccountsController(UserManager userManager)
+        {
+            _userManager = userManager;
+        }
+
 
         public IActionResult Login()
         {
@@ -32,25 +40,34 @@ namespace VLUTUTORS.Controllers
         {
             string email = taikhoannguoidung.Email;
             string password = taikhoannguoidung.MatKhau;
-
-            Taikhoannguoidung checkAccount;
-            checkAccount = db.Taikhoannguoidungs.Where(acc => acc.Email.Equals(email.Trim())).FirstOrDefault();
-
-            if (checkAccount != null)
+            try
             {
-                _loginSuccessCallback = LoginSuccessCall;
+                _userManager.SignIn(this.HttpContext, email, password);
+                var checkAccount = db.Taikhoannguoidungs.Where(acc => acc.Email.Equals(email.Trim())).FirstOrDefault();
+                if (checkAccount != null && checkAccount.Id > 0)
+                {
+                    HttpContext.Session.SetInt32("LoginId", checkAccount.Id);
+                    HttpContext.Session.SetString("loginName", checkAccount.HoTen);
+                    HttpContext.Session.SetString("SessionInfo", JsonConvert.SerializeObject(checkAccount));
+                }
+                else
+                {
+                    var admin = db.Taikhoanadmins.Where(acc => acc.TaiKhoan.Equals(email.Trim())).FirstOrDefault();
+                    if (admin != null && admin.Id > 0)
+                    {
+                        HttpContext.Session.SetInt32("LoginId", admin.Id);
+                        HttpContext.Session.SetString("loginName", admin.TaiKhoan);
+                        HttpContext.Session.SetString("SessionInfo", JsonConvert.SerializeObject(admin));
+                    }
+                }
+
+                return RedirectToAction("Index", "Home");
             }
-            else
+            catch (Exception ex)
             {
                 return View();
             }
 
-            if (checkAccount.MatKhau.Equals(password.Trim()))
-            {
-                return _loginSuccessCallback.Invoke(checkAccount);
-            }
-
-            return View();
         }
 
         public async Task<IActionResult> Details(int? id = -1)
@@ -105,8 +122,17 @@ namespace VLUTUTORS.Controllers
 
         public IActionResult Logout()
         {
-            HttpContext.Session.Clear();
-            return RedirectToAction("Index", "Home");
+            try
+            {
+                _userManager.SignOut(this.HttpContext);
+                HttpContext.Session.Clear();
+
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception ex)
+            {
+                return View();
+            }
         }
 
         [HttpPost]

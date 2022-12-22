@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.ObjectPool;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using VLUTUTORS.Models;
@@ -11,6 +13,8 @@ using VLUTUTORS.Models;
 namespace VLUTUTORS.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Quản trị viên hệ thống")]
+
     public class ManageFeedback : Controller
     {
         private readonly CP25Team01Context _context = new CP25Team01Context();
