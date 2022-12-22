@@ -29,15 +29,19 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="d-flex flex-column align-items-center text-center">
-                                        <img src="https://upload.wikimedia.org/wikipedia/commons/f/fe/Son_Tung_M-TP_1_%282017%29.png"
-                                             alt="Admin"
-                                             class="rounded-circle"
-                                             width="150" />
+                                        @foreach(var img in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.AnhDaiDien))
+                                        {
+                                            var path = @img.Replace(@"\", @"\\");
+                                            <img src="/@path"
+                                                 alt="Admin"
+                                                 class="rounded-circle"
+                                                 width="150" />
+                                        } 
                                         <div class="mt-3">
                                             <input style="width: 80px"
                                                    type="file"
-                                                   name=""
-                                                   id="" /><br />
+                                                   name="avatar"
+                                                   accept=".jpg, .jpeg, .png" /><br />
                                             <span>Định dạng: .JPEG, .PNG</span>
                                         </div>
                                         <div class="mt-3">
@@ -52,6 +56,9 @@
                                 <div class="card-body">
                                     @Html.HiddenFor(m => m.Id)
                                     @Html.HiddenFor(m => m.MatKhau)
+                                    @Html.HiddenFor(m => m.AnhDaiDien)
+                                    @Html.HiddenFor(m => m.ChungChiMon1)
+                                    @Html.HiddenFor(m => m.ChungChiMon2)
                                     <div class="row-nowrap">
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Email</h6>
@@ -176,13 +183,19 @@
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Ảnh minh chứng</h6>
                                         </div>
+                                        @foreach(var img in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.ChungChiMon1))
+                                        {
+                                            var path = @img.Replace(@"\", @"\\");
+                                            <td><img src = "/@path" height="150" width="200"></td>
+                                        }
+                                    </div>
+                                    <div class="row-nowrap">
                                        <input class=""
-                                                   type="file"
-                                                   name="certificates1"
-                                                   placeholder="Chứng Chỉ"
-                                                   required
-                                                   multiple="multiple"
-                                                   accept=".jpg, .jpeg, .png" />
+                                              type="file"
+                                              name="certificates1"
+                                              placeholder="Chứng Chỉ"
+                                              multiple="multiple"
+                                              accept=".jpg, .jpeg, .png" />
                                     </div>
 
                                     <hr />
@@ -216,19 +229,19 @@
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Ảnh minh chứng</h6>
                                         </div>
-                                        <input 
-                                            @foreach(var img in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.ChungChiMon1))
-                                            {
-                                                @*<td><img src = "~\\@img" class="detailImage"/></td>*@
-                                                <td><img src = "@Url.Content(img)"/></td>
-                                            }
-                                           @* class=""
-                                            type="file"
-                                            name="certificates2"
-                                            placeholder="Chứng Chỉ"
-                                            required
-                                            multiple="multiple"
-                                            accept=".jpg, .jpeg, .png" />*@
+                                        @foreach(var img in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.ChungChiMon2))
+                                        {
+                                            var path = @img.Replace(@"\", @"\\");
+                                            <td><img src = "/@path" height="150" width="200"/></td>
+                                        }
+                                    </div>
+                                     <div class="row-nowrap">
+                                       <input class=""
+                                              type="file"
+                                              name="certificates2"
+                                              placeholder="Chứng Chỉ"
+                                              multiple="multiple"
+                                              accept=".jpg, .jpeg, .png" />
                                     </div>
 
                                     <hr />

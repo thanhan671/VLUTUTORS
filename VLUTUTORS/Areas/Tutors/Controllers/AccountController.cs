@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using VLUTUTORS.Models;
+using VLUTUTORS.Support.Manager;
 using VLUTUTORS.Support.Services;
 
 namespace VLUTUTORS.Areas.Tutors.Controllers
@@ -39,14 +40,6 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             taikhoannguoidung.Subject1Items = new SelectList(_db.Mongiasus, "IdmonGiaSu", "TenMonGiaSu", taikhoannguoidung.IdmonGiaSu1);
             taikhoannguoidung.Subject2Items = new SelectList(_db.Mongiasus, "IdmonGiaSu", "TenMonGiaSu", taikhoannguoidung.IdmonGiaSu2);
 
-            //string certificates1Path = Path.Combine(this._environment.WebRootPath, "certificates", taikhoannguoidung.Id.ToString(), "cer1");
-            //string certificates2Path = Path.Combine(this._environment.WebRootPath, "certificates", taikhoannguoidung.Id.ToString(), "cer2");
-            //string avatarPath = Path.Combine(this._environment.WebRootPath, "avatars", taikhoannguoidung.Id.ToString());
-
-            //List<string> certificate1Files = JsonConvert.DeserializeObject<List<string>>(taikhoannguoidung.ChungChiMon1);
-            //List<string> certificate2Files = JsonConvert.DeserializeObject<List<string>>(taikhoannguoidung.ChungChiMon2);
-            //List<string> avatarFile = JsonConvert.DeserializeObject<List<string>>(taikhoannguoidung.AnhDaiDien);
-            
 
             if (taikhoannguoidung == null)
                 return View();
@@ -57,17 +50,25 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
         [HttpPost]
         public IActionResult Index([Bind(include: "Id, HoTen, Email, MatKhau, IdgioiTinh, Sdt, NgaySinh, Idkhoa, AnhDaiDien, TrangThaiTaiKhoan, SoTaiKhoan, IdnganHang, GioiThieu, DanhGiaVeViecGiaSu, DiemTrungBinh, IdmonGiaSu1, TenChungChiHoacDiemMon1, ChungChiMon1, GioiThieuVeMonGiaSu1, IdmonGiaSu2, TenChungChiHoacDiemMon2, ChungChiMon2, GioiThieuVeMonGiaSu2")] Taikhoannguoidung taikhoannguoidung, List<IFormFile> avatar, List<IFormFile> certificates1, List<IFormFile> certificates2)
         {
+            //if(certificates1.Count == 0)
+            //{
+            //    Console.WriteLine(taikhoannguoidung.ChungChiMon1);
+            //    return View();
+            //}
             string certificates1Path = Path.Combine("certificates", taikhoannguoidung.Id.ToString(), "cer1");
             string certificates2Path = Path.Combine("certificates", taikhoannguoidung.Id.ToString(), "cer2");
             string avatarPath = Path.Combine("avatars", taikhoannguoidung.Id.ToString());
 
-            taikhoannguoidung.ChungChiMon1 = TutorServices.SaveUploadImages(this._environment.WebRootPath, certificates1Path, certificates1);
-            taikhoannguoidung.ChungChiMon2 = TutorServices.SaveUploadImages(this._environment.WebRootPath, certificates2Path, certificates2);
-            taikhoannguoidung.AnhDaiDien = TutorServices.SaveUploadImages(this._environment.WebRootPath, avatarPath, avatar);
+            taikhoannguoidung.TrangThaiTaiKhoan = true;
+            taikhoannguoidung.ChungChiMon1 = certificates1.Count == 0 ? TutorServices.SaveUploadImages(this._environment.WebRootPath, certificates1Path, certificates1) : taikhoannguoidung.ChungChiMon1;
+            taikhoannguoidung.ChungChiMon2 = certificates2.Count == 0 ? TutorServices.SaveUploadImages(this._environment.WebRootPath, certificates2Path, certificates2) : taikhoannguoidung.ChungChiMon2;
+            taikhoannguoidung.AnhDaiDien = avatar.Count == 0 ? TutorServices.SaveUploadImages(this._environment.WebRootPath, avatarPath, avatar) : taikhoannguoidung.AnhDaiDien;
+            taikhoannguoidung.IdxetDuyet = (int)ApprovalStatus.TRAINING;
 
-            Console.WriteLine("chung chi: " + JsonConvert.DeserializeObject(taikhoannguoidung.ChungChiMon1));
+            //Console.WriteLine("chung chi: " + JsonConvert.DeserializeObject(taikhoannguoidung.ChungChiMon1));
             if (ModelState.IsValid)
             {
+                _db.Entry(taikhoannguoidung).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
                 _db.Entry(taikhoannguoidung).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 _db.SaveChanges();
             }

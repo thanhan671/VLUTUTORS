@@ -46,18 +46,18 @@ namespace VLUTUTORS.Support.Services
             return namesJson;
         }
 
-        //public static List<string> LoadImages(List<string> imagesNameList)
-        //{
-        //    var db = DataManager.Instance().db();
-        //    var imagesName = imagesNameList.ToList();
-        //    List<string> pathToImages = new List<string>();
-        //    foreach(var item in imagesName)
-        //    {
-        //        pathToImages.Add(Path.Combine(path, item));
-        //    }
+        public static List<string> LoadImages(List<string> imagesNameList)
+        {
+            List<string> imagesPathList = new List<string>();
+            foreach (var imagePath in imagesNameList)
+            {
+                string path = imagePath.Replace(@"\", @"\\");
+                imagesPathList.Add(path);
+                Console.WriteLine("certificate path: " + path);
+            }
 
-        //    return pathToImages;
-        //}
+            return imagesPathList;
+        }
 
         public static Taikhoannguoidung FindUserAccountByEmail(string email)
         {
