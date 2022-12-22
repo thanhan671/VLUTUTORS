@@ -57,6 +57,11 @@ namespace VLUTUTORS.Controllers
         [HttpGet]
         public IActionResult RegisterAsTutor()
         {
+            string user = HttpContext.Session.GetString("LoginId");
+            if (user == null)
+            {
+                return RedirectToAction("Login", "Accounts");
+            }
             Taikhoannguoidung taikhoannguoidung = new Taikhoannguoidung();
             var userInfo = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
             taikhoannguoidung.Id = userInfo.Id;
