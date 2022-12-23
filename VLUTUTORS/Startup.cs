@@ -34,7 +34,7 @@ namespace VLUTUTORS
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            services.AddSingleton<HtmlEncoder>(HtmlEncoder.Create(allowedRanges: new[] {UnicodeRanges.All}));
+            services.AddSingleton<HtmlEncoder>(HtmlEncoder.Create(allowedRanges: new[] { UnicodeRanges.All }));
 
             services.AddSession(options =>
             {
@@ -48,9 +48,9 @@ namespace VLUTUTORS
             ).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
             options =>
             {
-                options.LoginPath = "/Accounts/Login";
-                options.LogoutPath = "/Accounts/Logout";
-                options.AccessDeniedPath = "/Accounts/Login";
+                options.LoginPath = "/Admin/Login";
+                options.LogoutPath = "/Admin/Logout";
+                options.AccessDeniedPath = "/Admin/Login";
             });
 
             services.AddAuthentication(options =>

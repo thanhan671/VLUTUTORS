@@ -15,25 +15,9 @@ namespace VLUTUTORS.Security
     {
         private CP25Team01Context db = new CP25Team01Context();
 
-        public async void SignIn(HttpContext httpContext, string email, string password, bool loginAdminAccount = false)
+        public async void SignIn(HttpContext httpContext, string taiKhoan, string password)
         {
-            if (!loginAdminAccount)
-            {
-                Taikhoannguoidung user = db.Taikhoannguoidungs.Where(acc => acc.Email.Equals(email.Trim())).FirstOrDefault();
-                if (user != null && user.Id > 0)
-                {
-                    if (user.MatKhau.Equals(password.Trim()))
-                    {
-                        ClaimsIdentity identity = new ClaimsIdentity(await this.GetUserClaimsAsync(user), CookieAuthenticationDefaults.AuthenticationScheme);
-                        ClaimsPrincipal principal = new ClaimsPrincipal(identity);
-
-                        await httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
-                        return;
-                    }
-                }
-            }
-
-            Taikhoanadmin checkAccount = db.Taikhoanadmins.Where(acc => acc.TaiKhoan.Equals(email.Trim())).FirstOrDefault();
+            Taikhoanadmin checkAccount = db.Taikhoanadmins.Where(acc => acc.TaiKhoan.Equals(taiKhoan.Trim())).FirstOrDefault();
             if (checkAccount != null && checkAccount.Id > 0)
             {
                 if (checkAccount.MatKhau.Equals(password.Trim()))
@@ -50,16 +34,6 @@ namespace VLUTUTORS.Security
         public async void SignOut(HttpContext httpContext)
         {
             await httpContext.SignOutAsync();
-        }
-
-        private async Task<IEnumerable<Claim>> GetUserClaimsAsync(Taikhoannguoidung user)
-        {
-            List<Claim> claims = new List<Claim>();
-
-            claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
-            claims.Add(new Claim(ClaimTypes.Name, user.HoTen));
-            claims.Add(new Claim(ClaimTypes.Email, user.Email));
-            return claims;
         }
 
         private async Task<IEnumerable<Claim>> GetUserClaimsAsync(Taikhoanadmin user)
