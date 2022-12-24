@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using VLUTUTORS.Models;
 using static System.Net.Mime.MediaTypeNames;
@@ -12,6 +15,8 @@ using static System.Net.Mime.MediaTypeNames;
 namespace VLUTUTORS.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Trung tâm hỗ trợ sinh viên")]
+
     public class ManageConsultingController : Controller
     {
         private readonly CP25Team01Context _context = new CP25Team01Context();

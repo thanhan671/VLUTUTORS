@@ -1,4 +1,5 @@
-﻿
+﻿@model VLUTUTORS.Models.TutorListModel
+
 @{
     ViewData["Title"] = "Quản lý gia sư";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
@@ -21,88 +22,9 @@
     <!-- Main content -->
     <section class="content">
         <!-- Default box -->
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Gia sư đợi duyệt</h3>
-            </div>
-            <div class="card-body p-0">
-                <table class="table table-striped projects">
-                    <thead>
-                        <tr>
-                            <th style="width: 1%">#</th>
-                            <th style="width: 20%">Tên Gia Sư</th>
-                            <th style="width: 20%">Môn Gia Sư</th>
-                            <th style="width: 15%">Điểm bài kiểm tra</th>
-                            <th style="width: 20%">Trạng thái xét duyệt</th>
-                            <th style="width: 15%"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>
-                                <a>Hoàng Văn Đạt</a>
-                            </td>
-                            <td>Anh Văn Cơ Bản</td>
-                            <td>8</td>
-                            <td>Đang tham gia khóa học</td>
-                            <td class="project-actions text-right">
-                                <a class="btn btn-primary btn-sm"
-                                   href="/Admin/ManageTutors/ViewRegister">
-                                    <i class="fas fa-folder"> </i>
-                                    Xem hồ sơ
-                                </a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <!-- /.card-body -->
-        </div>
+        @await Html.PartialAsync("AwaitTutor.cshtml", Model.awaitTutors)
+        @await Html.PartialAsync("ApprovedTutor.cshtml", Model.approvedTutors)
 
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Gia sư hiện có</h3>
-            </div>
-            <div class="card-body p-0">
-                <table class="table table-striped projects">
-                    <thead>
-                        <tr>
-                            <th style="width: 1%">#</th>
-                            <th style="width: 20%">Tên Gia Sư</th>
-                            <th style="width: 30%">Môn Gia sư</th>
-                            <th>Email</th>
-                            <th style="width: 8%" class="text-center">Trạng thái</th>
-                            <th style="width: 20%"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>
-                                <a>Hoàng Văn Đạt</a>
-                            </td>
-                            <td>Anh Văn Cơ Bản</td>
-                            <td>dat.197pm09430@vanlanguni.vn</td>
-                            <td class="project-state">
-                                <span class="badge badge-success">Hoạt Động</span>
-                            </td>
-                            <td class="project-actions text-right">
-                                <a class="btn btn-primary btn-sm" href="/Admin/ManageTutors/DetailTutor">
-                                    <i class="fas fa-folder"> </i>
-                                    Xem
-                                </a>
-                                <a class="btn btn-info btn-sm" href="/Admin/ManageTutors/UpdateTutor">
-                                    <i class="fas fa-pencil-alt"> </i>
-                                    Sửa
-                                </a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <!-- /.card-body -->
-        </div>
         <!-- /.card -->
     </section>
     <!-- /.content -->

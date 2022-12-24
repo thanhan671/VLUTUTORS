@@ -26,9 +26,9 @@
             <div class="card-body login-card-body">
                 <p class="login-box-msg">Đăng nhập để truy cập vào trang quản trị</p>
 
-                <form method="post">
+                <form  method="post" enctype="multipart/form-data" asp-controller="Login" asp-action="Index">
                     <div class="input-group mb-3">
-                        <input type="email" class="form-control" placeholder="Tên Đăng Nhập">
+                        <input type="text" class="form-control" name="TaiKhoan" placeholder="Tên Đăng Nhập">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
@@ -36,7 +36,7 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="password" class="form-control" placeholder="Mật Khẩu">
+                        <input type="password" class="form-control" name="MatKhau" placeholder="Mật Khẩu">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
