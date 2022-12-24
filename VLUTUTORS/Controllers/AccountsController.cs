@@ -12,21 +12,13 @@ using MimeKit;
 using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json.Linq;
-using VLUTUTORS.Security;
-using System.Net.Http;
 
 namespace VLUTUTORS.Controllers
 {
     public class AccountsController : Controller
     {
-        UserManager _userManager;
         private CP25Team01Context db = new CP25Team01Context();
-
-        public AccountsController(UserManager userManager)
-        {
-            _userManager = userManager;
-        }
-
+        private Func<Taikhoannguoidung, IActionResult> _loginSuccessCallback;
 
         public IActionResult Login()
         {
@@ -40,34 +32,25 @@ namespace VLUTUTORS.Controllers
         {
             string email = taikhoannguoidung.Email;
             string password = taikhoannguoidung.MatKhau;
-            try
-            {
-                _userManager.SignIn(this.HttpContext, email, password);
-                var checkAccount = db.Taikhoannguoidungs.Where(acc => acc.Email.Equals(email.Trim())).FirstOrDefault();
-                if (checkAccount != null && checkAccount.Id > 0)
-                {
-                    HttpContext.Session.SetInt32("LoginId", checkAccount.Id);
-                    HttpContext.Session.SetString("loginName", checkAccount.HoTen);
-                    HttpContext.Session.SetString("SessionInfo", JsonConvert.SerializeObject(checkAccount));
-                }
-                else
-                {
-                    var admin = db.Taikhoanadmins.Where(acc => acc.TaiKhoan.Equals(email.Trim())).FirstOrDefault();
-                    if (admin != null && admin.Id > 0)
-                    {
-                        HttpContext.Session.SetInt32("LoginId", admin.Id);
-                        HttpContext.Session.SetString("loginName", admin.TaiKhoan);
-                        HttpContext.Session.SetString("SessionInfo", JsonConvert.SerializeObject(admin));
-                    }
-                }
 
-                return RedirectToAction("Index", "Home");
+            Taikhoannguoidung checkAccount;
+            checkAccount = db.Taikhoannguoidungs.Where(acc => acc.Email.Equals(email.Trim())).FirstOrDefault();
+
+            if (checkAccount != null)
+            {
+                _loginSuccessCallback = LoginSuccessCall;
             }
-            catch (Exception ex)
+            else
             {
                 return View();
             }
 
+            if (checkAccount.MatKhau.Equals(password.Trim()))
+            {
+                return _loginSuccessCallback.Invoke(checkAccount);
+            }
+
+            return View();
         }
 
         public async Task<IActionResult> Details(int? id = -1)
@@ -78,8 +61,8 @@ namespace VLUTUTORS.Controllers
             }
 
             var taiKhoan = await db.Taikhoannguoidungs.FirstOrDefaultAsync(m => m.Id == id);
-            string newString = taiKhoan.AnhDaiDien.TrimStart('[','"');
-            ViewData["image"] = newString.TrimEnd('"',']').ToString();
+            string newString = taiKhoan.AnhDaiDien.TrimStart('[', '"');
+            ViewData["image"] = newString.TrimEnd('"', ']').ToString();
             var gioiTinhs = await db.Gioitinhs.ToListAsync();
             SelectList ddlStatus = new SelectList(gioiTinhs, "IdgioiTinh", "GioiTinh1");
             taiKhoan.GioiTinhs = ddlStatus;
@@ -122,17 +105,8 @@ namespace VLUTUTORS.Controllers
 
         public IActionResult Logout()
         {
-            try
-            {
-                _userManager.SignOut(this.HttpContext);
-                HttpContext.Session.Clear();
-
-                return RedirectToAction("Index", "Home");
-            }
-            catch (Exception ex)
-            {
-                return View();
-            }
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
