@@ -160,6 +160,7 @@ namespace VLUTUTORS.Controllers
             // add session info here
             //HttpContext.Session.
             HttpContext.Session.SetInt32("LoginId", taikhoannguoidung.Id);
+            HttpContext.Session.SetInt32("IdGiaSu", (int)taikhoannguoidung.IdxetDuyet);
             HttpContext.Session.SetString("loginName", taikhoannguoidung.HoTen);
             //HttpContext.Session.SetString("LoginName", taikhoannguoidung.HoTen);
             HttpContext.Session.SetString("SessionInfo", JsonConvert.SerializeObject(taikhoannguoidung));

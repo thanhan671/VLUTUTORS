@@ -5759,6 +5759,11 @@ a.badge-secondary:focus {
 .badge-success {
     color: #fff;
     background-color: #28a745;
+    margin: 10px;
+}
+
+.badge-block {
+    margin: 10px;
 }
 
 a.badge-success:focus,

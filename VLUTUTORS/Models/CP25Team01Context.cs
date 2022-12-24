@@ -254,6 +254,7 @@ namespace VLUTUTORS.Models
 
                 entity.Property(e => e.Id).HasColumnName("ID");
 
+                entity.Property(e => e.AnhDaiDien).IsUnicode(false);
 
                 entity.Property(e => e.ChungChiMon1).IsUnicode(false);
 
