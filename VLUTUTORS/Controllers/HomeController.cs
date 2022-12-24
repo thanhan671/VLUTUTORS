@@ -30,10 +30,6 @@ namespace VLUTUTORS.Controllers
             this._environment = environment;
         }
 
-        //public HomeController(IHttpContextAccessor httpContextAccessor)
-        //{
-        //    this.session = httpContextAccessor.HttpContext.Session;
-        //}
 
         [HttpGet]
         public async Task<IActionResult> Index()
