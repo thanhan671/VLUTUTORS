@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor httpContextAccessor
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -42,7 +45,7 @@
             <ul class="navbar-nav ml-auto">
                 <!-- Navbar Search -->
                 <li class="navbar-item">
-                    <a class="nav-link-item" href="/Tutors/Account/Index"> Xin chào, Nguyễn Thanh An </a>
+                    <a class="nav-link-item" href="/Tutors/Account/Index"> Xin chào, @httpContextAccessor.HttpContext.Session.GetString("loginName")</a>
                     <a href="#"
                        class="nav-link-item"
                        data-toggle="modal"

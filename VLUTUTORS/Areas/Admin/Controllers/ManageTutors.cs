@@ -224,7 +224,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 try
                 {
                     bool.TryParse(form["Status"], out bool status);
-                    account.TrangThaiTaiKhoan = status;
+                    account.TrangThaiGiaSu = status;
 
                     _context.Update(account);
                     await _context.SaveChangesAsync();
