@@ -61,8 +61,8 @@ namespace VLUTUTORS.Controllers
             }
 
             var taiKhoan = await db.Taikhoannguoidungs.FirstOrDefaultAsync(m => m.Id == id);
-            string newString = taiKhoan.AnhDaiDien.TrimStart('[', '"');
-            ViewData["image"] = newString.TrimEnd('"', ']').ToString();
+            string newString = taiKhoan.AnhDaiDien.TrimStart('[','"');
+            ViewData["image"] = newString.TrimEnd('"',']').ToString();
             var gioiTinhs = await db.Gioitinhs.ToListAsync();
             SelectList ddlStatus = new SelectList(gioiTinhs, "IdgioiTinh", "GioiTinh1");
             taiKhoan.GioiTinhs = ddlStatus;
