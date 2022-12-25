@@ -12,6 +12,10 @@ using MimeKit;
 using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json.Linq;
+using System.IO;
+using VLUTUTORS.Support.Services;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace VLUTUTORS.Controllers
 {
@@ -19,6 +23,14 @@ namespace VLUTUTORS.Controllers
     {
         private CP25Team01Context db = new CP25Team01Context();
         private Func<Taikhoannguoidung, IActionResult> _loginSuccessCallback;
+        private readonly ILogger<AccountsController> _logger;
+        private IHostingEnvironment _environment;
+
+        public AccountsController(ILogger<AccountsController> logger, IHostingEnvironment environment)
+        {
+            _logger = logger;
+            this._environment = environment;
+        }
 
         public IActionResult Login()
         {
@@ -85,7 +97,7 @@ namespace VLUTUTORS.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Details(int id, [FromForm] int IdgioiTinh, [FromForm] DateTime NgaySinh, [FromForm] string Sdt, [FromForm] string MatKhau, [FromForm] string ReMatKhau)
+        public async Task<IActionResult> Details(int id, [FromForm] int IdgioiTinh, [FromForm] DateTime NgaySinh, [FromForm] string Sdt, [FromForm] string MatKhau, [FromForm] string ReMatKhau, List<IFormFile> avatar)
         {
             var dbTaikhoannguoidung = await db.Taikhoannguoidungs.FindAsync(id);
             if (dbTaikhoannguoidung == null || (dbTaikhoannguoidung != null && id != dbTaikhoannguoidung.Id))
@@ -93,10 +105,18 @@ namespace VLUTUTORS.Controllers
                 return NotFound();
             }
 
+            string avatarPath = Path.Combine("avatars", id.ToString());
+            Console.WriteLine("file name: " + avatar.Count());
+            foreach (var item in avatar)
+            {
+                Console.WriteLine("file name: " + item.FileName);
+            }
+
             if (ModelState.IsValid)
             {
                 try
                 {
+                    dbTaikhoannguoidung.AnhDaiDien = TutorServices.SaveUploadImages(this._environment.WebRootPath, avatarPath, avatar);
                     dbTaikhoannguoidung.IdgioiTinh = IdgioiTinh;
                     dbTaikhoannguoidung.NgaySinh = NgaySinh;
                     dbTaikhoannguoidung.Sdt = Sdt;

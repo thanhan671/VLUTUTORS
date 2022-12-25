@@ -93,7 +93,7 @@ namespace VLUTUTORS.Controllers
             taikhoannguoidung.AnhDaiDien = TutorServices.SaveUploadImages(this._environment.WebRootPath, avatarPath, avatar);
             taikhoannguoidung.IdxetDuyet = (int)ApprovalStatus.TRAINING;
 
-            Console.WriteLine("chung chi: " + JsonConvert.DeserializeObject(taikhoannguoidung.ChungChiMon1));
+            Console.WriteLine("chung chi: " + JsonConvert.DeserializeObject(taikhoannguoidung.AnhDaiDien));
             if (ModelState.IsValid)
             {
                 _db.Entry(taikhoannguoidung).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
