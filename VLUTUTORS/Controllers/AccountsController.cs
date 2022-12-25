@@ -61,8 +61,15 @@ namespace VLUTUTORS.Controllers
             }
 
             var taiKhoan = await db.Taikhoannguoidungs.FirstOrDefaultAsync(m => m.Id == id);
-            string newString = taiKhoan.AnhDaiDien.TrimStart('[','"');
-            ViewData["image"] = newString.TrimEnd('"',']').ToString();
+            if(taiKhoan.AnhDaiDien != null)
+            {
+                string newString = taiKhoan.AnhDaiDien.TrimStart('[', '"');
+                ViewData["image"] = newString.TrimEnd('"', ']').ToString();
+            }
+            else
+            {
+                ViewData["image"] = "avatars/avatardefault.jpg";
+            }
             var gioiTinhs = await db.Gioitinhs.ToListAsync();
             SelectList ddlStatus = new SelectList(gioiTinhs, "IdgioiTinh", "GioiTinh1");
             taiKhoan.GioiTinhs = ddlStatus;
@@ -129,7 +136,8 @@ namespace VLUTUTORS.Controllers
                             HoTen = HoTen,
                             Email = Email,
                             MatKhau = MatKhau,
-                            TrangThaiTaiKhoan = true
+                            TrangThaiTaiKhoan = true,
+                            IdxetDuyet = 1
                         };
                         try
                         {
