@@ -17,11 +17,11 @@ namespace VLUTUTORS.Models
         public string NoiDung { get; set; }
         public int IdtrangThai { get; set; }
 
+
         [NotMapped]
         public string TrangThai { get; set; }
         [NotMapped]
         public SelectList TrangThais { get; set; }
-
         public virtual Trangthai IdtrangThaiNavigation { get; set; }
     }
 }

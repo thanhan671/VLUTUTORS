@@ -18,11 +18,11 @@
                              id="navbarSupportedContent">
                             <ul class="navbar-nav mr-auto">
                                 <li class="nav-item">
-                                    <a href="/Home">Trang Chủ</a>
+                                    <a asp-action="Index" asp-controller="Home">Trang Chủ</a>
 
                                 </li>
                                 <li class="nav-item">
-                                    <a href="about.html">Tìm Gia Sư</a>
+                                    <a href="#">Tìm Gia Sư</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="~/Home/AboutUs">Về Chúng Tôi</a>
@@ -39,10 +39,18 @@
                 <div class="col-lg-2 col-md-2 col-sm-3 col-4">
                     <div class="right-icon text-right">
                         <ul>
-
-                            <li>
-                                <a asp-controller="Accounts" asp-action="Details" asp-route-id="@httpContextAccessor.HttpContext.Session.GetInt32("LoginId")"><i class="fa-solid fa-user-tie active"></i></a>
-                            </li>
+                            @if (@httpContextAccessor.HttpContext.Session.GetString("LoginId") != null)
+                            {
+                                <li>
+                                    <a asp-controller="Accounts" asp-action="Details" asp-route-id="@httpContextAccessor.HttpContext.Session.GetInt32("LoginId")"><i class="fa-solid fa-user-tie active"></i></a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li>
+                                    <a asp-controller="Accounts" asp-action="Login"><i class="fa-solid fa-user-tie active"></i></a>
+                                </li>
+                            }
                         </ul>
                     </div>
                     <!-- right icon -->

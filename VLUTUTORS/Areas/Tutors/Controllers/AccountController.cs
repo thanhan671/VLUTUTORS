@@ -31,6 +31,11 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            string user = HttpContext.Session.GetString("LoginId");
+            if (user == null)
+            {
+                return RedirectToAction("Login", "Accounts", new { area = "default" });
+            }
             var userInfo = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
             Taikhoannguoidung taikhoannguoidung = _db.Taikhoannguoidungs.Find(userInfo.Id);
 

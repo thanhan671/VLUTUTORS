@@ -30,10 +30,6 @@ namespace VLUTUTORS.Controllers
             this._environment = environment;
         }
 
-        //public HomeController(IHttpContextAccessor httpContextAccessor)
-        //{
-        //    this.session = httpContextAccessor.HttpContext.Session;
-        //}
 
         [HttpGet]
         public async Task<IActionResult> Index()
@@ -57,6 +53,11 @@ namespace VLUTUTORS.Controllers
         [HttpGet]
         public IActionResult RegisterAsTutor()
         {
+            string user = HttpContext.Session.GetString("LoginId");
+            if (user == null)
+            {
+                return RedirectToAction("Login", "Accounts");
+            }
             Taikhoannguoidung taikhoannguoidung = new Taikhoannguoidung();
             var userInfo = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
             taikhoannguoidung.Id = userInfo.Id;
