@@ -59,7 +59,14 @@ namespace VLUTUTORS.Controllers
             {
                 return NotFound();
             }
-
+            var noiDung = await db.Noidungs.FirstOrDefaultAsync(m => m.Id == 1);
+            ViewData["Slogan"] = noiDung.Slogan;
+            ViewData["gtChanTrang"] = noiDung.GioiThieuChanTrang;
+            ViewData["diaChi"] = noiDung.DiaChi;
+            ViewData["Sdt"] = noiDung.Sdt;
+            ViewData["Email"] = noiDung.Email;
+            ViewData["Fb"] = noiDung.Facebook;
+            ViewData["gioiThieu"] = noiDung.GioiThieu;
             var taiKhoan = await db.Taikhoannguoidungs.FirstOrDefaultAsync(m => m.Id == id);
             if(taiKhoan.AnhDaiDien != null)
             {
