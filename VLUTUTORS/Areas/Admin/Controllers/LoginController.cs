@@ -39,15 +39,16 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             {
                 _userManager.SignIn(this.HttpContext, taiKhoan, password);
 
-                    var admin = db.Taikhoanadmins.Where(acc => acc.TaiKhoan.Equals(taiKhoan.Trim())).FirstOrDefault();
-                    if (admin != null && admin.Id > 0)
-                    {
-                        HttpContext.Session.SetInt32("LoginId", admin.Id);
-                        HttpContext.Session.SetString("loginName", admin.TaiKhoan);
-                        HttpContext.Session.SetString("SessionInfo", JsonConvert.SerializeObject(admin));
-                    }
+                var admin = db.Taikhoanadmins.Where(acc => acc.TaiKhoan.Equals(taiKhoan.Trim())).FirstOrDefault();
+                if (admin != null && admin.Id > 0)
+                {
+                    HttpContext.Session.SetInt32("LoginId", admin.Id);
+                    HttpContext.Session.SetInt32("IdQuyen", admin.IdQuyen);
+                    HttpContext.Session.SetString("loginName", admin.TaiKhoan);
+                    HttpContext.Session.SetString("SessionInfo", JsonConvert.SerializeObject(admin));
+                }
 
-                return RedirectToAction("Index","Home");
+                return RedirectToAction("Index", "Home");
             }
             catch (Exception ex)
             {

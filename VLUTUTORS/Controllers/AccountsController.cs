@@ -14,8 +14,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json.Linq;
 using System.IO;
 using VLUTUTORS.Support.Services;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Hosting;
 
 namespace VLUTUTORS.Controllers
 {
@@ -104,36 +104,24 @@ namespace VLUTUTORS.Controllers
             {
                 return NotFound();
             }
-
-            string avatarPath = Path.Combine("avatars", id.ToString());
-            List<IFormFile> fileName = new List<IFormFile>();
-            //fileName.Add(taikhoannguoidung.avatarImage);
-            //dbTaikhoannguoidung.AnhDaiDien = fileName.Count != 0 ? TutorServices.SaveUploadImages(this._environment.WebRootPath, avatarPath, fileName) : dbTaikhoannguoidung.AnhDaiDien;
-            Console.WriteLine("file count: " + avatar.Count);
-            //foreach (var item in fileName)
-            //{
-            //    Console.WriteLine("file name: " + item.FileName);
-            //}
-
-            //if (ModelState.IsValid)
-            //{
-            //    try
-            //    {
-            //        dbTaikhoannguoidung.IdgioiTinh = IdgioiTinh;
-            //        dbTaikhoannguoidung.NgaySinh = NgaySinh;
-            //        dbTaikhoannguoidung.Sdt = Sdt;
-            //        if (!string.IsNullOrEmpty(MatKhau))
-            //            dbTaikhoannguoidung.MatKhau = MatKhau;
-
-            //        db.Update(dbTaikhoannguoidung);
-            //        await db.SaveChangesAsync();
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        return RedirectToAction("Details", new { id });
-            //    }
-            //    return RedirectToAction("Details", new { id });
-            //}
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    dbTaikhoannguoidung.IdgioiTinh = IdgioiTinh;
+                    dbTaikhoannguoidung.NgaySinh = NgaySinh;
+                    dbTaikhoannguoidung.Sdt = Sdt;
+                    if (!string.IsNullOrEmpty(MatKhau))
+                        dbTaikhoannguoidung.MatKhau = MatKhau;
+                    db.Update(dbTaikhoannguoidung);
+                    await db.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    return RedirectToAction("Details", new { id });
+                }
+                return RedirectToAction("Details", new { id });
+            }
 
             return RedirectToAction("Details", new { id });
 
