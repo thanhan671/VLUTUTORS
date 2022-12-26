@@ -12,6 +12,10 @@ using MimeKit;
 using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json.Linq;
+using System.IO;
+using VLUTUTORS.Support.Services;
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Hosting;
 
 namespace VLUTUTORS.Controllers
 {
@@ -19,6 +23,14 @@ namespace VLUTUTORS.Controllers
     {
         private CP25Team01Context db = new CP25Team01Context();
         private Func<Taikhoannguoidung, IActionResult> _loginSuccessCallback;
+        private readonly ILogger<AccountsController> _logger;
+        private IHostingEnvironment _environment;
+
+        public AccountsController(ILogger<AccountsController> logger, IHostingEnvironment environment)
+        {
+            _logger = logger;
+            this._environment = environment;
+        }
 
         public IActionResult Login()
         {
@@ -85,26 +97,27 @@ namespace VLUTUTORS.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Details(int id, [FromForm] int IdgioiTinh, [FromForm] DateTime NgaySinh, [FromForm] string Sdt, [FromForm] string MatKhau, [FromForm] string ReMatKhau)
+        public async Task<IActionResult> Details(int id, [FromForm] int IdgioiTinh, [FromForm] DateTime NgaySinh, [FromForm] string Sdt, [FromForm] string MatKhau, [FromForm] string ReMatKhau, List<IFormFile> avatar)
         {
             var dbTaikhoannguoidung = await db.Taikhoannguoidungs.FindAsync(id);
+            string avatarPath = Path.Combine("avatars", dbTaikhoannguoidung.Id.ToString());
             if (dbTaikhoannguoidung == null || (dbTaikhoannguoidung != null && id != dbTaikhoannguoidung.Id))
             {
                 return NotFound();
             }
-
+            dbTaikhoannguoidung.IdgioiTinh = IdgioiTinh;
+            dbTaikhoannguoidung.NgaySinh = NgaySinh;
+            dbTaikhoannguoidung.Sdt = Sdt;
+            dbTaikhoannguoidung.AnhDaiDien = avatar.Count != 0 ? TutorServices.SaveUploadImages(this._environment.WebRootPath, avatarPath, avatar) : dbTaikhoannguoidung.AnhDaiDien;
+            if (!string.IsNullOrEmpty(MatKhau))
+                dbTaikhoannguoidung.MatKhau = MatKhau;
             if (ModelState.IsValid)
             {
                 try
                 {
-                    dbTaikhoannguoidung.IdgioiTinh = IdgioiTinh;
-                    dbTaikhoannguoidung.NgaySinh = NgaySinh;
-                    dbTaikhoannguoidung.Sdt = Sdt;
-                    if (!string.IsNullOrEmpty(MatKhau))
-                        dbTaikhoannguoidung.MatKhau = MatKhau;
-
-                    db.Update(dbTaikhoannguoidung);
-                    await db.SaveChangesAsync();
+                    db.Entry(dbTaikhoannguoidung).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
+                    db.Entry(dbTaikhoannguoidung).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                    db.SaveChanges();
                 }
                 catch (Exception ex)
                 {
