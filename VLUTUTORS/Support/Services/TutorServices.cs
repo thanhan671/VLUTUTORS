@@ -15,14 +15,15 @@ namespace VLUTUTORS.Support.Services
         {
             List<string> filesName = new List<string>();
             string namesJson;
-            if (!Directory.Exists(path))
+            string fullPath = Path.Combine(enviromentPath, path);
+            if (!Directory.Exists(fullPath))
             {
-                Console.WriteLine("directory not exists" + path);
-                Directory.CreateDirectory(path);
+                Console.WriteLine("directory not exists " + path);
+                Directory.CreateDirectory(fullPath);
             }
             else
             {
-                DirectoryInfo directoryInfo = new DirectoryInfo(path);
+                DirectoryInfo directoryInfo = new DirectoryInfo(fullPath);
                 foreach (FileInfo file in directoryInfo.GetFiles())
                 {
                     file.Delete();

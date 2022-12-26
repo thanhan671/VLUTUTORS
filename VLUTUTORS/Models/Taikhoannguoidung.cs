@@ -59,7 +59,6 @@ namespace VLUTUTORS.Models
         public SelectList DepartmentItems { get; set; }
 
         [NotMapped]
-        //public List<SelectListItem> GenderItems { get; set; }
         public SelectList GenderItems { get; set; }
 
         [NotMapped]
@@ -71,13 +70,7 @@ namespace VLUTUTORS.Models
         [NotMapped]
         public SelectList Subject2Items { get; set; }
 
-
         [NotMapped]
-        public string GioiTinh { get; set; }
-        [NotMapped]
-        public SelectList GioiTinhs { get; set; }
-
-        //public SelectList Khoas { get; set; }
-
+        public Microsoft.AspNetCore.Http.IFormFile avatarImage { get; set; }
     }
 }

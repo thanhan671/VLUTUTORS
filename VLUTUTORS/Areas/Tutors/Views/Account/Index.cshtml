@@ -55,10 +55,13 @@
                             <div class="card mb-3">
                                 <div class="card-body">
                                     @Html.HiddenFor(m => m.Id)
+                                    @Html.HiddenFor(m => m.HoTen)
                                     @Html.HiddenFor(m => m.MatKhau)
                                     @Html.HiddenFor(m => m.AnhDaiDien)
                                     @Html.HiddenFor(m => m.ChungChiMon1)
                                     @Html.HiddenFor(m => m.ChungChiMon2)
+                                    @Html.HiddenFor(m => m.DiemBaiTest)
+                                    @Html.HiddenFor(m => m.TrangThaiGiaSu)
                                     <div class="row-nowrap">
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Email</h6>
@@ -176,7 +179,7 @@
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Tên chứng chỉ/Điểm trung bình môn</h6>
                                         </div>
-                                        <input @Html.TextBoxFor(m => m.TenChungChiHoacDiemMon1, new { @readonly = true })
+                                        <input @Html.TextBoxFor(m => m.TenChungChiHoacDiemMon1)
                                     </div>
                                     <hr />
                                     <div class="row-nowrap">
@@ -221,7 +224,7 @@
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Tên chứng chỉ/Điểm trung bình môn</h6>
                                         </div>
-                                        <input @Html.TextBoxFor(m => m.TenChungChiHoacDiemMon2, new { @readonly = true })
+                                        <input @Html.TextBoxFor(m => m.TenChungChiHoacDiemMon2)
                                     </div>
 
                                     <hr />

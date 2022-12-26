@@ -80,7 +80,7 @@ namespace VLUTUTORS.Controllers
             ViewData["Fb"] = noiDung.Facebook;
             ViewData["gioiThieu"] = noiDung.GioiThieu;
             var taiKhoan = await db.Taikhoannguoidungs.FirstOrDefaultAsync(m => m.Id == id);
-            if(taiKhoan.AnhDaiDien != null)
+            if (taiKhoan.AnhDaiDien != null)
             {
                 string newString = taiKhoan.AnhDaiDien.TrimStart('[', '"');
                 ViewData["image"] = newString.TrimEnd('"', ']').ToString();
@@ -91,13 +91,13 @@ namespace VLUTUTORS.Controllers
             }
             var gioiTinhs = await db.Gioitinhs.ToListAsync();
             SelectList ddlStatus = new SelectList(gioiTinhs, "IdgioiTinh", "GioiTinh1");
-            taiKhoan.GioiTinhs = ddlStatus;
+            taiKhoan.GenderItems = ddlStatus;
             return View(taiKhoan);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Details(int id, [FromForm] int IdgioiTinh, [FromForm] DateTime NgaySinh, [FromForm] string Sdt, [FromForm] string MatKhau, [FromForm] string ReMatKhau, List<IFormFile> avatar)
+        public async Task<IActionResult> Details(List<IFormFile> avatar, int id, [FromForm] int IdgioiTinh, [FromForm] DateTime NgaySinh, [FromForm] string Sdt, [FromForm] string MatKhau, [FromForm] string ReMatKhau, [Bind(include: "avatarImage")] Taikhoannguoidung taikhoannguoidung)
         {
             var dbTaikhoannguoidung = await db.Taikhoannguoidungs.FindAsync(id);
             if (dbTaikhoannguoidung == null || (dbTaikhoannguoidung != null && id != dbTaikhoannguoidung.Id))
@@ -106,32 +106,34 @@ namespace VLUTUTORS.Controllers
             }
 
             string avatarPath = Path.Combine("avatars", id.ToString());
-            Console.WriteLine("file name: " + avatar.Count());
-            foreach (var item in avatar)
-            {
-                Console.WriteLine("file name: " + item.FileName);
-            }
+            List<IFormFile> fileName = new List<IFormFile>();
+            //fileName.Add(taikhoannguoidung.avatarImage);
+            //dbTaikhoannguoidung.AnhDaiDien = fileName.Count != 0 ? TutorServices.SaveUploadImages(this._environment.WebRootPath, avatarPath, fileName) : dbTaikhoannguoidung.AnhDaiDien;
+            Console.WriteLine("file count: " + avatar.Count);
+            //foreach (var item in fileName)
+            //{
+            //    Console.WriteLine("file name: " + item.FileName);
+            //}
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    dbTaikhoannguoidung.AnhDaiDien = TutorServices.SaveUploadImages(this._environment.WebRootPath, avatarPath, avatar);
-                    dbTaikhoannguoidung.IdgioiTinh = IdgioiTinh;
-                    dbTaikhoannguoidung.NgaySinh = NgaySinh;
-                    dbTaikhoannguoidung.Sdt = Sdt;
-                    if (!string.IsNullOrEmpty(MatKhau))
-                        dbTaikhoannguoidung.MatKhau = MatKhau;
+            //if (ModelState.IsValid)
+            //{
+            //    try
+            //    {
+            //        dbTaikhoannguoidung.IdgioiTinh = IdgioiTinh;
+            //        dbTaikhoannguoidung.NgaySinh = NgaySinh;
+            //        dbTaikhoannguoidung.Sdt = Sdt;
+            //        if (!string.IsNullOrEmpty(MatKhau))
+            //            dbTaikhoannguoidung.MatKhau = MatKhau;
 
-                    db.Update(dbTaikhoannguoidung);
-                    await db.SaveChangesAsync();
-                }
-                catch (Exception ex)
-                {
-                    return RedirectToAction("Details", new { id });
-                }
-                return RedirectToAction("Details", new { id });
-            }
+            //        db.Update(dbTaikhoannguoidung);
+            //        await db.SaveChangesAsync();
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        return RedirectToAction("Details", new { id });
+            //    }
+            //    return RedirectToAction("Details", new { id });
+            //}
 
             return RedirectToAction("Details", new { id });
 
