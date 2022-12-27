@@ -97,27 +97,27 @@ namespace VLUTUTORS.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Details(int id, [FromForm] int IdgioiTinh, [FromForm] DateTime NgaySinh, [FromForm] string Sdt, [FromForm] string MatKhau, [FromForm] string ReMatKhau, List<IFormFile> avatar)
+        public async Task<IActionResult> Details([Bind(include: "Id, MatKhau, IdgioiTinh, Sdt, NgaySinh, AnhDaiDien")] int id, [FromForm] int IdgioiTinh, [FromForm] DateTime NgaySinh, [FromForm] string Sdt, [FromForm] string MatKhau, [FromForm] string ReMatKhau, List<IFormFile> avatar)
         {
             var dbTaikhoannguoidung = await db.Taikhoannguoidungs.FindAsync(id);
             string avatarPath = Path.Combine("avatars", dbTaikhoannguoidung.Id.ToString());
+
             if (dbTaikhoannguoidung == null || (dbTaikhoannguoidung != null && id != dbTaikhoannguoidung.Id))
             {
                 return NotFound();
             }
-            dbTaikhoannguoidung.IdgioiTinh = IdgioiTinh;
-            dbTaikhoannguoidung.NgaySinh = NgaySinh;
-            dbTaikhoannguoidung.Sdt = Sdt;
-            dbTaikhoannguoidung.AnhDaiDien = avatar.Count != 0 ? TutorServices.SaveUploadImages(this._environment.WebRootPath, avatarPath, avatar) : dbTaikhoannguoidung.AnhDaiDien;
-            if (!string.IsNullOrEmpty(MatKhau))
-                dbTaikhoannguoidung.MatKhau = MatKhau;
             if (ModelState.IsValid)
             {
                 try
                 {
-                    db.Entry(dbTaikhoannguoidung).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
-                    db.Entry(dbTaikhoannguoidung).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                    db.SaveChanges();
+                    dbTaikhoannguoidung.IdgioiTinh = IdgioiTinh;
+                    dbTaikhoannguoidung.NgaySinh = NgaySinh;
+                    dbTaikhoannguoidung.Sdt = Sdt;
+                    dbTaikhoannguoidung.AnhDaiDien = avatar.Count != 0 ? TutorServices.SaveUploadImages(this._environment.WebRootPath, avatarPath, avatar) : dbTaikhoannguoidung.AnhDaiDien;
+                    if (!string.IsNullOrEmpty(MatKhau))
+                        dbTaikhoannguoidung.MatKhau = MatKhau;
+                    db.Update(dbTaikhoannguoidung);
+                    await db.SaveChangesAsync();
                 }
                 catch (Exception ex)
                 {
@@ -125,7 +125,6 @@ namespace VLUTUTORS.Controllers
                 }
                 return RedirectToAction("Details", new { id });
             }
-
             return RedirectToAction("Details", new { id });
 
         }
