@@ -87,7 +87,7 @@ namespace VLUTUTORS.Controllers
             }
             else
             {
-                ViewData["image"] = "avatars/avatardefault.jpg";
+                ViewData["image"] = "~/avatars/avatardefault.jpg";
             }
             var gioiTinhs = await db.Gioitinhs.ToListAsync();
             SelectList ddlStatus = new SelectList(gioiTinhs, "IdgioiTinh", "GioiTinh1");
