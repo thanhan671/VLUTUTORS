@@ -66,10 +66,6 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             }
             return View(khoadaotao);
         }
-        public IActionResult DetailCourse()
-        {
-            return View();
-        }
 
         [HttpGet]
         public async Task<IActionResult> EditCourse(int? id = -1)
@@ -110,6 +106,10 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
             return View(khoadaotao);
+        }
+        public IActionResult DetailCourse()
+        {
+            return View();
         }
 
         public IActionResult AddLesson()
