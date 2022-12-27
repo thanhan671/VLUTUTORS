@@ -64,7 +64,7 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             taikhoannguoidung.ChungChiMon2 = certificates2.Count != 0 ? TutorServices.SaveUploadImages(this._environment.WebRootPath, certificates2Path, certificates2) : taikhoannguoidung.ChungChiMon2;
             taikhoannguoidung.AnhDaiDien = avatar.Count != 0 ? TutorServices.SaveUploadImages(this._environment.WebRootPath, avatarPath, avatar) : taikhoannguoidung.AnhDaiDien;
             taikhoannguoidung.IdxetDuyet = (int)ApprovalStatus.TRAINING;
-            taikhoannguoidung.TrangThaiGiaSu = true;
+            taikhoannguoidung.IdxetDuyet = 7;
 
 
             if (ModelState.IsValid)

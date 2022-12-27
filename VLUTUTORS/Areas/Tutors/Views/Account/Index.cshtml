@@ -57,8 +57,12 @@
                                     @Html.HiddenFor(m => m.Id)
                                     @Html.HiddenFor(m => m.HoTen)
                                     @Html.HiddenFor(m => m.MatKhau)
+                                    @Html.HiddenFor(m => m.Idkhoa)
+                                    @Html.HiddenFor(m => m.AnhDaiDien)
                                     @Html.HiddenFor(m => m.ChungChiMon1)
                                     @Html.HiddenFor(m => m.ChungChiMon2)
+                                    @Html.HiddenFor(m => m.IdmonGiaSu1)
+                                    @Html.HiddenFor(m => m.IdmonGiaSu2)
                                     @Html.HiddenFor(m => m.DiemBaiTest)
                                     @Html.HiddenFor(m => m.TrangThaiGiaSu)
                                     <div class="row-nowrap">
@@ -97,14 +101,14 @@
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Số Điện Thoại</h6>
                                         </div>
-                                        <input @Html.TextBoxFor(m => m.Sdt, new { htmlAttributes = new { @class = "ip-form", @required = "required" } })
+                                        @Html.TextBoxFor(m => m.Sdt, new { htmlAttributes = new { @class = "ip-form", @required = "required" } })
                                     </div>
                                     <hr />
                                     <div class="row-nowrap">
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Số tài khoản</h6>
                                         </div>
-                                        <input @Html.TextBoxFor(m => m.SoTaiKhoan, new { htmlAttributes = new { @class = "ip-form", @required = "required" } })
+                                        @Html.TextBoxFor(m => m.SoTaiKhoan, new { htmlAttributes = new { @class = "ip-form", @required = "required" } })
                                     </div>
                                     <hr />
                                     <div class="row-nowrap">
@@ -122,33 +126,33 @@
                                     </div>
                                     <hr />
                                     @* <div class="row-nowrap">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0">Mật Khẩu Mới</h6>
-                                            </div>
-                                            <input type="text"
-                                                   name="sc-year"
-                                                   id=""
-                                                   class="profile-input" />
-                                        </div>
-                                        <hr />
-                                        <div class="row-nowrap">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0">Nhập Lại Mật Khẩu</h6>
-                                            </div>
-                                            <input type="text"
-                                                   name="sc-year"
-                                                   id=""
-                                                   class="profile-input" />
-                                        </div>
-                                        <hr />*@
+            <div class="col-sm-3">
+                <h6 class="mb-0">Mật Khẩu Mới</h6>
+            </div>
+            <input type="text"
+                   name="sc-year"
+                   id=""
+                   class="profile-input" />
+        </div>
+        <hr />
+        <div class="row-nowrap">
+            <div class="col-sm-3">
+                <h6 class="mb-0">Nhập Lại Mật Khẩu</h6>
+            </div>
+            <input type="text"
+                   name="sc-year"
+                   id=""
+                   class="profile-input" />
+        </div>
+        <hr />*@
                                     <div class="row-nowrap">
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Giới thiệu bản thân</h6>
                                         </div>
                                         @Html.TextAreaFor(m => m.GioiThieu, new { htmlAttributes = new { @class = "ip-form", @required = "required" } })
                                         @*<textarea name="" id="" cols="30" rows="10">
-                                                 @Html.EditorFor(m => m.GioiThieu, new { htmlAttributes = new { @class = "ip-form", @required = "required" } })
-                                            </textarea>*@
+                 @Html.EditorFor(m => m.GioiThieu, new { htmlAttributes = new { @class = "ip-form", @required = "required" } })
+            </textarea>*@
                                     </div>
                                     <hr />
                                     <div class="row-nowrap">
@@ -159,8 +163,8 @@
                                         </div>
                                         @Html.TextAreaFor(m => m.DanhGiaVeViecGiaSu, new { htmlAttributes = new { @class = "ip-form", @required = "required" } })
                                         @*<textarea name="" id="" cols="30" rows="10">
-                                                @Html.EditorFor(m => m.DanhGiaVeViecGiaSu, new { htmlAttributes = new { @class = "ip-form", @required = "required" } })
-                                            </textarea>*@
+                @Html.EditorFor(m => m.DanhGiaVeViecGiaSu, new { htmlAttributes = new { @class = "ip-form", @required = "required" } })
+            </textarea>*@
                                     </div>
                                     <hr />
                                     <div class="row-nowrap">
@@ -178,7 +182,7 @@
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Tên chứng chỉ/Điểm trung bình môn</h6>
                                         </div>
-                                        <input @Html.TextBoxFor(m => m.TenChungChiHoacDiemMon1)
+                                        @Html.TextBoxFor(m => m.TenChungChiHoacDiemMon1)
                                     </div>
                                     <hr />
                                     <div class="row-nowrap">
@@ -223,7 +227,7 @@
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Tên chứng chỉ/Điểm trung bình môn</h6>
                                         </div>
-                                        <input @Html.TextBoxFor(m => m.TenChungChiHoacDiemMon2)
+                                        @Html.TextBoxFor(m => m.TenChungChiHoacDiemMon2)
                                     </div>
 
                                     <hr />
