@@ -68,12 +68,12 @@
                                     @Model.Email
                                 </div>
                             </div>
-                            <hr />
+                            <hr/>
                             <div class="row-profile">
                                 <div class="col-sm-3 p-0 mt-1">
                                     <h6 class="mb-0">Giới Tính</h6>
                                 </div>
-                                @Html.DropDownListFor(model => model.IdgioiTinh, Model.GioiTinhs, new { @class = "profile-input" })
+                                @Html.DropDownListFor(model => model.IdgioiTinh, Model.GenderItems, new { @class = "profile-input" })
                             </div>
                             <hr />
                             <div class="row-profile">
@@ -106,7 +106,7 @@
                             <hr />
                             <div class="d-flex justify-content-end">
                                 <a href='javascript:history.go(-1)' class="btn btn-secondary mr-3">Quay Lại</a>
-                                <input type="submit" value="Lưu thay đổi" class="btn btn-success" onclick="popup()" />
+                                <input type="submit" value="Lưu thay đổi" class="btn btn-success" @*onclick="popup()"*@ />
                             </div>
                         </div>
                     </div>

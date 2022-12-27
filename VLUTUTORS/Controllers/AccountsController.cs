@@ -80,7 +80,7 @@ namespace VLUTUTORS.Controllers
             ViewData["Fb"] = noiDung.Facebook;
             ViewData["gioiThieu"] = noiDung.GioiThieu;
             var taiKhoan = await db.Taikhoannguoidungs.FirstOrDefaultAsync(m => m.Id == id);
-            if(taiKhoan.AnhDaiDien != null)
+            if (taiKhoan.AnhDaiDien != null)
             {
                 TempData["avt"] = "Yes";
                 string newString = taiKhoan.AnhDaiDien.TrimStart('[', '"');
@@ -92,7 +92,7 @@ namespace VLUTUTORS.Controllers
             }
             var gioiTinhs = await db.Gioitinhs.ToListAsync();
             SelectList ddlStatus = new SelectList(gioiTinhs, "IdgioiTinh", "GioiTinh1");
-            taiKhoan.GioiTinhs = ddlStatus;
+            taiKhoan.GenderItems = ddlStatus;
             return View(taiKhoan);
         }
 
@@ -126,6 +126,7 @@ namespace VLUTUTORS.Controllers
                 }
                 return RedirectToAction("Details", new { id });
             }
+
             return RedirectToAction("Details", new { id });
 
         }
