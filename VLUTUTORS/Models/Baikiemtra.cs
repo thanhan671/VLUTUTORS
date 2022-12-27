@@ -9,19 +9,20 @@ namespace VLUTUTORS.Models
 {
     public partial class Baikiemtra
     {
+        public Baikiemtra()
+        {
+            Cauhois = new HashSet<Cauhoi>();
+        }
+
         public int IdBaiKiemTra { get; set; }
-        public string CauHoi { get; set; }
-        public string DapAnA { get; set; }
-        public string DapAnB { get; set; }
-        public string DapAnc { get; set; }
-        public string DapAnD { get; set; }
-        public string DapAnDung { get; set; }
-        public int IdKhoaHoc { get; set; }
+        public int IdKhoaDaoTao { get; set; }
 
         [NotMapped]
         public string KhoaHoc { get; set; }
         [NotMapped]
         public SelectList KhoaHocs { get; set; }
-        public virtual Khoadaotao IdKhoaHocNavigation { get; set; }
+
+        public virtual Khoadaotao IdKhoaDaoTaoNavigation { get; set; }
+        public virtual ICollection<Cauhoi> Cauhois { get; set; }
     }
 }

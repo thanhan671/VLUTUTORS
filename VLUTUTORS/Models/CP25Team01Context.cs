@@ -19,6 +19,7 @@ namespace VLUTUTORS.Models
 
         public virtual DbSet<Baihoc> Baihocs { get; set; }
         public virtual DbSet<Baikiemtra> Baikiemtras { get; set; }
+        public virtual DbSet<Cauhoi> Cauhois { get; set; }
         public virtual DbSet<Gioitinh> Gioitinhs { get; set; }
         public virtual DbSet<Khoa> Khoas { get; set; }
         public virtual DbSet<Khoadaotao> Khoadaotaos { get; set; }
@@ -69,27 +70,54 @@ namespace VLUTUTORS.Models
 
             modelBuilder.Entity<Baikiemtra>(entity =>
             {
-                entity.HasKey(e => e.IdBaiKiemTra);
+                entity.HasKey(e => e.IdBaiKiemTra)
+                    .HasName("PK_BAIKIEMTRA_1");
 
                 entity.ToTable("BAIKIEMTRA");
 
-                entity.Property(e => e.CauHoi).IsRequired();
-
-                entity.Property(e => e.DapAnA).IsRequired();
-
-                entity.Property(e => e.DapAnB).IsRequired();
-
-                entity.Property(e => e.DapAnD).IsRequired();
-
-                entity.Property(e => e.DapAnDung).IsRequired();
-
-                entity.Property(e => e.DapAnc).IsRequired();
-
-                entity.HasOne(d => d.IdKhoaHocNavigation)
+                entity.HasOne(d => d.IdKhoaDaoTaoNavigation)
                     .WithMany(p => p.Baikiemtras)
-                    .HasForeignKey(d => d.IdKhoaHoc)
+                    .HasForeignKey(d => d.IdKhoaDaoTao)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_BAIKIEMTRA_KHOADAOTAO");
+                    .HasConstraintName("FK_BAIKIEMTRA_KHOADAOTAO1");
+            });
+
+            modelBuilder.Entity<Cauhoi>(entity =>
+            {
+                entity.HasKey(e => e.IdCauHoi);
+
+                entity.ToTable("CAUHOI");
+
+                entity.Property(e => e.CauHoi1)
+                    .IsRequired()
+                    .HasMaxLength(500)
+                    .HasColumnName("CauHoi");
+
+                entity.Property(e => e.DapAnA)
+                    .IsRequired()
+                    .HasMaxLength(500);
+
+                entity.Property(e => e.DapAnB)
+                    .IsRequired()
+                    .HasMaxLength(500);
+
+                entity.Property(e => e.DapAnC)
+                    .IsRequired()
+                    .HasMaxLength(500);
+
+                entity.Property(e => e.DapAnD)
+                    .IsRequired()
+                    .HasMaxLength(500);
+
+                entity.Property(e => e.DapAnDung)
+                    .IsRequired()
+                    .HasMaxLength(500);
+
+                entity.HasOne(d => d.IdBaiKiemTraNavigation)
+                    .WithMany(p => p.Cauhois)
+                    .HasForeignKey(d => d.IdBaiKiemTra)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CAUHOI_BAIKIEMTRA");
             });
 
             modelBuilder.Entity<Gioitinh>(entity =>

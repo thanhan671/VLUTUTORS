@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -22,21 +23,49 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             var khoas = await _context.Khoadaotaos.ToListAsync();
             foreach (var baiKT in baiKTs)
             {
-                var mon = khoas.FirstOrDefault(it => it.IdKhoaHoc == baiKT.IdKhoaHoc);
+                var mon = khoas.FirstOrDefault(it => it.IdKhoaHoc == baiKT.IdKhoaDaoTao);
                 if (mon != null)
                     baiKT.KhoaHoc = mon.TenKhoaHoc;
             }
             return View(baiKTs);
         }
-        public IActionResult DetailTest()
-        {
-            return View();
-        }
+
+        [HttpGet]
         public IActionResult AddTest()
         {
-            return View();
+            Baikiemtra baikiemtra = new Baikiemtra();
+
+            baikiemtra.KhoaHocs = new SelectList(_context.Khoadaotaos, "IdKhoaHoc", "TenKhoaHoc", baikiemtra.IdKhoaDaoTao);
+
+            return View(baikiemtra);
         }
-        public IActionResult EditTest()
+        [HttpPost]
+        public async Task<IActionResult> AddTest([Bind(include: "IdBaiKiemTra,IdKhoaDaoTao")] Baikiemtra baikiemtra)
+        {
+            if (ModelState.IsValid)
+            {
+                var baiKT = _context.Baikiemtras.AsNoTracking().SingleOrDefault(x => x.IdKhoaDaoTao == baikiemtra.IdKhoaDaoTao);
+                if (baiKT != null)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    try
+                    {
+                        _context.Add(baikiemtra);
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (Exception ex)
+                    {
+                        return RedirectToAction(nameof(Index));
+                    }
+                    return RedirectToAction("Index");
+                }
+            }
+            return View(baikiemtra);
+        }
+        public IActionResult DetailTest()
         {
             return View();
         }
