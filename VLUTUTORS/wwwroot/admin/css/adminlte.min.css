@@ -270,6 +270,15 @@ input {
     border-radius: 0.5em;
     width: 50%;
 }
+    button,
+    select,
+    input,
+    search {
+        overflow: visible;
+        border: 2px solid hsla(246, 25%, 77%, 0.25);
+        border-radius: 0.5em;
+        width: 50%;
+    }
 
 button,
 select {
@@ -638,6 +647,7 @@ pre {
     flex-wrap: wrap;
     margin-right: -7.5px;
     margin-left: -7.5px;
+    justify-content: space-between;
 }
 
 .no-gutters {
@@ -60144,4 +60154,7 @@ a.text-muted:hover {
 
 .nav-link-item {
     color: #a1a1a1;
+}
+.button-search{
+    width:80px;
 }
