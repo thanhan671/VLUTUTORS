@@ -30,7 +30,7 @@
                             <td>@Html.DisplayFor(modelItem => item.Subject1)</td>
                             <td>@Html.DisplayFor(modelItem => item.Tutor.Email)</td>
                             @{
-                                if(item.Tutor.TrangThaiGiaSu == true)
+                                if (item.Tutor.TrangThaiTaiKhoan == true)
                                 {
                                     <td class="badge badge-success">Hoạt Động</td>
                                 }

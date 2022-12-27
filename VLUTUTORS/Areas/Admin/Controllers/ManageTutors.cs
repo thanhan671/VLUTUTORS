@@ -17,7 +17,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
     {
         private readonly CP25Team01Context _context = new CP25Team01Context();
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index([FromQuery] string search)
         {
             var model = new TutorListModel();
             var awaitTutors = new List<TutorViewModel>();
@@ -38,13 +38,20 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                     var subject = monGiaSus.FirstOrDefault(it => it.IdmonGiaSu == account.IdmonGiaSu1);
                     if (subject == null)
                         subject = new Mongiasu();
-
-                    awaitTutors.Add(new TutorViewModel()
+                    if(
+                        string.IsNullOrEmpty(search) || 
+                        (!string.IsNullOrEmpty(search) && (account.HoTen == search || subject.TenMonGiaSu == search))
+                    )
                     {
-                        Tutor = account,
-                        Subject1 = subject.TenMonGiaSu,
-                        ApprovedStatus = awaitApproveStatus.TenTrangThai
-                    }) ;
+                        awaitTutors.Add(new TutorViewModel()
+                        {
+                            Tutor = account,
+                            Subject1 = subject.TenMonGiaSu,
+                            ApprovedStatus = awaitApproveStatus.TenTrangThai
+                        });
+
+                    }
+                       
                 }
             }
 
@@ -61,19 +68,25 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                         if (subject == null)
                             subject = new Mongiasu();
 
-                        approvedTutors.Add(new TutorViewModel()
+                        if (
+                           string.IsNullOrEmpty(search) ||
+                           (!string.IsNullOrEmpty(search) && (account.HoTen == search || subject.TenMonGiaSu == search))
+                        )
                         {
-                            Tutor = account,
-                            Subject1 = subject.TenMonGiaSu,
-                            ApprovedStatus = approvedStatus.TenTrangThai
-                        });
+                            approvedTutors.Add(new TutorViewModel()
+                            {
+                                Tutor = account,
+                                Subject1 = subject.TenMonGiaSu,
+                                ApprovedStatus = approvedStatus.TenTrangThai
+                            });
+                        }
                     }
                 }
             }
 
             model.approvedTutors = approvedTutors;
 
-
+            ViewData["search"] = search;
             return View(model);
         }
 
@@ -221,10 +234,12 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
+
                 try
                 {
-                    bool.TryParse(form["Status"], out bool status);
-                    account.TrangThaiGiaSu = status;
+                    int.TryParse(form["status"], out int status);
+
+                    account.TrangThaiTaiKhoan = (status > 0);
 
                     _context.Update(account);
                     await _context.SaveChangesAsync();
@@ -232,7 +247,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 catch (Exception ex)
                 {
                     return RedirectToAction(nameof(Index), new { error = ex.InnerException });
-                }
+                } 
                 return RedirectToAction("Index");
             }
             return View(account);
