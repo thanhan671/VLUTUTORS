@@ -87,7 +87,7 @@ namespace VLUTUTORS.Controllers
             }
             else
             {
-                ViewData["image"] = "~/avatars/avatardefault.jpg";
+                ViewData["image"] = "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png";
             }
             var gioiTinhs = await db.Gioitinhs.ToListAsync();
             SelectList ddlStatus = new SelectList(gioiTinhs, "IdgioiTinh", "GioiTinh1");
