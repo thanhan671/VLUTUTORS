@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<VLUTUTORS.Models.Khoadaotao>
 @{
     ViewData["Title"] = "Quản lý khóa đào tạo";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
@@ -43,25 +43,34 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>
-                                <a>Kỹ thuật ứng dụng tin học trong việc gia sư</a>
-                            </td>
-                            <td>
-                                Anh văn cơ bản
-                            </td>
-                            <td class="project-actions">
-                                <a class="btn btn-primary btn-sm" href="~/Admin/ManageCourse/DetailCourse">
-                                    <i class="fas fa-folder"> </i>
-                                    Xem
-                                </a>
-                                <a class="btn btn-info btn-sm" href="~/Admin/ManageCourse/EditCourse">
-                                    <i class="fas fa-pencil-alt"> </i>
-                                    Sửa
-                                </a>
-                            </td>
-                        </tr>
+                        @{
+                            var index = 0;
+                            foreach (var item in Model)
+                            {
+                                index++;
+                                <tr>
+                                    <td>@index</td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TenKhoaHoc)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.MonGiaSu)
+                                    </td>
+                                    <td class="project-actions">
+                                        <a class="btn btn-primary btn-sm" 
+                                           asp-action="DetailCourse" asp-controller="ManageCourse" asp-route-id="@item.IdKhoaHoc">
+                                            <i class="fas fa-folder"> </i>
+                                            Xem
+                                        </a>
+                                        <a class="btn btn-info btn-sm"
+                                           asp-action="EditCourse" asp-controller="ManageCourse" asp-route-id="@item.IdKhoaHoc">
+                                            <i class="fas fa-pencil-alt"> </i>
+                                            Sửa
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
                     </tbody>
                 </table>
             </div>

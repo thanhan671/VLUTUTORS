@@ -128,6 +128,12 @@ namespace VLUTUTORS.Models
                 entity.Property(e => e.TenKhoaHoc)
                     .IsRequired()
                     .HasMaxLength(500);
+
+                entity.HasOne(d => d.IdMonGiaSuNavigation)
+                    .WithMany(p => p.Khoadaotaos)
+                    .HasForeignKey(d => d.IdMonGiaSu)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_KHOADAOTAO_MONGIASU");
             });
 
             modelBuilder.Entity<Lienhe>(entity =>

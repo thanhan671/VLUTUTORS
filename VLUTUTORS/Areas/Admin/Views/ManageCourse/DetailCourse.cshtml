@@ -1,4 +1,6 @@
-﻿
+﻿@model IEnumerable<VLUTUTORS.Models.Baihoc>
+@using Microsoft.AspNetCore.Http
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     ViewData["Title"] = "Chi tiết khóa đào tạo";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
@@ -55,28 +57,36 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>
-                                <a>Kỹ năng sử dụng PPT</a>
-                            </td>
-                            <td>
-                                <a class="nav-link">https://elearning.vanlanguni.edu.vn/</a>
-                            </td>
-                            <td class="project-actions">
-                                <a class="btn btn-info btn-sm" href="~/Admin/ManageCourse/EditLesson">
-                                    <i class="fas fa-pencil-alt"> </i>
-                                    Sửa
-                                </a>
-                                <a class="btn btn-danger btn-sm"
-                                   data-toggle="modal"
-                                   data-target="#exampleModal"
-                                   href="#">
-                                    <i class="fas fa-trash"> </i>
-                                    Xoá
-                                </a>
-                            </td>
-                        </tr>
+                        @{
+                            var index = 0;
+                            foreach (var item in Model)
+                            {
+                                    index++;
+                                <tr>
+                                    <td>@index</td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TenBaiHoc)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.LinkBaiHoc)
+                                    </td>
+                                    <td class="project-actions">
+                                        <a class="btn btn-info btn-sm"
+                                           asp-action="EditLesson" asp-controller="ManageCourse" asp-route-id="@item.IdBaiHoc">
+                                            <i class="fas fa-pencil-alt"> </i>
+                                            Sửa
+                                        </a>
+                                        <a class="btn btn-danger btn-sm"
+                                           data-toggle="modal"
+                                           data-target="#exampleModal"
+                                           href="#">
+                                            <i class="fas fa-trash"> </i>
+                                            Xoá
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
                     </tbody>
                 </table>
             </div>

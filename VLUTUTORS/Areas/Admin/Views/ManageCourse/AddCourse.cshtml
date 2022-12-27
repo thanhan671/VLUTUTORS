@@ -1,4 +1,6 @@
-﻿
+﻿@using Microsoft.AspNetCore.Http
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model VLUTUTORS.Models.Khoadaotao
 @{
     ViewData["Title"] = "Thêm mới khóa đào tạo";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
@@ -20,7 +22,7 @@
     </section>
 
     <!-- Main content -->
-    <form method="post" asp-controller="#" asp-action="#">
+    <form method="post" asp-controller="ManageCourse" asp-action="AddCourse">
         <section class="content">
             <div class="container" style="margin-top: 20px; margin-bottom: 20px">
                 <div class="main-body">
@@ -34,17 +36,14 @@
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Tên khóa đào tạo</h6>
                                         </div>
-                                        <input class="col-sm-9 text-secondary" name="TenKhoaDaoTao" id="TenKhoaDaoTao" type="text">
+                                        <input class="col-sm-9 text-secondary" name="TenKhoaHoc" id="TenKhoaHoc" type="text">
                                     </div>
                                     <hr />
                                     <div class="row">
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Đào tạo cho môn</h6>
                                         </div>
-                                        <select class="col-sm-9 text-secondary">
-                                            <option>Anh văn cơ bản</option>
-                                            <option>Tin học cơ bản</option>
-                                        </select>
+                                        @Html.DropDownListFor(model => model.IdMonGiaSu, Model.MonGiaSus, new { @class = "col-sm-9 text-secondary" })
                                     </div>
                                     <hr />
                                     <div class="row">
