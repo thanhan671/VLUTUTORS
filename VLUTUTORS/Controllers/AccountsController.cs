@@ -82,6 +82,7 @@ namespace VLUTUTORS.Controllers
             var taiKhoan = await db.Taikhoannguoidungs.FirstOrDefaultAsync(m => m.Id == id);
             if(taiKhoan.AnhDaiDien != null)
             {
+                TempData["avt"] = "Yes";
                 string newString = taiKhoan.AnhDaiDien.TrimStart('[', '"');
                 ViewData["image"] = newString.TrimEnd('"', ']').ToString();
             }
