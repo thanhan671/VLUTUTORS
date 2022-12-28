@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<VLUTUTORS.Models.Khoadaotao>
+@using Microsoft.AspNetCore.Http
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     ViewData["Title"] = "Quản lý khóa đào tạo";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
@@ -26,9 +28,9 @@
                 <h3 class="card-title">Danh sách khóa đào tạo</h3>
                 <div class="card-tools">
                     <a class="btn btn-primary btn-sm"
-                       href="~/Admin/ManageCourse/AddCourse">
+                       href="~/Admin/ManageCourse/AddLesson">
                         <i class="fas fa-plus"> </i>
-                        Thêm khóa đào tạo
+                        Thêm bài học
                     </a>
                 </div>
             </div>
@@ -37,8 +39,8 @@
                     <thead>
                         <tr>
                             <th style="width: 10%">STT</th>
-                            <th style="width: 20%">Tên khóa học</th>
-                            <th style="width: 15%">Đào tạo cho môn</th>
+                            <th style="width: 20%">Tên bài học</th>
+                            <th style="width: 15%">Link bài học</th>
                             <th style="width: 15%">Chức năng</th>
                         </tr>
                     </thead>
@@ -47,6 +49,7 @@
                             var index = 0;
                             foreach (var item in Model)
                             {
+                                TempData["id"] = item.IdBaiHoc;
                                 index++;
                                 <tr>
                                     <td>@index</td>
@@ -54,18 +57,20 @@
                                         @Html.DisplayFor(modelItem => item.TenBaiHoc)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.TenBaiHoc)
+                                        @Html.DisplayFor(modelItem => item.Link)
                                     </td>
                                     <td class="project-actions">
-                                        <a class="btn btn-primary btn-sm" 
-                                           asp-action="DetailCourse" asp-controller="ManageCourse" asp-route-id="@item.IdBaiHoc">
-                                            <i class="fas fa-folder"> </i>
-                                            Xem
-                                        </a>
                                         <a class="btn btn-info btn-sm"
-                                           asp-action="EditCourse" asp-controller="ManageCourse" asp-route-id="@item.IdBaiHoc">
+                                           asp-action="EditLesson" asp-controller="ManageCourse" asp-route-id="@item.IdBaiHoc">
                                             <i class="fas fa-pencil-alt"> </i>
                                             Sửa
+                                        </a>
+                                        <a class="btn btn-danger btn-sm"
+                                           data-toggle="modal"
+                                           data-target="#exampleModal"
+                                           >
+                                            <i class="fas fa-trash"> </i>
+                                            Xoá
                                         </a>
                                     </td>
                                 </tr>
@@ -92,9 +97,9 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body">
-                <h5>Bạn muốn xóa khóa đào tạo này?</h5>
+                <h5>Bạn muốn xóa bài học này?</h5>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer"> 
                 <button class="btn btn-default" type="button" data-dismiss="modal">
                     Hủy
                 </button>

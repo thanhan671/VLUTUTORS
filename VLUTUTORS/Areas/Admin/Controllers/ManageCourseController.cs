@@ -32,7 +32,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddLesson([Bind(include: "IdKhoaHoc,TenBaiHoc,Link")] Khoadaotao khoadaotao)
+        public async Task<IActionResult> AddLesson([Bind(include: "IdBaiHoc,TenBaiHoc,Link")] Khoadaotao khoadaotao)
         {
             if (ModelState.IsValid)
             {
@@ -73,7 +73,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditLesson(int id, [Bind(include: "IdKhoaHoc,TenKhoaHoc,IdMonGiaSu")] Khoadaotao khoadaotao)
+        public async Task<IActionResult> EditLesson(int id, [Bind(include: "IdBaiHoc,TenBaiHoc,Link")] Khoadaotao khoadaotao)
         {
             if (id != khoadaotao.IdBaiHoc)
             {
@@ -94,6 +94,15 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
             return View(khoadaotao);
+        }
+
+        [HttpPost]
+        public IActionResult DeleteLesson(int id)
+        {
+            Khoadaotao khoadaotao = _context.Khoadaotaos.Where(p => p.IdBaiHoc == id).FirstOrDefault();
+            _context.Khoadaotaos.Remove(khoadaotao);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }

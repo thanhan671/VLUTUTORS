@@ -22,7 +22,7 @@
     </section>
 
     <!-- Main content -->
-    <form method="post" asp-controller="ManageTest" asp-action="AddTest">
+    <form method="post" asp-controller="ManageTest" asp-action="AddQuestion">
         <section class="content">
             <div class="container" style="margin-top: 20px; margin-bottom: 20px">
                 <div class="main-body">
@@ -34,10 +34,44 @@
                                     <hr />
                                     <div class="row">
                                         <div class="col-sm-3">
-                                            <h6 class="mb-0">Bài kiểm tra cho khóa đào tạo</h6>
+                                            <h6 class="mb-0">Câu hỏi:</h6>
                                         </div>
-                                        <input class="col-sm-9 text-secondary" name="TenKhoaHoc" id="TenKhoaHoc" type="text">
-
+                                        <input class="col-sm-9 text-secondary" name="CauHoi" id="CauHoi" type="text">
+                                    </div>
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Đáp án A:</h6>
+                                        </div>
+                                        <input class="col-sm-9 text-secondary" name="DapAnA" id="DapAnA" type="text">
+                                    </div>
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Đáp án B:</h6>
+                                        </div>
+                                        <input class="col-sm-9 text-secondary" name="DapAnB" id="DapAnB" type="text">
+                                    </div>
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Đáp án C:</h6>
+                                        </div>
+                                        <input class="col-sm-9 text-secondary" name="DapAnC" id="DapAnC" type="text">
+                                    </div>
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Đáp án D:</h6>
+                                        </div>
+                                        <input class="col-sm-9 text-secondary" name="DapAnD" id="DapAnD" type="text">
+                                    </div>
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Đáp án đúng:</h6>
+                                        </div>
+                                        <input class="col-sm-9 text-secondary" name="DapAnDung" id="DapAnDung" type="text">
                                     </div>
                                     <hr />
                                     <div class="row">
