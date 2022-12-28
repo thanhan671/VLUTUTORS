@@ -1,4 +1,4 @@
-﻿@model VLUTUTORS.Models.Baihoc
+﻿@model VLUTUTORS.Models.Khoadaotao
 @{
     ViewData["Title"] = "Đào tạo gia sư";
     Layout = "~/Views/Shared/_otherPageLayout.cshtml";
@@ -16,7 +16,7 @@
                 <div class="course-content my-4">
                     @foreach(var item in @Model.courses)
                     {
-                        <button type="submit" name="courseButton" value="@item" ><h3>bài @item.ToString()</h3></button>
+                        <button type="submit" name="courseName" value="@item" ><h3>bài @item.ToString()</h3></button>
                     }
                        @* <button type="submit" name="courseButton" value="bai1" ><h3>bài 1</h3></button>
                      <button type="submit" name="courseButton" value="bai2" ><h3>bài 2</h3></button>

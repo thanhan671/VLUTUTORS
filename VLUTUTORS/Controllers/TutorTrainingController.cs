@@ -26,31 +26,36 @@ namespace VLUTUTORS.Controllers
             ViewData["gioiThieu"] = noiDung.GioiThieu;
             //ViewData["link"] = "https://www.youtube.com/embed/" + "EIwhQLQhlXE";
 
-            List<Baihoc> lesson = new List<Baihoc>();
-            Baihoc bai1 = new Baihoc(1, "how to marketing", "https://www.youtube.com/embed/" + "4ti_uK60nLk");
-            Baihoc bai2 = new Baihoc(2, "how to training", "https://www.youtube.com/embed/" + "Owf8emXuzAk");
-            Baihoc bai3 = new Baihoc(3, "how to make powerpoint", "https://www.youtube.com/embed/" + "XF34-Wu6qWU");
-            lesson.Add(bai1);
-            lesson.Add(bai2);
-            lesson.Add(bai3);
-            Baihoc baihoc = new Baihoc();
+            //List<Khoadaotao> lesson = new List<Khoadaotao>(); // remove this when function complete
+            List<Khoadaotao> lesson = _db.Khoadaotaos.ToList();
+
+            //Khoadaotao bai1 = new Khoadaotao(1, "how to marketing", "https://www.youtube.com/embed/" + "4ti_uK60nLk");
+            //Khoadaotao bai2 = new Khoadaotao(2, "how to training", "https://www.youtube.com/embed/" + "Owf8emXuzAk");
+            //Khoadaotao bai3 = new Khoadaotao(3, "how to make powerpoint", "https://www.youtube.com/embed/" + "XF34-Wu6qWU");
+            //lesson.Add(bai1);
+            //lesson.Add(bai2);
+            //lesson.Add(bai3);
+            // can remove above code lines
+
+            Khoadaotao baihoc = new Khoadaotao();
             baihoc.courses = (from l in lesson
                               select l.TenBaiHoc).ToList();
+            // generate course name list (keep this)
 
-            courseName = courseName == null ? bai1.TenBaiHoc : courseName;
+            //courseName = courseName == null ? bai1.TenBaiHoc : courseName; // can remove this
+            courseName = courseName == null ? _db.Khoadaotaos.FirstOrDefault(kdt => kdt.IdBaiHoc == 1).TenBaiHoc : courseName; // use this instead of above code line
             Console.WriteLine("ten bai hoc la gi: " + courseName);
-            ViewData["link"] = lesson.Find(l => l.TenBaiHoc.Equals(courseName)).LinkBaiHoc;
+            //ViewData["link"] = lesson.Find(l => l.TenBaiHoc.Equals(courseName)).Link; // can remove this
+            ViewData["link"] = _db.Khoadaotaos.FirstOrDefault(l => l.TenBaiHoc.Equals(courseName)).Link; // use this instead of above code line
 
             return View(baihoc);
         }
 
         [HttpPost]
-        public IActionResult Index(string courseButton, int id = 1)
+        public IActionResult Index(string courseName, int id = 1)
         {
-
-            Console.WriteLine("lesson: " + courseButton);
-            //int id = courseButton.
-            return RedirectToAction("Index", new { courseName = courseButton});
+            Console.WriteLine("lesson: " + courseName);
+            return RedirectToAction("Index", new { courseName = courseName});
         }
 
         public async Task<IActionResult> DoTest()
