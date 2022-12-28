@@ -92,6 +92,7 @@ namespace VLUTUTORS.Controllers
             taikhoannguoidung.ChungChiMon2 = TutorServices.SaveUploadImages(this._environment.WebRootPath, certificates2Path, certificates2);
             taikhoannguoidung.AnhDaiDien = TutorServices.SaveUploadImages(this._environment.WebRootPath, avatarPath, avatar);
             taikhoannguoidung.IdxetDuyet = (int)ApprovalStatus.TRAINING;
+            taikhoannguoidung.TrangThaiGiaSu = true;
 
             Console.WriteLine("chung chi: " + JsonConvert.DeserializeObject(taikhoannguoidung.AnhDaiDien));
             if (ModelState.IsValid)

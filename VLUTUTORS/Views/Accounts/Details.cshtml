@@ -20,7 +20,7 @@
             </ol>
         </nav>
         <!-- /Breadcrumb -->
-        <form method="post" asp-controller="Accounts" asp-action="Details">
+        <form method="post" enctype="multipart/form-data" asp-controller="Accounts" asp-action="Details">
             <input type="hidden" asp-for="Id" />
 
             <div class="row gutters-sm">
@@ -28,14 +28,21 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex flex-column align-items-center text-center avatar">
-                                @foreach (var img in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.AnhDaiDien))
+                                @if (TempData["avt"] != null)
                                 {
-                                    var path = @img.Replace(@"\", @"\\");
-                                    <img src="/@path"
+                                    <img src="\@ViewData["image"]"
                                          class="rounded-circle"
                                          width="200"
-                                         height="200"/>
+                                         height="200" />
                                 }
+                                else
+                                {
+                                    <img src="@ViewData["image"]"
+                                         class="rounded-circle"
+                                         width="200"
+                                         height="200" />
+                                }
+
                                 <div class="mt-3">
                                     <input style="width: 80px"
                                            type="file"

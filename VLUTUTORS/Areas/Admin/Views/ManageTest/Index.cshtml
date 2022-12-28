@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<VLUTUTORS.Models.Baikiemtra>
 @{
     ViewData["Title"] = "Quản lý bài kiểm tra";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
@@ -38,33 +38,29 @@
                         <tr>
                             <th style="width: 10%">STT</th>
                             <th style="width: 30%">Bài kiểm tra khóa đào tạo</th>
-                            <th style="width: 15%" class="text-center">Chức năng</th>
+                            <th style="width: 15%">Chức năng</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>
-                                <a>Kỹ thuật ứng dụng tin học trong việc gia sư</a>
-                            </td>
-                            <td class="project-actions text-right">
-                                <a class="btn btn-primary btn-sm" href="~/Admin/ManageTest/DetailTest">
-                                    <i class="fas fa-folder"> </i>
-                                    Xem
-                                </a>
-                                <a class="btn btn-info btn-sm" href="~/Admin/ManageTest/EditTest">
-                                    <i class="fas fa-pencil-alt"> </i>
-                                    Sửa
-                                </a>
-                                <a class="btn btn-danger btn-sm"
-                                   data-toggle="modal"
-                                   data-target="#exampleModal"
-                                   href="#">
-                                    <i class="fas fa-trash"> </i>
-                                    Xoá
-                                </a>
-                            </td>
-                        </tr>
+                        @{
+                            var index = 0;
+                            foreach (var item in Model)
+                            {
+                                index++;
+                                <tr>
+                                    <td>@index</td>
+                                    <td>
+                                        text
+                                    </td>
+                                    <td class="project-actions">
+                                        <a class="btn btn-primary btn-sm" href="~/Admin/ManageTest/DetailTest">
+                                            <i class="fas fa-folder"> </i>
+                                            Xem
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
                     </tbody>
                 </table>
             </div>

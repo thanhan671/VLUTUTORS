@@ -166,13 +166,11 @@
                                             <h6 class="mb-0">Ảnh minh chứng</h6>
                                         </div>
 
-                                        <div class="col-sm-9 text-secondary">
-                                            @Html.DisplayFor(model => model.Tutor.ChungChiMon1)
-                                            <a href="#"
-                                               class="nav-link-item"
-                                               data-toggle="modal"
-                                               data-target="#viewModal"><i class="fas fa-eye"></i></a>
-                                        </div>
+                                        @foreach (var img in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.Tutor.ChungChiMon1))
+                                        {
+                                            var path = @img.Replace(@"\", @"\\");
+                                            <td><img src="/@path" height="300" width="400"></td>
+                                        }
 
                                     </div>
 
@@ -204,7 +202,7 @@
                                             <h6 class="mb-0">Tên chứng chỉ/Điểm trung bình môn</h6>
                                         </div>
                                         <div class="col-sm-9 text-secondary">
-                                            @Html.DisplayFor(model => model.Tutor.TenChungChiHoacDiemMon1)
+                                            @Html.DisplayFor(model => model.Tutor.TenChungChiHoacDiemMon2)
                                         </div>
                                     </div>
 
@@ -213,14 +211,11 @@
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Ảnh minh chứng</h6>
                                         </div>
-
-                                        <div class="col-sm-9 text-secondary">
-                                            @Html.DisplayFor(model => model.Tutor.ChungChiMon2)
-                                            <a href="#"
-                                               class="nav-link-item"
-                                               data-toggle="modal"
-                                               data-target="#viewModal"><i class="fas fa-eye"></i></a>
-                                        </div>
+                                        @foreach (var img in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.Tutor.ChungChiMon2))
+                                        {
+                                            var path = @img.Replace(@"\", @"\\");
+                                            <td><img src="/@path" height="300" width="400"></td>
+                                        }
                                     </div>
 
                                     <hr />
