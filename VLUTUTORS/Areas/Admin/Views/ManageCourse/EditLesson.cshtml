@@ -1,6 +1,8 @@
-﻿
+﻿@using Microsoft.AspNetCore.Http
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model VLUTUTORS.Models.Khoadaotao
 @{
-    ViewData["Title"] = "Chỉnh sửa bài học";
+    ViewData["Title"] = "Chỉnh sửa khóa đào tạo";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
@@ -12,15 +14,16 @@
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="~/Admin">Trang chủ</a></li>
                     <li class="breadcrumb-item"><a href="~/Admin/ManageCourse">Quản lý khóa đào tạo</a></li>
-                    <li class="breadcrumb-item"><a href="/Admin/ManageCourse/DetailCourse">Chi tiết khóa đào tạo</a></li>
-                    <li class="breadcrumb-item active">Chỉnh sửa bài học</li>
+                    <li class="breadcrumb-item active">Chỉnh sửa khóa đào tạo</li>
                 </ol>
             </div>
         </div>
         <!-- /.container-fluid -->
     </section>
+
     <!-- Main content -->
-    <form method="post" asp-controller="#" asp-action="#">
+    <form method="post" enctype="multipart/form-data" asp-controller="ManageCourse" asp-action="EditCourse">
+        <input type="hidden" asp-for="IdKhoaHoc" />
         <section class="content">
             <div class="container" style="margin-top: 20px; margin-bottom: 20px">
                 <div class="main-body">
@@ -28,20 +31,20 @@
                         <div class="col-md-8">
                             <div class="card mb-3">
                                 <div class="card-body">
-                                    <h3>Chỉnh sửa bài học</h3>
+                                    <h3>Chỉnh sửa khóa đào tạo</h3>
                                     <hr />
                                     <div class="row">
                                         <div class="col-sm-3">
-                                            <h6 class="mb-0">Tên bài học</h6>
+                                            <h6 class="mb-0">Tên khóa đào tạo</h6>
                                         </div>
-                                        <input class="col-sm-9 text-secondary" name="TenBaiHoc" id="TenBaiHoc" type="text" value="Kỹ năng sử dụng PPT">
+                                        <input class="col-sm-9 text-secondary" name="TenKhoaHoc" id="TenKhoaHoc" type="text" value="@Model.TenKhoaHoc">
                                     </div>
                                     <hr />
                                     <div class="row">
                                         <div class="col-sm-3">
-                                            <h6 class="mb-0">Link bài học</h6>
+                                            <h6 class="mb-0">Đào tạo cho môn</h6>
                                         </div>
-                                        <input class="col-sm-9 text-secondary" name="LinkBaiHoc" id="LinkBaiHoc" type="text" value="https://elearning.vanlanguni.edu.vn/">
+                                        @Html.DropDownListFor(model => model.IdMonGiaSu, Model.MonGiaSus, new { @class = "col-sm-9 text-secondary" })
                                     </div>
                                     <hr />
                                     <div class="row">

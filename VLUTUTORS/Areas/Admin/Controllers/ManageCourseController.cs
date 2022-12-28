@@ -31,7 +31,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult AddCourse()
+        public IActionResult AddLesson()
         {
             Khoadaotao khoadaotao = new Khoadaotao();
 
@@ -41,7 +41,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddCourse([Bind(include: "IdKhoaHoc,TenKhoaHoc,IdMonGiaSu")] Khoadaotao khoadaotao)
+        public async Task<IActionResult> AddLesson([Bind(include: "IdKhoaHoc,TenKhoaHoc,IdMonGiaSu")] Khoadaotao khoadaotao)
         {
             if (ModelState.IsValid)
             {
@@ -68,7 +68,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> EditCourse(int? id = -1)
+        public async Task<IActionResult> EditLesson(int? id = -1)
         {
             if (id == null)
             {
@@ -85,7 +85,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditCourse(int id, [Bind(include: "IdKhoaHoc,TenKhoaHoc,IdMonGiaSu")] Khoadaotao khoadaotao)
+        public async Task<IActionResult> EditLesson(int id, [Bind(include: "IdKhoaHoc,TenKhoaHoc,IdMonGiaSu")] Khoadaotao khoadaotao)
         {
             if (id != khoadaotao.IdKhoaHoc)
             {
@@ -106,19 +106,6 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
             return View(khoadaotao);
-        }
-        public IActionResult DetailCourse()
-        {
-            return View();
-        }
-
-        public IActionResult AddLesson()
-        {
-            return View();
-        }
-        public IActionResult EditLesson()
-        {
-            return View();
         }
     }
 }

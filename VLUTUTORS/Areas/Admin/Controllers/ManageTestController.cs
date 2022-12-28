@@ -31,7 +31,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult AddTest()
+        public IActionResult AddQuestion()
         {
             Baikiemtra baikiemtra = new Baikiemtra();
 
@@ -40,7 +40,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             return View(baikiemtra);
         }
         [HttpPost]
-        public async Task<IActionResult> AddTest([Bind(include: "IdBaiKiemTra,IdKhoaDaoTao")] Baikiemtra baikiemtra)
+        public async Task<IActionResult> AddQuestion([Bind(include: "IdBaiKiemTra,IdKhoaDaoTao")] Baikiemtra baikiemtra)
         {
             if (ModelState.IsValid)
             {
@@ -64,14 +64,6 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 }
             }
             return View(baikiemtra);
-        }
-        public IActionResult DetailTest()
-        {
-            return View();
-        }
-        public IActionResult AddQuestion()
-        {
-            return View();
         }
         public IActionResult EditQuestion()
         {
