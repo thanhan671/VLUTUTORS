@@ -1,4 +1,5 @@
-﻿
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model VLUTUTORS.Models.Noidung
 @{
     ViewData["Title"] = "Trang Chủ";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,14 +7,13 @@
 
 <!--====== SLIDER PART START ======-->
 <section id="slider-part-3"
-         class="bg_cover"
-         style="background-image: url(images/background.jpg)">
+         class="bg_cover">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-10">
                 <div class="slider-cont-3 text-center">
                     <h2>Chào Mừng Đến Với Gia Sư Văn Lang</h2>
-                    <span>Đáp Ứng Nhu Cầu Cải Thiện Học Tập Của Bạn</span>
+                    <span>@ViewData["Slogan"]</span>
                 </div>
                 <!-- slider cont3 -->
             </div>
@@ -24,7 +24,7 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="singel-slider-feature justify-content-center mt-30">
                         <div class="icon">
-                            <img src="images/all-icon/man.png" alt="icon" />
+                            <img src="~/images/all-icon/man.png" alt="icon" />
                         </div>
                         <div class="cont">
                             <h3 class="counter">130</h3>
@@ -36,7 +36,7 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="singel-slider-feature justify-content-center mt-30">
                         <div class="icon">
-                            <img src="images/all-icon/book.png" alt="icon" />
+                            <img src="~/images/all-icon/book.png" alt="icon" />
                         </div>
                         <div class="cont">
                             <h3 class="counter">5</h3>
@@ -48,7 +48,7 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="singel-slider-feature justify-content-center mt-30">
                         <div class="icon">
-                            <img src="images/all-icon/expert.png" alt="icon" />
+                            <img src="~/images/all-icon/expert.png" alt="icon" />
                         </div>
                         <div class="cont">
                             <h3 class="counter">50</h3>
@@ -73,7 +73,7 @@
             <div class="col-lg-3 col-md-6 pl-0">
                 <div class="singel-items text-center mt-30">
                     <div class="items-image">
-                        <img src="images/category/ctg-1.jpg" alt="Category" />
+                        <img src="~/images/category/ctg-1.jpg" alt="Category" />
                     </div>
                     <div class="items-cont">
                         <a href="#">
@@ -85,6 +85,7 @@
                 <!-- singel items -->
             </div>
             <div class="col-lg-3 col-md-6 pl-0">
+<<<<<<< HEAD
                 <div class="singel-items text-center mt-30">
                     <div class="items-image">
                         <img src="images/category/ctg-1.jpg" alt="Category" />
@@ -99,9 +100,25 @@
                 <!-- singel items -->
             </div>
             <div class="col-lg-3 col-md-6 pl-0">
+=======
+>>>>>>> d7e9bf97d5ee6d4cdb71f156b1f5d64bd4cc0b41
                 <div class="singel-items text-center mt-30">
                     <div class="items-image">
-                        <img src="images/category/ctg-1.jpg" alt="Category" />
+                        <img src="~/images/category/ctg-1.jpg" alt="Category" />
+                    </div>
+                    <div class="items-cont">
+                        <a href="#">
+                            <h5>Anh văn cơ bản</h5>
+                            <span>10 Gia sư</span>
+                        </a>
+                    </div>
+                </div>
+                <!-- singel items -->
+            </div>
+            <div class="col-lg-3 col-md-6 pl-0">
+                <div class="singel-items text-center mt-30">
+                    <div class="items-image">
+                        <img src="~/images/category/ctg-1.jpg" alt="Category" />
                     </div>
                     <div class="items-cont">
                         <a href="#">
@@ -115,7 +132,7 @@
             <div class="col-lg-3 col-md-6 pl-0">
                 <div class="singel-items text-center mt-30">
                     <div class="items-image">
-                        <img src="images/category/ctg-1.jpg" alt="Category" />
+                        <img src="~/images/category/ctg-1.jpg" alt="Category" />
                     </div>
                     <div class="items-cont">
                         <a href="#">
@@ -129,7 +146,7 @@
             <div class="col-lg-3 col-md-6">
                 <div class="singel-items text-center mt-30">
                     <div class="items-image">
-                        <img src="images/category/ctg-1.jpg" alt="Category" />
+                        <img src="~/images/category/ctg-1.jpg" alt="Category" />
                     </div>
                     <div class="items-cont">
                         <a href="#">
@@ -146,13 +163,100 @@
     <!-- container -->
 </section>
 
+<<<<<<< HEAD
 <!--====== COUNTER PART START ======-->
+=======
+<!--====== TEACHERS PART START ======-->
+
+<section id="teachers-page" class="pt-90 pb-120 gray-bg">
+    <div class="container">
+        <h3>Gia Sư Nổi Bật</h3>
+        <div class="row">
+            <div class="col-lg-3 col-sm-6">
+                <div class="singel-teachers mt-30 text-center">
+                    <div class="image">
+                        <img src="~/images/teachers/t-1.jpg" alt="Teachers" />
+                    </div>
+                    <div class="cont">
+                        <a href="#"><h6>MarkMark alen</h6></a>
+                        <span>Vice chencelor</span>
+                    </div>
+                </div>
+                <!-- singel teachers -->
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="singel-teachers mt-30 text-center">
+                    <div class="image">
+                        <img src="~/images/teachers/t-2.jpg" alt="Teachers" />
+                    </div>
+                    <div class="cont">
+                        <a href="teachers-singel.html"><h6>David card</h6></a>
+                        <span>Pro chencelor</span>
+                    </div>
+                </div>
+                <!-- singel teachers -->
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="singel-teachers mt-30 text-center">
+                    <div class="image">
+                        <img src="~/images/teachers/t-3.jpg" alt="Teachers" />
+                    </div>
+                    <div class="cont">
+                        <a href="teachers-singel.html"><h6>Rebeka alig</h6></a>
+                        <span>Pro chencelor</span>
+                    </div>
+                </div>
+                <!-- singel teachers -->
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="singel-teachers mt-30 text-center">
+                    <div class="image">
+                        <img src="~/images/teachers/t-4.jpg" alt="Teachers" />
+                    </div>
+                    <div class="cont">
+                        <a href="teachers-singel.html"><h6>Hanna bein</h6></a>
+                        <span>Aerobics head</span>
+                    </div>
+                </div>
+                <!-- singel teachers -->
+            </div>
+        </div>
+        <!-- row -->
+        <div class="row">
+            <div class="col-lg-12">
+                <nav class="courses-pagination mt-50">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item">
+                            <a href="#" aria-label="Previous">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        </li>
+                        <li class="page-item"><a class="active" href="#">1</a></li>
+                        <li class="page-item"><a href="#">2</a></li>
+                        <li class="page-item"><a href="#">3</a></li>
+                        <li class="page-item">
+                            <a href="#" aria-label="Next">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- courses pagination -->
+            </div>
+        </div>
+        <!-- row -->
+    </div>
+    <!-- container -->
+</section>
+<!--====== TEACHERS PART END ======-->
+<!--====== CULTING PART START ======-->
+>>>>>>> d7e9bf97d5ee6d4cdb71f156b1f5d64bd4cc0b41
 <section>
     <div class="container">
         <div class="row align-items-center justify-content-center">
             <div class="col-lg-6">
                 <div class="count-down-cont mt-50">
-                    <img src="images/teacher-up-down.png" />
+                    <img src="~/images/teacher-up-down.png" />
                 </div>
                 <!-- count down cont -->
             </div>
@@ -163,18 +267,18 @@
                         <span>Miễn phí </span>
                     </div>
                     <div class="main-form">
-                        <form action="#">
+                        <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="SendConsulting">
                             <div class="singel-form">
-                                <input type="text" placeholder="Tên của bạn" />
+                                <input type="text" name="HoTen" placeholder="Tên của bạn" />
                             </div>
                             <div class="singel-form">
-                                <input type="email" placeholder="Điện thoại" />
+                                <input type="tel" name="SDT" placeholder="Điện thoại" />
                             </div>
                             <div class="singel-form">
-                                <input type="text" placeholder="Môn học" />
+                                <input type="text" name="NoiDung" placeholder="Nội dung cần tư vấn" />
                             </div>
                             <div class="singel-form">
-                                <button class="main-btn" type="button">
+                                <button class="main-btn" type="submit">
                                     Đăng ký tư vấn
                                 </button>
                             </div>
@@ -188,6 +292,7 @@
     </div>
     <!-- container -->
 </section>
+<<<<<<< HEAD
 <!--====== COUNTER PART ENDS ======-->
 <!--====== TEACHERS PART START ======-->
 
@@ -271,3 +376,6 @@
     </div>
     <!-- container -->
 </section>
+=======
+<!--====== CULTING PART ENDS ======-->
+>>>>>>> d7e9bf97d5ee6d4cdb71f156b1f5d64bd4cc0b41

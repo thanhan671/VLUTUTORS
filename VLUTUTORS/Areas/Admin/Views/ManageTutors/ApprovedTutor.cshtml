@@ -1,0 +1,59 @@
+﻿@model IEnumerable<VLUTUTORS.Models.TutorViewModel>
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Gia sư hiện có</h3>
+    </div>
+    <div class="card-body p-0">
+        <table class="table table-striped projects">
+            <thead>
+                <tr>
+                    <th style="width: 1%">#</th>
+                    <th style="width: 20%">Tên Gia Sư</th>
+                    <th style="width: 30%">Môn Gia sư</th>
+                    <th>Email</th>
+                    <th style="width: 8%" class="text-center">Trạng thái</th>
+                    <th style="width: 20%"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    var index = 0;
+                    foreach (var item in Model)
+                    {
+                        index++;
+                        <tr>
+                            <td>@index</td>
+                            <td>
+                                <a>@Html.DisplayFor(modelItem => item.Tutor.HoTen)</a>
+                            </td>
+                            <td>@Html.DisplayFor(modelItem => item.Subject1)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Tutor.Email)</td>
+                            @{
+                                if(item.Tutor.TrangThaiGiaSu == true)
+                                {
+                                    <td class="badge badge-success">Hoạt Động</td>
+                                }
+                                else
+                                {
+                                    <td class="badge badge-block">Tạm khóa</td>
+                                }
+                            }
+                            <td class="project-actions text-right">
+                                <a asp-action="DetailTutor" asp-route-id="@item.Tutor.Id" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-folder"> </i>
+                                    Xem
+                                </a>
+                                <a asp-action="UpdateTutor" asp-route-id="@item.Tutor.Id" class="btn btn-info btn-sm">
+                                    <i class="fas fa-pencil-alt"> </i>
+                                    Sửa
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>

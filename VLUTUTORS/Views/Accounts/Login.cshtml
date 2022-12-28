@@ -1,0 +1,103 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model VLUTUTORS.Models.Taikhoannguoidung
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="~/images/favicon2.png" type="image/png" />
+
+    <script src="https://kit.fontawesome.com/64d58efce2.js"
+            crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="~/css/form_style.css" />
+    <!-- <link rel="stylesheet" href="css/style.css" /> -->
+    <title>Đăng Nhập - Đăng Ký</title>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+          integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="container">
+        <div class="forms-container">
+            <div class="signin-signup">
+                <form class="sign-in-form" method="post" enctype="multipart/form-data" asp-controller="Accounts" asp-action="Login">
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <h2 class="title">Đăng Nhập</h2>
+                    <div class="input-field">
+                        <i class="fas fa-user"></i>
+                        <input type="text" name="Email" placeholder="Email" />
+
+                    </div>
+                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                    <div class="input-field">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" name="MatKhau" placeholder="Mật Khẩu" />
+                    </div>
+                    @Html.ValidationMessageFor(m => m.MatKhau, "", new { @class = "text-danger" })
+                    <button type="submit" class="btn" onclick="Button1_Click">Đăng Nhập</button>
+                    <a href="~/Accounts/ForGotPass">
+                        <span>Bạn quên mật khẩu? </span>
+                    </a>
+                </form>
+                <form class="sign-up-form" method="post" enctype="multipart/form-data" asp-controller="Accounts" asp-action="Register">
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <h2 class="title">Đăng Ký Tài Khoản</h2>
+                    <div class="input-field">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="txtHoTen" name="HoTen" placeholder="Họ tên của bạn" />
+                        @Html.ValidationMessageFor(m => m.HoTen, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="input-field">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="txtEmail" name="Email" placeholder="Email" />
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="input-field">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="txtMatKhau" name="MatKhau" placeholder="Mật Khẩu" />
+                        @Html.ValidationMessageFor(m => m.MatKhau, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="input-field">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" placeholder="Nhập Lại Mật Khẩu" />
+                    </div>
+                    <button type="submit" class="btn">Đăng ký</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="panels-container">
+            <div class="panel left-panel">
+                <div class="content">
+                    <h1>Chào Mừng Đến Với Gia Sư Văn Lang</h1>
+                    <span>Bạn chưa có tài khoản?</span>
+                    <p></p>
+                    <button class="btn transparent" id="sign-up-btn">Đăng Ký</button>
+                </div>
+                <img src="~/images/log1.svg" class="image" alt="" />
+            </div>
+            <div class="panel right-panel">
+                <div class="content">
+                    <h1>Chào Mừng Đến Với Gia Sư Văn Lang</h1>
+                    <span>Bạn đã có tài khoản?</span>
+                    <p></p>
+                    <button class="btn transparent" id="sign-in-btn">Đăng Nhập</button>
+                </div>
+                <img src="~/images/6384623.svg" class="image" alt="" />
+            </div>
+        </div>
+    </div>
+    <script src="~/js/app.js"></script>
+</body>
+</html>
+
+

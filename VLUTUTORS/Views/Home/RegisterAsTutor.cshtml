@@ -1,0 +1,234 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model VLUTUTORS.Models.Taikhoannguoidung
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/css/form_style.css" />
+    <link rel="shortcut icon" href="~/images/favicon2.png" type="image/png" />
+    <title>VLU TUTORS - Trở Thành Gia Sư</title>
+    <script src="~/js/app.js"></script>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+          integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer" />
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous" />
+</head>
+<body>
+    <div class="container-bat">
+        <div class="hero">
+            <a class="logo-link" href='javascript:history.go(-1)'>
+                <img class="hero-logo" src="~/images/logo-vlu.png" alt="" />
+            </a>
+            <p class="hero-content">
+                Tham Gia Để Cùng Phát Triển Đội Ngũ Gia Sư Văn Lang
+            </p>
+        </div>
+
+        <div class="sign-up">
+            <a href='javascript:history.go(-1)' class="back-btn">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <div class="container-sign-up">
+                <p class="sign-up__desc">
+                    <span>Trở thành gia sư chỉ với 1 bước</span>
+                </p>
+                <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="RegisterAsTutor">
+                    @Html.HiddenFor(m => m.Id)
+                    @Html.HiddenFor(m => m.MatKhau)
+                    <div class="container--tt">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <p><b class="lb-form-title">Thông Tin Cá Nhân</b></p>
+                                        <div class="form__input">
+                                            <label class="lb-form">Họ Tên</label>
+                                            @Html.TextBoxFor(m => m.HoTen, new { @readonly = true })
+                                        </div>
+                                        <div class="form__input">
+                                            <label class="lb-form">Email</label>
+                                            @Html.TextBoxFor(m => m.Email, new { @readonly = true })
+                                        </div>
+                                        <div class="form__input">
+                                            <label class="lb-form" for="name">Khoa</label>
+                                            @Html.DropDownListFor(m => m.Idkhoa, Model.DepartmentItems, "Chọn khoa", new { @class = "form__select" })
+                                        </div>
+                                        <div class="form-radio">
+                                            <label for="form__label" class="form__label">Giới tính</label>
+                                            <li>
+                                                @foreach (var gioiTinh in @Model.GenderItems)
+                                                {
+                                                    <input id="@gioiTinh.Value" type="radio" name="IdgioiTinh" value="@gioiTinh.Value" />
+                                                    <label class="lb-radio" for="@gioiTinh.Value">@gioiTinh.Text</label>
+                                                }
+                                            </li>
+                                        </div>
+                                        <div class="form__input">
+                                            <label class="lb-form">Ngày sinh</label>
+                                            <input type="date" name="NgaySinh" placeholder="Ngày sinh" required />
+                                            <span class="warning-icon">!</span>
+                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                                        </div>
+                                        <div class="form__input">
+                                            <label class="lb-form">Số điện thoại</label>
+                                            <input type="text" name="Sdt" placeholder="Số điện thoại" required />
+                                            <span class="warning-icon">!</span>
+                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                                        </div>
+                                        <div class="form__input">
+                                            <label class="lb-form">Số tài khoản</label>
+                                            <input type="text" name="SoTaiKhoan" placeholder="Số tài khoản" required />
+                                            <span class="warning-icon">!</span>
+                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                                        </div>
+                                        <div class="form__input">
+                                            <label class="lb-form" for="name">Tên ngân hàng</label>
+                                            @Html.DropDownListFor(m => m.IdnganHang, Model.BankItems, "Chọn ngân hàng", new { @class = "form__select" })
+                                        </div>
+                                        <div class="form__input">
+                                            <label class="lb-form">Điểm trung bình tích lũy</label>
+                                            <input type="text" name="DiemTrungBinh" placeholder="Điểm trung bình" required />
+                                            <span class="warning-icon">!</span>
+                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                                        </div>
+                                        <div class="form__input">
+                                            <label for="form__label" class="form__label">Ảnh đại diện</label>
+                                            <input class=""
+                                                   type="file"
+                                                   name="avatar"
+                                                   placeholder="Ảnh đại diện"
+                                                   required
+                                                   accept=".jpg, .jpeg, .png" />
+                                            <span class="warning-icon">!</span>
+                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                                        </div>
+                                        <div class="form__input">
+                                            <label class="lb-form">Giới thiệu bản thân</label>
+                                            <input type="text" name="GioiThieu" placeholder="Giới thiệu về bản thân" required />
+                                            <span class="warning-icon">!</span>
+                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                                        </div>
+                                        <div class="form__input">
+                                            <label class="lb-form">Đánh giá về việc gia sư</label>
+                                            <input type="text" name="DanhGiaVeViecGiaSu" placeholder="Đánh giá của bản thân về việc gia sư" required />
+                                            <span class="warning-icon">!</span>
+                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <p><b class="lb-form-title">Thông Tin Môn Gia Sư 1</b></p>
+                                        <div class="form__input">
+                                            <label class="lb-form" for="name">Môn</label>
+                                            @Html.DropDownListFor(m => m.IdmonGiaSu1, Model.Subject1Items, "Chọn môn gia sư", new { @class = "form__select" })
+                                        </div>
+                                        <div class="form__input">
+                                            <label class="lb-form">Điểm trung bình môn hoặc tên chứng chỉ</label>
+                                            <input type="text" name="TenChungChiHoacDiemMon1" placeholder="Điểm trung bình hoặc chứng chỉ môn 1" required />
+                                            <span class="warning-icon">!</span>
+                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                                        </div>
+                                        <div class="form__input">
+                                            <label for="form__label" class="form__label">Minh chứng kèm theo</label>
+                                            <input class=""
+                                                   type="file"
+                                                   name="certificates1"
+                                                   placeholder="Chứng Chỉ"
+                                                   required
+                                                   multiple="multiple"
+                                                   accept=".jpg, .jpeg, .png" />
+                                            <span class="warning-icon">!</span>
+                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                                        </div>
+
+                                        <div class="form__input">
+                                            <label class="lb-form">Giới thiệu môn gia sư</label>
+                                            <input type="text" name="GioiThieuVeMonGiaSu1" placeholder="Giới thiệu về môn gia sư" required />
+                                            <span class="warning-icon">!</span>
+                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <p><b class="lb-form-title">Thông Tin Môn Gia Sư 2 (nếu có)</b></p>
+                                        <div class="form__input">
+                                            <label class="lb-form" for="name">Môn</label>
+                                            @Html.DropDownListFor(m => m.IdmonGiaSu2, Model.Subject2Items, "Chọn môn gia sư", new { @class = "form__select" })
+                                        </div>
+                                        <div class="form__input">
+                                            <label class="lb-form">Điểm trung bình môn hoặc tên chứng chỉ</label>
+                                            <input type="text" name="TenChungChiHoacDiemMon2" placeholder="Điểm trung bình hoặc chứng chỉ môn 2" />
+                                            <span class="warning-icon">!</span>
+                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                                        </div>
+
+                                        <div class="form__input">
+                                            <label for="form__label" class="form__label">Minh chứng kèm theo</label>
+                                            <input class=""
+                                                   type="file"
+                                                   name="certificates2"
+                                                   placeholder="Chứng Chỉ"
+                                                   multiple="multiple"
+                                                   accept=".jpg, .jpeg, .png" />
+                                            <span class="warning-icon">!</span>
+                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                                        </div>
+
+                                        <div class="form__input">
+                                            <label class="lb-form">Giới thiệu môn gia sư</label>
+                                            <input type="text" name="GioiThieuVeMonGiaSu2" placeholder="Giới thiệu về môn gia sư"/>
+                                            <span class="warning-icon">!</span>
+                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="form__terms text-center">
+                        Bằng cách nhấp vào nút đăng ký, bạn đồng ý với
+                        <span>Điều khoản và Dịch vụ</span> của chúng tôi
+                    </p>
+                    <button type="submit" class="submit-btn" onclick="Button1_Click">Đăng ký</button>
+                </form>
+            </div>
+        </div>
+        <!-- sign-up ends -->
+    </div>
+</body>
+</html>
+<script>
+    const form = document.querySelector('.sign-up__form');
+    const inputs = document.querySelectorAll('.form__input');
+    clearInputs(inputs);
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        inputs.forEach((input) => {
+            let inputValue = input.firstElementChild;
+            if (inputValue.getAttribute('id') === 'email') {
+                validateEmail(inputValue, input);
+            } else {
+                validateLength(inputValue, input);
+            }
+        });
+    });
+    function clearInputs() {
+        inputs.forEach((input) => {
+            let inputValue = input.firstElementChild;
+            inputValue.value = '';
+        });
+    }
+</script>
+
+

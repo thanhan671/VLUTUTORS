@@ -15,24 +15,24 @@
     <link rel="shortcut icon" href="~/images/favicon2.png" type="image/png" />
 
     <!--====== Slick css ======-->
-    <link rel="stylesheet" href="css/slick.css" />
+    <link rel="stylesheet" href="~/css/slick.css" />
 
     <!--====== Animate css ======-->
-    <link rel="stylesheet" href="css/animate.css" />
+    <link rel="stylesheet" href="~/css/animate.css" />
 
     <!--====== Nice Select css ======-->
-    <link rel="stylesheet" href="css/nice-select.css" />
+    <link rel="stylesheet" href="~/css/nice-select.css" />
 
     <!--====== Nice Number css ======-->
-    <link rel="stylesheet" href="css/jquery.nice-number.min.css" />
+    <link rel="stylesheet" href="~/css/jquery.nice-number.min.css" />
 
     <!--====== Magnific Popup css ======-->
-    <link rel="stylesheet" href="css/magnific-popup.css" />
+    <link rel="stylesheet" href="~/css/magnific-popup.css" />
 
     <!--====== Bootstrap css ======-->
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" />
 
-    <link rel="stylesheet" href="css/font-awesome.min.css" />
+    <link rel="stylesheet" href="~/css/font-awesome.min.css" />
     <!--====== Fontawesome css ======-->
 
     <link rel="stylesheet"
@@ -42,13 +42,13 @@
           referrerpolicy="no-referrer" />
 
     <!--====== Default css ======-->
-    <link rel="stylesheet" href="css/default.css" />
+    <link rel="stylesheet" href="~/css/default.css" />
 
     <!--====== Style css ======-->
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="~/css/style.css" />
 
     <!--====== Responsive css ======-->
-    <link rel="stylesheet" href="css/responsive.css" />
+    <link rel="stylesheet" href="~/css/responsive.css" />
 </head>
 
 <body>
@@ -70,66 +70,7 @@
     <!--====== PRELOADER PART START ======-->
     <!--====== HEADER PART START ======-->
 
-    <header id="header-part">
-        <div class="navigation navigation-2 navigation-3 nav-nob">
-            <div class="container">
-                <div class="row no-gutters">
-                    <div class="col-lg-11 col-md-10 col-sm-9 col-9">
-                        <nav class="navbar navbar-expand-lg">
-                            <a class="navbar-brand" href="index.html">
-                                <img class="logo" src="images/logo-vlu.png" alt="Logo" />
-                            </a>
-                            <button class="navbar-toggler"
-                                    type="button"
-                                    data-toggle="collapse"
-                                    data-target="#navbarSupportedContent"
-                                    aria-controls="navbarSupportedContent"
-                                    aria-expanded="false"
-                                    aria-label="Toggle navigation">
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
-
-                            <div class="collapse navbar-collapse sub-menu-bar"
-                                 id="navbarSupportedContent">
-                                <ul class="navbar-nav ml-auto">
-                                    <li class="nav-item">
-                                        <a class="active" href="index.html">Trang Chủ</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="search.html">Tìm Gia Sư</a>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <a href="about.html">Về Chúng Tôi</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="contact.html">Liên Hệ</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="becomeatutor.html">Trở Thành Gia Sư</a>
-                                    </li>
-                                    <li>
-                                        <a href="login.html" target="_blank">Trần Vũ Nhật Quỳnh</a>
-                                        <ul class="sub-menu">
-                                            <li><a href="user-profile.html">Tài Khoản</a></li>
-                                            <li><a href="history.html">Lịch Sử Đặt Lịch</a></li>
-                                            <li><a href="#">Gia Sư Yêu Thích</a></li>
-                                            <li><a href="" id="logout">Đăng Xuất</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
-                        </nav>
-                        <!-- nav -->
-                    </div>
-                </div>
-                <!-- row -->
-            </div>
-            <!-- container -->
-        </div>
-    </header>
+    @await Html.PartialAsync("_NavHomePartialView")
 
     <!--====== HEADER PART ENDS ======-->
 
@@ -147,14 +88,11 @@
                                 <a href="#"><img src="images/logo-vlu.png" alt="Logo" /></a>
                             </div>
                             <p>
-                                Gia sư Văn Lang nơi kết nối và giúp bạn cải thiện kết quả học
-                                tập của bản thân. Bằng cách học mới mẻ, hiện đại gia sư Văn
-                                Lang sẽ là người bạn đồng hành thân thiết của các bạn sinh
-                                viên!
+                                @ViewData["gtChanTrang"]
                             </p>
                             <ul class="mt-20">
                                 <li>
-                                    <a href="https://www.facebook.com/ctsvvlu">
+                                    <a href="@ViewData["Fb"]">
                                         <i class="fa-brands fa-facebook"></i>
                                     </a>
                                 </li>
@@ -169,20 +107,21 @@
                             </div>
                             <ul>
                                 <li>
-                                    <a href="index.html"><i class="fa fa-angle-right"></i>Trang chủ</a>
+                                    <a href="/Home"><i class="fa fa-angle-right"></i>Trang chủ</a>
                                 </li>
 
                                 <li>
-                                    <a href="about.html"><i class="fa fa-angle-right"></i>Về chúng tôi</a>
+                                    <a href="/Home/AboutUs"><i class="fa fa-angle-right"></i>Về chúng tôi</a>
                                 </li>
+
                             </ul>
                             <ul>
                                 <li>
-                                    <a href="search.html"><i class="fa fa-angle-right"></i>Tìm gia sư</a>
+                                    <a href="#"><i class="fa fa-angle-right"></i>Tìm gia sư</a>
                                 </li>
 
                                 <li>
-                                    <a href="becomeatutor.html"><i class="fa fa-angle-right"></i>Trở thành gia sư</a>
+                                    <a href="/Home/RegisterAsTutor"><i class="fa fa-angle-right"></i>Trở thành gia sư</a>
                                 </li>
                             </ul>
                         </div>
@@ -195,7 +134,7 @@
                             </div>
                             <ul>
                                 <li>
-                                    <a href="contact.html"><i class="fa fa-angle-right"></i>Liên hệ</a>
+                                    <a href="/Home/Contact"><i class="fa fa-angle-right"></i>Liên hệ</a>
                                 </li>
                             </ul>
                         </div>
@@ -213,8 +152,7 @@
                                     </div>
                                     <div class="cont">
                                         <p>
-                                            Phòng 1.04, Tòa nhà A, Cơ sở chính, 69/68 Đặng Thùy
-                                            Trâm, P. 13, Q. Bình Thạnh, Tp. HCM
+                                            @ViewData["diaChi"]
                                         </p>
                                     </div>
                                 </li>
@@ -223,7 +161,7 @@
                                         <i class="fa fa-phone"></i>
                                     </div>
                                     <div class="cont">
-                                        <p>028 71099218</p>
+                                        <p>@ViewData["Sdt"]</p>
                                     </div>
                                 </li>
                                 <li>
@@ -231,7 +169,7 @@
                                         <i class="fa fa-envelope-o"></i>
                                     </div>
                                     <div class="cont">
-                                        <p>t.sv@vanlanguni.edu.vn</p>
+                                        <p>@ViewData["Email"]</p>
                                     </div>
                                 </li>
                             </ul>
@@ -253,42 +191,42 @@
 
     <!--====== BACK TO TP PART ENDS ======-->
     <!--====== jquery js ======-->
-    <script src="js/vendor/modernizr-3.6.0.min.js"></script>
-    <script src="js/vendor/jquery-1.12.4.min.js"></script>
+    <script src="~/js/vendor/modernizr-3.6.0.min.js"></script>
+    <script src="~/js/vendor/jquery-1.12.4.min.js"></script>
 
     <!--====== Bootstrap js ======-->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
 
     <!--====== Slick js ======-->
-    <script src="js/slick.min.js"></script>
+    <script src="~/js/slick.min.js"></script>
 
     <!--====== Magnific Popup js ======-->
-    <script src="js/jquery.magnific-popup.min.js"></script>
+    <script src="~/js/jquery.magnific-popup.min.js"></script>
 
     <!--====== Counter Up js ======-->
-    <script src="js/waypoints.min.js"></script>
-    <script src="js/jquery.counterup.min.js"></script>
+    <script src="~/js/waypoints.min.js"></script>
+    <script src="~/js/jquery.counterup.min.js"></script>
 
     <!--====== Nice Select js ======-->
-    <script src="js/jquery.nice-select.min.js"></script>
+    <script src="~/js/jquery.nice-select.min.js"></script>
 
     <!--====== Nice Number js ======-->
-    <script src="js/jquery.nice-number.min.js"></script>
+    <script src="~/js/jquery.nice-number.min.js"></script>
 
     <!--====== Count Down js ======-->
-    <script src="js/jquery.countdown.min.js"></script>
+    <script src="~/js/jquery.countdown.min.js"></script>
 
     <!--====== Validator js ======-->
-    <script src="js/validator.min.js"></script>
+    <script src="~/js/validator.min.js"></script>
 
     <!--====== Ajax Contact js ======-->
-    <script src="js/ajax-contact.js"></script>
+    <script src="~/js/ajax-contact.js"></script>
 
     <!--====== Main js ======-->
-    <script src="js/main.js"></script>
+    <script src="~/js/main.js"></script>
 
     <!--====== Map js ======-->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDC3Ip9iVC0nIxC6V14CKLQ1HZNF_65qEQ"></script>
-    <script src="js/map-script.js"></script>
+    <script src="~/js/map-script.js"></script>
 </body>
 </html>

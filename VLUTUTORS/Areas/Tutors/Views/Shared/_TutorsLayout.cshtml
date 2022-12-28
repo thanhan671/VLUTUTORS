@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor httpContextAccessor
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -15,6 +18,8 @@
           integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
           crossorigin="anonymous"
           referrerpolicy="no-referrer" />
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/icon?family=Material+Icons" />
     <!-- IonIcons -->
     <link rel="stylesheet"
           href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
@@ -39,15 +44,48 @@
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
                 <!-- Navbar Search -->
-                <li class="nav-item">
-                    <a class="nav-link"
-                       data-widget="navbar-search"
-                       href="~/Tutors/Account">
-                        Xin chào, Nguyễn Thanh An
-                    </a>
+                <li class="navbar-item">
+                    <a class="nav-link-item" href="~/Tutors/Account/Index"> Xin chào, @httpContextAccessor.HttpContext.Session.GetString("loginName")</a>
+                    <a href="#"
+                       class="nav-link-item"
+                       data-toggle="modal"
+                       data-target="#logoutModal"><i class="material-icons nav-link-item">logout</i></a>
                 </li>
             </ul>
         </nav>
+        <div class="modal fade"
+             id="logoutModal"
+             tabindex="-1"
+             role="dialog"
+             aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">
+                            Bạn muốn đăng xuất?
+                        </h5>
+                        <button class="close"
+                                type="button"
+                                data-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Chọn "Đồng ý" để kết thúc phiên đăng nhập của bạn</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-default"
+                                type="button"
+                                data-dismiss="modal">
+                            Hủy
+                        </button>
+                        <button class="btn btn-primary" type="button" onclick="location.href='@Url.Action("Logout", "Accounts", new { area = "default" })'">
+                            Đồng ý
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- /.navbar -->
         <!-- Main Sidebar Container -->
         @await Html.PartialAsync("_SidebarPartialView")

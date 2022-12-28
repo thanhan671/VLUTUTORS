@@ -1,0 +1,38 @@
+﻿@model VLUTUTORS.Models.TutorListModel
+
+@{
+    ViewData["Title"] = "Quản lý gia sư";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Quản lý gia sư</h1>
+                </div>
+                <div class="col-sm-3">
+                    <form>
+                        <input type="text" name="search" id="search" class="search"/><input type="submit" value="Tìm kiếm" class="button-search" />
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <!-- Default box -->
+        @await Html.PartialAsync("AwaitTutor.cshtml", Model.awaitTutors)
+        @await Html.PartialAsync("ApprovedTutor.cshtml", Model.approvedTutors)
+
+        <!-- /.card -->
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+

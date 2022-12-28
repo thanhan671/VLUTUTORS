@@ -5,6 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MailKit" Version="3.4.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Forms" Version="5.0.17" />
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.17" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.17" />
@@ -13,16 +16,33 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Tutors\Data\" />
     <Folder Include="Areas\Tutors\Models\" />
+    <Folder Include="wwwroot\certificates\" />
+    <Folder Include="wwwroot\certificates\1\" />
+    <Folder Include="wwwroot\avatars\" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\admin\bootstrap\js\bootstrap.bundle.min.js" />
+    <None Include="wwwroot\admin\fonts\fontawesome\webfonts\fa-brands-400.svg" />
+    <None Include="wwwroot\admin\fonts\fontawesome\webfonts\fa-brands-400.woff2" />
+    <None Include="wwwroot\admin\fonts\fontawesome\webfonts\fa-regular-400.svg" />
+    <None Include="wwwroot\admin\fonts\fontawesome\webfonts\fa-regular-400.woff2" />
+    <None Include="wwwroot\admin\fonts\fontawesome\webfonts\fa-solid-900.svg" />
+    <None Include="wwwroot\admin\fonts\fontawesome\webfonts\fa-solid-900.woff2" />
+    <None Include="wwwroot\admin\jquery\jquery.min.js" />
+    <None Include="wwwroot\admin\js\adminlte.min.js" />
+    <None Include="wwwroot\admin\js\chart\Chart.min.js" />
+    <None Include="wwwroot\admin\js\chart\uPlot.iife.min.js" />
+    <None Include="wwwroot\admin\js\datatables.js" />
+    <None Include="wwwroot\admin\js\demo.js" />
+    <None Include="wwwroot\admin\js\pages\dashboard3.js" />
     <None Include="wwwroot\js\site.js" />
   </ItemGroup>
 
