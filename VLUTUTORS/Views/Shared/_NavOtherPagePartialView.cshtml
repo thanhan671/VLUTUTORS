@@ -37,12 +37,20 @@
                     <!-- nav -->
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-3 col-4">
-                    <div class="right-icon text-right">
+                    <div class="navbar-right">
                         <ul>
                             @if (@httpContextAccessor.HttpContext.Session.GetString("LoginId") != null)
                             {
-                                <li>
+                                <li class="nav-item">
                                     <a asp-controller="Accounts" asp-action="Details" asp-route-id="@httpContextAccessor.HttpContext.Session.GetInt32("LoginId")"><i class="fa-solid fa-user-tie active"></i></a>
+                                    <ul class="sub-menu">
+                                        <li>
+                                            <a href=""
+                                               data-toggle="modal"
+                                               data-target="#logoutModal"
+                                               id="logout">Đăng Xuất</a>
+                                        </li>
+                                    </ul>
                                 </li>
                             }
                             else
@@ -59,6 +67,37 @@
             <!-- row -->
         </div>
         <!-- container -->
+    </div>
+    <div class="modal fade"
+         id="logoutModal"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        Bạn muốn đăng xuất?
+                    </h5>
+                    <button class="close"
+                            type="button"
+                            data-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Chọn "Đồng ý" để kết thúc phiên đăng nhập của bạn</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default" type="button" data-dismiss="modal">
+                        Hủy
+                    </button>
+                    <button class="btn btn-primary" type="button" onclick="location.href='@Url.Action("Logout", "Accounts")'">
+                        Đồng ý
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 </header>
 
