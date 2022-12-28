@@ -20,13 +20,6 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         public async Task<IActionResult> Index()
         {
             var baiKTs = await _context.Baikiemtras.ToListAsync();
-            var khoas = await _context.Khoadaotaos.ToListAsync();
-            foreach (var baiKT in baiKTs)
-            {
-                var mon = khoas.FirstOrDefault(it => it.IdKhoaHoc == baiKT.IdKhoaDaoTao);
-                if (mon != null)
-                    baiKT.KhoaHoc = mon.TenKhoaHoc;
-            }
             return View(baiKTs);
         }
 
@@ -35,8 +28,6 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         {
             Baikiemtra baikiemtra = new Baikiemtra();
 
-            baikiemtra.KhoaHocs = new SelectList(_context.Khoadaotaos, "IdKhoaHoc", "TenKhoaHoc", baikiemtra.IdKhoaDaoTao);
-
             return View(baikiemtra);
         }
         [HttpPost]
@@ -44,24 +35,16 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var baiKT = _context.Baikiemtras.AsNoTracking().SingleOrDefault(x => x.IdKhoaDaoTao == baikiemtra.IdKhoaDaoTao);
-                if (baiKT != null)
+                try
                 {
-                    return RedirectToAction("Index");
+                    _context.Add(baikiemtra);
+                    await _context.SaveChangesAsync();
                 }
-                else
+                catch (Exception ex)
                 {
-                    try
-                    {
-                        _context.Add(baikiemtra);
-                        await _context.SaveChangesAsync();
-                    }
-                    catch (Exception ex)
-                    {
-                        return RedirectToAction(nameof(Index));
-                    }
-                    return RedirectToAction("Index");
+                    return RedirectToAction(nameof(Index));
                 }
+                return RedirectToAction("Index");
             }
             return View(baikiemtra);
         }

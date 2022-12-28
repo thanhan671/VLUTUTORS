@@ -7,8 +7,8 @@ namespace VLUTUTORS.Models
 {
     public partial class Khoadaotao
     {
-        public int IdKhoaHoc { get; set; }
-        public string TenKhoaHoc { get; set; }
-        public int IdMonGiaSu { get; set; }
+        public int IdBaiHoc { get; set; }
+        public string TenBaiHoc { get; set; }
+        public string Link { get; set; }
     }
 }

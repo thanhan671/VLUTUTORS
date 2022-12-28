@@ -20,13 +20,6 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         public async Task<IActionResult> Index()
         {
             var khoaHocs = await _context.Khoadaotaos.ToListAsync();
-            var mons = await _context.Mongiasus.ToListAsync();
-            foreach (var khoaHoc in khoaHocs)
-            {
-                var mon = mons.FirstOrDefault(it => it.IdmonGiaSu == khoaHoc.IdMonGiaSu);
-                if (mon != null)
-                    khoaHoc.MonGiaSu = mon.TenMonGiaSu;
-            }
             return View(khoaHocs);
         }
 
@@ -35,17 +28,15 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         {
             Khoadaotao khoadaotao = new Khoadaotao();
 
-            khoadaotao.MonGiaSus = new SelectList(_context.Mongiasus, "IdmonGiaSu", "TenMonGiaSu", khoadaotao.IdMonGiaSu);
-
             return View(khoadaotao);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddLesson([Bind(include: "IdKhoaHoc,TenKhoaHoc,IdMonGiaSu")] Khoadaotao khoadaotao)
+        public async Task<IActionResult> AddLesson([Bind(include: "IdKhoaHoc,TenBaiHoc,Link")] Khoadaotao khoadaotao)
         {
             if (ModelState.IsValid)
             {
-                var khoaDaoTao = _context.Khoadaotaos.AsNoTracking().SingleOrDefault(x => x.TenKhoaHoc.ToLower() == khoadaotao.TenKhoaHoc.ToLower());
+                var khoaDaoTao = _context.Khoadaotaos.AsNoTracking().SingleOrDefault(x => x.TenBaiHoc.ToLower() == khoadaotao.TenBaiHoc.ToLower());
                 if (khoaDaoTao != null)
                 {
                     return RedirectToAction("Index");
@@ -75,19 +66,16 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var khoaDaoTao = await _context.Khoadaotaos.FirstOrDefaultAsync(m => m.IdKhoaHoc == id);
+            var khoaDaoTao = await _context.Khoadaotaos.FirstOrDefaultAsync(m => m.IdBaiHoc == id);
             if (khoaDaoTao == null)
                 return NotFound();
-            var mons = await _context.Mongiasus.ToListAsync();
-            SelectList ddlStatus = new SelectList(mons, "IdmonGiaSu", "TenMonGiaSu");
-            khoaDaoTao.MonGiaSus = ddlStatus;
             return View(khoaDaoTao);
         }
 
         [HttpPost]
         public async Task<IActionResult> EditLesson(int id, [Bind(include: "IdKhoaHoc,TenKhoaHoc,IdMonGiaSu")] Khoadaotao khoadaotao)
         {
-            if (id != khoadaotao.IdKhoaHoc)
+            if (id != khoadaotao.IdBaiHoc)
             {
                 return NotFound();
             }

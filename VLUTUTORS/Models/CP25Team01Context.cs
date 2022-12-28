@@ -106,11 +106,15 @@ namespace VLUTUTORS.Models
 
             modelBuilder.Entity<Khoadaotao>(entity =>
             {
-                entity.HasKey(e => e.IdKhoaHoc);
+                entity.HasKey(e => e.IdBaiHoc);
 
                 entity.ToTable("KHOADAOTAO");
 
-                entity.Property(e => e.TenKhoaHoc)
+                entity.Property(e => e.Link)
+                    .IsRequired()
+                    .HasMaxLength(500);
+
+                entity.Property(e => e.TenBaiHoc)
                     .IsRequired()
                     .HasMaxLength(500);
             });

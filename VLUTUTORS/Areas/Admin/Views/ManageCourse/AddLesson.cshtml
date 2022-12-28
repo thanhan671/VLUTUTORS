@@ -34,16 +34,16 @@
                                     <hr />
                                     <div class="row">
                                         <div class="col-sm-3">
-                                            <h6 class="mb-0">Tên khóa đào tạo</h6>
+                                            <h6 class="mb-0">Tên bài học</h6>
                                         </div>
                                         <input class="col-sm-9 text-secondary" name="TenKhoaHoc" id="TenKhoaHoc" type="text">
                                     </div>
                                     <hr />
                                     <div class="row">
                                         <div class="col-sm-3">
-                                            <h6 class="mb-0">Đào tạo cho môn</h6>
+                                            <h6 class="mb-0">Link bài học</h6>
                                         </div>
-                                        @Html.DropDownListFor(model => model.IdMonGiaSu, Model.MonGiaSus, new { @class = "col-sm-9 text-secondary" })
+                                        <input class="col-sm-9 text-secondary" name="Link" id="Link" type="text">
                                     </div>
                                     <hr />
                                     <div class="row">
