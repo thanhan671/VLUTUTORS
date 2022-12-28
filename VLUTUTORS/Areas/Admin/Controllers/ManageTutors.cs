@@ -40,7 +40,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                         subject = new Mongiasu();
                     if (
                         string.IsNullOrEmpty(search) ||
-                        (!string.IsNullOrEmpty(search) && (account.HoTen == search || subject.TenMonGiaSu == search))
+                        (!string.IsNullOrEmpty(search) && (account.HoTen.ToLower().Contains(search.ToLower()) || subject.TenMonGiaSu.ToLower().Contains(search.ToLower())))
                     )
                     {
                         awaitTutors.Add(new TutorViewModel()
@@ -70,7 +70,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
                         if (
                            string.IsNullOrEmpty(search) ||
-                           (!string.IsNullOrEmpty(search) && (account.HoTen == search || subject.TenMonGiaSu == search))
+                           (!string.IsNullOrEmpty(search) && (account.HoTen.ToLower().Contains(search.ToLower()) || subject.TenMonGiaSu.ToLower().Contains(search.ToLower())))
                         )
                         {
                             approvedTutors.Add(new TutorViewModel()
