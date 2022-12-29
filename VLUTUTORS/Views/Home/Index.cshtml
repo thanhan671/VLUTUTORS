@@ -52,7 +52,7 @@
                         </div>
                         <div class="cont">
                             <h3 class="counter">50</h3>
-                            <span>Học Viên Từng Học</span>
+                            <span>Học Viên Đang Học</span>
                         </div>
                     </div>
                     <!-- singel slider feature -->
@@ -269,6 +269,15 @@
         </div>
         <!-- row -->
     </div>
+    @if (ViewBag.Message != null)
+    {
+        <script type="text/javascript">
+        window.onload = function () {
+            alert("@ViewBag.Message");
+        };
+        </script>
+    }
     <!-- container -->
 </section>
+
 <!--====== CULTING PART ENDS ======-->

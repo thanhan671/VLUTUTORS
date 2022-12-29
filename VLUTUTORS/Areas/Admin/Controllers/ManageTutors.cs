@@ -158,6 +158,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                     int.TryParse(form["Tutor.IdxetDuyet"], out int idxetDuyet);
                     if (idxetDuyet > 0)
                         account.IdxetDuyet = idxetDuyet;
+                        account.TrangThaiGiaSu = true;
 
                     _context.Update(account);
                     await _context.SaveChangesAsync();
