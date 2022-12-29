@@ -11,7 +11,7 @@ namespace VLUTUTORS.Controllers
     public class TutorTrainingController : Controller
     {
         private CP25Team01Context db = new CP25Team01Context();
-        public async Task<IActionResult> IndexAsync()
+        public async Task<IActionResult> Index()
         {
             var noiDung = await db.Noidungs.FirstOrDefaultAsync(m => m.Id == 1);
             ViewData["Slogan"] = noiDung.Slogan;

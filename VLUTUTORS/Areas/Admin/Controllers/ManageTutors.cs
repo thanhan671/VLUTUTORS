@@ -29,7 +29,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
             foreach (var account in accounts)
             {
-                if (account.IdxetDuyet >= 2 && account.IdxetDuyet < 7)
+                if (account.IdxetDuyet >= 2 && account.IdxetDuyet < 6)
                 {
                     var awaitApproveStatus = xetduyets.FirstOrDefault(it => it.IdxetDuyet == account.IdxetDuyet);
                     if (awaitApproveStatus == null)
