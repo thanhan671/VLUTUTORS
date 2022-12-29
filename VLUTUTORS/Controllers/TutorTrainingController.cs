@@ -96,7 +96,6 @@ namespace VLUTUTORS.Controllers
 
             
             // get answer 
-
             List<string> allAnswers = new List<string>();
             foreach(var item in baikiemtras)
             {
@@ -120,17 +119,10 @@ namespace VLUTUTORS.Controllers
                 allAnswers.Add(answerInItem);
             }
 
-            foreach (var item in allAnswers)
-                Console.WriteLine("all dap an da chon: " + item);
-
             // get score per question and init user score
             List<string> rightAnswers = _db.Baikiemtras.Select(q => q.DapAnDung).ToList();
-            //baikiemtra.quizes = _db.Baikiemtras.ToList();
             decimal scorePerAnswer = Math.Round(Convert.ToDecimal(10 / rightAnswers.Count()), 10);
             decimal userScore = 0;
-
-            foreach (var item in rightAnswers)
-                Console.WriteLine("all dap an dung: " + item);
 
             // grading quiz
             for (int i = 0; i < rightAnswers.Count; i++)
@@ -140,12 +132,13 @@ namespace VLUTUTORS.Controllers
                     userScore += scorePerAnswer;
                 }
             }
+
             var userInfo = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
             Taikhoannguoidung taikhoannguoidung = _db.Taikhoannguoidungs.Find(userInfo.Id);
             taikhoannguoidung.DiemBaiTest = Convert.ToInt32(userScore);
 
-            //_db.Taikhoannguoidungs.Attach(taikhoannguoidung).Property(x => x.DiemBaiTest).IsModified = true;
-            //_db.SaveChanges();
+            _db.Taikhoannguoidungs.Attach(taikhoannguoidung).Property(x => x.DiemBaiTest).IsModified = true;
+            _db.SaveChanges();
             Console.WriteLine("Score of user: " + taikhoannguoidung.DiemBaiTest);
 
             return View(_db.Baikiemtras.ToList());
