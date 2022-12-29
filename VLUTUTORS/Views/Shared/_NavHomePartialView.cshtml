@@ -40,20 +40,26 @@
                                 <li class="nav-item">
                                     <a href="~/Home/Contact">Liên Hệ</a>
                                 </li>
-                                <li class="nav-item">
-                                    @if (@httpContextAccessor.HttpContext.Session.GetInt32("IdGiaSu") == 6)
+                                @{
+                                    if (@httpContextAccessor.HttpContext.Session.GetInt32("IdGiaSu") == 3)
                                     {
-                                        <a href="~/Tutors">Đến Trang Gia Sư</a>
+                                        <li class="nav-item">
+                                            <a href="~/TutorTraining">Khóa Đào Tạo</a>
+                                        </li>
                                     }
-                                    else if (@httpContextAccessor.HttpContext.Session.GetInt32("IdGiaSu") == 1)
+                                    if (@httpContextAccessor.HttpContext.Session.GetInt32("IdGiaSu") == 6)
                                     {
-                                        <a href="~/Home/RegisterAsTutor">Trở Thành Gia Sư</a>
+                                        <li class="nav-item">
+                                            <a href="~/TuTors">Đến Trang Gia Sư</a>
+                                        </li>
                                     }
-                                    else if (@httpContextAccessor.HttpContext.Session.GetInt32("IdGiaSu") == 3)
+                                    if (@httpContextAccessor.HttpContext.Session.GetInt32("IdGiaSu") == null || @httpContextAccessor.HttpContext.Session.GetInt32("IdGiaSu") == 1)
                                     {
-                                        <a href="~/TutorTraining">Tham Gia Khóa Đào Tạo</a>
+                                        <li class="nav-item">
+                                            <a href="~/Home/RegisterAsTutor">Trở Thành Gia Sư</a>
+                                        </li>
                                     }
-                                </li>
+                                }
                                 <li>
                                     @if (@httpContextAccessor.HttpContext.Session.GetString("LoginId") != null)
                                     {
@@ -64,7 +70,7 @@
                                         <ul class="sub-menu">
                                             <li><a asp-controller="Accounts" asp-action="Details" asp-route-id="@httpContextAccessor.HttpContext.Session.GetInt32("LoginId")">Tài Khoản</a></li>
                                             <!--<li><a href="history.html">Lịch Sử Đặt Lịch</a></li>
-                                            <li><a href="#">Gia Sư Yêu Thích</a></li>-->
+                <li><a href="#">Gia Sư Yêu Thích</a></li>-->
                                             <li>
                                                 <a href=""
                                                    data-toggle="modal"

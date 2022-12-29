@@ -31,8 +31,9 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            int idGiaSu = (int)HttpContext.Session.GetInt32("IdGiaSu");
             string user = HttpContext.Session.GetString("LoginId");
-            if (user == null)
+            if (user == null || idGiaSu != 6)
             {
                 return RedirectToAction("Login", "Accounts", new { area = "default" });
             }
