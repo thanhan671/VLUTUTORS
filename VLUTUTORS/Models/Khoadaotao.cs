@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable disable
 
@@ -11,5 +12,18 @@ namespace VLUTUTORS.Models
         public string TenBaiHoc { get; set; }
         public string Link { get; set; }
         public string TaiLieu { get; set; }
+        public Khoadaotao()
+        {
+        }
+        public Khoadaotao(int IdBaiHoc, string TenBaiHoc, string Link, string TaiLieu)
+        {
+            this.IdBaiHoc = IdBaiHoc;
+            this.TenBaiHoc = TenBaiHoc;
+            this.Link = Link;
+            this.TaiLieu = TaiLieu;
+        }
+
+        [NotMapped]
+        public List<string> courses { get; set; }
     }
 }

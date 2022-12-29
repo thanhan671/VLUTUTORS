@@ -1,13 +1,17 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using VLUTUTORS.Models;
+using VLUTUTORS.Support.Services;
 
 namespace VLUTUTORS.Areas.Admin.Controllers
 {
@@ -17,6 +21,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
     public class ManageCourseController : Controller
     {
         private readonly CP25Team01Context _context = new CP25Team01Context();
+        private IHostingEnvironment _environment;
         public async Task<IActionResult> Index()
         {
             var khoaHocs = await _context.Khoadaotaos.ToListAsync();
@@ -32,7 +37,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddLesson([Bind(include: "IdBaiHoc,TenBaiHoc,Link")] Khoadaotao khoadaotao)
+        public async Task<IActionResult> AddLesson([Bind(include: "IdBaiHoc,TenBaiHoc,Link,TaiLieu")] Khoadaotao khoadaotao, IFormFile tepBaiGiang)
         {
             if (ModelState.IsValid)
             {

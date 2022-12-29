@@ -22,7 +22,7 @@
     </section>
 
     <!-- Main content -->
-    <form method="post" asp-controller="ManageCourse" asp-action="AddLesson">
+    <form method="post" enctype="multipart/form-data" asp-controller="ManageCourse" asp-action="AddLesson">
         <section class="content">
             <div class="container" style="margin-top: 20px; margin-bottom: 20px">
                 <div class="main-body">
@@ -44,6 +44,16 @@
                                             <h6 class="mb-0">Link bài học</h6>
                                         </div>
                                         <input class="col-sm-9 text-secondary" name="Link" id="Link" type="text">
+                                    </div>
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Tệp bài giảng</h6>
+                                        </div>
+                                        <input class="col-sm-9 text-secondary"
+                                               type="file"
+                                               name="tepBaiGiang"
+                                               accept=".doc, .docx, .pdf" />
                                     </div>
                                     <hr />
                                     <div class="row">
