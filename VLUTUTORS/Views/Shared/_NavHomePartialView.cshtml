@@ -41,13 +41,14 @@
                                     <a href="~/Home/Contact">Liên Hệ</a>
                                 </li>
                                 @{
-                                    if (@httpContextAccessor.HttpContext.Session.GetInt32("IdGiaSu") == 3)
+                                    if (@httpContextAccessor.HttpContext.Session.GetInt32("IdGiaSu") == 3
+                                        || @httpContextAccessor.HttpContext.Session.GetInt32("IdGiaSu") == 4)
                                     {
                                         <li class="nav-item">
                                             <a href="~/TutorTraining">Khóa Đào Tạo</a>
                                         </li>
                                     }
-                                    if (@httpContextAccessor.HttpContext.Session.GetInt32("IdGiaSu") == 6)
+                                    if (@httpContextAccessor.HttpContext.Session.GetInt32("IdGiaSu") == 7)
                                     {
                                         <li class="nav-item">
                                             <a href="~/Tutors">Đến Trang Gia Sư</a>
@@ -55,7 +56,7 @@
                                     }
                                     if (@httpContextAccessor.HttpContext.Session.GetInt32("IdGiaSu") == null 
                                         || @httpContextAccessor.HttpContext.Session.GetInt32("IdGiaSu") == 1
-                                        || @httpContextAccessor.HttpContext.Session.GetInt32("IdGiaSu") == 5)
+                                        || @httpContextAccessor.HttpContext.Session.GetInt32("IdGiaSu") == 6)
 
                                     {
                                         <li class="nav-item">
