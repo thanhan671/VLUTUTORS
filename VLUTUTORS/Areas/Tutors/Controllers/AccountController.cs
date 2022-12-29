@@ -40,6 +40,21 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             var userInfo = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
             Taikhoannguoidung taikhoannguoidung = _db.Taikhoannguoidungs.Find(userInfo.Id);
 
+            string avatar = taikhoannguoidung.AnhDaiDien;
+            if (!string.IsNullOrEmpty(avatar))
+                avatar = avatar.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
+            taikhoannguoidung.AnhDaiDien = avatar;
+
+            string chungchi1 = taikhoannguoidung.ChungChiMon1;
+            if (!string.IsNullOrEmpty(chungchi1))
+                chungchi1 = chungchi1.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
+            taikhoannguoidung.ChungChiMon1 = chungchi1;
+
+            string chungchi2 = taikhoannguoidung.ChungChiMon2;
+            if (!string.IsNullOrEmpty(chungchi2))
+                chungchi2 = chungchi2.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
+            taikhoannguoidung.ChungChiMon2 = chungchi2;
+
             taikhoannguoidung.DepartmentItems = new SelectList(_db.Khoas, "Idkhoa", "TenKhoa", taikhoannguoidung.Idkhoa);
             taikhoannguoidung.GenderItems = new SelectList(_db.Gioitinhs, "IdgioiTinh", "GioiTinh1", taikhoannguoidung.IdgioiTinh);
             taikhoannguoidung.BankItems = new SelectList(_db.Nganhangs, "Id", "TenNganHangHoacViDienTu", taikhoannguoidung.IdnganHang);
