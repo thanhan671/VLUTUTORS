@@ -47,21 +47,25 @@ namespace VLUTUTORS.Controllers
 
             Taikhoannguoidung checkAccount;
             checkAccount = db.Taikhoannguoidungs.Where(acc => acc.Email.Equals(email.Trim())).FirstOrDefault();
-
-            if (checkAccount != null)
+            if (checkAccount.TrangThaiTaiKhoan.Equals(1))
             {
-                _loginSuccessCallback = LoginSuccessCall;
-            }
-            else
-            {
-                return View();
-            }
+                if (checkAccount != null)
+                {
+                    _loginSuccessCallback = LoginSuccessCall;
+                }
+                else
+                {
+                    ViewBag.Message = "Email chưa đúng, vui lòng kiểm tra lại";
+                    return View();
+                }
 
-            if (checkAccount.MatKhau.Equals(password.Trim()))
-            {
-                return _loginSuccessCallback.Invoke(checkAccount);
+                if (checkAccount.MatKhau.Equals(password.Trim()))
+                {
+                    return _loginSuccessCallback.Invoke(checkAccount);
+                }
+                ViewBag.Message = "Mật khẩu chưa đúng, vui lòng kiểm tra lại";
             }
-
+            ViewBag.Message ="Tài khoản có Email đăng nhập là " + checkAccount.Email + " đã bị khóa, vui lòng liên hệ với chúng tôi để được giải quyết! Xin cảm ơn";
             return View();
         }
 
@@ -138,48 +142,39 @@ namespace VLUTUTORS.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(string HoTen, string Email, string MatKhau)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    var taiKhoan = db.Taikhoannguoidungs.AsNoTracking().SingleOrDefault(x => x.Email.ToLower() == Email.ToLower());
+                var taiKhoan = db.Taikhoannguoidungs.AsNoTracking().SingleOrDefault(x => x.Email.ToLower() == Email.ToLower());
 
-                    if (taiKhoan != null)
+                if (taiKhoan == null)
+                {
+                    Taikhoannguoidung taiKhoanNguoiDung = new Taikhoannguoidung
+                    {
+                        HoTen = HoTen,
+                        Email = Email,
+                        MatKhau = MatKhau,
+                        TrangThaiTaiKhoan = true,
+                        IdxetDuyet = 1
+                    };
+                    try
+                    {
+                        db.Add(taiKhoanNguoiDung);
+                        await db.SaveChangesAsync();
+                        ViewBag.Message = "Đăng ký tài khoản thành công!";
+                    }
+                    catch
                     {
                         return RedirectToAction("Login", "Accounts");
-                    }
-                    else
-                    {
-                        Taikhoannguoidung taiKhoanNguoiDung = new Taikhoannguoidung
-                        {
-                            HoTen = HoTen,
-                            Email = Email,
-                            MatKhau = MatKhau,
-                            TrangThaiTaiKhoan = true,
-                            IdxetDuyet = 1
-                        };
-                        try
-                        {
-                            db.Add(taiKhoanNguoiDung);
-                            await db.SaveChangesAsync();
-                        }
-                        catch
-                        {
-                            return RedirectToAction("Login", "Accounts");
-                        }
                     }
                 }
                 else
                 {
+                    ViewBag.Message = "Email đã được đăng ký, vui lòng kiểm tra lại";
                     return RedirectToAction("Login", "Accounts");
                 }
-            }
-            catch
-            {
-                return RedirectToAction("Login", "Accounts");
-
             }
             return RedirectToAction("Login", "Accounts");
         }

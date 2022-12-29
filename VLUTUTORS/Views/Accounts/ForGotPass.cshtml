@@ -64,14 +64,15 @@
             </div>
         </div>
     </div>
+    <script>
+        function popup() {
+            alert('Mật khẩu mới đã được gửi tới email của bạn! Vui lòng kiểm tra mail!');
+        }
+        $('#myForm').on('submit', function (e) {
+            e.preventDefault(); // Now nothing will happen
+        });
+    </script>
 </body>
 </html>
-<script>
-    function popup() {
-        alert('Mật khẩu mới đã được gửi tới email của bạn! Vui lòng kiểm tra mail!');
-    }
-    $('#myForm').on('submit', function (e) {
-        e.preventDefault(); // Now nothing will happen
-    });
-</script>
+
 
