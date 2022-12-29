@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,6 +60,7 @@ namespace VLUTUTORS.Controllers
             return RedirectToAction("Index", new { courseName = courseName});
         }
 
+        [HttpGet]
         public async Task<IActionResult> DoTest()
         {
             var noiDung = await _db.Noidungs.FirstOrDefaultAsync(m => m.Id == 1);
@@ -68,12 +71,85 @@ namespace VLUTUTORS.Controllers
             ViewData["Email"] = noiDung.Email;
             ViewData["Fb"] = noiDung.Facebook;
             ViewData["gioiThieu"] = noiDung.GioiThieu;
-            return View();
+
+            Baikiemtra baikiemtra = new Baikiemtra();
+            baikiemtra.quizes = _db.Baikiemtras.ToList();
+            //foreach(var item in baikiemtra.quizes)
+            //{
+            //    string option = item.
+            //}
+
+            return View(_db.Baikiemtras.ToList());
         }
 
-        private void LoadCourse()
+        [HttpPost]
+        public async Task<IActionResult> DoTest(List<Baikiemtra> baikiemtras)
         {
+            var noiDung = await _db.Noidungs.FirstOrDefaultAsync(m => m.Id == 1);
+            ViewData["Slogan"] = noiDung.Slogan;
+            ViewData["gtChanTrang"] = noiDung.GioiThieuChanTrang;
+            ViewData["diaChi"] = noiDung.DiaChi;
+            ViewData["Sdt"] = noiDung.Sdt;
+            ViewData["Email"] = noiDung.Email;
+            ViewData["Fb"] = noiDung.Facebook;
+            ViewData["gioiThieu"] = noiDung.GioiThieu;
 
+            
+            // get answer 
+
+            List<string> allAnswers = new List<string>();
+            foreach(var item in baikiemtras)
+            {
+                string answerInItem = "";
+                if(item.aChecked != "")
+                {
+                    answerInItem += item.aChecked;
+                }
+                if (item.bChecked != "")
+                {
+                    answerInItem += item.bChecked;
+                }
+                if (item.cChecked != "")
+                {
+                    answerInItem += item.cChecked;
+                }
+                if (item.dChecked != "")
+                {
+                    answerInItem += item.dChecked;
+                }
+                allAnswers.Add(answerInItem);
+            }
+
+            foreach (var item in allAnswers)
+                Console.WriteLine("all dap an da chon: " + item);
+
+            // get score per question and init user score
+            List<string> rightAnswers = _db.Baikiemtras.Select(q => q.DapAnDung).ToList();
+            //baikiemtra.quizes = _db.Baikiemtras.ToList();
+            decimal scorePerAnswer = Math.Round(Convert.ToDecimal(10 / rightAnswers.Count()), 10);
+            decimal userScore = 0;
+
+            foreach (var item in rightAnswers)
+                Console.WriteLine("all dap an dung: " + item);
+
+            // grading quiz
+            for (int i = 0; i < rightAnswers.Count; i++)
+            {
+                if (allAnswers[i].Equals(rightAnswers[i]))
+                {
+                    userScore += scorePerAnswer;
+                }
+            }
+            var userInfo = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
+            Taikhoannguoidung taikhoannguoidung = _db.Taikhoannguoidungs.Find(userInfo.Id);
+            taikhoannguoidung.DiemBaiTest = Convert.ToInt32(userScore);
+
+            //_db.Taikhoannguoidungs.Attach(taikhoannguoidung).Property(x => x.DiemBaiTest).IsModified = true;
+            //_db.SaveChanges();
+            Console.WriteLine("Score of user: " + taikhoannguoidung.DiemBaiTest);
+
+            return View(_db.Baikiemtras.ToList());
         }
+
     }
 }
