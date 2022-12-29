@@ -45,6 +45,8 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 {
                     try
                     {
+                        string newLink = khoadaotao.Link.Replace(@"https://www.youtube.com/watch?v=", @"https://www.youtube.com/embed/");
+                        khoadaotao.Link = newLink;
                         _context.Add(khoadaotao);
                         await _context.SaveChangesAsync();
                     }
@@ -84,6 +86,8 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             {
                 try
                 {
+                    string newLink = khoadaotao.Link.Replace(@"https://www.youtube.com/watch?v=", @"https://www.youtube.com/embed/");
+                    khoadaotao.Link = newLink;
                     _context.Update(khoadaotao);
                     await _context.SaveChangesAsync();
                 }
