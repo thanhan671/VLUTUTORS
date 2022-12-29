@@ -88,16 +88,11 @@ namespace VLUTUTORS.Controllers
             ViewData["Fb"] = noiDung.Facebook;
             ViewData["gioiThieu"] = noiDung.GioiThieu;
             var taiKhoan = await db.Taikhoannguoidungs.FirstOrDefaultAsync(m => m.Id == id);
-            if (taiKhoan.AnhDaiDien != null)
-            {
-                TempData["avt"] = "Yes";
-                string newString = taiKhoan.AnhDaiDien.TrimStart('[', '"');
-                ViewData["image"] = newString.TrimEnd('"', ']').ToString();
-            }
-            else
-            {
-                ViewData["image"] = "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png";
-            }
+            string avatar = taiKhoan.AnhDaiDien;
+            if (!string.IsNullOrEmpty(avatar))
+                avatar = avatar.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
+            TempData["avt"] = "Yes";
+            taiKhoan.AnhDaiDien = avatar;
             var gioiTinhs = await db.Gioitinhs.ToListAsync();
             SelectList ddlStatus = new SelectList(gioiTinhs, "IdgioiTinh", "GioiTinh1");
             taiKhoan.GenderItems = ddlStatus;
@@ -120,16 +115,11 @@ namespace VLUTUTORS.Controllers
             ViewData["Fb"] = noiDung.Facebook;
             ViewData["gioiThieu"] = noiDung.GioiThieu;
             var taiKhoan = await db.Taikhoannguoidungs.FirstOrDefaultAsync(m => m.Id == id);
-            if (taiKhoan.AnhDaiDien != null)
-            {
-                TempData["avt"] = "Yes";
-                string newString = taiKhoan.AnhDaiDien.TrimStart('[', '"');
-                ViewData["image"] = newString.TrimEnd('"', ']').ToString();
-            }
-            else
-            {
-                ViewData["image"] = "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png";
-            }
+            string avatar = taiKhoan.AnhDaiDien;
+            if (!string.IsNullOrEmpty(avatar))
+                avatar = avatar.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
+            TempData["avt"] = "Yes";
+            taiKhoan.AnhDaiDien = avatar;
             var gioiTinhs = await db.Gioitinhs.ToListAsync();
             SelectList ddlStatus = new SelectList(gioiTinhs, "IdgioiTinh", "GioiTinh1");
             taiKhoan.GenderItems = ddlStatus;

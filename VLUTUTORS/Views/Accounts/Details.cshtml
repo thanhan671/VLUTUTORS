@@ -30,14 +30,14 @@
                             <div class="d-flex flex-column align-items-center text-center avatar">
                                 @if (TempData["avt"] != null)
                                 {
-                                    <img src="\@ViewData["image"]"
+                                    <img src="~/@Model.AnhDaiDien"
                                          class="rounded-circle"
                                          width="200"
                                          height="200" />
                                 }
                                 else
                                 {
-                                    <img src="@ViewData["image"]"
+                                    <img src="https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"
                                          class="rounded-circle"
                                          width="200"
                                          height="200" />
