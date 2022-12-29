@@ -224,7 +224,7 @@ namespace VLUTUTORS.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ForGotPass(string Email)
+        public IActionResult ForGotPass(string Email)
         {
             Random pass = new Random();
             int newPass = pass.Next(100000, 999999);

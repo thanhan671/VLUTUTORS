@@ -1,13 +1,17 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using MailKit.Net.Smtp;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using MimeKit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using VLUTUTORS.Models;
+using VLUTUTORS.SendMail;
 
 namespace VLUTUTORS.Areas.Admin.Controllers
 {
@@ -16,6 +20,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
     public class ManageTutors : Controller
     {
         private readonly CP25Team01Context _context = new CP25Team01Context();
+
 
         public async Task<IActionResult> Index([FromQuery] string search)
         {
@@ -153,9 +158,9 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
+                int.TryParse(form["Tutor.IdxetDuyet"], out int idxetDuyet);
                 try
                 {
-                    int.TryParse(form["Tutor.IdxetDuyet"], out int idxetDuyet);
                     if (idxetDuyet > 0)
                         account.IdxetDuyet = idxetDuyet;
                         account.TrangThaiGiaSu = true;
