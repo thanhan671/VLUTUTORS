@@ -110,9 +110,9 @@ namespace VLUTUTORS.Models
 
                 entity.ToTable("KHOADAOTAO");
 
-                entity.Property(e => e.Link)
-                    .IsRequired()
-                    .HasMaxLength(500);
+                entity.Property(e => e.Link).HasMaxLength(500);
+
+                entity.Property(e => e.TaiLieu).IsUnicode(false);
 
                 entity.Property(e => e.TenBaiHoc)
                     .IsRequired()
