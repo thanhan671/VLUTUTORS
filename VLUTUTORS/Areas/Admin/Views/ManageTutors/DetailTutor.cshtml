@@ -70,7 +70,7 @@
                                             <h6 class="mb-0">Ngày sinh</h6>
                                         </div>
                                         <div class="col-sm-9 text-secondary">
-                                            @Html.DisplayFor(model => model.Tutor.NgaySinh)
+                                            @Html.DisplayFor(model => model.Tutor.NgaySinh, "{0:dd/MM/yyyy}")
                                         </div>
                                     </div>
                                     <hr />
@@ -238,8 +238,8 @@
                                         </div>
                                     </div>
                                     <hr />
-                                    @{ 
-                                        if (Model.Tutor.IdxetDuyet != 7)
+                                    @{
+                                        if (Model.Tutor.IdxetDuyet != 6)
                                         {
                                             <div class="row-nowrap">
                                                 <div class="col-sm-3">
@@ -248,24 +248,23 @@
                                                 @Html.DropDownListFor(model => model.Tutor.IdxetDuyet, Model.Status)
 
                                             </div>
-                                         }
+                                            <hr />
+                                        }
                                     }
-
-                                    <hr />
                                     <div class="row">
                                         <div class="col-12 flex-right mb-4">
                                             <a href='javascript:history.go(-1)' class="btn btn-dark">
-                                                Hủy
+                                                Quay lại
                                             </a>
                                             @{
-                                                if (Model.Tutor.IdxetDuyet != 7)
+                                                if (Model.Tutor.IdxetDuyet != 6)
                                                 {
                                                     <input type="submit"
-                                                       value="Lưu thay đổi"
-                                                       class="btn btn-success" />
+                                                           value="Lưu thay đổi"
+                                                           class="btn btn-success" />
                                                 }
                                             }
-                                        
+
                                         </div>
                                     </div>
                                 </div>
