@@ -106,9 +106,9 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult DeleteLesson(int id)
+        public IActionResult DeleteLesson([FromForm] int hdInput)
         {
-            Khoadaotao khoadaotao = _context.Khoadaotaos.Where(p => p.IdBaiHoc == id).FirstOrDefault();
+            Khoadaotao khoadaotao = _context.Khoadaotaos.Where(p => p.IdBaiHoc == hdInput).FirstOrDefault();
             _context.Khoadaotaos.Remove(khoadaotao);
             _context.SaveChanges();
             return RedirectToAction("Index");

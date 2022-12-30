@@ -85,5 +85,14 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             }
             return View(baikiemtra);
         }
+
+        [HttpPost]
+        public IActionResult Delete([FromForm] int hdInput)
+        {
+            Baikiemtra baiKiemTra = _context.Baikiemtras.Where(p => p.IdCauHoi == hdInput).FirstOrDefault();
+            _context.Baikiemtras.Remove(baiKiemTra);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
     }
 }
