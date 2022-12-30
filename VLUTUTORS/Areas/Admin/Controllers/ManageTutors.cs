@@ -6,11 +6,15 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using MimeKit;
+using QuickMailer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using VLUTUTORS.Models;
+using VLUTUTORS.Support.Services;
+using SmtpClient = System.Net.Mail.SmtpClient;
 
 namespace VLUTUTORS.Areas.Admin.Controllers
 {
@@ -171,7 +175,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 {
                     return RedirectToAction(nameof(Index), new { error = ex.InnerException });
                 }
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index");
             }
             return View(account);
         }
@@ -256,6 +260,36 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
             return View(account);
+        }
+        public IActionResult SendMail(string Email, string mailBody, string mailSubject)
+        {
+            string mailTitle = "Gia Sư Văn Lang";
+            string fromMail = "giasuvanlang.thongtin@gmail.com";
+            string fromEmailPass = "wwxtjmqczzdgwqke";
+
+            //Email and content
+            MailMessage message = new MailMessage(new MailAddress(fromMail, mailTitle), new MailAddress(Email));
+            message.Subject = mailSubject;
+            message.Body = mailBody;
+
+            //Server detail
+            SmtpClient smtp = new SmtpClient();
+            smtp.Host = "smtp.gmail.com";
+            smtp.Port = 587;
+            smtp.EnableSsl = true;
+            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+
+            //Credentials
+            System.Net.NetworkCredential credential = new System.Net.NetworkCredential();
+            credential.UserName = fromMail;
+            credential.Password = fromEmailPass;
+            smtp.UseDefaultCredentials = false;
+            smtp.Credentials = credential;
+
+            smtp.Send(message);
+
+
+            return RedirectToAction("Login", "Accounts");
         }
     }
 }
