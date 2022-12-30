@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using MailKit.Net.Smtp;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using MimeKit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +20,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
     {
         private readonly CP25Team01Context _context = new CP25Team01Context();
 
+
         public async Task<IActionResult> Index([FromQuery] string search)
         {
             var model = new TutorListModel();
@@ -25,22 +29,22 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
             var accounts = await _context.Taikhoannguoidungs.ToListAsync();
             var xetduyets = await _context.Xetduyets.ToListAsync();
-            var monGiaSus = await _context.Mongiasus.ToListAsync(); 
+            var monGiaSus = await _context.Mongiasus.ToListAsync();
 
             foreach (var account in accounts)
             {
-                if (account.IdxetDuyet >= 2 && account.IdxetDuyet < 7)
+                if (account.IdxetDuyet >= 1 && account.IdxetDuyet < 6)
                 {
                     var awaitApproveStatus = xetduyets.FirstOrDefault(it => it.IdxetDuyet == account.IdxetDuyet);
                     if (awaitApproveStatus == null)
                         awaitApproveStatus = new Xetduyet();
-                    
+
                     var subject = monGiaSus.FirstOrDefault(it => it.IdmonGiaSu == account.IdmonGiaSu1);
                     if (subject == null)
                         subject = new Mongiasu();
-                    if(
-                        string.IsNullOrEmpty(search) || 
-                        (!string.IsNullOrEmpty(search) && (account.HoTen == search || subject.TenMonGiaSu == search))
+                    if (
+                        string.IsNullOrEmpty(search) ||
+                        (!string.IsNullOrEmpty(search) && (account.HoTen.ToLower().Contains(search.ToLower()) || subject.TenMonGiaSu.ToLower().Contains(search.ToLower())))
                     )
                     {
                         awaitTutors.Add(new TutorViewModel()
@@ -51,7 +55,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                         });
 
                     }
-                       
+
                 }
             }
 
@@ -70,7 +74,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
                         if (
                            string.IsNullOrEmpty(search) ||
-                           (!string.IsNullOrEmpty(search) && (account.HoTen == search || subject.TenMonGiaSu == search))
+                           (!string.IsNullOrEmpty(search) && (account.HoTen.ToLower().Contains(search.ToLower()) || subject.TenMonGiaSu.ToLower().Contains(search.ToLower())))
                         )
                         {
                             approvedTutors.Add(new TutorViewModel()
@@ -97,7 +101,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 return NotFound();
 
             string avatar = account.AnhDaiDien;
-            if(!string.IsNullOrEmpty(avatar))
+            if (!string.IsNullOrEmpty(avatar))
                 avatar = avatar.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
             account.AnhDaiDien = avatar;
 
@@ -146,25 +150,26 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         public async Task<IActionResult> DetailTutor(int id, IFormCollection form)
         {
             var account = await _context.Taikhoannguoidungs.FindAsync(id);
-            if (account == null) 
+            if (account == null)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
+                int.TryParse(form["Tutor.IdxetDuyet"], out int idxetDuyet);
                 try
                 {
-                    int.TryParse(form["Tutor.IdxetDuyet"], out int idxetDuyet);
-                    if(idxetDuyet > 0)
+                    if (idxetDuyet > 0)
                         account.IdxetDuyet = idxetDuyet;
+                        account.TrangThaiGiaSu = true;
 
                     _context.Update(account);
                     await _context.SaveChangesAsync();
                 }
                 catch (Exception ex)
                 {
-                    return RedirectToAction(nameof(Index), new { error = ex.InnerException});
+                    return RedirectToAction(nameof(Index), new { error = ex.InnerException });
                 }
                 return RedirectToAction("Index");
             }
@@ -239,7 +244,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 {
                     int.TryParse(form["status"], out int status);
 
-                    account.TrangThaiTaiKhoan = (status > 0);
+                    account.TrangThaiGiaSu = (status > 0);
 
                     _context.Update(account);
                     await _context.SaveChangesAsync();
@@ -247,7 +252,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 catch (Exception ex)
                 {
                     return RedirectToAction(nameof(Index), new { error = ex.InnerException });
-                } 
+                }
                 return RedirectToAction("Index");
             }
             return View(account);

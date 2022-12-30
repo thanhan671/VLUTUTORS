@@ -37,7 +37,6 @@ namespace VLUTUTORS.Controllers
             if (HttpContext.Session.GetInt32("LoginId") != 0)
             {
                 Console.WriteLine("login id: " + HttpContext.Session.GetInt32("LoginId"));
-                //Console.WriteLine(JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo")).HoTen);
             }
             var noiDung = await _db.Noidungs.FirstOrDefaultAsync(m => m.Id == 1);
             ViewData["Slogan"] = noiDung.Slogan;

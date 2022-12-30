@@ -20,62 +20,70 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         public async Task<IActionResult> Index()
         {
             var baiKTs = await _context.Baikiemtras.ToListAsync();
-            var khoas = await _context.Khoadaotaos.ToListAsync();
-            foreach (var baiKT in baiKTs)
-            {
-                var mon = khoas.FirstOrDefault(it => it.IdKhoaHoc == baiKT.IdKhoaDaoTao);
-                if (mon != null)
-                    baiKT.KhoaHoc = mon.TenKhoaHoc;
-            }
             return View(baiKTs);
         }
 
         [HttpGet]
-        public IActionResult AddTest()
+        public IActionResult AddQuestion()
         {
             Baikiemtra baikiemtra = new Baikiemtra();
-
-            baikiemtra.KhoaHocs = new SelectList(_context.Khoadaotaos, "IdKhoaHoc", "TenKhoaHoc", baikiemtra.IdKhoaDaoTao);
 
             return View(baikiemtra);
         }
         [HttpPost]
-        public async Task<IActionResult> AddTest([Bind(include: "IdBaiKiemTra,IdKhoaDaoTao")] Baikiemtra baikiemtra)
+        public async Task<IActionResult> AddQuestion([Bind(include: "IdCauHoi,CauHoi,DapAnA,DapAnB,DapAnC,DapAnD,DapAnDung")] Baikiemtra baikiemtra)
         {
             if (ModelState.IsValid)
             {
-                var baiKT = _context.Baikiemtras.AsNoTracking().SingleOrDefault(x => x.IdKhoaDaoTao == baikiemtra.IdKhoaDaoTao);
-                if (baiKT != null)
+                try
                 {
-                    return RedirectToAction("Index");
+                    _context.Add(baikiemtra);
+                    await _context.SaveChangesAsync();
                 }
-                else
+                catch (Exception ex)
                 {
-                    try
-                    {
-                        _context.Add(baikiemtra);
-                        await _context.SaveChangesAsync();
-                    }
-                    catch (Exception ex)
-                    {
-                        return RedirectToAction(nameof(Index));
-                    }
-                    return RedirectToAction("Index");
+                    return RedirectToAction(nameof(Index));
                 }
+                return RedirectToAction("Index");
             }
             return View(baikiemtra);
         }
-        public IActionResult DetailTest()
+        [HttpGet]
+        public async Task<IActionResult> EditQuestion(int? id = -1)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var baiKiemTra = await _context.Baikiemtras.FirstOrDefaultAsync(m => m.IdCauHoi == id);
+            if (baiKiemTra == null)
+                return NotFound();
+            return View(baiKiemTra);
         }
-        public IActionResult AddQuestion()
+
+        [HttpPost]
+        public async Task<IActionResult> EditQuestion(int id, [Bind(include: "IdCauHoi,CauHoi,DapAnA,DapAnB,DapAnC,DapAnD,DapAnDung")] Baikiemtra baikiemtra)
         {
-            return View();
-        }
-        public IActionResult EditQuestion()
-        {
-            return View();
+            if (id != baikiemtra.IdCauHoi)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(baikiemtra);
+                    await _context.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                return RedirectToAction("Index");
+            }
+            return View(baikiemtra);
         }
     }
 }

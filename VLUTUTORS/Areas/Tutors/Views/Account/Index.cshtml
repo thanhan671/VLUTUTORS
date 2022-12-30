@@ -29,14 +29,10 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="d-flex flex-column align-items-center text-center">
-                                        @foreach (var img in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.AnhDaiDien))
-                                        {
-                                            var path = @img.Replace(@"\", @"\\");
-                                            <img src="/@path"
-                                                 alt="Admin"
-                                                 class="rounded-circle"
-                                                 width="150" />
-                                        }
+                                        <img src="~/@Model.AnhDaiDien"
+                                             alt="Admin"
+                                             class="rounded-circle"
+                                             width="150" />
                                         <div class="mt-3">
                                             <input style="width: 80px"
                                                    type="file"
@@ -126,33 +122,33 @@
                                     </div>
                                     <hr />
                                     @* <div class="row-nowrap">
-            <div class="col-sm-3">
-                <h6 class="mb-0">Mật Khẩu Mới</h6>
-            </div>
-            <input type="text"
-                   name="sc-year"
-                   id=""
-                   class="profile-input" />
-        </div>
-        <hr />
-        <div class="row-nowrap">
-            <div class="col-sm-3">
-                <h6 class="mb-0">Nhập Lại Mật Khẩu</h6>
-            </div>
-            <input type="text"
-                   name="sc-year"
-                   id=""
-                   class="profile-input" />
-        </div>
-        <hr />*@
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0">Mật Khẩu Mới</h6>
+                                            </div>
+                                            <input type="text"
+                                                   name="sc-year"
+                                                   id=""
+                                                   class="profile-input" />
+                                        </div>
+                                        <hr />
+                                        <div class="row-nowrap">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0">Nhập Lại Mật Khẩu</h6>
+                                            </div>
+                                            <input type="text"
+                                                   name="sc-year"
+                                                   id=""
+                                                   class="profile-input" />
+                                        </div>
+                                        <hr />*@
                                     <div class="row-nowrap">
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Giới thiệu bản thân</h6>
                                         </div>
                                         @Html.TextAreaFor(m => m.GioiThieu, new { htmlAttributes = new { @class = "ip-form", @required = "required" } })
                                         @*<textarea name="" id="" cols="30" rows="10">
-                 @Html.EditorFor(m => m.GioiThieu, new { htmlAttributes = new { @class = "ip-form", @required = "required" } })
-            </textarea>*@
+                                                 @Html.EditorFor(m => m.GioiThieu, new { htmlAttributes = new { @class = "ip-form", @required = "required" } })
+                                            </textarea>*@
                                     </div>
                                     <hr />
                                     <div class="row-nowrap">
@@ -163,8 +159,8 @@
                                         </div>
                                         @Html.TextAreaFor(m => m.DanhGiaVeViecGiaSu, new { htmlAttributes = new { @class = "ip-form", @required = "required" } })
                                         @*<textarea name="" id="" cols="30" rows="10">
-                @Html.EditorFor(m => m.DanhGiaVeViecGiaSu, new { htmlAttributes = new { @class = "ip-form", @required = "required" } })
-            </textarea>*@
+                                                @Html.EditorFor(m => m.DanhGiaVeViecGiaSu, new { htmlAttributes = new { @class = "ip-form", @required = "required" } })
+                                            </textarea>*@
                                     </div>
                                     <hr />
                                     <div class="row-nowrap">
@@ -189,11 +185,7 @@
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Ảnh minh chứng</h6>
                                         </div>
-                                        @foreach (var img in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.ChungChiMon1))
-                                        {
-                                            var path = @img.Replace(@"\", @"\\");
-                                            <td><img src="/@path" height="150" width="200"></td>
-                                        }
+                                            <td><img src="~/@Model.ChungChiMon1" height="150" width="200"></td>
                                     </div>
                                     <div class="row-nowrap">
                                         <input class=""
@@ -235,11 +227,7 @@
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Ảnh minh chứng</h6>
                                         </div>
-                                        @foreach (var img in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.ChungChiMon2))
-                                        {
-                                            var path = @img.Replace(@"\", @"\\");
-                                            <td><img src="/@path" height="150" width="200" /></td>
-                                        }
+                                            <td><img src="~/@Model.ChungChiMon2" height="150" width="200" /></td>
                                     </div>
                                     <div class="row-nowrap">
                                         <input class=""
