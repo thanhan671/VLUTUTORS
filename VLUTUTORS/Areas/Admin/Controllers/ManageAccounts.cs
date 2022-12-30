@@ -41,6 +41,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddNewAccounts([Bind(include:"Id,TaiKhoan,MatKhau,IdQuyen")] Taikhoanadmin taikhoanadmin)
         {
             if (ModelState.IsValid)
@@ -85,6 +86,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditAccounts(int id, [Bind(include: "Id,TaiKhoan,MatKhau,IdQuyen")] Taikhoanadmin taikhoanadmin)
         {
             if (id != taikhoanadmin.Id)
