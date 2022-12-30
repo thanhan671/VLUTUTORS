@@ -133,7 +133,7 @@ namespace VLUTUTORS.Controllers
         public async Task<IActionResult> EditLearnerAccounts(int id, [FromForm] int IdgioiTinh, [FromForm] DateTime NgaySinh, [FromForm] string Sdt, [FromForm] string MatKhau, [FromForm] string ReMatKhau, List<IFormFile> avatar)
         {
             var dbTaikhoannguoidung = await db.Taikhoannguoidungs.FindAsync(id);
-            string avatarPath = Path.Combine("avatars", dbTaikhoannguoidung.Id.ToString());
+            string avatarPath = "avatars";// Path.Combine("avatars", dbTaikhoannguoidung.Id.ToString());
 
             if (dbTaikhoannguoidung == null || (dbTaikhoannguoidung != null && id != dbTaikhoannguoidung.Id))
             {
