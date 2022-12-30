@@ -4,7 +4,7 @@
 @model VLUTUTORS.Models.Taikhoannguoidung
 
 @{
-    ViewData["Title"] = "Chi tiết tài khoản";
+    ViewData["Title"] = "Chỉnh sửa tài khoản";
     Layout = "~/Views/Shared/_otherPageLayout.cshtml";
 }
 
@@ -20,7 +20,7 @@
             </ol>
         </nav>
         <!-- /Breadcrumb -->
-        <form method="post" enctype="multipart/form-data" asp-controller="Accounts" asp-action="Details">
+        <form method="post" enctype="multipart/form-data" asp-controller="Accounts" asp-action="EditLearnerAccounts">
             <input type="hidden" asp-for="Id" />
 
             <div class="row gutters-sm">
@@ -42,6 +42,14 @@
                                          width="200"
                                          height="200" />
                                 }
+
+                                <div class="mt-3">
+                                    <input style="width: 80px"
+                                           type="file"
+                                           name="avatar"
+                                           accept=".jpg, .jpeg, .png" /><br />
+                                    <span>Định dạng: .JPEG, .PNG</span>
+                                </div>
                                 <div class="mt-3">
                                     <h4>@Model.HoTen</h4>
                                 </div>
@@ -60,31 +68,45 @@
                                     @Model.Email
                                 </div>
                             </div>
-                            <hr/>
+                            <hr />
                             <div class="row-profile">
                                 <div class="col-sm-3 p-0 mt-1">
                                     <h6 class="mb-0">Giới Tính</h6>
                                 </div>
-                                @Html.DropDownListFor(model => model.IdgioiTinh, Model.GenderItems, new { @class = "profile-input", @readonly = true })
+                                @Html.DropDownListFor(model => model.IdgioiTinh, Model.GenderItems, new { @class = "profile-input" })
                             </div>
                             <hr />
                             <div class="row-profile">
                                 <div class="col-sm-3 p-0 mt-1">
                                     <h6 class="mb-0">Ngày sinh</h6>
                                 </div>
-                                @Html.TextBoxFor(model => model.NgaySinh, "{0:dd/MM/yyyy}", new { @class = "profile-input", @readonly = true })
+                                @Html.TextBoxFor(model => model.NgaySinh, "{0:dd/MM/yyyy}", new { @class = "profile-input" })
                             </div>
                             <hr />
                             <div class="row-profile">
                                 <div class="col-sm-3 p-0 mt-1">
                                     <h6 class="mb-0">Số điện thoại</h6>
                                 </div>
-                                @Html.TextBoxFor(model => model.Sdt, "", new { @class = "profile-input", @readonly = true })
+                                @Html.TextBoxFor(model => model.Sdt, "", new { @class = "profile-input" })
+                            </div>
+                            <hr />
+                            <div class="row-profile">
+                                <div class="col-sm-3 p-0 mt-1">
+                                    <h6 class="mb-0">Mật khẩu mới</h6>
+                                </div>
+                                <input type="text" name="MatKhau" id="MatKhau" class="profile-input">
+                            </div>
+                            <hr />
+                            <div class="row-profile">
+                                <div class="col-sm-3 p-0 mt-1">
+                                    <h6 class="mb-0">Xác nhận mật khẩu</h6>
+                                </div>
+                                <input type="text" name="ReMatKhau" id="ReMatKhau" class="profile-input">
                             </div>
                             <hr />
                             <div class="d-flex justify-content-end">
                                 <a href='javascript:history.go(-1)' class="btn btn-secondary mr-3">Quay Lại</a>
-                                <a  asp-controller="Accounts" asp-action="EditLearnerAccounts" asp-route-id="@Model.Id" class="btn btn-success">Chỉnh sửa</a>
+                                <input type="submit" value="Lưu thay đổi" class="btn btn-success" onclick="popup()" />
                             </div>
                         </div>
                     </div>
@@ -93,3 +115,11 @@
         </form>
     </div>
 </div>
+<script>
+    function popup() {
+        alert('Cập nhật thành công!');
+    }
+    //$('#myForm').on('submit', function (e) {
+    //    e.preventDefault(); // Now nothing will happen
+    //});
+</script>

@@ -2,7 +2,7 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @model VLUTUTORS.Models.Khoadaotao
 @{
-    ViewData["Title"] = "Thêm mới khóa đào tạo";
+    ViewData["Title"] = "Thêm mới bài học";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
@@ -14,7 +14,7 @@
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="~/Admin">Trang chủ</a></li>
                     <li class="breadcrumb-item"><a href="~/Admin/ManageCourse">Quản lý khóa đào tạo</a></li>
-                    <li class="breadcrumb-item active">Thêm mới khóa đào tạo</li>
+                    <li class="breadcrumb-item active">Thêm mới bài học</li>
                 </ol>
             </div>
         </div>
@@ -22,7 +22,8 @@
     </section>
 
     <!-- Main content -->
-    <form method="post" asp-controller="ManageCourse" asp-action="AddCourse">
+    <form method="post" enctype="multipart/form-data" asp-controller="ManageCourse" asp-action="AddLessonFile">
+        <input type="hidden" asp-for="Link" />
         <section class="content">
             <div class="container" style="margin-top: 20px; margin-bottom: 20px">
                 <div class="main-body">
@@ -30,20 +31,24 @@
                         <div class="col-md-8">
                             <div class="card mb-3">
                                 <div class="card-body">
-                                    <h3>Thêm mới khóa đào tạo</h3>
+                                    <h3>Thêm mới bài học</h3>
                                     <hr />
                                     <div class="row">
                                         <div class="col-sm-3">
-                                            <h6 class="mb-0">Tên khóa đào tạo</h6>
+                                            <h6 class="mb-0">Tên bài học</h6>
                                         </div>
-                                        <input class="col-sm-9 text-secondary" name="TenKhoaHoc" id="TenKhoaHoc" type="text">
+                                        <input class="col-sm-9 text-secondary" name="TenBaiHoc" id="TenBaiHoc" type="text">
                                     </div>
                                     <hr />
                                     <div class="row">
                                         <div class="col-sm-3">
-                                            <h6 class="mb-0">Đào tạo cho môn</h6>
+                                            <h6 class="mb-0">Tệp bài giảng</h6>
                                         </div>
-                                        @Html.DropDownListFor(model => model.IdMonGiaSu, Model.MonGiaSus, new { @class = "col-sm-9 text-secondary" })
+                                        <input class="col-sm-9 text-secondary"
+                                               type="file"
+                                               name="tepBaiGiang"
+                                               multiple
+                                               accept=".doc, .docx, .pdf" />
                                     </div>
                                     <hr />
                                     <div class="row">

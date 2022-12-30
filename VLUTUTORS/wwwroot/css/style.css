@@ -4950,6 +4950,14 @@ p.form-message.error {
     display: flex;
 }
 
+.course-title {
+    font-family: 'Montserrat';
+    font-weight: 600;
+    font-size: 20px;
+    text-align: left;
+    color: #000;
+}
+
 .quiz-container {
     width: 100%;
     border: 1px solid rgba(228, 228, 228, 1);
@@ -9859,15 +9867,33 @@ p.form-message.error {
     width: 150px;
 }
 
-.course-item{
-    cursor:pointer;
+/*.course-item {
+    cursor: pointer;
     width: 100%;
-
-}
-.course-item:hover{
-    background-color: #ccc;
 }
 
+    .course-item:hover {
+        background-color: #ccc;
+    }*/
+
+.course-item {
+    cursor: pointer;
+    width: 100%;
+    border: none;
+    margin-bottom: 10px;
+    background: none;
+}
+
+    .course-item:hover {
+        background-color: #ccc;
+    }
+.coure-title {
+    font-family: 'Montserrat';
+    font-weight: 600;
+    font-size: 20px;
+    text-align: left;
+    color: #000;
+}
 .course-container {
     display: flex;
     height: 100%;

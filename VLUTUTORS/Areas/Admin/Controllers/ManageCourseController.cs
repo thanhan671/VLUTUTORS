@@ -1,13 +1,17 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using VLUTUTORS.Models;
+using VLUTUTORS.Support.Services;
 
 namespace VLUTUTORS.Areas.Admin.Controllers
 {
@@ -17,35 +21,27 @@ namespace VLUTUTORS.Areas.Admin.Controllers
     public class ManageCourseController : Controller
     {
         private readonly CP25Team01Context _context = new CP25Team01Context();
+        private IHostingEnvironment _environment;
         public async Task<IActionResult> Index()
         {
             var khoaHocs = await _context.Khoadaotaos.ToListAsync();
-            var mons = await _context.Mongiasus.ToListAsync();
-            foreach (var khoaHoc in khoaHocs)
-            {
-                var mon = mons.FirstOrDefault(it => it.IdmonGiaSu == khoaHoc.IdMonGiaSu);
-                if (mon != null)
-                    khoaHoc.MonGiaSu = mon.TenMonGiaSu;
-            }
             return View(khoaHocs);
         }
 
         [HttpGet]
-        public IActionResult AddCourse()
+        public IActionResult AddLesson()
         {
             Khoadaotao khoadaotao = new Khoadaotao();
-
-            khoadaotao.MonGiaSus = new SelectList(_context.Mongiasus, "IdmonGiaSu", "TenMonGiaSu", khoadaotao.IdMonGiaSu);
 
             return View(khoadaotao);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddCourse([Bind(include: "IdKhoaHoc,TenKhoaHoc,IdMonGiaSu")] Khoadaotao khoadaotao)
+        public async Task<IActionResult> AddLesson([Bind(include: "IdBaiHoc,TenBaiHoc,Link")] Khoadaotao khoadaotao)
         {
             if (ModelState.IsValid)
             {
-                var khoaDaoTao = _context.Khoadaotaos.AsNoTracking().SingleOrDefault(x => x.TenKhoaHoc.ToLower() == khoadaotao.TenKhoaHoc.ToLower());
+                var khoaDaoTao = _context.Khoadaotaos.AsNoTracking().SingleOrDefault(x => x.TenBaiHoc.ToLower() == khoadaotao.TenBaiHoc.ToLower());
                 if (khoaDaoTao != null)
                 {
                     return RedirectToAction("Index");
@@ -54,6 +50,8 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 {
                     try
                     {
+                        string newLink = khoadaotao.Link.Replace(@"https://www.youtube.com/watch?v=", @"https://www.youtube.com/embed/");
+                        khoadaotao.Link = newLink;
                         _context.Add(khoadaotao);
                         await _context.SaveChangesAsync();
                     }
@@ -68,26 +66,23 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> EditCourse(int? id = -1)
+        public async Task<IActionResult> EditLesson(int? id = -1)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var khoaDaoTao = await _context.Khoadaotaos.FirstOrDefaultAsync(m => m.IdKhoaHoc == id);
+            var khoaDaoTao = await _context.Khoadaotaos.FirstOrDefaultAsync(m => m.IdBaiHoc == id);
             if (khoaDaoTao == null)
                 return NotFound();
-            var mons = await _context.Mongiasus.ToListAsync();
-            SelectList ddlStatus = new SelectList(mons, "IdmonGiaSu", "TenMonGiaSu");
-            khoaDaoTao.MonGiaSus = ddlStatus;
             return View(khoaDaoTao);
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditCourse(int id, [Bind(include: "IdKhoaHoc,TenKhoaHoc,IdMonGiaSu")] Khoadaotao khoadaotao)
+        public async Task<IActionResult> EditLesson(int id, [Bind(include: "IdBaiHoc,TenBaiHoc,Link")] Khoadaotao khoadaotao)
         {
-            if (id != khoadaotao.IdKhoaHoc)
+            if (id != khoadaotao.IdBaiHoc)
             {
                 return NotFound();
             }
@@ -96,6 +91,8 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             {
                 try
                 {
+                    string newLink = khoadaotao.Link.Replace(@"https://www.youtube.com/watch?v=", @"https://www.youtube.com/embed/");
+                    khoadaotao.Link = newLink;
                     _context.Update(khoadaotao);
                     await _context.SaveChangesAsync();
                 }
@@ -107,18 +104,53 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             }
             return View(khoadaotao);
         }
-        public IActionResult DetailCourse()
+
+        [HttpPost]
+        public IActionResult DeleteLesson(int id)
         {
-            return View();
+            Khoadaotao khoadaotao = _context.Khoadaotaos.Where(p => p.IdBaiHoc == id).FirstOrDefault();
+            _context.Khoadaotaos.Remove(khoadaotao);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
         }
 
-        public IActionResult AddLesson()
+        [HttpGet]
+        public IActionResult AddLessonFile()
         {
-            return View();
+            Khoadaotao khoadaotao = new Khoadaotao();
+
+            return View(khoadaotao);
         }
-        public IActionResult EditLesson()
+
+        [HttpPost]
+        public async Task<IActionResult> AddLessonFile([Bind(include: "IdBaiHoc,TenBaiHoc,TaiLieu")] Khoadaotao khoadaotao, IFormFile tepBaiGiang)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                var khoaDaoTao = _context.Khoadaotaos.AsNoTracking().SingleOrDefault(x => x.TenBaiHoc.ToLower() == khoadaotao.TenBaiHoc.ToLower());
+                if (khoaDaoTao != null)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    try
+                    {
+                        Console.WriteLine("tep bai giang: " + tepBaiGiang.FileName);
+                        string Filepath = Path.Combine("Files");
+                        TutorServices.UploadFile(tepBaiGiang);
+                        //khoadaotao.TaiLieu = tepBaiGiang.Count != 0 ? TutorServices.SaveUploadImages(this._environment.WebRootPath, Filepath, tepBaiGiang) : khoadaotao.TaiLieu;
+                        //_context.Add(khoadaotao);
+                        //await _context.SaveChangesAsync();
+                    }
+                    catch (Exception ex)
+                    {
+                        return RedirectToAction(nameof(Index));
+                    }
+                    return RedirectToAction("Index");
+                }
+            }
+            return View(khoadaotao);
         }
     }
 }

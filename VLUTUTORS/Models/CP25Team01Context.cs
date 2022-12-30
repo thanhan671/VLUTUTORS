@@ -17,9 +17,7 @@ namespace VLUTUTORS.Models
         {
         }
 
-        public virtual DbSet<Baihoc> Baihocs { get; set; }
         public virtual DbSet<Baikiemtra> Baikiemtras { get; set; }
-        public virtual DbSet<Cauhoi> Cauhois { get; set; }
         public virtual DbSet<Gioitinh> Gioitinhs { get; set; }
         public virtual DbSet<Khoa> Khoas { get; set; }
         public virtual DbSet<Khoadaotao> Khoadaotaos { get; set; }
@@ -47,51 +45,16 @@ namespace VLUTUTORS.Models
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
 
-            modelBuilder.Entity<Baihoc>(entity =>
-            {
-                entity.HasKey(e => e.IdBaiHoc);
-
-                entity.ToTable("BAIHOC");
-
-                entity.Property(e => e.LinkBaiHoc)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.TenBaiHoc)
-                    .IsRequired()
-                    .HasMaxLength(500);
-
-                entity.HasOne(d => d.IdKhoaHocNavigation)
-                    .WithMany(p => p.Baihocs)
-                    .HasForeignKey(d => d.IdKhoaHoc)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_BAIHOC_KHOADAOTAO");
-            });
-
             modelBuilder.Entity<Baikiemtra>(entity =>
             {
-                entity.HasKey(e => e.IdBaiKiemTra)
-                    .HasName("PK_BAIKIEMTRA_1");
+                entity.HasKey(e => e.IdCauHoi)
+                    .HasName("PK_CAUHOI");
 
                 entity.ToTable("BAIKIEMTRA");
 
-                entity.HasOne(d => d.IdKhoaDaoTaoNavigation)
-                    .WithMany(p => p.Baikiemtras)
-                    .HasForeignKey(d => d.IdKhoaDaoTao)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_BAIKIEMTRA_KHOADAOTAO1");
-            });
-
-            modelBuilder.Entity<Cauhoi>(entity =>
-            {
-                entity.HasKey(e => e.IdCauHoi);
-
-                entity.ToTable("CAUHOI");
-
-                entity.Property(e => e.CauHoi1)
+                entity.Property(e => e.CauHoi)
                     .IsRequired()
-                    .HasMaxLength(500)
-                    .HasColumnName("CauHoi");
+                    .HasMaxLength(500);
 
                 entity.Property(e => e.DapAnA)
                     .IsRequired()
@@ -112,12 +75,6 @@ namespace VLUTUTORS.Models
                 entity.Property(e => e.DapAnDung)
                     .IsRequired()
                     .HasMaxLength(500);
-
-                entity.HasOne(d => d.IdBaiKiemTraNavigation)
-                    .WithMany(p => p.Cauhois)
-                    .HasForeignKey(d => d.IdBaiKiemTra)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_CAUHOI_BAIKIEMTRA");
             });
 
             modelBuilder.Entity<Gioitinh>(entity =>
@@ -149,19 +106,17 @@ namespace VLUTUTORS.Models
 
             modelBuilder.Entity<Khoadaotao>(entity =>
             {
-                entity.HasKey(e => e.IdKhoaHoc);
+                entity.HasKey(e => e.IdBaiHoc);
 
                 entity.ToTable("KHOADAOTAO");
 
-                entity.Property(e => e.TenKhoaHoc)
+                entity.Property(e => e.Link).HasMaxLength(500);
+
+                entity.Property(e => e.TaiLieu).IsUnicode(false);
+
+                entity.Property(e => e.TenBaiHoc)
                     .IsRequired()
                     .HasMaxLength(500);
-
-                entity.HasOne(d => d.IdMonGiaSuNavigation)
-                    .WithMany(p => p.Khoadaotaos)
-                    .HasForeignKey(d => d.IdMonGiaSu)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_KHOADAOTAO_MONGIASU");
             });
 
             modelBuilder.Entity<Lienhe>(entity =>
@@ -409,11 +364,11 @@ namespace VLUTUTORS.Models
 
                 entity.ToTable("XETDUYET");
 
-                entity.Property(e => e.IdxetDuyet).HasColumnName("IDXetDuyet");
+                entity.Property(e => e.IdxetDuyet)
+                    .ValueGeneratedNever()
+                    .HasColumnName("IDXetDuyet");
 
-                entity.Property(e => e.TenTrangThai)
-                    .IsRequired()
-                    .HasMaxLength(50);
+                entity.Property(e => e.TenTrangThai).HasMaxLength(50);
             });
 
             OnModelCreatingPartial(modelBuilder);

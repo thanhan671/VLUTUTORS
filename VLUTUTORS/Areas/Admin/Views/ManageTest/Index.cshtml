@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<VLUTUTORS.Models.Baikiemtra>
+@using Microsoft.AspNetCore.Http
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     ViewData["Title"] = "Quản lý bài kiểm tra";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
@@ -26,9 +28,9 @@
                 <h3 class="card-title">Danh sách bài kiểm tra</h3>
                 <div class="card-tools">
                     <a class="btn btn-primary btn-sm"
-                       href="~/Admin/ManageTest/AddTest">
+                       href="~/Admin/ManageTest/AddQuestion">
                         <i class="fas fa-plus"> </i>
-                        Thêm bài kiểm tra
+                        Thêm câu hỏi
                     </a>
                 </div>
             </div>
@@ -36,9 +38,14 @@
                 <table class="table table-striped projects">
                     <thead>
                         <tr>
-                            <th style="width: 10%">STT</th>
-                            <th style="width: 30%">Bài kiểm tra khóa đào tạo</th>
-                            <th style="width: 15%">Chức năng</th>
+                            <th>Câu</th>
+                            <th>Câu hỏi</th>
+                            <th>Đáp án A</th>
+                            <th>Đáp án B</th>
+                            <th>Đáp án C</th>
+                            <th>Đáp án D</th>
+                            <th>Đáp án đúng</th>
+                            <th>Chức năng</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -50,12 +57,35 @@
                                 <tr>
                                     <td>@index</td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.KhoaHoc)
+                                        @Html.DisplayFor(modelItem => item.CauHoi)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DapAnA)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DapAnB)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DapAnC)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DapAnD)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DapAnDung)
                                     </td>
                                     <td class="project-actions">
-                                        <a class="btn btn-primary btn-sm" href="~/Admin/ManageTest/DetailTest">
-                                            <i class="fas fa-folder"> </i>
-                                            Xem
+                                        <a class="btn btn-info btn-sm"
+                                           asp-action="EditQuestion" asp-controller="ManageTest" asp-route-id="@item.IdCauHoi">
+                                            <i class="fas fa-pencil-alt"> </i>
+                                            Sửa
+                                        </a>
+                                        <a class="btn btn-danger btn-sm"
+                                           data-toggle="modal"
+                                           data-target="#exampleModal"
+                                           id="deleteItem">
+                                            <i class="fas fa-trash"> </i>
+                                            Xoá
                                         </a>
                                     </td>
                                 </tr>
@@ -82,7 +112,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body">
-                <h5>Bạn muốn xóa khóa đào tạo này?</h5>
+                <h5>Bạn muốn xóa câu hỏi này?</h5>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-default" type="button" data-dismiss="modal">

@@ -37,7 +37,6 @@ namespace VLUTUTORS.Controllers
             if (HttpContext.Session.GetInt32("LoginId") != 0)
             {
                 Console.WriteLine("login id: " + HttpContext.Session.GetInt32("LoginId"));
-                //Console.WriteLine(JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo")).HoTen);
             }
             var noiDung = await _db.Noidungs.FirstOrDefaultAsync(m => m.Id == 1);
             ViewData["Slogan"] = noiDung.Slogan;
@@ -107,7 +106,7 @@ namespace VLUTUTORS.Controllers
             taikhoannguoidung.Subject1Items = new SelectList(_db.Mongiasus, "IdmonGiaSu", "TenMonGiaSu", taikhoannguoidung.IdmonGiaSu1);
             taikhoannguoidung.Subject2Items = new SelectList(_db.Mongiasus, "IdmonGiaSu", "TenMonGiaSu", taikhoannguoidung.IdmonGiaSu2);
 
-            return View(taikhoannguoidung);
+            return RedirectToAction("Index", "TutorTraining", new { courseName = "" });
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
