@@ -13,6 +13,7 @@ namespace VLUTUTORS.Models
         [Required(ErrorMessage = "Vui lòng điền trường này!")]
         public string TenBaiHoc { get; set; }
         public string Link { get; set; }
+
         public string TaiLieu { get; set; }
         public Khoadaotao()
         {
@@ -27,5 +28,6 @@ namespace VLUTUTORS.Models
 
         [NotMapped]
         public List<string> courses { get; set; }
+
     }
 }

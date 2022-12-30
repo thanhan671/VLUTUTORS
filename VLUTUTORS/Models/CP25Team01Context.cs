@@ -364,11 +364,11 @@ namespace VLUTUTORS.Models
 
                 entity.ToTable("XETDUYET");
 
-                entity.Property(e => e.IdxetDuyet).HasColumnName("IDXetDuyet");
+                entity.Property(e => e.IdxetDuyet)
+                    .ValueGeneratedNever()
+                    .HasColumnName("IDXetDuyet");
 
-                entity.Property(e => e.TenTrangThai)
-                    .IsRequired()
-                    .HasMaxLength(50);
+                entity.Property(e => e.TenTrangThai).HasMaxLength(50);
             });
 
             OnModelCreatingPartial(modelBuilder);
