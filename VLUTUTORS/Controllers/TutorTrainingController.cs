@@ -48,13 +48,6 @@ namespace VLUTUTORS.Controllers
             return RedirectToAction("Index", new { courseName = courseName });
         }
 
-        [HttpPost]
-        public IActionResult Index(string courseName, int id = 1)
-        {
-            Console.WriteLine("lesson: " + courseName);
-            return RedirectToAction("Index", new { courseName = courseName});
-        }
-
         [HttpGet]
         public async Task<IActionResult> DoTest()
         {
@@ -69,10 +62,6 @@ namespace VLUTUTORS.Controllers
 
             Baikiemtra baikiemtra = new Baikiemtra();
             baikiemtra.quizes = _db.Baikiemtras.ToList();
-            //foreach(var item in baikiemtra.quizes)
-            //{
-            //    string option = item.
-            //}
 
             return View(_db.Baikiemtras.ToList());
         }
@@ -136,7 +125,7 @@ namespace VLUTUTORS.Controllers
             _db.SaveChanges();
             Console.WriteLine("Score of user: " + taikhoannguoidung.DiemBaiTest);
 
-            return View(_db.Baikiemtras.ToList());
+            return RedirectToAction("Index", new { courseName = "" });
         }
 
     }

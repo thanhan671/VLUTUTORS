@@ -123,7 +123,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddLessonFile([Bind(include: "IdBaiHoc,TenBaiHoc,TaiLieu")] Khoadaotao khoadaotao, List<IFormFile> tepBaiGiang)
+        public async Task<IActionResult> AddLessonFile([Bind(include: "IdBaiHoc,TenBaiHoc,TaiLieu")] Khoadaotao khoadaotao, IFormFile tepBaiGiang)
         {
             if (ModelState.IsValid)
             {
@@ -136,10 +136,12 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 {
                     try
                     {
+                        Console.WriteLine("tep bai giang: " + tepBaiGiang.FileName);
                         string Filepath = Path.Combine("Files");
-                        khoadaotao.TaiLieu = tepBaiGiang.Count != 0 ? TutorServices.SaveUploadImages(this._environment.WebRootPath, Filepath, tepBaiGiang) : khoadaotao.TaiLieu;
-                        _context.Add(khoadaotao);
-                        await _context.SaveChangesAsync();
+                        TutorServices.UploadFile(tepBaiGiang);
+                        //khoadaotao.TaiLieu = tepBaiGiang.Count != 0 ? TutorServices.SaveUploadImages(this._environment.WebRootPath, Filepath, tepBaiGiang) : khoadaotao.TaiLieu;
+                        //_context.Add(khoadaotao);
+                        //await _context.SaveChangesAsync();
                     }
                     catch (Exception ex)
                     {

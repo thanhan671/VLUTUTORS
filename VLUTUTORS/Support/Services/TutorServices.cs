@@ -60,6 +60,15 @@ namespace VLUTUTORS.Support.Services
             return imagesPathList;
         }
 
+        public static void UploadFile(IFormFile courseFile)
+        {
+            string fileName = Path.GetFileName(courseFile.FileName);
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "CourseFiles", fileName);
+            Console.WriteLine("path exist: " + Directory.Exists(path));
+            var stream = new FileStream(path, FileMode.Create);
+            courseFile.CopyToAsync(stream);
+        }
+
         public static Taikhoannguoidung FindUserAccountByEmail(string email)
         {
             return DataManager.Instance().db().Taikhoannguoidungs.Where(u => u.Email.Equals(email)).FirstOrDefault();
