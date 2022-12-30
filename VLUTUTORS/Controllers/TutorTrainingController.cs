@@ -120,12 +120,12 @@ namespace VLUTUTORS.Controllers
             var userInfo = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
             Taikhoannguoidung taikhoannguoidung = _db.Taikhoannguoidungs.Find(userInfo.Id);
             taikhoannguoidung.DiemBaiTest = Convert.ToDouble(userScore);
+            taikhoannguoidung.IdxetDuyet = 2;
 
             _db.Taikhoannguoidungs.Attach(taikhoannguoidung).Property(x => x.DiemBaiTest).IsModified = true;
             _db.SaveChanges();
-            Console.WriteLine("Score of user: " + taikhoannguoidung.DiemBaiTest);
 
-            return RedirectToAction("Index", new { courseName = "" });
+            return RedirectToAction("Index", "Home", new {area="default"});
         }
 
     }
