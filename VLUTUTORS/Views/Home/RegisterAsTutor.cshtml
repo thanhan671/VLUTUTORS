@@ -165,12 +165,13 @@
                                         <div class="form__input">
                                             <label class="lb-form" for="name">Môn</label>
                                             @Html.DropDownListFor(m => m.IdmonGiaSu2, Model.Subject2Items, "Chọn môn gia sư", new { @class = "form__select" })
+                                            <span asp-validation-for="IdmonGiaSu2" class="warning"></span>
                                         </div>
                                         <div class="form__input">
                                             <label class="lb-form">Điểm trung bình môn hoặc tên chứng chỉ</label>
                                             <input type="text" name="TenChungChiHoacDiemMon2" placeholder="Điểm trung bình hoặc chứng chỉ môn 2" />
-                                            <span class="warning-icon">!</span>
-                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                                            <span asp-validation-for="TenChungChiHoacDiemMon2" class="warning"> </span>
+
                                         </div>
 
                                         <div class="form__input">
@@ -181,15 +182,15 @@
                                                    placeholder="Chứng Chỉ"
                                                    multiple="multiple"
                                                    accept=".jpg, .jpeg, .png" />
-                                            <span class="warning-icon">!</span>
-                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                                            <span asp-validation-for="ChungChiMon2" class="warning"> </span>
+
                                         </div>
 
                                         <div class="form__input">
                                             <label class="lb-form">Giới thiệu môn gia sư</label>
                                             <input type="text" name="GioiThieuVeMonGiaSu2" placeholder="Giới thiệu về môn gia sư"/>
-                                            <span class="warning-icon">!</span>
-                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                                            <span asp-validation-for="GioiThieuVeMonGiaSu2" class="warning"> </span>
+
                                         </div>
                                     </div>
                                 </div>

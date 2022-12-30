@@ -44,33 +44,37 @@ namespace VLUTUTORS.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Login([Bind(include: "Email, MatKhau")] Taikhoannguoidung taikhoannguoidung)
         {
-            string email = taikhoannguoidung.Email;
-            string password = taikhoannguoidung.MatKhau;
-
-            Taikhoannguoidung checkAccount;
-            checkAccount = db.Taikhoannguoidungs.Where(acc => acc.Email.Equals(email.Trim())).FirstOrDefault();
-            if (checkAccount.TrangThaiTaiKhoan == true)
+            if (ModelState.IsValid)
             {
-                if (checkAccount != null)
+                string email = taikhoannguoidung.Email;
+                string password = taikhoannguoidung.MatKhau;
+
+                Taikhoannguoidung checkAccount;
+                checkAccount = db.Taikhoannguoidungs.Where(acc => acc.Email.Equals(email.Trim())).FirstOrDefault();
+                if (checkAccount.TrangThaiTaiKhoan == true)
                 {
-                    _loginSuccessCallback = LoginSuccessCall;
+                    if (checkAccount != null)
+                    {
+                        _loginSuccessCallback = LoginSuccessCall;
+                    }
+                    else
+                    {
+                        ViewBag.Message = "Email chưa đúng, vui lòng kiểm tra lại";
+                        return View();
+                    }
+
+                    if (checkAccount.MatKhau.Equals(password.Trim()))
+                    {
+                        return _loginSuccessCallback.Invoke(checkAccount);
+                    }
+                    ViewBag.Message = "Mật khẩu chưa đúng, vui lòng kiểm tra lại";
                 }
                 else
                 {
-                    ViewBag.Message = "Email chưa đúng, vui lòng kiểm tra lại";
-                    return View();
+                    ViewBag.Message = "Tài khoản có Email đăng nhập là " + checkAccount.Email + " đã bị khóa, vui lòng liên hệ với chúng tôi để được giải quyết! Xin cảm ơn";
                 }
-
-                if (checkAccount.MatKhau.Equals(password.Trim()))
-                {
-                    return _loginSuccessCallback.Invoke(checkAccount);
-                }
-                ViewBag.Message = "Mật khẩu chưa đúng, vui lòng kiểm tra lại";
             }
-            else
-            {
-                ViewBag.Message = "Tài khoản có Email đăng nhập là " + checkAccount.Email + " đã bị khóa, vui lòng liên hệ với chúng tôi để được giải quyết! Xin cảm ơn";
-            }
+            
             return View();
         }
 
