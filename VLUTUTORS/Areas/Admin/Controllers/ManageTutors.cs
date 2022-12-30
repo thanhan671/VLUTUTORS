@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using MailKit.Net.Smtp;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using MimeKit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +20,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
     {
         private readonly CP25Team01Context _context = new CP25Team01Context();
 
+
         public async Task<IActionResult> Index([FromQuery] string search)
         {
             var model = new TutorListModel();
@@ -29,7 +33,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
             foreach (var account in accounts)
             {
-                if (account.IdxetDuyet >= 2 && account.IdxetDuyet < 7)
+                if (account.IdxetDuyet >= 1 && account.IdxetDuyet < 6)
                 {
                     var awaitApproveStatus = xetduyets.FirstOrDefault(it => it.IdxetDuyet == account.IdxetDuyet);
                     if (awaitApproveStatus == null)
@@ -153,11 +157,12 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
+                int.TryParse(form["Tutor.IdxetDuyet"], out int idxetDuyet);
                 try
                 {
-                    int.TryParse(form["Tutor.IdxetDuyet"], out int idxetDuyet);
                     if (idxetDuyet > 0)
                         account.IdxetDuyet = idxetDuyet;
+                        account.TrangThaiGiaSu = true;
 
                     _context.Update(account);
                     await _context.SaveChangesAsync();

@@ -16,6 +16,8 @@ using System.IO;
 using VLUTUTORS.Support.Services;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Hosting;
+using System.Net.Mail;
+using SmtpClient = System.Net.Mail.SmtpClient;
 
 namespace VLUTUTORS.Controllers
 {
@@ -47,24 +49,32 @@ namespace VLUTUTORS.Controllers
 
             Taikhoannguoidung checkAccount;
             checkAccount = db.Taikhoannguoidungs.Where(acc => acc.Email.Equals(email.Trim())).FirstOrDefault();
-
-            if (checkAccount != null)
+            if (checkAccount.TrangThaiTaiKhoan == true)
             {
-                _loginSuccessCallback = LoginSuccessCall;
+                if (checkAccount != null)
+                {
+                    _loginSuccessCallback = LoginSuccessCall;
+                }
+                else
+                {
+                    ViewBag.Message = "Email chưa đúng, vui lòng kiểm tra lại";
+                    return View();
+                }
+
+                if (checkAccount.MatKhau.Equals(password.Trim()))
+                {
+                    return _loginSuccessCallback.Invoke(checkAccount);
+                }
+                ViewBag.Message = "Mật khẩu chưa đúng, vui lòng kiểm tra lại";
             }
             else
             {
-                return View();
+                ViewBag.Message = "Tài khoản có Email đăng nhập là " + checkAccount.Email + " đã bị khóa, vui lòng liên hệ với chúng tôi để được giải quyết! Xin cảm ơn";
             }
-
-            if (checkAccount.MatKhau.Equals(password.Trim()))
-            {
-                return _loginSuccessCallback.Invoke(checkAccount);
-            }
-
             return View();
         }
 
+        
         public async Task<IActionResult> Details(int? id = -1)
         {
             if (id == null)
@@ -80,16 +90,38 @@ namespace VLUTUTORS.Controllers
             ViewData["Fb"] = noiDung.Facebook;
             ViewData["gioiThieu"] = noiDung.GioiThieu;
             var taiKhoan = await db.Taikhoannguoidungs.FirstOrDefaultAsync(m => m.Id == id);
-            if (taiKhoan.AnhDaiDien != null)
+            string avatar = taiKhoan.AnhDaiDien;
+            if (!string.IsNullOrEmpty(avatar))
+                avatar = avatar.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
+            TempData["avt"] = "Yes";
+            taiKhoan.AnhDaiDien = avatar;
+            var gioiTinhs = await db.Gioitinhs.ToListAsync();
+            SelectList ddlStatus = new SelectList(gioiTinhs, "IdgioiTinh", "GioiTinh1");
+            taiKhoan.GenderItems = ddlStatus;
+            return View(taiKhoan);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditLearnerAccounts(int? id = -1)
+        {
+            if (id == null)
             {
-                TempData["avt"] = "Yes";
-                string newString = taiKhoan.AnhDaiDien.TrimStart('[', '"');
-                ViewData["image"] = newString.TrimEnd('"', ']').ToString();
+                return NotFound();
             }
-            else
-            {
-                ViewData["image"] = "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png";
-            }
+            var noiDung = await db.Noidungs.FirstOrDefaultAsync(m => m.Id == 1);
+            ViewData["Slogan"] = noiDung.Slogan;
+            ViewData["gtChanTrang"] = noiDung.GioiThieuChanTrang;
+            ViewData["diaChi"] = noiDung.DiaChi;
+            ViewData["Sdt"] = noiDung.Sdt;
+            ViewData["Email"] = noiDung.Email;
+            ViewData["Fb"] = noiDung.Facebook;
+            ViewData["gioiThieu"] = noiDung.GioiThieu;
+            var taiKhoan = await db.Taikhoannguoidungs.FirstOrDefaultAsync(m => m.Id == id);
+            string avatar = taiKhoan.AnhDaiDien;
+            if (!string.IsNullOrEmpty(avatar))
+                avatar = avatar.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
+            TempData["avt"] = "Yes";
+            taiKhoan.AnhDaiDien = avatar;
             var gioiTinhs = await db.Gioitinhs.ToListAsync();
             SelectList ddlStatus = new SelectList(gioiTinhs, "IdgioiTinh", "GioiTinh1");
             taiKhoan.GenderItems = ddlStatus;
@@ -98,7 +130,7 @@ namespace VLUTUTORS.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Details([Bind(include: "Id, MatKhau, IdgioiTinh, Sdt, NgaySinh, AnhDaiDien")] int id, [FromForm] int IdgioiTinh, [FromForm] DateTime NgaySinh, [FromForm] string Sdt, [FromForm] string MatKhau, [FromForm] string ReMatKhau, List<IFormFile> avatar)
+        public async Task<IActionResult> EditLearnerAccounts(int id, [FromForm] int IdgioiTinh, [FromForm] DateTime NgaySinh, [FromForm] string Sdt, [FromForm] string MatKhau, [FromForm] string ReMatKhau, List<IFormFile> avatar)
         {
             var dbTaikhoannguoidung = await db.Taikhoannguoidungs.FindAsync(id);
             string avatarPath = Path.Combine("avatars", dbTaikhoannguoidung.Id.ToString());
@@ -138,48 +170,39 @@ namespace VLUTUTORS.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(string HoTen, string Email, string MatKhau)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    var taiKhoan = db.Taikhoannguoidungs.AsNoTracking().SingleOrDefault(x => x.Email.ToLower() == Email.ToLower());
+                var taiKhoan = db.Taikhoannguoidungs.AsNoTracking().SingleOrDefault(x => x.Email.ToLower() == Email.ToLower());
 
-                    if (taiKhoan != null)
+                if (taiKhoan == null)
+                {
+                    Taikhoannguoidung taiKhoanNguoiDung = new Taikhoannguoidung
+                    {
+                        HoTen = HoTen,
+                        Email = Email,
+                        MatKhau = MatKhau,
+                        TrangThaiTaiKhoan = true,
+                        IdxetDuyet = 7
+                    };
+                    try
+                    {
+                        db.Add(taiKhoanNguoiDung);
+                        await db.SaveChangesAsync();
+                        ViewBag.Message = "Đăng ký tài khoản thành công!";
+                    }
+                    catch
                     {
                         return RedirectToAction("Login", "Accounts");
-                    }
-                    else
-                    {
-                        Taikhoannguoidung taiKhoanNguoiDung = new Taikhoannguoidung
-                        {
-                            HoTen = HoTen,
-                            Email = Email,
-                            MatKhau = MatKhau,
-                            TrangThaiTaiKhoan = true,
-                            IdxetDuyet = 1
-                        };
-                        try
-                        {
-                            db.Add(taiKhoanNguoiDung);
-                            await db.SaveChangesAsync();
-                        }
-                        catch
-                        {
-                            return RedirectToAction("Login", "Accounts");
-                        }
                     }
                 }
                 else
                 {
+                    ViewBag.Message = "Email đã được đăng ký, vui lòng kiểm tra lại";
                     return RedirectToAction("Login", "Accounts");
                 }
-            }
-            catch
-            {
-                return RedirectToAction("Login", "Accounts");
-
             }
             return RedirectToAction("Login", "Accounts");
         }
@@ -204,7 +227,7 @@ namespace VLUTUTORS.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ForGotPass(string Email)
+        public IActionResult ForGotPass(string Email)
         {
             Random pass = new Random();
             int newPass = pass.Next(100000, 999999);
@@ -232,25 +255,31 @@ namespace VLUTUTORS.Controllers
 
             connection.Close();
 
-            var message = new MimeMessage();
-            message.From.Add(new MailboxAddress("Gia Sư Văn Lang", "giasuvanlang@gmail.com"));
-            message.To.Add(new MailboxAddress("Gia Sư Văn Lang", Email));
-            message.Subject = "Khôi phục mật khẩu Gia Sư Văn Lang";
-            message.Body = new TextPart("plain")
-            {
-                Text = "Mật khẩu mới của bạn là: " + newPass.ToString() + " Vui lòng đăng nhập với mật khẩu mới để đặt lại mật khẩu."
-            };
-            using (var client = new SmtpClient())
-            {
-                client.Connect("smtp.gmail.com", 587, false);
-                client.Authenticate("thanhannguyen67@gmail.com", "zepyqmhzacjzgsid");
+            string mailTitle = "Gia Sư Văn Lang";
+            string fromMail = "giasuvanlang.thongtin@gmail.com";
+            string fromEmailPass = "wwxtjmqczzdgwqke";
 
-                client.Send(message);
+            //Email and content
+            MailMessage message = new MailMessage(new MailAddress(fromMail, mailTitle), new MailAddress(Email));
+            message.Subject = "Khôi phục mật khẩu";
+            message.Body= "<p>Mật khẩu mới của bạn là<p><br/> <b>" + newPass + "</b><br/><p>Vui lòng đăng nhập với mật khẩu mới để thay đổi mật khẩu!<p>";
+            message.IsBodyHtml = true;
 
-                client.Disconnect(true);
+            //Server detail
+            SmtpClient smtp = new SmtpClient();
+            smtp.Host = "smtp.gmail.com";
+            smtp.Port = 587;
+            smtp.EnableSsl = true;
+            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
 
-                client.Dispose();
-            }
+            //Credentials
+            System.Net.NetworkCredential credential = new System.Net.NetworkCredential();
+            credential.UserName = fromMail;
+            credential.Password = fromEmailPass;
+            smtp.UseDefaultCredentials = false;
+            smtp.Credentials = credential;
+
+            smtp.Send(message);
 
             return RedirectToAction("Login", "Accounts");
         }

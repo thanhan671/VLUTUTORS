@@ -31,7 +31,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             return View(baikiemtra);
         }
         [HttpPost]
-        public async Task<IActionResult> AddQuestion([Bind(include: "IdBaiKiemTra,IdKhoaDaoTao")] Baikiemtra baikiemtra)
+        public async Task<IActionResult> AddQuestion([Bind(include: "IdCauHoi,CauHoi,DapAnA,DapAnB,DapAnC,DapAnD,DapAnDung")] Baikiemtra baikiemtra)
         {
             if (ModelState.IsValid)
             {
@@ -48,9 +48,42 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             }
             return View(baikiemtra);
         }
-        public IActionResult EditQuestion()
+        [HttpGet]
+        public async Task<IActionResult> EditQuestion(int? id = -1)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var baiKiemTra = await _context.Baikiemtras.FirstOrDefaultAsync(m => m.IdCauHoi == id);
+            if (baiKiemTra == null)
+                return NotFound();
+            return View(baiKiemTra);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditQuestion(int id, [Bind(include: "IdCauHoi,CauHoi,DapAnA,DapAnB,DapAnC,DapAnD,DapAnDung")] Baikiemtra baikiemtra)
+        {
+            if (id != baikiemtra.IdCauHoi)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(baikiemtra);
+                    await _context.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                return RedirectToAction("Index");
+            }
+            return View(baikiemtra);
         }
     }
 }

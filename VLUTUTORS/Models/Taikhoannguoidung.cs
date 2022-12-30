@@ -15,7 +15,6 @@ namespace VLUTUTORS.Models
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Vui lòng điền trường này!")]
         public string HoTen { get; set; }
 
         [Required(ErrorMessage = "Vui lòng điền trường này!")]

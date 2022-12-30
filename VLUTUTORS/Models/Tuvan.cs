@@ -1,4 +1,7 @@
-﻿using System;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -9,9 +12,13 @@ namespace VLUTUTORS.Models
     public partial class Tuvan
     {
         public int IdtuVan { get; set; }
+        [Required(ErrorMessage = "Vui lòng điền trường này!")]
         public string HoVaTen { get; set; }
+        [Required(ErrorMessage = "Vui lòng điền trường này!")]
         public string Sdt { get; set; }
+        [Required(ErrorMessage = "Vui lòng điền trường này!")]
         public string NoiDungTuVan { get; set; }
+        [Required(ErrorMessage = "Vui lòng điền trường này!")]
         public int IdtrangThai { get; set; }
 
         public virtual Trangthai IdtrangThaiNavigation { get; set; }

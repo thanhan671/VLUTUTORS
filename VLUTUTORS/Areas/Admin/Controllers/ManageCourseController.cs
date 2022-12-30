@@ -1,13 +1,17 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using VLUTUTORS.Models;
+using VLUTUTORS.Support.Services;
 
 namespace VLUTUTORS.Areas.Admin.Controllers
 {
@@ -17,6 +21,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
     public class ManageCourseController : Controller
     {
         private readonly CP25Team01Context _context = new CP25Team01Context();
+        private IHostingEnvironment _environment;
         public async Task<IActionResult> Index()
         {
             var khoaHocs = await _context.Khoadaotaos.ToListAsync();
@@ -32,7 +37,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddLesson([Bind(include: "IdKhoaHoc,TenBaiHoc,Link")] Khoadaotao khoadaotao)
+        public async Task<IActionResult> AddLesson([Bind(include: "IdBaiHoc,TenBaiHoc,Link")] Khoadaotao khoadaotao)
         {
             if (ModelState.IsValid)
             {
@@ -45,6 +50,8 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 {
                     try
                     {
+                        string newLink = khoadaotao.Link.Replace(@"https://www.youtube.com/watch?v=", @"https://www.youtube.com/embed/");
+                        khoadaotao.Link = newLink;
                         _context.Add(khoadaotao);
                         await _context.SaveChangesAsync();
                     }
@@ -73,7 +80,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditLesson(int id, [Bind(include: "IdKhoaHoc,TenKhoaHoc,IdMonGiaSu")] Khoadaotao khoadaotao)
+        public async Task<IActionResult> EditLesson(int id, [Bind(include: "IdBaiHoc,TenBaiHoc,Link")] Khoadaotao khoadaotao)
         {
             if (id != khoadaotao.IdBaiHoc)
             {
@@ -84,6 +91,8 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             {
                 try
                 {
+                    string newLink = khoadaotao.Link.Replace(@"https://www.youtube.com/watch?v=", @"https://www.youtube.com/embed/");
+                    khoadaotao.Link = newLink;
                     _context.Update(khoadaotao);
                     await _context.SaveChangesAsync();
                 }
@@ -92,6 +101,52 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                     return RedirectToAction(nameof(Index));
                 }
                 return RedirectToAction("Index");
+            }
+            return View(khoadaotao);
+        }
+
+        [HttpPost]
+        public IActionResult DeleteLesson(int id)
+        {
+            Khoadaotao khoadaotao = _context.Khoadaotaos.Where(p => p.IdBaiHoc == id).FirstOrDefault();
+            _context.Khoadaotaos.Remove(khoadaotao);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult AddLessonFile()
+        {
+            Khoadaotao khoadaotao = new Khoadaotao();
+
+            return View(khoadaotao);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddLessonFile([Bind(include: "IdBaiHoc,TenBaiHoc,TaiLieu")] Khoadaotao khoadaotao, List<IFormFile> tepBaiGiang)
+        {
+            if (ModelState.IsValid)
+            {
+                var khoaDaoTao = _context.Khoadaotaos.AsNoTracking().SingleOrDefault(x => x.TenBaiHoc.ToLower() == khoadaotao.TenBaiHoc.ToLower());
+                if (khoaDaoTao != null)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    try
+                    {
+                        string Filepath = Path.Combine("Files");
+                        khoadaotao.TaiLieu = tepBaiGiang.Count != 0 ? TutorServices.SaveUploadImages(this._environment.WebRootPath, Filepath, tepBaiGiang) : khoadaotao.TaiLieu;
+                        _context.Add(khoadaotao);
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (Exception ex)
+                    {
+                        return RedirectToAction(nameof(Index));
+                    }
+                    return RedirectToAction("Index");
+                }
             }
             return View(khoadaotao);
         }
