@@ -37,7 +37,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddLesson([Bind(include: "IdBaiHoc,TenBaiHoc,Link,TaiLieu")] Khoadaotao khoadaotao, IFormFile tepBaiGiang)
+        public async Task<IActionResult> AddLesson([Bind(include: "IdBaiHoc,TenBaiHoc,Link")] Khoadaotao khoadaotao)
         {
             if (ModelState.IsValid)
             {
@@ -112,6 +112,43 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             _context.Khoadaotaos.Remove(khoadaotao);
             _context.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult AddLessonFile()
+        {
+            Khoadaotao khoadaotao = new Khoadaotao();
+
+            return View(khoadaotao);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddLessonFile([Bind(include: "IdBaiHoc,TenBaiHoc,TaiLieu")] Khoadaotao khoadaotao, List<IFormFile> tepBaiGiang)
+        {
+            if (ModelState.IsValid)
+            {
+                var khoaDaoTao = _context.Khoadaotaos.AsNoTracking().SingleOrDefault(x => x.TenBaiHoc.ToLower() == khoadaotao.TenBaiHoc.ToLower());
+                if (khoaDaoTao != null)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    try
+                    {
+                        string Filepath = Path.Combine("Files");
+                        khoadaotao.TaiLieu = tepBaiGiang.Count != 0 ? TutorServices.SaveUploadImages(this._environment.WebRootPath, Filepath, tepBaiGiang) : khoadaotao.TaiLieu;
+                        _context.Add(khoadaotao);
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (Exception ex)
+                    {
+                        return RedirectToAction(nameof(Index));
+                    }
+                    return RedirectToAction("Index");
+                }
+            }
+            return View(khoadaotao);
         }
     }
 }
