@@ -17,7 +17,7 @@ using VLUTUTORS.Support.Services;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Hosting;
 using System.Net.Mail;
-using SmtpClient = MailKit.Net.Smtp.SmtpClient;
+using SmtpClient = System.Net.Mail.SmtpClient;
 
 namespace VLUTUTORS.Controllers
 {
@@ -185,6 +185,7 @@ namespace VLUTUTORS.Controllers
                         Email = Email,
                         MatKhau = MatKhau,
                         TrangThaiTaiKhoan = true,
+                        IdxetDuyet = 7
                     };
                     try
                     {
@@ -254,25 +255,31 @@ namespace VLUTUTORS.Controllers
 
             connection.Close();
 
-            var message = new MimeMessage();
-            message.From.Add(new MailboxAddress("Gia Sư Văn Lang", "giasuvanlang@gmail.com"));
-            message.To.Add(new MailboxAddress("Gia Sư Văn Lang", Email));
-            message.Subject = "Khôi phục mật khẩu Gia Sư Văn Lang";
-            message.Body = new TextPart("plain")
-            {
-                Text = "Mật khẩu mới của bạn là: " + newPass.ToString() + " Vui lòng đăng nhập với mật khẩu mới để đặt lại mật khẩu."
-            };
-            using (var client = new SmtpClient())
-            {
-                client.Connect("smtp.gmail.com", 587, false);
-                client.Authenticate("thanhannguyen67@gmail.com", "zepyqmhzacjzgsid");
+            string mailTitle = "Gia Sư Văn Lang";
+            string fromMail = "giasuvanlang.thongtin@gmail.com";
+            string fromEmailPass = "wwxtjmqczzdgwqke";
 
-                client.Send(message);
+            //Email and content
+            MailMessage message = new MailMessage(new MailAddress(fromMail, mailTitle), new MailAddress(Email));
+            message.Subject = "Khôi phục mật khẩu";
+            message.Body= "<p>Mật khẩu mới của bạn là<p><br/> <b>" + newPass + "</b><br/><p>Vui lòng đăng nhập với mật khẩu mới để thay đổi mật khẩu!<p>";
+            message.IsBodyHtml = true;
 
-                client.Disconnect(true);
+            //Server detail
+            SmtpClient smtp = new SmtpClient();
+            smtp.Host = "smtp.gmail.com";
+            smtp.Port = 587;
+            smtp.EnableSsl = true;
+            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
 
-                client.Dispose();
-            }
+            //Credentials
+            System.Net.NetworkCredential credential = new System.Net.NetworkCredential();
+            credential.UserName = fromMail;
+            credential.Password = fromEmailPass;
+            smtp.UseDefaultCredentials = false;
+            smtp.Credentials = credential;
+
+            smtp.Send(message);
 
             return RedirectToAction("Login", "Accounts");
         }
