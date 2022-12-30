@@ -93,7 +93,6 @@ namespace VLUTUTORS.Controllers
             ViewData["Email"] = noiDung.Email;
             ViewData["Fb"] = noiDung.Facebook;
             ViewData["gioiThieu"] = noiDung.GioiThieu;
-
             
             // get answer 
             List<string> allAnswers = new List<string>();
@@ -121,12 +120,13 @@ namespace VLUTUTORS.Controllers
 
             // get score per question and init user score
             List<string> rightAnswers = _db.Baikiemtras.Select(q => q.DapAnDung).ToList();
-            decimal scorePerAnswer = Math.Round(Convert.ToDecimal(10 / rightAnswers.Count()), 10);
+            decimal scorePerAnswer = (decimal)10 / (decimal)rightAnswers.Count();
             decimal userScore = 0;
 
             // grading quiz
             for (int i = 0; i < rightAnswers.Count; i++)
             {
+                Console.WriteLine("answer: " + rightAnswers[i] + " choose: " + allAnswers[i] + " score per question: " + scorePerAnswer);
                 if (allAnswers[i].Equals(rightAnswers[i]))
                 {
                     userScore += scorePerAnswer;
@@ -135,7 +135,7 @@ namespace VLUTUTORS.Controllers
 
             var userInfo = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
             Taikhoannguoidung taikhoannguoidung = _db.Taikhoannguoidungs.Find(userInfo.Id);
-            taikhoannguoidung.DiemBaiTest = Convert.ToInt32(userScore);
+            taikhoannguoidung.DiemBaiTest = Convert.ToDouble(userScore);
 
             _db.Taikhoannguoidungs.Attach(taikhoannguoidung).Property(x => x.DiemBaiTest).IsModified = true;
             _db.SaveChanges();

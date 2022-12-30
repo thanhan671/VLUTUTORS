@@ -24,5 +24,6 @@ namespace VLUTUTORS.Models
 
         [NotMapped]
         public List<string> courses { get; set; }
+        public string TaiLieu { get; set; }
     }
 }

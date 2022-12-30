@@ -110,9 +110,9 @@ namespace VLUTUTORS.Models
 
                 entity.ToTable("KHOADAOTAO");
 
-                entity.Property(e => e.Link)
-                    .IsRequired()
-                    .HasMaxLength(500);
+                entity.Property(e => e.Link).HasMaxLength(500);
+
+                entity.Property(e => e.TaiLieu).IsUnicode(false);
 
                 entity.Property(e => e.TenBaiHoc)
                     .IsRequired()
@@ -364,11 +364,11 @@ namespace VLUTUTORS.Models
 
                 entity.ToTable("XETDUYET");
 
-                entity.Property(e => e.IdxetDuyet).HasColumnName("IDXetDuyet");
+                entity.Property(e => e.IdxetDuyet)
+                    .ValueGeneratedNever()
+                    .HasColumnName("IDXetDuyet");
 
-                entity.Property(e => e.TenTrangThai)
-                    .IsRequired()
-                    .HasMaxLength(50);
+                entity.Property(e => e.TenTrangThai).HasMaxLength(50);
             });
 
             OnModelCreatingPartial(modelBuilder);
