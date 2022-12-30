@@ -16,6 +16,8 @@ using System.IO;
 using VLUTUTORS.Support.Services;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Hosting;
+using System.Net.Mail;
+using SmtpClient = MailKit.Net.Smtp.SmtpClient;
 
 namespace VLUTUTORS.Controllers
 {

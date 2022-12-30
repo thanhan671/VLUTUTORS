@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using VLUTUTORS.Models;
-using VLUTUTORS.SendMail;
 
 namespace VLUTUTORS.Areas.Admin.Controllers
 {
