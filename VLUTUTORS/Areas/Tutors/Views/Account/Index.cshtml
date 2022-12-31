@@ -185,7 +185,10 @@
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Ảnh minh chứng</h6>
                                         </div>
-                                            <td><img src="~/@Model.ChungChiMon1" height="150" width="200"></td>
+                                        @foreach (var img in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.ChungChiMon1))
+                                        {
+                                            <td><img src="~/@Url.Content(img)" height="150" width="200"/></td>
+                                        }
                                     </div>
                                     <div class="row-nowrap">
                                         <input class=""
@@ -227,7 +230,10 @@
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Ảnh minh chứng</h6>
                                         </div>
-                                            <td><img src="~/@Model.ChungChiMon2" height="150" width="200" /></td>
+                                        @foreach (var img in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.ChungChiMon2))
+                                        {
+                                            <td><img src="~/@Url.Content(img)" height="150" width="200" /></td>
+                                        }
                                     </div>
                                     <div class="row-nowrap">
                                         <input class=""
