@@ -25,36 +25,21 @@ namespace VLUTUTORS.Models
         [MinLength(6, ErrorMessage = "Mật khẩu phải trên 6 ký tự")]
         public string MatKhau { get; set; } = null!;
         public int? IdgioiTinh { get; set; }
-        [Required(ErrorMessage = "Vui lòng điền trường này!")]
         public string Sdt { get; set; }
-        [Required(ErrorMessage = "Vui lòng điền trường này!")]
         public DateTime? NgaySinh { get; set; }
         public int? Idkhoa { get; set; }
-        [Required(ErrorMessage = "Vui lòng điền trường này!")]
         public string AnhDaiDien { get; set; }
-        [Required(ErrorMessage = "Vui lòng điền trường này!")]
         public bool? TrangThaiTaiKhoan { get; set; }
-        [Required(ErrorMessage = "Vui lòng điền trường này!")]
         public string SoTaiKhoan { get; set; }
-        [Required(ErrorMessage = "Vui lòng điền trường này!")]
         public int? IdnganHang { get; set; }
-        [Required(ErrorMessage = "Vui lòng điền trường này!")]
         public string GioiThieu { get; set; }
-        [Required(ErrorMessage = "Vui lòng điền trường này!")]
         public string DanhGiaVeViecGiaSu { get; set; }
-        [Required(ErrorMessage = "Vui lòng điền trường này!")]
         public double? DiemTrungBinh { get; set; }
-        [Required(ErrorMessage = "Vui lòng điền trường này!")]
         public int? IdmonGiaSu1 { get; set; }
-        [Required(ErrorMessage = "Vui lòng điền trường này!")]
         public string ChungChiMon1 { get; set; }
-        [Required(ErrorMessage = "Vui lòng điền trường này!")]
         public string GioiThieuVeMonGiaSu1 { get; set; }
-        [Required(ErrorMessage = "Vui lòng điền trường này!")]
         public int? IdmonGiaSu2 { get; set; }
-        [Required(ErrorMessage = "Vui lòng điền trường này!")]
         public string ChungChiMon2 { get; set; }
-        [Required(ErrorMessage = "Vui lòng điền trường này!")]
         public string GioiThieuVeMonGiaSu2 { get; set; }
         public int? IdxetDuyet { get; set; }
         public string TenChungChiHoacDiemMon1 { get; set; }
