@@ -1,4 +1,4 @@
-﻿
+﻿@model VLUTUTORS.Models.Taikhoanadmin
 @{
     Layout = null;
 }
@@ -34,6 +34,7 @@
                                 <span class="fas fa-envelope"></span>
                             </div>
                         </div>
+                        @Html.ValidationMessageFor(m => m.TaiKhoan, "", new { @class = "text-danger" })
                     </div>
                     <div class="input-group mb-3">
                         <input type="password" class="form-control" name="MatKhau" placeholder="Mật Khẩu">
@@ -42,6 +43,7 @@
                                 <span class="fas fa-lock"></span>
                             </div>
                         </div>
+                        @Html.ValidationMessageFor(m => m.MatKhau, "", new { @class = "text-danger" })
                     </div>
                     <div class="row">
                         <!-- /.col -->

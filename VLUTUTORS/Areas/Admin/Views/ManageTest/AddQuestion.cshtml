@@ -37,6 +37,7 @@
                                             <h6 class="mb-0">Câu hỏi:</h6>
                                         </div>
                                         <input class="col-sm-9 text-secondary" name="CauHoi" id="CauHoi" type="text">
+                                        @Html.ValidationMessageFor(m => m.CauHoi, "", new { @class = "text-danger" })
                                     </div>
                                     <hr />
                                     <div class="row">
@@ -44,6 +45,7 @@
                                             <h6 class="mb-0">Đáp án A:</h6>
                                         </div>
                                         <input class="col-sm-9 text-secondary" name="DapAnA" id="DapAnA" type="text">
+                                        @Html.ValidationMessageFor(m => m.DapAnA, "", new { @class = "text-danger" })
                                     </div>
                                     <hr />
                                     <div class="row">
@@ -51,6 +53,7 @@
                                             <h6 class="mb-0">Đáp án B:</h6>
                                         </div>
                                         <input class="col-sm-9 text-secondary" name="DapAnB" id="DapAnB" type="text">
+                                        @Html.ValidationMessageFor(m => m.DapAnB, "", new { @class = "text-danger" })
                                     </div>
                                     <hr />
                                     <div class="row">
@@ -58,6 +61,7 @@
                                             <h6 class="mb-0">Đáp án C:</h6>
                                         </div>
                                         <input class="col-sm-9 text-secondary" name="DapAnC" id="DapAnC" type="text">
+                                        @Html.ValidationMessageFor(m => m.DapAnC, "", new { @class = "text-danger" })
                                     </div>
                                     <hr />
                                     <div class="row">
@@ -65,6 +69,7 @@
                                             <h6 class="mb-0">Đáp án D:</h6>
                                         </div>
                                         <input class="col-sm-9 text-secondary" name="DapAnD" id="DapAnD" type="text">
+                                        @Html.ValidationMessageFor(m => m.DapAnD, "", new { @class = "text-danger" })
                                     </div>
                                     <hr />
                                     <div class="row">
@@ -72,6 +77,7 @@
                                             <h6 class="mb-0">Đáp án đúng:</h6>
                                         </div>
                                         <input class="col-sm-9 text-secondary" name="DapAnDung" id="DapAnDung" type="text" placeholder="Điền chữ cái đầu của đáp án. Ví dụ: a; nếu cả a và b đều đúng thì điền ab">
+                                        @Html.ValidationMessageFor(m => m.DapAnDung, "", new { @class = "text-danger" })
                                     </div>
                                     <hr />
                                     <div class="row">

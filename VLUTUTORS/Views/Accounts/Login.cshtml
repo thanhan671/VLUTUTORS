@@ -69,6 +69,7 @@
                     <div class="input-field">
                         <i class="fas fa-lock"></i>
                         <input type="password" placeholder="Nhập Lại Mật Khẩu" />
+                        @Html.ValidationMessageFor(m => m.MatKhau, "", new { @class = "text-danger" })
                     </div>
                     <button type="submit" class="btn">Đăng ký</button>
                 </form>

@@ -12,8 +12,9 @@ namespace VLUTUTORS.Models
         public int IdBaiHoc { get; set; }
         [Required(ErrorMessage = "Vui lòng điền trường này!")]
         public string TenBaiHoc { get; set; }
+        [Required(ErrorMessage = "Vui lòng điền trường này!")]
         public string Link { get; set; }
-
+        [Required(ErrorMessage = "Vui lòng điền trường này!")]
         public string TaiLieu { get; set; }
         public Khoadaotao()
         {

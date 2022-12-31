@@ -67,6 +67,7 @@
                                 <div class="col-sm-9 text-secondary">
                                     @Model.Email
                                 </div>
+                                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                             </div>
                             <hr />
                             <div class="row-profile">
@@ -81,6 +82,7 @@
                                     <h6 class="mb-0">Ngày sinh</h6>
                                 </div>
                                 @Html.TextBoxFor(model => model.NgaySinh, "{0:dd/MM/yyyy}", new { @class = "profile-input" })
+                                @Html.ValidationMessageFor(m => m.NgaySinh, "", new { @class = "text-danger" })
                             </div>
                             <hr />
                             <div class="row-profile">
@@ -88,6 +90,7 @@
                                     <h6 class="mb-0">Số điện thoại</h6>
                                 </div>
                                 @Html.TextBoxFor(model => model.Sdt, "", new { @class = "profile-input" })
+                                @Html.ValidationMessageFor(m => m.Sdt, "", new { @class = "text-danger" })
                             </div>
                             <hr />
                             <div class="row-profile">
@@ -95,6 +98,7 @@
                                     <h6 class="mb-0">Mật khẩu mới</h6>
                                 </div>
                                 <input type="text" name="MatKhau" id="MatKhau" class="profile-input">
+                                @Html.ValidationMessageFor(m => m.MatKhau, "", new { @class = "text-danger" })
                             </div>
                             <hr />
                             <div class="row-profile">
@@ -102,6 +106,7 @@
                                     <h6 class="mb-0">Xác nhận mật khẩu</h6>
                                 </div>
                                 <input type="text" name="ReMatKhau" id="ReMatKhau" class="profile-input">
+                                @Html.ValidationMessageFor(m => m.MatKhau, "", new { @class = "text-danger" })
                             </div>
                             <hr />
                             <div class="d-flex justify-content-end">
