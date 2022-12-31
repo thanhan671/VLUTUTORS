@@ -1,5 +1,4 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-@model VLUTUTORS.Models.Tuvan
 @{
     ViewData["Title"] = "Trang Chủ";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -248,16 +247,16 @@
                     <div class="main-form">
                         <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="SendConsulting">
                             <div class="singel-form">
-                                <input type="text" name="HoTen" placeholder="Tên của bạn" />
-                                @Html.ValidationMessageFor(m => m.HoVaTen, "", new { @class = "text-danger" })
+                                <input type="text" name="HoTen" placeholder="Tên của bạn" data-error="Vui lòng không để trống!." required="required" />
+                                <div class="help-block with-errors"></div>
                             </div>
                             <div class="singel-form">
-                                <input type="tel" name="SDT" placeholder="Điện thoại" />
-                                @Html.ValidationMessageFor(m => m.Sdt, "", new { @class = "text-danger" })
+                                <input type="tel" name="SDT" placeholder="Điện thoại" data-error="Vui lòng không để trống!." required="required" />
+                                <div class="help-block with-errors"></div>
                             </div>
                             <div class="singel-form">
-                                <input type="text" name="NoiDung" placeholder="Nội dung cần tư vấn" />
-                                @Html.ValidationMessageFor(m => m.NoiDungTuVan, "", new { @class = "text-danger" })
+                                <input type="text" name="NoiDung" placeholder="Nội dung cần tư vấn" data-error="Vui lòng không để trống!." required="required" />
+                                <div class="help-block with-errors"></div>
                             </div>
                             <div class="singel-form">
                                 <button class="main-btn" type="submit">

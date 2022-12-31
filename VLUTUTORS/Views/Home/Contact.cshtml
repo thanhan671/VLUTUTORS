@@ -1,4 +1,4 @@
-﻿@model VLUTUTORS.Models.Lienhe
+﻿
 @{
     ViewData["Title"] = "Liên Hệ";
     Layout = "~/Views/Shared/_otherPageLayout.cshtml";
@@ -26,7 +26,6 @@
                                                data-error="Name is required."
                                                required="required" />
                                         <div class="help-block with-errors"></div>
-                                        @Html.ValidationMessageFor(m => m.HoVaTen, "", new { @class = "text-danger" })
                                     </div>
                                     <!-- singel form -->
                                 </div>
@@ -38,7 +37,6 @@
                                                data-error="Valid email is required."
                                                required="required" />
                                         <div class="help-block with-errors"></div>
-                                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                                     </div>
                                     <!-- singel form -->
                                 </div>
@@ -50,7 +48,6 @@
                                                data-error="Subject is required."
                                                required="required" />
                                         <div class="help-block with-errors"></div>
-                                        @Html.ValidationMessageFor(m => m.MonHoc, "", new { @class = "text-danger" })
                                     </div>
                                     <!-- singel form -->
                                 </div>
@@ -62,7 +59,6 @@
                                                data-error="Phone is required."
                                                required="required" />
                                         <div class="help-block with-errors"></div>
-                                        @Html.ValidationMessageFor(m => m.Sdt, "", new { @class = "text-danger" })
                                     </div>
                                     <!-- singel form -->
                                 </div>
@@ -73,7 +69,6 @@
                                                   data-error="Please,leave us a message."
                                                   required="required"></textarea>
                                         <div class="help-block with-errors"></div>
-                                        @Html.ValidationMessageFor(m => m.NoiDung, "", new { @class = "text-danger" })
                                     </div>
                                     <!-- singel form -->
                                 </div>
