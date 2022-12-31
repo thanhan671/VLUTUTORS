@@ -259,7 +259,7 @@
                                 <div class="help-block with-errors"></div>
                             </div>
                             <div class="singel-form">
-                                <button class="main-btn" type="submit">
+                                <button class="main-btn" type="submit" onclick="popup()">
                                     Đăng ký tư vấn
                                 </button>
                             </div>
@@ -271,6 +271,14 @@
         </div>
         <!-- row -->
     </div>
+    <script>
+        function popup() {
+            alert('Đăng ký tư vấn được gửi thành công!');
+        }
+        $('#myForm').on('submit', function (e) {
+            e.preventDefault(); // Now nothing will happen
+        });
+    </script>
     @if (ViewBag.Message != null)
     {
         <script type="text/javascript">

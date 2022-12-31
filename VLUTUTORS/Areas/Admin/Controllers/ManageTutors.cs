@@ -154,7 +154,6 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         public async Task<IActionResult> DetailTutor(int id, IFormCollection form)
         {
             var account = await _context.Taikhoannguoidungs.FindAsync(id);
-            ViewBag["email"] = account.Email;
             if (account == null)
             {
                 return NotFound();
