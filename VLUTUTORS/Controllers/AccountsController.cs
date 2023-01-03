@@ -92,8 +92,49 @@ namespace VLUTUTORS.Controllers
             ViewData["Email"] = noiDung.Email;
             ViewData["Fb"] = noiDung.Facebook;
             ViewData["gioiThieu"] = noiDung.GioiThieu;
+
             var taiKhoan = await db.Taikhoannguoidungs.FirstOrDefaultAsync(m => m.Id == id);
-            TempData["avt"] = "Yes";
+            if(taiKhoan.AnhDaiDien != null)
+            {
+                TempData["avt"] = "Yes";
+            }
+            else
+            {
+                TempData["avt"] = null;
+            }
+
+            var gioiTinhs = await db.Gioitinhs.ToListAsync();
+            SelectList ddlStatus = new SelectList(gioiTinhs, "IdgioiTinh", "GioiTinh1");
+            taiKhoan.GenderItems = ddlStatus;
+            return View(taiKhoan);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditLearnerAccounts(int? id = -1)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var noiDung = await db.Noidungs.FirstOrDefaultAsync(m => m.Id == 1);
+            ViewData["Slogan"] = noiDung.Slogan;
+            ViewData["gtChanTrang"] = noiDung.GioiThieuChanTrang;
+            ViewData["diaChi"] = noiDung.DiaChi;
+            ViewData["Sdt"] = noiDung.Sdt;
+            ViewData["Email"] = noiDung.Email;
+            ViewData["Fb"] = noiDung.Facebook;
+            ViewData["gioiThieu"] = noiDung.GioiThieu;
+            var taiKhoan = await db.Taikhoannguoidungs.FirstOrDefaultAsync(m => m.Id == id);
+
+            if (taiKhoan.AnhDaiDien != null)
+            {
+                TempData["avt"] = "Yes";
+            }
+            else
+            {
+                TempData["avt"] = null;
+            }
+
             var gioiTinhs = await db.Gioitinhs.ToListAsync();
             SelectList ddlStatus = new SelectList(gioiTinhs, "IdgioiTinh", "GioiTinh1");
             taiKhoan.GenderItems = ddlStatus;
@@ -102,10 +143,10 @@ namespace VLUTUTORS.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Details(int id, [FromForm] int IdgioiTinh, [FromForm] DateTime NgaySinh, [FromForm] string Sdt, [FromForm] string MatKhau, [FromForm] string ReMatKhau, List<IFormFile> avatar)
+        public async Task<IActionResult> EditLearnerAccounts(int id, [FromForm] int IdgioiTinh, [FromForm] DateTime NgaySinh, [FromForm] string Sdt, [FromForm] string MatKhau, [FromForm] string ReMatKhau, List<IFormFile> avatar)
         {
             var dbTaikhoannguoidung = await db.Taikhoannguoidungs.FindAsync(id);
-            string avatarPath = "avatars";// Path.Combine("avatars", dbTaikhoannguoidung.Id.ToString());
+            string avatarPath = Path.Combine("avatars", dbTaikhoannguoidung.Id.ToString());
 
             if (dbTaikhoannguoidung == null || (dbTaikhoannguoidung != null && id != dbTaikhoannguoidung.Id))
             {
