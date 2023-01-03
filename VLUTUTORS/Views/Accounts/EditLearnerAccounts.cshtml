@@ -21,7 +21,8 @@
         </nav>
         <!-- /Breadcrumb -->
         <form method="post" enctype="multipart/form-data" asp-controller="Accounts" asp-action="EditLearnerAccounts">
-            <input type="hidden" asp-for="Id" />
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.Id)
 
             <div class="row gutters-sm">
                 <div class="col-md-4 mb-3">
@@ -30,10 +31,13 @@
                             <div class="d-flex flex-column align-items-center text-center avatar">
                                 @if (TempData["avt"] != null)
                                 {
-                                    <img src="~/@Model.AnhDaiDien"
-                                         class="rounded-circle"
-                                         width="200"
-                                         height="200" />
+                                    @foreach (var img in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.AnhDaiDien))
+                                    {
+                                        <img src="~/@Url.Content(img)"
+                                             class="rounded-circle"
+                                             width="200"
+                                             height="200" />
+                                    }
                                 }
                                 else
                                 {
