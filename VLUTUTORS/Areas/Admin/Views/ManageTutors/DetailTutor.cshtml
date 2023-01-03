@@ -1,4 +1,5 @@
 ﻿@model VLUTUTORS.Models.TutorViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
     ViewData["Title"] = "Chi tiết gia sư";
@@ -31,10 +32,13 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="d-flex flex-column align-items-center text-center">
-                                        <img src="~/@Model.Tutor.AnhDaiDien"
-                                             alt="Admin"
-                                             class="rounded-circle"
-                                             width="150" />
+                                        @foreach (var img in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.Tutor.AnhDaiDien))
+                                        {
+                                            <img src="~/@Url.Content(img)"
+                                                 alt="Admin"
+                                                 class="rounded-circle"
+                                                 width="150" />
+                                        }
                                         <div class="mt-3">
                                             <h4>
                                                 @Html.DisplayFor(model => model.Tutor.HoTen)
@@ -165,7 +169,10 @@
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Ảnh minh chứng</h6>
                                         </div>
-                                        <td><img src="~/@Model.Tutor.ChungChiMon1" height="300" width="400"></td>
+                                        @foreach (var img in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.Tutor.ChungChiMon1))
+                                        {
+                                            <td><img src="~/@Url.Content(img)" height="300" width="400"></td>
+                                        }
                                     </div>
 
                                     <hr />
@@ -205,7 +212,10 @@
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Ảnh minh chứng</h6>
                                         </div>
-                                        <td><img src="~/@Model.Tutor.ChungChiMon2" height="300" width="400"></td>
+                                        @foreach (var img in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.Tutor.ChungChiMon2))
+                                        {
+                                            <td><img src="~/@Url.Content(img)" height="300" width="400"></td>
+                                        }
                                     </div>
 
                                     <hr />
