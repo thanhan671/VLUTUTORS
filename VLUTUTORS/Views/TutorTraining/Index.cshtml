@@ -19,7 +19,8 @@
                             foreach (var item in @Model.courses)
                             {
                                 index++;
-                                <button type="submit" name="courseName" value="@item"><h5>Bài @index : @item.ToString()</h5></button><br>
+                                <button type="submit" class="course-item" name="courseName" value="@item"><p class="course-title">Bài @index : @item.ToString()</p></button>
+                                <br>
                             }
                         }
                     </div>
@@ -31,9 +32,8 @@
                 </div>
             </div>
         </div>
-        <a href="@Url.Action("DoTest", "TutorTraining")">Bài kiểm tra cuối khóa học</a>
+        <a class="main-btn" href="@Url.Action("DoTest", "TutorTraining")">Bài kiểm tra cuối khóa học</a>
     </div>
 
 </form>
-
 

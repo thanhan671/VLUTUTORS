@@ -47,7 +47,6 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                     HttpContext.Session.SetString("loginName", admin.TaiKhoan);
                     HttpContext.Session.SetString("SessionInfo", JsonConvert.SerializeObject(admin));
                 }
-
                 return RedirectToAction("Index", "Home");
             }
             catch (Exception ex)

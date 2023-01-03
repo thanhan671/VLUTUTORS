@@ -49,27 +49,30 @@ namespace VLUTUTORS.Controllers
 
             Taikhoannguoidung checkAccount;
             checkAccount = db.Taikhoannguoidungs.Where(acc => acc.Email.Equals(email.Trim())).FirstOrDefault();
-            if (checkAccount.TrangThaiTaiKhoan == true)
+            if(checkAccount == null)
             {
-                if (checkAccount != null)
-                {
-                    _loginSuccessCallback = LoginSuccessCall;
-                }
-                else
-                {
-                    ViewBag.Message = "Email chưa đúng, vui lòng kiểm tra lại";
-                    return View();
-                }
-
-                if (checkAccount.MatKhau.Equals(password.Trim()))
-                {
-                    return _loginSuccessCallback.Invoke(checkAccount);
-                }
-                ViewBag.Message = "Mật khẩu chưa đúng, vui lòng kiểm tra lại";
+                ViewBag.Message = "Email chưa đúng, vui lòng kiểm tra lại";
+                return View();
             }
             else
             {
-                ViewBag.Message = "Tài khoản có Email đăng nhập là " + checkAccount.Email + " đã bị khóa, vui lòng liên hệ với chúng tôi để được giải quyết! Xin cảm ơn";
+                if (checkAccount.TrangThaiTaiKhoan == true)
+                {
+                    if (checkAccount != null)
+                    {
+                        _loginSuccessCallback = LoginSuccessCall;
+                    }
+
+                    if (checkAccount.MatKhau.Equals(password.Trim()))
+                    {
+                        return _loginSuccessCallback.Invoke(checkAccount);
+                    }
+                    ViewBag.Message = "Mật khẩu chưa đúng, vui lòng kiểm tra lại";
+                }
+                else
+                {
+                    ViewBag.Message = "Tài khoản có Email đăng nhập là " + checkAccount.Email + " đã bị khóa, vui lòng liên hệ với chúng tôi để được giải quyết! Xin cảm ơn";
+                }
             }
             return View();
         }
@@ -133,7 +136,7 @@ namespace VLUTUTORS.Controllers
         public async Task<IActionResult> EditLearnerAccounts(int id, [FromForm] int IdgioiTinh, [FromForm] DateTime NgaySinh, [FromForm] string Sdt, [FromForm] string MatKhau, [FromForm] string ReMatKhau, List<IFormFile> avatar)
         {
             var dbTaikhoannguoidung = await db.Taikhoannguoidungs.FindAsync(id);
-            string avatarPath = Path.Combine("avatars", dbTaikhoannguoidung.Id.ToString());
+            string avatarPath = "avatars";// Path.Combine("avatars", dbTaikhoannguoidung.Id.ToString());
 
             if (dbTaikhoannguoidung == null || (dbTaikhoannguoidung != null && id != dbTaikhoannguoidung.Id))
             {
@@ -191,7 +194,6 @@ namespace VLUTUTORS.Controllers
                     {
                         db.Add(taiKhoanNguoiDung);
                         await db.SaveChangesAsync();
-                        ViewBag.Message = "Đăng ký tài khoản thành công!";
                     }
                     catch
                     {
@@ -204,6 +206,7 @@ namespace VLUTUTORS.Controllers
                     return RedirectToAction("Login", "Accounts");
                 }
             }
+            ViewBag.Message = "Đăng ký tài khoản thành công!";
             return RedirectToAction("Login", "Accounts");
         }
 
