@@ -197,7 +197,7 @@ namespace VLUTUTORS.Controllers
                         Email = Email,
                         MatKhau = MatKhau,
                         TrangThaiTaiKhoan = true,
-                        IdxetDuyet = 7
+                        IdxetDuyet = 6
                     };
                     try
                     {
