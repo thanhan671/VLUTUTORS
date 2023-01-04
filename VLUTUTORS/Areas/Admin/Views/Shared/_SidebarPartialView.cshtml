@@ -62,6 +62,12 @@
                             <p>Quản lý bài kiểm tra</p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="~/Admin/ManageConsultingType" class="nav-link">
+                            <i class="fa-sharp fa-solid fa-envelope-open"></i>
+                            <p>Quản lý loại tư vấn</p>
+                        </a>
+                    </li>
                 }
                 @if (@httpContextAccessor.HttpContext.Session.GetInt32("IdQuyen") == 2)
                 {

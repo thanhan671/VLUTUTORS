@@ -2,7 +2,7 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
-    ViewData["Title"] = "Thêm mới quyền";
+    ViewData["Title"] = "Thêm mới loại tư vấn";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
@@ -13,8 +13,8 @@
             <div class="row mb-2">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="~/Admin">Trang chủ</a></li>
-                    <li class="breadcrumb-item"><a href="~/Admin/ManageAdminRoles">Quản lý quyền</a></li>
-                    <li class="breadcrumb-item active">Thêm mới quyền</li>
+                    <li class="breadcrumb-item"><a href="~/Admin/ManageConsultingType">Quản lý loại tư vấn</a></li>
+                    <li class="breadcrumb-item active">Thêm mới loại tư vấn</li>
                 </ol>
             </div>
         </div>
@@ -22,7 +22,7 @@
     </section>
 
     <!-- Main content -->
-    <form method="post" enctype="multipart/form-data" asp-controller="ManageAdminRoles" asp-action="AddRole">
+    <form method="post" enctype="multipart/form-data" asp-controller="ManageConsultingType" asp-action="AddType">
 
         <section class="content">
             <div class="container" style="margin-top: 20px; margin-bottom: 20px">
@@ -31,13 +31,13 @@
                         <div class="col-md-8">
                             <div class="card mb-3">
                                 <div class="card-body">
-                                    <h3>Thêm mới quyền</h3>
+                                    <h3>Thêm mới loại tư vấn</h3>
                                     <hr />
                                     <div class="row">
                                         <div class="col-sm-3">
-                                            <h6 class="mb-0">Tên quyền</h6>
+                                            <h6 class="mb-0">Tên loại tư vấn</h6>
                                         </div>
-                                        <input class="col-sm-9 text-secondary" name="TenQuyen" id="TenQuyen" type="text">
+                                        <input class="col-sm-9 text-secondary" name="TenLoaiTuVan" id="TenLoaiTuVan" type="text">
                                         @*@Html.ValidationMessageFor(m => m.TenBaiHoc, "", new { @class = "text-danger" })*@
                                     </div>
                                     <hr />
