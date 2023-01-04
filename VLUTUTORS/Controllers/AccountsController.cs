@@ -175,7 +175,6 @@ namespace VLUTUTORS.Controllers
             return RedirectToAction("Details", new { id });
 
         }
-
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
