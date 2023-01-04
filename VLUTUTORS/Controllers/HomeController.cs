@@ -89,7 +89,7 @@ namespace VLUTUTORS.Controllers
             taikhoannguoidung.TrangThaiTaiKhoan = true;
             taikhoannguoidung.ChungChiMon1 = TutorServices.SaveUploadImages(this._environment.WebRootPath, certificates1Path, certificates1);
             taikhoannguoidung.ChungChiMon2 = TutorServices.SaveUploadImages(this._environment.WebRootPath, certificates2Path, certificates2);
-            taikhoannguoidung.AnhDaiDien = TutorServices.SaveUploadImages(this._environment.WebRootPath, avatarPath, avatar);
+            taikhoannguoidung.AnhDaiDien = TutorServices.SaveAvatar(this._environment.WebRootPath, avatarPath, avatar);
             taikhoannguoidung.IdxetDuyet = (int)ApprovalStatus.TRAINING;
             taikhoannguoidung.TrangThaiGiaSu = true;
 

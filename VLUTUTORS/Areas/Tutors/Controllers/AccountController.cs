@@ -33,27 +33,9 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
         {
             int idGiaSu = (int)HttpContext.Session.GetInt32("IdGiaSu");
             string user = HttpContext.Session.GetString("LoginId");
-            //if (user == null || idGiaSu != 6)
-            //{
-            //    return RedirectToAction("Login", "Accounts", new { area = "default" });
-            //}
             var userInfo = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
             Taikhoannguoidung taikhoannguoidung = _db.Taikhoannguoidungs.Find(userInfo.Id);
 
-            //string avatar = taikhoannguoidung.AnhDaiDien;
-            //if (!string.IsNullOrEmpty(avatar))
-            //    avatar = avatar.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
-            //taikhoannguoidung.AnhDaiDien = avatar;
-
-            //string chungchi1 = taikhoannguoidung.ChungChiMon1;
-            //if (!string.IsNullOrEmpty(chungchi1))
-            //    chungchi1 = chungchi1.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
-            //taikhoannguoidung.ChungChiMon1 = chungchi1;
-
-            //string chungchi2 = taikhoannguoidung.ChungChiMon2;
-            //if (!string.IsNullOrEmpty(chungchi2))
-            //    chungchi2 = chungchi2.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
-            //taikhoannguoidung.ChungChiMon2 = chungchi2;
 
             taikhoannguoidung.DepartmentItems = new SelectList(_db.Khoas, "Idkhoa", "TenKhoa", taikhoannguoidung.Idkhoa);
             taikhoannguoidung.GenderItems = new SelectList(_db.Gioitinhs, "IdgioiTinh", "GioiTinh1", taikhoannguoidung.IdgioiTinh);
@@ -79,7 +61,7 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             taikhoannguoidung.TrangThaiTaiKhoan = true;
             taikhoannguoidung.ChungChiMon1 = certificates1.Count != 0 ? TutorServices.SaveUploadImages(this._environment.WebRootPath, certificates1Path, certificates1) : taikhoannguoidung.ChungChiMon1;
             taikhoannguoidung.ChungChiMon2 = certificates2.Count != 0 ? TutorServices.SaveUploadImages(this._environment.WebRootPath, certificates2Path, certificates2) : taikhoannguoidung.ChungChiMon2;
-            taikhoannguoidung.AnhDaiDien = avatar.Count != 0 ? TutorServices.SaveUploadImages(this._environment.WebRootPath, avatarPath, avatar) : taikhoannguoidung.AnhDaiDien;
+            taikhoannguoidung.AnhDaiDien = avatar.Count != 0 ? TutorServices.SaveAvatar(this._environment.WebRootPath, avatarPath, avatar) : taikhoannguoidung.AnhDaiDien;
             taikhoannguoidung.IdxetDuyet = (int)ApprovalStatus.TRAINING;
 
             if (ModelState.IsValid)

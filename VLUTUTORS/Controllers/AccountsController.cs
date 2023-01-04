@@ -120,11 +120,11 @@ namespace VLUTUTORS.Controllers
             ViewData["Fb"] = noiDung.Facebook;
             ViewData["gioiThieu"] = noiDung.GioiThieu;
             var taiKhoan = await db.Taikhoannguoidungs.FirstOrDefaultAsync(m => m.Id == id);
-            string avatar = taiKhoan.AnhDaiDien;
-            if (!string.IsNullOrEmpty(avatar))
-                avatar = avatar.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
-            TempData["avt"] = "Yes";
-            taiKhoan.AnhDaiDien = avatar;
+            //string avatar = taiKhoan.AnhDaiDien;
+            //if (!string.IsNullOrEmpty(avatar))
+            //    avatar = avatar.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
+            //TempData["avt"] = "Yes";
+            //taiKhoan.AnhDaiDien = avatar;
             var gioiTinhs = await db.Gioitinhs.ToListAsync();
             SelectList ddlStatus = new SelectList(gioiTinhs, "IdgioiTinh", "GioiTinh1");
             taiKhoan.GenderItems = ddlStatus;
@@ -136,7 +136,7 @@ namespace VLUTUTORS.Controllers
         public async Task<IActionResult> EditLearnerAccounts(int id, [FromForm] int IdgioiTinh, [FromForm] DateTime NgaySinh, [FromForm] string Sdt, [FromForm] string MatKhau, [FromForm] string ReMatKhau, List<IFormFile> avatar)
         {
             var dbTaikhoannguoidung = await db.Taikhoannguoidungs.FindAsync(id);
-            string avatarPath = "avatars";// Path.Combine("avatars", dbTaikhoannguoidung.Id.ToString());
+            string avatarPath = Path.Combine("avatars", dbTaikhoannguoidung.Id.ToString());
 
             if (dbTaikhoannguoidung == null || (dbTaikhoannguoidung != null && id != dbTaikhoannguoidung.Id))
             {
@@ -149,7 +149,7 @@ namespace VLUTUTORS.Controllers
                     dbTaikhoannguoidung.IdgioiTinh = IdgioiTinh;
                     dbTaikhoannguoidung.NgaySinh = NgaySinh;
                     dbTaikhoannguoidung.Sdt = Sdt;
-                    dbTaikhoannguoidung.AnhDaiDien = avatar.Count != 0 ? TutorServices.SaveUploadImages(this._environment.WebRootPath, avatarPath, avatar) : dbTaikhoannguoidung.AnhDaiDien;
+                    dbTaikhoannguoidung.AnhDaiDien = avatar.Count != 0 ? TutorServices.SaveAvatar(this._environment.WebRootPath, avatarPath, avatar) : dbTaikhoannguoidung.AnhDaiDien;
                     if (!string.IsNullOrEmpty(MatKhau))
                         dbTaikhoannguoidung.MatKhau = MatKhau;
                     db.Update(dbTaikhoannguoidung);

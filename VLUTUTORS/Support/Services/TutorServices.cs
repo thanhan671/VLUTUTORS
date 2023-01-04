@@ -48,6 +48,42 @@ namespace VLUTUTORS.Support.Services
             return namesJson;
         }
 
+        public static string SaveAvatar(string enviromentPath, string path, List<IFormFile> images)
+        {
+            List<string> filesName = new List<string>();
+            string namesJson;
+            string fullPath = Path.Combine(enviromentPath, path);
+            if (!Directory.Exists(fullPath))
+            {
+                Console.WriteLine("directory not exists " + path);
+                Directory.CreateDirectory(fullPath);
+            }
+            else
+            {
+                DirectoryInfo directoryInfo = new DirectoryInfo(fullPath);
+                foreach (FileInfo file in directoryInfo.GetFiles())
+                {
+                    file.Delete();
+                }
+            }
+
+            List<string> uploadedFiles = new List<string>();
+            foreach (IFormFile postedFile in images)
+            {
+                string fileName = Path.GetFileName(postedFile.FileName);
+                Console.WriteLine("get file name: " + fileName);
+                using (FileStream stream = new FileStream(Path.Combine(enviromentPath, path, fileName), FileMode.Create))
+                {
+                    postedFile.CopyTo(stream);
+                    uploadedFiles.Add(fileName);
+                    //ViewBag.Message += string.Format("<b>{0}</b> uploaded.<br />", fileName);
+                }
+                filesName.Add(Path.Combine(path, fileName));
+            }
+            namesJson = JsonConvert.SerializeObject(filesName);
+            return namesJson;
+        }
+
         public static List<string> LoadImages(List<string> imagesNameList)
         {
             List<string> imagesPathList = new List<string>();
