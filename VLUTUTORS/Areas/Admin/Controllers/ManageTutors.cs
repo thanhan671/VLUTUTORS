@@ -1,14 +1,18 @@
 ﻿using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using MimeKit;
+using Newtonsoft.Json;
 using QuickMailer;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Mail;
 using System.Threading.Tasks;
@@ -23,7 +27,14 @@ namespace VLUTUTORS.Areas.Admin.Controllers
     public class ManageTutors : Controller
     {
         private readonly CP25Team01Context _context = new CP25Team01Context();
+        private readonly ILogger<ManageTutors> _logger;
+        private IHostingEnvironment _environment;
 
+        public ManageTutors(ILogger<ManageTutors> logger, IHostingEnvironment environment)
+        {
+            _logger = logger;
+            this._environment = environment;
+        }
 
         public async Task<IActionResult> Index([FromQuery] string search)
         {
@@ -320,6 +331,17 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
 
             return RedirectToAction("Index", "ManageTutors");
+        }
+
+        public FileResult DownloadFile(string fileName, int tutorId, int id)
+        {
+            string certificatesPath = id == 1 ? Path.Combine("certificates", tutorId.ToString(), "cer1") : Path.Combine("certificates", tutorId.ToString(), "cer2");
+
+            string path = Path.Combine(this._environment.WebRootPath, certificatesPath, fileName);
+
+            byte[] bytes = System.IO.File.ReadAllBytes(path);
+
+            return File(bytes, "application/octet-stream", fileName);
         }
     }
 }

@@ -81,8 +81,6 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             taikhoannguoidung.ChungChiMon2 = certificates2.Count != 0 ? TutorServices.SaveUploadImages(this._environment.WebRootPath, certificates2Path, certificates2) : taikhoannguoidung.ChungChiMon2;
             taikhoannguoidung.AnhDaiDien = avatar.Count != 0 ? TutorServices.SaveUploadImages(this._environment.WebRootPath, avatarPath, avatar) : taikhoannguoidung.AnhDaiDien;
             taikhoannguoidung.IdxetDuyet = (int)ApprovalStatus.TRAINING;
-            taikhoannguoidung.IdxetDuyet = 6;
-
 
             if (ModelState.IsValid)
             {
@@ -99,6 +97,18 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             taikhoannguoidung.Subject2Items = new SelectList(_db.Mongiasus, "IdmonGiaSu", "TenMonGiaSu", taikhoannguoidung.IdmonGiaSu2);
 
             return View(taikhoannguoidung);
+        }
+
+        public FileResult DownloadFile(string fileName, int id)
+        {
+            var userInfo = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
+            string certificatesPath = id == 1 ? Path.Combine("certificates", userInfo.Id.ToString(), "cer1") : Path.Combine("certificates", userInfo.Id.ToString(), "cer2");
+            
+            string path = Path.Combine(this._environment.WebRootPath, certificatesPath, fileName);
+
+            byte[] bytes = System.IO.File.ReadAllBytes(path);
+
+            return File(bytes, "application/octet-stream", fileName);
         }
     }
 }

@@ -41,7 +41,8 @@ namespace VLUTUTORS.Support.Services
                     uploadedFiles.Add(fileName);
                     //ViewBag.Message += string.Format("<b>{0}</b> uploaded.<br />", fileName);
                 }
-                filesName.Add(Path.Combine(path, fileName));
+                //filesName.Add(Path.Combine(path, fileName));
+                filesName.Add(fileName);
             }
             namesJson = JsonConvert.SerializeObject(filesName);
             return namesJson;
