@@ -159,7 +159,7 @@ namespace VLUTUTORS.Controllers
                     dbTaikhoannguoidung.IdgioiTinh = IdgioiTinh;
                     dbTaikhoannguoidung.NgaySinh = NgaySinh;
                     dbTaikhoannguoidung.Sdt = Sdt;
-                    dbTaikhoannguoidung.AnhDaiDien = avatar.Count != 0 ? TutorServices.SaveUploadImages(this._environment.WebRootPath, avatarPath, avatar) : dbTaikhoannguoidung.AnhDaiDien;
+                    dbTaikhoannguoidung.AnhDaiDien = avatar.Count != 0 ? TutorServices.SaveAvatar(this._environment.WebRootPath, avatarPath, avatar) : dbTaikhoannguoidung.AnhDaiDien;
                     if (!string.IsNullOrEmpty(MatKhau))
                         dbTaikhoannguoidung.MatKhau = MatKhau;
                     db.Update(dbTaikhoannguoidung);

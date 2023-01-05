@@ -36,6 +36,7 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             var userInfo = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
             Taikhoannguoidung taikhoannguoidung = _db.Taikhoannguoidungs.Find(userInfo.Id);
 
+
             taikhoannguoidung.DepartmentItems = new SelectList(_db.Khoas, "Idkhoa", "TenKhoa", taikhoannguoidung.Idkhoa);
             taikhoannguoidung.GenderItems = new SelectList(_db.Gioitinhs, "IdgioiTinh", "GioiTinh1", taikhoannguoidung.IdgioiTinh);
             taikhoannguoidung.BankItems = new SelectList(_db.Nganhangs, "Id", "TenNganHangHoacViDienTu", taikhoannguoidung.IdnganHang);
@@ -60,10 +61,8 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             taikhoannguoidung.TrangThaiTaiKhoan = true;
             taikhoannguoidung.ChungChiMon1 = certificates1.Count != 0 ? TutorServices.SaveUploadImages(this._environment.WebRootPath, certificates1Path, certificates1) : taikhoannguoidung.ChungChiMon1;
             taikhoannguoidung.ChungChiMon2 = certificates2.Count != 0 ? TutorServices.SaveUploadImages(this._environment.WebRootPath, certificates2Path, certificates2) : taikhoannguoidung.ChungChiMon2;
-            taikhoannguoidung.AnhDaiDien = avatar.Count != 0 ? TutorServices.SaveUploadImages(this._environment.WebRootPath, avatarPath, avatar) : taikhoannguoidung.AnhDaiDien;
+            taikhoannguoidung.AnhDaiDien = avatar.Count != 0 ? TutorServices.SaveAvatar(this._environment.WebRootPath, avatarPath, avatar) : taikhoannguoidung.AnhDaiDien;
             taikhoannguoidung.IdxetDuyet = (int)ApprovalStatus.TRAINING;
-            taikhoannguoidung.IdxetDuyet = 5;
-
 
             if (ModelState.IsValid)
             {
@@ -80,6 +79,18 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             taikhoannguoidung.Subject2Items = new SelectList(_db.Mongiasus, "IdmonGiaSu", "TenMonGiaSu", taikhoannguoidung.IdmonGiaSu2);
 
             return View(taikhoannguoidung);
+        }
+
+        public FileResult DownloadFile(string fileName, int id)
+        {
+            var userInfo = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
+            string certificatesPath = id == 1 ? Path.Combine("certificates", userInfo.Id.ToString(), "cer1") : Path.Combine("certificates", userInfo.Id.ToString(), "cer2");
+            
+            string path = Path.Combine(this._environment.WebRootPath, certificatesPath, fileName);
+
+            byte[] bytes = System.IO.File.ReadAllBytes(path);
+
+            return File(bytes, "application/octet-stream", fileName);
         }
     }
 }

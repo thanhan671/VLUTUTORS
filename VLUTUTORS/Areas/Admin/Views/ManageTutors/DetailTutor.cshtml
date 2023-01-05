@@ -169,9 +169,9 @@
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Ảnh minh chứng</h6>
                                         </div>
-                                        @foreach (var img in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.Tutor.ChungChiMon1))
+                                        @foreach (var file in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.Tutor.ChungChiMon1))
                                         {
-                                            <td><img src="~/@Url.Content(img)" height="300" width="400"></td>
+                                               <p>@Html.ActionLink(file + "  ", "DownloadFile", new { fileName = file, tutorId = Model.Tutor.Id, id = 1 })</p> // id 2 representation for certificate 2
                                         }
                                     </div>
 
@@ -212,9 +212,9 @@
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Ảnh minh chứng</h6>
                                         </div>
-                                        @foreach (var img in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.Tutor.ChungChiMon2))
+                                        @foreach (var file in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.Tutor.ChungChiMon2))
                                         {
-                                            <td><img src="~/@Url.Content(img)" height="300" width="400"></td>
+                                               <p>@Html.ActionLink(file + "  ", "DownloadFile", new { fileName = file, tutorId = Model.Tutor.Id, id = 2 })</p> // id 2 representation for certificate 2
                                         }
                                     </div>
 

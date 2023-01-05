@@ -1,6 +1,4 @@
 ﻿@model VLUTUTORS.Models.Taikhoannguoidung
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-
 @{
     ViewData["Title"] = "Chi tiết tài khoản";
     Layout = "~/Areas/Tutors/Views/Shared/_TutorsLayout.cshtml";
@@ -31,9 +29,9 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="d-flex flex-column align-items-center text-center">
-                                        @foreach (var img in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.AnhDaiDien))
+                                        @foreach (var file in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.AnhDaiDien))
                                         {
-                                            <img src="~/@Url.Content(img)"
+                                            <img src="~/@file"
                                                  alt="Admin"
                                                  class="rounded-circle"
                                                  width="150" />
@@ -168,11 +166,13 @@
                                     <hr />
                                     <div class="row-nowrap">
                                         <div class="col-sm-3">
-                                            <h6 class="mb-0">Ảnh minh chứng</h6>
+                                            <h6 class="mb-0">Minh chứng</h6>
                                         </div>
-                                        @foreach (var img in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.ChungChiMon1))
+                                        @foreach (var file in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.ChungChiMon1))
                                         {
-                                            <td><img src="~/@Url.Content(img)" height="150" width="200" /></td>
+                                            @*<td><img src="~/@Url.Content(img)" height="150" width="200"/></td>*@
+                                            <p>@Html.ActionLink(file + " ", "DownloadFile", new { fileName = file, id = 1})</p> // id 1 representation for certificate 1
+                                           
                                         }
                                     </div>
                                     <div class="row-nowrap">
@@ -181,7 +181,7 @@
                                                name="certificates1"
                                                placeholder="Chứng Chỉ"
                                                multiple="multiple"
-                                               accept=".jpg, .jpeg, .png" />
+                                               accept=".jpg, .jpeg, .png, .doc, .docx, .pdf" />
                                     </div>
 
                                     <hr />
@@ -215,9 +215,9 @@
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Ảnh minh chứng</h6>
                                         </div>
-                                        @foreach (var img in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.ChungChiMon2))
+                                        @foreach (var file in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.ChungChiMon2))
                                         {
-                                            <td><img src="~/@Url.Content(img)" height="150" width="200" /></td>
+                                               <p>@Html.ActionLink(file + "  ", "DownloadFile", new { fileName = file, id = 2 })</p> // id 2 representation for certificate 2
                                         }
                                     </div>
                                     <div class="row-nowrap">
@@ -226,7 +226,7 @@
                                                name="certificates2"
                                                placeholder="Chứng Chỉ"
                                                multiple="multiple"
-                                               accept=".jpg, .jpeg, .png" />
+                                               accept=".jpg, .jpeg, .png, .doc, .docx, .pdf" />
                                     </div>
 
                                     <hr />
