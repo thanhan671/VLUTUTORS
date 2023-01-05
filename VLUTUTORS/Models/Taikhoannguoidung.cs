@@ -78,7 +78,7 @@ namespace VLUTUTORS.Models
             {
                 if (IdmonGiaSu1 == IdmonGiaSu2)
                     yield return new ValidationResult(
-                        "Môn học không hợp lệ", new[] { "IdmonGiaSu2" });
+                        "Phải chọn hai môn khác nhau", new[] { "IdmonGiaSu2" });
             }
             else
             if (IdmonGiaSu2.HasValue)

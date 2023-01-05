@@ -183,7 +183,7 @@ namespace VLUTUTORS.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(string HoTen, string Email, string MatKhau)
+        public async Task<IActionResult> Register([FromForm] string HoTen, [FromForm] string Email, [FromForm] string MatKhau)
         {
             if (ModelState.IsValid)
             {
