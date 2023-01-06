@@ -80,16 +80,11 @@ namespace VLUTUTORS.Controllers
             string certificates1Path = Path.Combine("certificates", taikhoannguoidung.Id.ToString(), "cer1");
             string certificates2Path = Path.Combine("certificates", taikhoannguoidung.Id.ToString(), "cer2");
             string avatarPath = Path.Combine("avatars", taikhoannguoidung.Id.ToString());
-            //if (!Directory.Exists(certificates1Path))
-            //{
-            //    Directory.CreateDirectory(certificates1Path);
-            //    Directory.CreateDirectory(certificates2Path);
-            //}
 
             taikhoannguoidung.TrangThaiTaiKhoan = true;
             taikhoannguoidung.ChungChiMon1 = TutorServices.SaveUploadImages(this._environment.WebRootPath, certificates1Path, certificates1);
             taikhoannguoidung.ChungChiMon2 = TutorServices.SaveUploadImages(this._environment.WebRootPath, certificates2Path, certificates2);
-            taikhoannguoidung.AnhDaiDien = TutorServices.SaveUploadImages(this._environment.WebRootPath, avatarPath, avatar);
+            taikhoannguoidung.AnhDaiDien = TutorServices.SaveAvatar(this._environment.WebRootPath, avatarPath, avatar);
             taikhoannguoidung.IdxetDuyet = (int)ApprovalStatus.TRAINING;
             taikhoannguoidung.TrangThaiGiaSu = true;
 

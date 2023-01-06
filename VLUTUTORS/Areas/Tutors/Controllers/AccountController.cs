@@ -33,27 +33,9 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
         {
             int idGiaSu = (int)HttpContext.Session.GetInt32("IdGiaSu");
             string user = HttpContext.Session.GetString("LoginId");
-            if (user == null || idGiaSu != 6)
-            {
-                return RedirectToAction("Login", "Accounts", new { area = "default" });
-            }
             var userInfo = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
             Taikhoannguoidung taikhoannguoidung = _db.Taikhoannguoidungs.Find(userInfo.Id);
 
-            string avatar = taikhoannguoidung.AnhDaiDien;
-            if (!string.IsNullOrEmpty(avatar))
-                avatar = avatar.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
-            taikhoannguoidung.AnhDaiDien = avatar;
-
-            string chungchi1 = taikhoannguoidung.ChungChiMon1;
-            if (!string.IsNullOrEmpty(chungchi1))
-                chungchi1 = chungchi1.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
-            taikhoannguoidung.ChungChiMon1 = chungchi1;
-
-            string chungchi2 = taikhoannguoidung.ChungChiMon2;
-            if (!string.IsNullOrEmpty(chungchi2))
-                chungchi2 = chungchi2.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
-            taikhoannguoidung.ChungChiMon2 = chungchi2;
 
             taikhoannguoidung.DepartmentItems = new SelectList(_db.Khoas, "Idkhoa", "TenKhoa", taikhoannguoidung.Idkhoa);
             taikhoannguoidung.GenderItems = new SelectList(_db.Gioitinhs, "IdgioiTinh", "GioiTinh1", taikhoannguoidung.IdgioiTinh);
@@ -69,6 +51,7 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Index([Bind(include: "Id, HoTen, Email, MatKhau, IdgioiTinh, Sdt, NgaySinh, Idkhoa, AnhDaiDien, TrangThaiTaiKhoan, SoTaiKhoan, IdnganHang, GioiThieu, DanhGiaVeViecGiaSu, DiemTrungBinh, IdmonGiaSu1, TenChungChiHoacDiemMon1, ChungChiMon1, GioiThieuVeMonGiaSu1, IdmonGiaSu2, TenChungChiHoacDiemMon2, ChungChiMon2, GioiThieuVeMonGiaSu2, DiemBaiTest, TrangThaiGiaSu")] Taikhoannguoidung taikhoannguoidung, List<IFormFile> avatar, List<IFormFile> certificates1, List<IFormFile> certificates2)
         {
             string certificates1Path = Path.Combine("certificates", taikhoannguoidung.Id.ToString(), "cer1");
@@ -78,10 +61,8 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             taikhoannguoidung.TrangThaiTaiKhoan = true;
             taikhoannguoidung.ChungChiMon1 = certificates1.Count != 0 ? TutorServices.SaveUploadImages(this._environment.WebRootPath, certificates1Path, certificates1) : taikhoannguoidung.ChungChiMon1;
             taikhoannguoidung.ChungChiMon2 = certificates2.Count != 0 ? TutorServices.SaveUploadImages(this._environment.WebRootPath, certificates2Path, certificates2) : taikhoannguoidung.ChungChiMon2;
-            taikhoannguoidung.AnhDaiDien = avatar.Count != 0 ? TutorServices.SaveUploadImages(this._environment.WebRootPath, avatarPath, avatar) : taikhoannguoidung.AnhDaiDien;
+            taikhoannguoidung.AnhDaiDien = avatar.Count != 0 ? TutorServices.SaveAvatar(this._environment.WebRootPath, avatarPath, avatar) : taikhoannguoidung.AnhDaiDien;
             taikhoannguoidung.IdxetDuyet = (int)ApprovalStatus.TRAINING;
-            taikhoannguoidung.IdxetDuyet = 6;
-
 
             if (ModelState.IsValid)
             {
@@ -98,6 +79,18 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             taikhoannguoidung.Subject2Items = new SelectList(_db.Mongiasus, "IdmonGiaSu", "TenMonGiaSu", taikhoannguoidung.IdmonGiaSu2);
 
             return View(taikhoannguoidung);
+        }
+
+        public FileResult DownloadFile(string fileName, int id)
+        {
+            var userInfo = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
+            string certificatesPath = id == 1 ? Path.Combine("certificates", userInfo.Id.ToString(), "cer1") : Path.Combine("certificates", userInfo.Id.ToString(), "cer2");
+            
+            string path = Path.Combine(this._environment.WebRootPath, certificatesPath, fileName);
+
+            byte[] bytes = System.IO.File.ReadAllBytes(path);
+
+            return File(bytes, "application/octet-stream", fileName);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿
+﻿@model VLUTUTORS.Models.Mongiasu
 @{
     ViewData["Title"] = "Thêm mới môn gia sư";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
@@ -34,6 +34,7 @@
                                             <h6 class="mb-0">Tên môn gia sư</h6>
                                         </div>
                                         <input class="col-sm-9 text-secondary" name="TenMonGiaSu" id="TenMonGiaSu" type="text">
+                                        @Html.ValidationMessageFor(m => m.TenMonGiaSu, "", new { @class = "text-danger" })
                                     </div>
                                     <hr />
 

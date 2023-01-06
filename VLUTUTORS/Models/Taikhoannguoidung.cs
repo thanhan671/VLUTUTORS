@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace VLUTUTORS.Models
 {
-    public partial class Taikhoannguoidung
+    public partial class Taikhoannguoidung : IValidatableObject
     {
         public int Id { get; set; }
 
@@ -71,5 +71,28 @@ namespace VLUTUTORS.Models
 
         [NotMapped]
         public Microsoft.AspNetCore.Http.IFormFile avatarImage { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (IdmonGiaSu1.HasValue && IdmonGiaSu2.HasValue)
+            {
+                if (IdmonGiaSu1 == IdmonGiaSu2)
+                    yield return new ValidationResult(
+                        "Phải chọn hai môn khác nhau", new[] { "IdmonGiaSu2" });
+            }
+            else
+            if (IdmonGiaSu2.HasValue)
+            {
+                if (!string.IsNullOrEmpty(TenChungChiHoacDiemMon2))
+                    yield return new ValidationResult(
+                        "Vui lòng nhập Điểm trung bình môn hoặc tên chứng chỉ", new[] { "TenChungChiHoacDiemMon2" });
+                if (!string.IsNullOrEmpty(ChungChiMon2))
+                    yield return new ValidationResult(
+                        "Vui lòng nhập Minh chứng kèm theo", new[] { "ChungChiMon2" });
+                if (!string.IsNullOrEmpty(GioiThieuVeMonGiaSu2))
+                    yield return new ValidationResult(
+                        "Giới thiệu môn gia sư", new[] { "GioiThieuVeMonGiaSu2" });
+            }
+        }
     }
 }

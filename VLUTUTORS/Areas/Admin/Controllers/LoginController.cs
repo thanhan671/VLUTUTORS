@@ -47,7 +47,6 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                     HttpContext.Session.SetString("loginName", admin.TaiKhoan);
                     HttpContext.Session.SetString("SessionInfo", JsonConvert.SerializeObject(admin));
                 }
-
                 return RedirectToAction("Index", "Home");
             }
             catch (Exception ex)
@@ -60,8 +59,8 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         {
             try
             {
-                _userManager.SignOut(this.HttpContext);
                 HttpContext.Session.Clear();
+                _userManager.SignOut(this.HttpContext);
 
                 return RedirectToAction("Index", "Home");
             }

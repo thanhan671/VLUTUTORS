@@ -2570,7 +2570,16 @@ i.active,
                 line-height: 60px;
                 margin-top: 20px;
             }
-
+.form-index {
+    width: 100%;
+    height: 60px;
+    padding: 20px 30px;
+    font-size: 15px;
+    color: #8a8a8a;
+    border: 1px solid #a1a1a1;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
 /*=====================================================
     15. COURSE 2 css 
 ======================================================*/
@@ -7532,7 +7541,7 @@ i.active,
             margin-top: 20px;
         }
 
-            .category-form .main-form .singel-form input {
+            .category-form .main-form .singel-form input select{
                 width: 100%;
                 height: 60px;
                 padding: 0 30px;
@@ -9619,7 +9628,7 @@ p.form-message.error {
 
 .contact-address {
     background-color: #fff;
-    padding: 20px 50px 50px;
+    padding: 25px 20px 50px;
     border-radius: 5px;
 }
 
@@ -9875,6 +9884,7 @@ p.form-message.error {
     .course-item:hover {
         background-color: #ccc;
     }*/
+<<<<<<< HEAD
 
 .course-item {
     cursor: pointer;
@@ -9887,6 +9897,21 @@ p.form-message.error {
     .course-item:hover {
         background-color: #ccc;
     }
+=======
+
+.course-item {
+    cursor: pointer;
+    width: 100%;
+    border: none;
+    margin-bottom: 10px;
+    background: none;
+}
+
+    .course-item:hover {
+        background-color: #ccc;
+    }
+
+>>>>>>> 118d89798c2c5d2979c84bc1c054f23bd4a8115a
 .coure-title {
     font-family: 'Montserrat';
     font-weight: 600;
@@ -9894,6 +9919,10 @@ p.form-message.error {
     text-align: left;
     color: #000;
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 118d89798c2c5d2979c84bc1c054f23bd4a8115a
 .course-container {
     display: flex;
     height: 100%;

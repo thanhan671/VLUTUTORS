@@ -1,4 +1,4 @@
-﻿@model VLUTUTORS.Models.Noidung
+﻿
 @{
     ViewData["Title"] = "Liên Hệ";
     Layout = "~/Views/Shared/_otherPageLayout.cshtml";
@@ -23,7 +23,7 @@
                                         <input name="Ten"
                                                type="text"
                                                placeholder="Tên của bạn"
-                                               data-error="Name is required."
+                                               data-error="Vui lòng điền đủ thông tin."
                                                required="required" />
                                         <div class="help-block with-errors"></div>
                                     </div>
@@ -34,7 +34,7 @@
                                         <input name="Email"
                                                type="email"
                                                placeholder="Email"
-                                               data-error="Valid email is required."
+                                               data-error="Vui lòng điền đủ thông tin."
                                                required="required" />
                                         <div class="help-block with-errors"></div>
                                     </div>
@@ -45,7 +45,7 @@
                                         <input name="Mon"
                                                type="text"
                                                placeholder="Môn học"
-                                               data-error="Subject is required."
+                                               data-error="Vui lòng điền đủ thông tin."
                                                required="required" />
                                         <div class="help-block with-errors"></div>
                                     </div>
@@ -56,7 +56,7 @@
                                         <input name="SDT"
                                                type="text"
                                                placeholder="Điện thoại"
-                                               data-error="Phone is required."
+                                               data-error="Vui lòng điền đủ thông tin."
                                                required="required" />
                                         <div class="help-block with-errors"></div>
                                     </div>
@@ -66,16 +66,15 @@
                                     <div class="singel-form form-group">
                                         <textarea name="NoiDung"
                                                   placeholder="Vấn đề bạn gặp phải"
-                                                  data-error="Please,leave us a message."
+                                                  data-error="Vui lòng điền đủ thông tin."
                                                   required="required"></textarea>
                                         <div class="help-block with-errors"></div>
                                     </div>
                                     <!-- singel form -->
                                 </div>
-                                <p class="form-message"></p>
                                 <div class="col-md-12">
                                     <div class="singel-form">
-                                        <button type="submit" class="main-btn">Gửi liên hệ</button>
+                                        <button type="submit" class="main-btn" onclick="popup()">Gửi liên hệ</button>
                                     </div>
                                     <!-- singel form -->
                                 </div>
@@ -90,10 +89,9 @@
             <div class="col-lg-4">
                 <div class="contact-address">
                     <div class="contact-heading">
-                        <h5>Địa chỉ</h5>
-                        <p>
+                        <h5>
                             Nếu bạn có bất kỳ câu hỏi nào khác, vui lòng liên hệ với chúng tôi.
-                        </p>
+                        </h5>
                     </div>
                     <ul>
                         <li>
@@ -103,7 +101,7 @@
                                 </div>
                                 <div class="cont">
                                     <p>
-                                        @Model.DiaChi
+                                        @ViewData["diaChi"]
                                     </p>
                                 </div>
                             </div>
@@ -116,7 +114,7 @@
                                 </div>
                                 <div class="cont">
                                     <p>
-                                        @Model.Sdt
+                                        @ViewData["Sdt"]
                                     </p>
                                 </div>
                             </div>
@@ -129,7 +127,7 @@
                                 </div>
                                 <div class="cont">
                                     <p>
-                                        @Model.Email
+                                        @ViewData["Email"]
                                     </p>
                                 </div>
                             </div>
@@ -142,7 +140,7 @@
                                 </div>
                                 <div class="cont">
                                     <p>
-                                        @Model.Facebook
+                                        @ViewData["Fb"]
                                     </p>
                                 </div>
                             </div>
@@ -157,4 +155,12 @@
     </div>
     <!-- container -->
 </section>
+<script>
+    function popup() {
+        alert('Liên hệ được gửi thành công!');
+    }
+    $('#myForm').on('submit', function (e) {
+        e.preventDefault(); // Now nothing will happen
+    });
+</script>
 

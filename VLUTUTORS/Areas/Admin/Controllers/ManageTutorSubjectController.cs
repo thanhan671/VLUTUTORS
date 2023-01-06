@@ -29,6 +29,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddSubject([Bind(include: "IdmonGiaSu,TenMonGiaSu")] Mongiasu mongiasu)
         {
             if (ModelState.IsValid)
@@ -69,6 +70,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditSubject(int id, [Bind(include: "IdmonGiaSu,TenMonGiaSu")] Mongiasu mongiasu)
         {
             if (id != mongiasu.IdmonGiaSu)
