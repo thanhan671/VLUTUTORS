@@ -171,7 +171,7 @@
                                         @foreach (var file in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.ChungChiMon1))
                                         {
                                             @*<td><img src="~/@Url.Content(img)" height="150" width="200"/></td>*@
-                                            <p>@Html.ActionLink(file + " ", "DownloadFile", new { fileName = file, id = 1})</p> // id 1 representation for certificate 1
+                                            <p style="padding-left:2.00em;">@Html.ActionLink(file + " ", "DownloadFile", new { fileName = file, id = 1})</p><br /> // id 1 representation for certificate 1
                                            
                                         }
                                     </div>
@@ -217,7 +217,7 @@
                                         </div>
                                         @foreach (var file in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.ChungChiMon2))
                                         {
-                                               <p>@Html.ActionLink(file + "  ", "DownloadFile", new { fileName = file, id = 2 })</p> // id 2 representation for certificate 2
+                                               <p style="padding-left:2.00em;">@Html.ActionLink(file + "  ", "DownloadFile", new { fileName = file, id = 2 })</p> // id 2 representation for certificate 2
                                         }
                                     </div>
                                     <div class="row-nowrap">

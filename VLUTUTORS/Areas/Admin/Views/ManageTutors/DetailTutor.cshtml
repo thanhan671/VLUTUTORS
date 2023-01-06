@@ -32,13 +32,10 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="d-flex flex-column align-items-center text-center">
-                                        @foreach (var img in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.Tutor.AnhDaiDien))
-                                        {
-                                            <img src="~/@Url.Content(img)"
-                                                 alt="Admin"
-                                                 class="rounded-circle"
-                                                 width="150" />
-                                        }
+                                        <img src="~/@Model.Tutor.AnhDaiDien"
+                                             alt="Admin"
+                                             class="rounded-circle"
+                                             width="150" />
                                         <div class="mt-3">
                                             <h4>
                                                 @Html.DisplayFor(model => model.Tutor.HoTen)
@@ -171,7 +168,7 @@
                                         </div>
                                         @foreach (var file in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.Tutor.ChungChiMon1))
                                         {
-                                               <p>@Html.ActionLink(file + "  ", "DownloadFile", new { fileName = file, tutorId = Model.Tutor.Id, id = 1 })</p> // id 2 representation for certificate 2
+                                    <p style="padding-left:2.00em;">@Html.ActionLink(file + "  ", "DownloadFile", new { fileName = file, tutorId = Model.Tutor.Id, id = 1 })</p>// id 2 representation for certificate 2
                                         }
                                     </div>
 
@@ -214,7 +211,7 @@
                                         </div>
                                         @foreach (var file in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.Tutor.ChungChiMon2))
                                         {
-                                               <p>@Html.ActionLink(file + "  ", "DownloadFile", new { fileName = file, tutorId = Model.Tutor.Id, id = 2 })</p> // id 2 representation for certificate 2
+                                            <p style="padding-left:2.00em;">@Html.ActionLink(file + "  ", "DownloadFile", new { fileName = file, tutorId = Model.Tutor.Id, id = 2 })</p>// id 2 representation for certificate 2
                                         }
                                     </div>
 

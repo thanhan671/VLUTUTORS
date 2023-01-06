@@ -59,8 +59,8 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         {
             try
             {
-                _userManager.SignOut(this.HttpContext);
                 HttpContext.Session.Clear();
+                _userManager.SignOut(this.HttpContext);
 
                 return RedirectToAction("Index", "Home");
             }
