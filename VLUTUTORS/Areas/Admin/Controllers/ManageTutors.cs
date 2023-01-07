@@ -48,7 +48,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
             foreach (var account in accounts)
             {
-                if (account.IdxetDuyet >= 1 && account.IdxetDuyet < 5)
+                if (account.IdxetDuyet >= 1 && account.IdxetDuyet < 4)
                 {
                     var awaitApproveStatus = xetduyets.FirstOrDefault(it => it.IdxetDuyet == account.IdxetDuyet);
                     if (awaitApproveStatus == null)

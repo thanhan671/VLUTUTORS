@@ -41,8 +41,7 @@
                                     <a href="~/Home/Contact">Liên Hệ</a>
                                 </li>
                                 @{
-                                    if (@httpContextAccessor.HttpContext.Session.GetInt32("IdGiaSu") == 1
-                                        || @httpContextAccessor.HttpContext.Session.GetInt32("IdGiaSu") == 2)
+                                    if (@httpContextAccessor.HttpContext.Session.GetInt32("IdGiaSu") == 1)
                                     {
                                         <li class="nav-item">
                                             <a href="~/TutorTraining">Khóa Đào Tạo</a>
