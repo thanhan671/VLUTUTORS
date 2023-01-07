@@ -64,14 +64,9 @@
     <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
     <script src="../../dist/js/adminlte.min.js"></script>
-
-    @if (ViewBag.Message != null)
+    @if (TempData["message"] != null)
     {
-        <script type="text/javascript">
-        window.onload = function () {
-            alert("@ViewBag.Message");
-        };
-        </script>
+        <script>alert('@TempData["message"]');</script>
     }
 </body>
 </html>

@@ -35,25 +35,40 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         {
             string taiKhoan = taikhoanadmin.TaiKhoan;
             string password = taikhoanadmin.MatKhau;
-            try
-            {
-                _userManager.SignIn(this.HttpContext, taiKhoan, password);
 
-                var admin = db.Taikhoanadmins.Where(acc => acc.TaiKhoan.Equals(taiKhoan.Trim())).FirstOrDefault();
-                if (admin != null && admin.Id > 0)
+            if (ModelState.IsValid)
+            {
+                try
                 {
-                    HttpContext.Session.SetInt32("LoginId", admin.Id);
-                    HttpContext.Session.SetInt32("IdQuyen", admin.IdQuyen);
-                    HttpContext.Session.SetString("loginName", admin.TaiKhoan);
-                    HttpContext.Session.SetString("SessionInfo", JsonConvert.SerializeObject(admin));
-                }
-                return RedirectToAction("Index", "Home");
-            }
-            catch (Exception ex)
-            {
-                return View();
-            }
 
+                    _userManager.SignIn(this.HttpContext, taiKhoan, password);
+
+                    var admin = db.Taikhoanadmins.Where(acc => acc.TaiKhoan.Equals(taiKhoan.Trim())).FirstOrDefault();
+                    if (admin != null && admin.Id > 0)
+                    {
+                        if (!admin.MatKhau.Equals(password))
+                        {
+                            TempData["message"] = "Mật khẩu chưa đúng vui lòng kiểm tra lại";
+                        }
+                        HttpContext.Session.SetInt32("LoginId", admin.Id);
+                        HttpContext.Session.SetInt32("IdQuyen", admin.IdQuyen);
+                        HttpContext.Session.SetString("loginName", admin.TaiKhoan);
+                        HttpContext.Session.SetString("SessionInfo", JsonConvert.SerializeObject(admin));
+                    }
+                    else
+                    {
+                        Console.WriteLine("alert");
+                        TempData["message"] = "Tên tài khoản hoặc mật khẩu chưa đúng vui lòng kiểm tra lại";
+                        return View();
+                    }    
+                    return RedirectToAction("Index", "Home");
+                }
+                catch (Exception ex)
+                {
+                    return View();
+                }
+            }
+            return View();
         }
         public IActionResult Logout()
         {
