@@ -51,6 +51,12 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                         HttpContext.Session.SetString("loginName", admin.TaiKhoan);
                         HttpContext.Session.SetString("SessionInfo", JsonConvert.SerializeObject(admin));
                     }
+                    else
+                    {
+                        Console.WriteLine("alert");
+                        TempData["message"] = "Email hoặc mật khẩu chưa đúng vui lòng kiểm tra lại";
+                        return View();
+                    }    
                     return RedirectToAction("Index", "Home");
                 }
                 catch (Exception ex)
