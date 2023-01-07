@@ -48,6 +48,12 @@
                                             <a href="~/TutorTraining">Khóa Đào Tạo</a>
                                         </li>
                                     }
+                                    else if(@httpContextAccessor.HttpContext.Session.GetInt32("IdGiaSu") == 2)
+                                    {
+                                         <li class="nav-item">
+                                            <a >Đang Chờ Xét Duyệt</a>
+                                        </li>
+                                    }
                                     else if (@httpContextAccessor.HttpContext.Session.GetInt32("IdGiaSu") == 6)
                                     {
                                         <li class="nav-item">
