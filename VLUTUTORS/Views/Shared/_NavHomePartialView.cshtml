@@ -42,7 +42,7 @@
                                 </li>
                                 @{
                                     if (@httpContextAccessor.HttpContext.Session.GetInt32("IdGiaSu") == 1
-                                        || @httpContextAccessor.HttpContext.Session.GetInt32("IdGiaSu") == 2)
+                                        /*|| @httpContextAccessor.HttpContext.Session.GetInt32("IdGiaSu") == 2*/)
                                     {
                                         <li class="nav-item">
                                             <a href="~/TutorTraining">Khóa Đào Tạo</a>
