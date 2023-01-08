@@ -14,6 +14,8 @@ namespace VLUTUTORS.Models
         [Required(ErrorMessage = "Vui lòng điền trường này!")]
         public string HoVaTen { get; set; }
         [Required(ErrorMessage = "Vui lòng điền trường này!")]
+        public string Email { get; set; }
+        [Required(ErrorMessage = "Vui lòng điền trường này!")]
         public string Sdt { get; set; }
         [Required(ErrorMessage = "Vui lòng điền trường này!")]
         public string NoiDungTuVan { get; set; }

@@ -1,4 +1,5 @@
-﻿
+﻿@model IEnumerable<VLUTUTORS.Models.Loaituvan>
+
 @{
     ViewData["Title"] = "Quản lý loại tư vấn";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
@@ -41,28 +42,28 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @*@{
+                        @{
                             var index = 0;
                             foreach (var item in Model)
                             {
-                                index++;*@
-                        <tr>
-                            <td>
-                                @*@index*@  1
-                            </td>
-                            <td>
-                                @*@Html.DisplayFor(modelItem => item.TaiKhoan)*@    Tên
-                            </td>
-                            <td class="project-actions">
-                                <a class="btn btn-primary btn-sm"
-                                   asp-action="EditType" asp-controller="ManageConsultingType" asp-route-id="@*@item.Id*@">
-                                    <i class="fas fa-pen"> </i>
-                                    Chỉnh sửa
-                                </a>
-                            </td>
-                        </tr>
-                        @*}
-                            }*@
+                                index++;
+                                <tr>
+                                    <td>
+                                        @index
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TenLoaiTuVan)
+                                    </td>
+                                    <td class="project-actions">
+                                        <a class="btn btn-primary btn-sm"
+                                           asp-action="EditType" asp-controller="ManageConsultingType" asp-route-id="@item.IdLoaiTuVan">
+                                            <i class="fas fa-pen"> </i>
+                                            Chỉnh sửa
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
                     </tbody>
                 </table>
             </div>

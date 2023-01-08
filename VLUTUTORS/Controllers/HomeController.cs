@@ -46,6 +46,10 @@ namespace VLUTUTORS.Controllers
             ViewData["Email"] = noiDung.Email;
             ViewData["Fb"] = noiDung.Facebook;
             ViewData["gioiThieu"] = noiDung.GioiThieu;
+
+            var loaiTuVan = new SelectList(_db.Loaituvans.ToList(), "IdLoaiTuVan", "TenLoaiTuVan");
+            ViewData["loaiTuVan"] = loaiTuVan;
+
             return View(noiDung);
         }
 
@@ -113,16 +117,18 @@ namespace VLUTUTORS.Controllers
         //Send consulting register
 
         [HttpPost]
-        public async Task<IActionResult> SendConsulting(string HoTen, string SDT, string NoiDung)
+        public async Task<IActionResult> SendConsulting(string HoTen, string Email, string SDT, string NoiDung, int LoaiTuVan)
         {
             try
             {
                 Tuvan tuVan = new Tuvan
                 {
                     HoVaTen = HoTen,
+                    Email = Email,
                     Sdt = SDT,
                     NoiDungTuVan = NoiDung,
-                    IdtrangThai = 1
+                    IdtrangThai = 1,
+                    IdLoaiTuVan= LoaiTuVan
                 };
                 try
                 {

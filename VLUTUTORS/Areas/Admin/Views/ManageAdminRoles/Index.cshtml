@@ -1,4 +1,5 @@
-﻿
+﻿@model IEnumerable<VLUTUTORS.Models.Quyen>
+
 @{
     ViewData["Title"] = "Quản lý quyền Admin";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
@@ -41,28 +42,28 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @*@{
+                        @{
                             var index = 0;
                             foreach (var item in Model)
                             {
-                                index++;*@
+                                index++;
                                 <tr>
                                     <td>
-                                        @*@index*@  1
+                                        @index
                                     </td>
                                     <td>
-                                        @*@Html.DisplayFor(modelItem => item.TaiKhoan)*@    Quyền
+                                        @Html.DisplayFor(modelItem => item.TenQuyen)
                                     </td>
                                     <td class="project-actions">
                                         <a class="btn btn-primary btn-sm"
-                                           asp-action="EditRole" asp-controller="ManageAdminRoles" asp-route-id="@*@item.Id*@">
+                                           asp-action="EditRole" asp-controller="ManageAdminRoles" asp-route-id="@item.IdQuyen">
                                             <i class="fas fa-pen"> </i>
                                             Chỉnh sửa
                                         </a>
                                     </td>
                                 </tr>
-                            @*}
-                        }*@
+                            }
+                        }
                     </tbody>
                 </table>
             </div>

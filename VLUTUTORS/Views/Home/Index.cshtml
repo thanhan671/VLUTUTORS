@@ -259,10 +259,7 @@
                                 <div class="help-block with-errors"></div>
                             </div>
                             <div class="singel-form">
-                                <select class="form-index" name="LoaiTuVan" placeholder="Loại Tư Vấn" data-error="Vui lòng không để trống!." required="required">
-                                    <option>Tư vấn đăng ký gia sư</option>
-                                    <option>Tư vấn về giá học</option>
-                                </select>
+                                @Html.DropDownList("LoaiTuVan", (IEnumerable <SelectListItem>)ViewData["loaiTuVan"], "Loại Tư Vấn", new {@class="form-index", @required="required"})
                                 <div class="help-block with-errors"></div>
                             </div>
                             <div class="singel-form">
