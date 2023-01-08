@@ -86,7 +86,7 @@ form {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    padding: 0rem 5rem;
+    padding: 1rem 5rem;
     transition: all 0.2s 0.7s;
     overflow: hidden;
     grid-column: 1 / 2;
@@ -522,6 +522,8 @@ form {
     left: 50%;
     transform: translateX(-50%);
     margin-bottom: 20px;
+    background-color: white;
+    border-radius: 0.8rem;
 }
 
 .form__input .form__select {
@@ -724,6 +726,7 @@ form {
     margin-bottom: 0.75em;
     font-size: 0.8rem;
     text-align: center;
+    color: gray;
 }
 
     .form__terms span {

@@ -31,6 +31,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             return View(baikiemtra);
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddQuestion([Bind(include: "IdCauHoi,CauHoi,DapAnA,DapAnB,DapAnC,DapAnD,DapAnDung")] Baikiemtra baikiemtra)
         {
             if (ModelState.IsValid)
@@ -63,6 +64,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditQuestion(int id, [Bind(include: "IdCauHoi,CauHoi,DapAnA,DapAnB,DapAnC,DapAnD,DapAnDung")] Baikiemtra baikiemtra)
         {
             if (id != baikiemtra.IdCauHoi)
@@ -85,7 +87,6 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             }
             return View(baikiemtra);
         }
-
         [HttpPost]
         public IActionResult Delete([FromForm] int hdInput)
         {

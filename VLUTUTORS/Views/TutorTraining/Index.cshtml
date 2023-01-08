@@ -19,7 +19,8 @@
                             foreach (var item in @Model.courses)
                             {
                                 index++;
-                                <button type="submit" name="courseName" value="@item"><h5>Bài @index : @item.ToString()</h5></button><br>
+                                <button type="submit" class="course-item" name="courseName" value="@item"><p class="course-title">Bài @index : @item.ToString()</p></button>
+                                <br>
                             }
                         }
                     </div>
@@ -31,7 +32,29 @@
                 </div>
             </div>
         </div>
-        <a href="#">Bài kiểm tra cuối khóa học</a>
+        @if(@Model.currentScore == null || @Model.currentScore == 0)
+        {
+            <div class="input-wrapper">
+                <label class="lb-form">Điểm hiện tại:</label>
+                @Html.TextBoxFor(m => m.currentScore, new { @readonly = true })
+            </div>
+        }
+        else
+        {
+             <div class="input-wrapper">
+                <label class="lb-form">Điểm hiện tại:</label>
+                @Html.TextBoxFor(m => m.currentScore, new { @readonly = true })
+            </div>
+        }
+        @if(Model.currentScore <= 7)
+        {
+            <a class="main-btn" href="@Url.Action("DoTest", "TutorTraining")">Bài kiểm tra cuối khóa học</a>
+        }
+        else
+        {
+             <label class="lb-form">Bạn đã đạt đủ điểm để xét duyệt</label>
+        }
     </div>
+
 </form>
 

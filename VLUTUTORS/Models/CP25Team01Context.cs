@@ -22,6 +22,7 @@ namespace VLUTUTORS.Models
         public virtual DbSet<Khoa> Khoas { get; set; }
         public virtual DbSet<Khoadaotao> Khoadaotaos { get; set; }
         public virtual DbSet<Lienhe> Lienhes { get; set; }
+        public virtual DbSet<Loaituvan> Loaituvans { get; set; }
         public virtual DbSet<Mongiasu> Mongiasus { get; set; }
         public virtual DbSet<Nganhang> Nganhangs { get; set; }
         public virtual DbSet<Noidung> Noidungs { get; set; }
@@ -154,6 +155,17 @@ namespace VLUTUTORS.Models
                     .HasForeignKey(d => d.IdtrangThai)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_LIENHE_TRANGTHAI");
+            });
+
+            modelBuilder.Entity<Loaituvan>(entity =>
+            {
+                entity.HasKey(e => e.IdLoaiTuVan);
+
+                entity.ToTable("LOAITUVAN");
+
+                entity.Property(e => e.TenLoaiTuVan)
+                    .IsRequired()
+                    .HasMaxLength(300);
             });
 
             modelBuilder.Entity<Mongiasu>(entity =>
@@ -351,6 +363,11 @@ namespace VLUTUTORS.Models
                     .IsUnicode(false)
                     .HasColumnName("SDT");
 
+                entity.HasOne(d => d.IdLoaiTuVanNavigation)
+                    .WithMany(p => p.Tuvans)
+                    .HasForeignKey(d => d.IdLoaiTuVan)
+                    .HasConstraintName("FK_TUVAN_LOAITUVAN");
+
                 entity.HasOne(d => d.IdtrangThaiNavigation)
                     .WithMany(p => p.Tuvans)
                     .HasForeignKey(d => d.IdtrangThai)
@@ -364,11 +381,11 @@ namespace VLUTUTORS.Models
 
                 entity.ToTable("XETDUYET");
 
-                entity.Property(e => e.IdxetDuyet).HasColumnName("IDXetDuyet");
+                entity.Property(e => e.IdxetDuyet)
+                    .ValueGeneratedNever()
+                    .HasColumnName("IDXetDuyet");
 
-                entity.Property(e => e.TenTrangThai)
-                    .IsRequired()
-                    .HasMaxLength(50);
+                entity.Property(e => e.TenTrangThai).HasMaxLength(50);
             });
 
             OnModelCreatingPartial(modelBuilder);

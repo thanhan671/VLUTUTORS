@@ -76,14 +76,14 @@ namespace VLUTUTORS.Models
         {
             if (IdmonGiaSu1.HasValue && IdmonGiaSu2.HasValue)
             {
-                if(IdmonGiaSu1 == IdmonGiaSu2)
+                if (IdmonGiaSu1 == IdmonGiaSu2)
                     yield return new ValidationResult(
-                        "Môn học không hợp lệ", new[] { "IdmonGiaSu2" });
+                        "Phải chọn hai môn khác nhau", new[] { "IdmonGiaSu2" });
             }
             else
-            if(IdmonGiaSu2.HasValue)
+            if (IdmonGiaSu2.HasValue)
             {
-                if(!string.IsNullOrEmpty(TenChungChiHoacDiemMon2))
+                if (!string.IsNullOrEmpty(TenChungChiHoacDiemMon2))
                     yield return new ValidationResult(
                         "Vui lòng nhập Điểm trung bình môn hoặc tên chứng chỉ", new[] { "TenChungChiHoacDiemMon2" });
                 if (!string.IsNullOrEmpty(ChungChiMon2))

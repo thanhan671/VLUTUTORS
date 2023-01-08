@@ -41,23 +41,27 @@
                                     <a href="~/Home/Contact">Liên Hệ</a>
                                 </li>
                                 @{
-                                    if (@httpContextAccessor.HttpContext.Session.GetInt32("IdGiaSu") == 2
-                                        || @httpContextAccessor.HttpContext.Session.GetInt32("IdGiaSu") == 3)
+                                    if (@httpContextAccessor.HttpContext.Session.GetInt32("IdGiaSu") == 1)
                                     {
                                         <li class="nav-item">
                                             <a href="~/TutorTraining">Khóa Đào Tạo</a>
                                         </li>
                                     }
-                                    if (@httpContextAccessor.HttpContext.Session.GetInt32("IdGiaSu") == 6)
+                                    else if (@httpContextAccessor.HttpContext.Session.GetInt32("IdGiaSu") == 2)
+                                    {
+                                        <li class="nav-item">
+                                            <a>Đang xét duyệt</a>
+                                        </li>
+                                    }
+                                    else if (@httpContextAccessor.HttpContext.Session.GetInt32("IdGiaSu") == 5)
                                     {
                                         <li class="nav-item">
                                             <a href="~/Tutors">Đến Trang Gia Sư</a>
                                         </li>
                                     }
-                                    if (@httpContextAccessor.HttpContext.Session.GetInt32("IdGiaSu") == null 
-                                        || @httpContextAccessor.HttpContext.Session.GetInt32("IdGiaSu") == 5
-                                        || @httpContextAccessor.HttpContext.Session.GetInt32("IdGiaSu") == 7)
-
+                                    else if (@httpContextAccessor.HttpContext.Session.GetInt32("IdGiaSu") == null
+                                        || @httpContextAccessor.HttpContext.Session.GetInt32("IdGiaSu") == 4
+                                        || @httpContextAccessor.HttpContext.Session.GetInt32("IdGiaSu") == 6)
                                     {
                                         <li class="nav-item">
                                             <a href="~/Home/RegisterAsTutor">Trở Thành Gia Sư</a>

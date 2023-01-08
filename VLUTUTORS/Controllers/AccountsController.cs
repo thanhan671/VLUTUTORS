@@ -44,34 +44,37 @@ namespace VLUTUTORS.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Login([Bind(include: "Email, MatKhau")] Taikhoannguoidung taikhoannguoidung)
         {
-            if (ModelState.IsValid)
-            {
-                string email = taikhoannguoidung.Email;
-                string password = taikhoannguoidung.MatKhau;
+            string email = taikhoannguoidung.Email;
+            string password = taikhoannguoidung.MatKhau;
 
+            if(ModelState.IsValid)
+            {
                 Taikhoannguoidung checkAccount;
                 checkAccount = db.Taikhoannguoidungs.Where(acc => acc.Email.Equals(email.Trim())).FirstOrDefault();
-                if (checkAccount.TrangThaiTaiKhoan == true)
+                if (checkAccount == null)
                 {
-                    if (checkAccount != null)
-                    {
-                        _loginSuccessCallback = LoginSuccessCall;
-                    }
-                    else
-                    {
-                        ViewBag.Message = "Email chưa đúng, vui lòng kiểm tra lại";
-                        return View();
-                    }
-
-                    if (checkAccount.MatKhau.Equals(password.Trim()))
-                    {
-                        return _loginSuccessCallback.Invoke(checkAccount);
-                    }
-                    ViewBag.Message = "Mật khẩu chưa đúng, vui lòng kiểm tra lại";
+                    ViewBag.Message = "Email chưa đúng, vui lòng kiểm tra lại";
+                    return View();
                 }
                 else
                 {
-                    ViewBag.Message = "Tài khoản có Email đăng nhập là " + checkAccount.Email + " đã bị khóa, vui lòng liên hệ với chúng tôi để được giải quyết! Xin cảm ơn";
+                    if (checkAccount.TrangThaiTaiKhoan == true)
+                    {
+                        if (checkAccount != null)
+                        {
+                            _loginSuccessCallback = LoginSuccessCall;
+                        }
+
+                        if (checkAccount.MatKhau.Equals(password.Trim()))
+                        {
+                            return _loginSuccessCallback.Invoke(checkAccount);
+                        }
+                        ViewBag.Message = "Mật khẩu chưa đúng, vui lòng kiểm tra lại";
+                    }
+                    else
+                    {
+                        ViewBag.Message = "Tài khoản có Email đăng nhập là " + checkAccount.Email + " đã bị khóa, vui lòng liên hệ với chúng tôi để được giải quyết! Xin cảm ơn";
+                    }
                 }
             }
             
@@ -93,12 +96,17 @@ namespace VLUTUTORS.Controllers
             ViewData["Email"] = noiDung.Email;
             ViewData["Fb"] = noiDung.Facebook;
             ViewData["gioiThieu"] = noiDung.GioiThieu;
+
             var taiKhoan = await db.Taikhoannguoidungs.FirstOrDefaultAsync(m => m.Id == id);
-            string avatar = taiKhoan.AnhDaiDien;
-            if (!string.IsNullOrEmpty(avatar))
-                avatar = avatar.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
-            TempData["avt"] = "Yes";
-            taiKhoan.AnhDaiDien = avatar;
+            if(taiKhoan.AnhDaiDien != null)
+            {
+                TempData["avt"] = "Yes";
+            }
+            else
+            {
+                TempData["avt"] = null;
+            }
+
             var gioiTinhs = await db.Gioitinhs.ToListAsync();
             SelectList ddlStatus = new SelectList(gioiTinhs, "IdgioiTinh", "GioiTinh1");
             taiKhoan.GenderItems = ddlStatus;
@@ -121,11 +129,16 @@ namespace VLUTUTORS.Controllers
             ViewData["Fb"] = noiDung.Facebook;
             ViewData["gioiThieu"] = noiDung.GioiThieu;
             var taiKhoan = await db.Taikhoannguoidungs.FirstOrDefaultAsync(m => m.Id == id);
-            string avatar = taiKhoan.AnhDaiDien;
-            if (!string.IsNullOrEmpty(avatar))
-                avatar = avatar.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
-            TempData["avt"] = "Yes";
-            taiKhoan.AnhDaiDien = avatar;
+
+            if (taiKhoan.AnhDaiDien != null)
+            {
+                TempData["avt"] = "Yes";
+            }
+            else
+            {
+                TempData["avt"] = null;
+            }
+
             var gioiTinhs = await db.Gioitinhs.ToListAsync();
             SelectList ddlStatus = new SelectList(gioiTinhs, "IdgioiTinh", "GioiTinh1");
             taiKhoan.GenderItems = ddlStatus;
@@ -137,7 +150,7 @@ namespace VLUTUTORS.Controllers
         public async Task<IActionResult> EditLearnerAccounts(int id, [FromForm] int IdgioiTinh, [FromForm] DateTime NgaySinh, [FromForm] string Sdt, [FromForm] string MatKhau, [FromForm] string ReMatKhau, List<IFormFile> avatar)
         {
             var dbTaikhoannguoidung = await db.Taikhoannguoidungs.FindAsync(id);
-            string avatarPath = "avatars";// Path.Combine("avatars", dbTaikhoannguoidung.Id.ToString());
+            string avatarPath = Path.Combine("avatars", dbTaikhoannguoidung.Id.ToString());
 
             if (dbTaikhoannguoidung == null || (dbTaikhoannguoidung != null && id != dbTaikhoannguoidung.Id))
             {
@@ -150,7 +163,7 @@ namespace VLUTUTORS.Controllers
                     dbTaikhoannguoidung.IdgioiTinh = IdgioiTinh;
                     dbTaikhoannguoidung.NgaySinh = NgaySinh;
                     dbTaikhoannguoidung.Sdt = Sdt;
-                    dbTaikhoannguoidung.AnhDaiDien = avatar.Count != 0 ? TutorServices.SaveUploadImages(this._environment.WebRootPath, avatarPath, avatar) : dbTaikhoannguoidung.AnhDaiDien;
+                    dbTaikhoannguoidung.AnhDaiDien = avatar.Count != 0 ? TutorServices.SaveAvatar(this._environment.WebRootPath, avatarPath, avatar) : dbTaikhoannguoidung.AnhDaiDien;
                     if (!string.IsNullOrEmpty(MatKhau))
                         dbTaikhoannguoidung.MatKhau = MatKhau;
                     db.Update(dbTaikhoannguoidung);
@@ -166,7 +179,6 @@ namespace VLUTUTORS.Controllers
             return RedirectToAction("Details", new { id });
 
         }
-
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
@@ -175,7 +187,7 @@ namespace VLUTUTORS.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(string HoTen, string Email, string MatKhau)
+        public async Task<IActionResult> Register([FromForm] string HoTen, [FromForm] string Email, [FromForm] string MatKhau)
         {
             if (ModelState.IsValid)
             {
@@ -189,13 +201,12 @@ namespace VLUTUTORS.Controllers
                         Email = Email,
                         MatKhau = MatKhau,
                         TrangThaiTaiKhoan = true,
-                        IdxetDuyet = 7
+                        IdxetDuyet = 6
                     };
                     try
                     {
                         db.Add(taiKhoanNguoiDung);
                         await db.SaveChangesAsync();
-                        ViewBag.Message = "Đăng ký tài khoản thành công!";
                     }
                     catch
                     {
@@ -208,6 +219,7 @@ namespace VLUTUTORS.Controllers
                     return RedirectToAction("Login", "Accounts");
                 }
             }
+            ViewBag.Message = "Đăng ký tài khoản thành công!";
             return RedirectToAction("Login", "Accounts");
         }
 

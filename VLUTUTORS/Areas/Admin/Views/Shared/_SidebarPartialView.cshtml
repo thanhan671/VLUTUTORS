@@ -4,7 +4,7 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="/Admin" class="brand-link">
-        <img src="~/admin/img/favicon2.png"
+        <img src="~/images/LogoVL.png"
              alt="AdminVLU Logo"
              class="brand-image"
              style="opacity: 0.9" />
@@ -32,6 +32,12 @@
                 @if (@httpContextAccessor.HttpContext.Session.GetInt32("IdQuyen") == 1)
                 {
                     <li class="nav-item">
+                        <a href="~/Admin/ManageAdminRoles" class="nav-link">
+                            <i class="fa-sharp fa-solid fa-user-check"></i>
+                            <p>Quản lý quyền</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="~/Admin/ManageAccounts" class="nav-link">
                             <i class="fa-sharp fa-solid fa-user-group"></i>
                             <p>Quản lý tài khoản</p>
@@ -54,6 +60,12 @@
                         <a href="~/Admin/ManageTest" class="nav-link">
                             <i class="fa-sharp fa-solid fa-tasks"></i>
                             <p>Quản lý bài kiểm tra</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="~/Admin/ManageConsultingType" class="nav-link">
+                            <i class="fa-sharp fa-solid fa-envelope-open"></i>
+                            <p>Quản lý loại tư vấn</p>
                         </a>
                     </li>
                 }
@@ -117,7 +129,7 @@
                         </a>
                     </li>
                 }
-                </ul>
+            </ul>
         </nav>
         <!-- /.sidebar-menu -->
     </div>

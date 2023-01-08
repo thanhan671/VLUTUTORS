@@ -40,11 +40,12 @@
             <a href='javascript:history.go(-1)' class="back-btn">
                 <i class="fa-solid fa-arrow-left"></i>
             </a>
+            <p class="sign-up__desc">
+                <span>Trở thành gia sư chỉ với 1 bước</span>
+            </p>
             <div class="container-sign-up">
-                <p class="sign-up__desc">
-                    <span>Trở thành gia sư chỉ với 1 bước</span>
-                </p>
                 <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="RegisterAsTutor">
+                    @Html.AntiForgeryToken()
                     @Html.HiddenFor(m => m.Id)
                     @Html.HiddenFor(m => m.MatKhau)
                     <div class="container--tt">
@@ -116,13 +117,13 @@
                                         </div>
                                         <div class="form__input">
                                             <label class="lb-form">Giới thiệu bản thân</label>
-                                            <input type="text" name="GioiThieu" placeholder="Giới thiệu về bản thân" required />
+                                            <textarea type="text" name="GioiThieu" placeholder="Giới thiệu về bản thân" required></textarea>
                                             <span class="warning-icon">!</span>
                                             <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                                         </div>
                                         <div class="form__input">
                                             <label class="lb-form">Đánh giá về việc gia sư</label>
-                                            <input type="text" name="DanhGiaVeViecGiaSu" placeholder="Đánh giá của bản thân về việc gia sư" required />
+                                            <textarea type="text" name="DanhGiaVeViecGiaSu" placeholder="Đánh giá của bản thân về việc gia sư" required></textarea>
                                             <span class="warning-icon">!</span>
                                             <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                                         </div>
@@ -136,7 +137,7 @@
                                         </div>
                                         <div class="form__input">
                                             <label class="lb-form">Điểm trung bình môn hoặc tên chứng chỉ</label>
-                                            <input type="text" name="TenChungChiHoacDiemMon1" placeholder="Điểm trung bình hoặc chứng chỉ môn 1" required />
+                                            <input type="text" name="TenChungChiHoacDiemMon1" placeholder="Điểm trung bình hoặc chứng chỉ môn 1" required></input>
                                             <span class="warning-icon">!</span>
                                             <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                                         </div>
@@ -148,14 +149,14 @@
                                                    placeholder="Chứng Chỉ"
                                                    required
                                                    multiple="multiple"
-                                                   accept=".jpg, .jpeg, .png" />
+                                                   accept=".jpg, .jpeg, .png, .doc, .docx, .pdf"/>
                                             <span class="warning-icon">!</span>
                                             <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                                         </div>
 
                                         <div class="form__input">
                                             <label class="lb-form">Giới thiệu môn gia sư</label>
-                                            <input type="text" name="GioiThieuVeMonGiaSu1" placeholder="Giới thiệu về môn gia sư" required />
+                                            <textarea type="text" name="GioiThieuVeMonGiaSu1" placeholder="Giới thiệu về môn gia sư" required></textarea>
                                             <span class="warning-icon">!</span>
                                             <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                                         </div>
@@ -169,9 +170,9 @@
                                         </div>
                                         <div class="form__input">
                                             <label class="lb-form">Điểm trung bình môn hoặc tên chứng chỉ</label>
-                                            <input type="text" name="TenChungChiHoacDiemMon2" placeholder="Điểm trung bình hoặc chứng chỉ môn 2" />
-                                            <span asp-validation-for="TenChungChiHoacDiemMon2" class="warning"> </span>
-
+                                            <input type="text" name="TenChungChiHoacDiemMon2" placeholder="Điểm trung bình hoặc chứng chỉ môn 2"></input>
+                                            <span class="warning-icon">!</span>
+                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                                         </div>
 
                                         <div class="form__input">
@@ -181,16 +182,16 @@
                                                    name="certificates2"
                                                    placeholder="Chứng Chỉ"
                                                    multiple="multiple"
-                                                   accept=".jpg, .jpeg, .png" />
+                                                   accept=".jpg, .jpeg, .png, .doc, .docx, .pdf" />
                                             <span asp-validation-for="ChungChiMon2" class="warning"> </span>
 
                                         </div>
 
                                         <div class="form__input">
                                             <label class="lb-form">Giới thiệu môn gia sư</label>
-                                            <input type="text" name="GioiThieuVeMonGiaSu2" placeholder="Giới thiệu về môn gia sư"/>
-                                            <span asp-validation-for="GioiThieuVeMonGiaSu2" class="warning"> </span>
-
+                                            <textarea type="text" name="GioiThieuVeMonGiaSu2" placeholder="Giới thiệu về môn gia sư"></textarea>
+                                            <span class="warning-icon">!</span>
+                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                                         </div>
                                     </div>
                                 </div>
@@ -231,5 +232,4 @@
         });
     }
 </script>
-
 

@@ -37,6 +37,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddLesson([Bind(include: "IdBaiHoc,TenBaiHoc,Link")] Khoadaotao khoadaotao)
         {
             if (ModelState.IsValid)
@@ -80,6 +81,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditLesson(int id, [Bind(include: "IdBaiHoc,TenBaiHoc,Link")] Khoadaotao khoadaotao)
         {
             if (id != khoadaotao.IdBaiHoc)
@@ -106,6 +108,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult DeleteLesson([FromForm] int hdInput)
         {
             Khoadaotao khoadaotao = _context.Khoadaotaos.Where(p => p.IdBaiHoc == hdInput).FirstOrDefault();
@@ -123,7 +126,8 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddLessonFile([Bind(include: "IdBaiHoc,TenBaiHoc,Link,TaiLieu")] Khoadaotao khoadaotao, List<IFormFile> tepBaiGiang)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddLessonFile([Bind(include: "IdBaiHoc,TenBaiHoc,TaiLieu")] Khoadaotao khoadaotao, IFormFile tepBaiGiang)
         {
             if (ModelState.IsValid)
             {
@@ -136,11 +140,12 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 {
                     try
                     {
+                        Console.WriteLine("tep bai giang: " + tepBaiGiang.FileName);
                         string Filepath = Path.Combine("Files");
-                        khoadaotao.TaiLieu = tepBaiGiang.Count != 0 ? TutorServices.SaveUploadImages(this._environment.WebRootPath, Filepath, tepBaiGiang) : khoadaotao.TaiLieu;
-                        khoadaotao.Link = null;
-                        _context.Add(khoadaotao);
-                        await _context.SaveChangesAsync();
+                        TutorServices.UploadFile(tepBaiGiang);
+                        //khoadaotao.TaiLieu = tepBaiGiang.Count != 0 ? TutorServices.SaveUploadImages(this._environment.WebRootPath, Filepath, tepBaiGiang) : khoadaotao.TaiLieu;
+                        //_context.Add(khoadaotao);
+                        //await _context.SaveChangesAsync();
                     }
                     catch (Exception ex)
                     {
