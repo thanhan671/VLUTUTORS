@@ -47,7 +47,12 @@ namespace VLUTUTORS.Controllers
             string email = taikhoannguoidung.Email;
             string password = taikhoannguoidung.MatKhau;
 
-            if(ModelState.IsValid)
+            if (ModelState["Email"].Errors.Count == 0 && ModelState["MatKhau"].Errors.Count == 0)
+            {
+                ModelState.Clear();
+            }
+
+            if (ModelState.IsValid)
             {
                 Taikhoannguoidung checkAccount;
                 checkAccount = db.Taikhoannguoidungs.Where(acc => acc.Email.Equals(email.Trim())).FirstOrDefault();
@@ -219,7 +224,7 @@ namespace VLUTUTORS.Controllers
             // add session info here
             //HttpContext.Session.
             HttpContext.Session.SetInt32("LoginId", taikhoannguoidung.Id);
-            HttpContext.Session.SetInt32("IdGiaSu", (int)taikhoannguoidung.IdxetDuyet);
+            HttpContext.Session.SetInt32("IdGiaSu", taikhoannguoidung.IdxetDuyet == null ? 0 : (int)taikhoannguoidung.IdxetDuyet);
             HttpContext.Session.SetString("loginName", taikhoannguoidung.HoTen);
             HttpContext.Session.SetString("SessionInfo", JsonConvert.SerializeObject(taikhoannguoidung));
 

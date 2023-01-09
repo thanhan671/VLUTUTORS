@@ -15,8 +15,9 @@ namespace VLUTUTORS.Controllers
         private CP25Team01Context _db = new CP25Team01Context();
 
         [HttpGet]
-        public async Task<IActionResult> Index(string courseName)
+        public async Task<IActionResult> Index(string courseName, bool justDoTest)
         {
+            
             var noiDung = await _db.Noidungs.FirstOrDefaultAsync(m => m.Id == 1);
 
             ViewData["Slogan"] = noiDung.Slogan;
@@ -39,7 +40,14 @@ namespace VLUTUTORS.Controllers
             ViewData["link"] = _db.Khoadaotaos.FirstOrDefault(l => l.TenBaiHoc.Equals(courseName)).Link; // use this instead of above code line
             var userInfo = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
             Taikhoannguoidung taikhoannguoidung = _db.Taikhoannguoidungs.Find(userInfo.Id);
+            //Console.WriteLine("diem bai kiem tra: " + taikhoannguoidung.DiemBaiTest);
+            
             baihoc.currentScore = taikhoannguoidung.DiemBaiTest;
+            Console.WriteLine("moi lam bai kiem tra index: " + justDoTest);
+            if (baihoc.currentScore <= 7 && justDoTest)
+            {
+                TempData["message"] = "Điểm của bạn: " + baihoc.currentScore + " chưa đủ để xét duyệt vui lòng làm lại bài kiểm tra";
+            }
 
             return View(baihoc);
         }
@@ -48,7 +56,7 @@ namespace VLUTUTORS.Controllers
         public IActionResult Index(string courseName, int id = 1)
         {
             Console.WriteLine("lesson: " + courseName);
-            return RedirectToAction("Index", new { courseName = courseName });
+            return RedirectToAction("Index", new { courseName = courseName, justDoTest = false });
         }
 
         [HttpGet]
@@ -129,7 +137,7 @@ namespace VLUTUTORS.Controllers
             _db.Taikhoannguoidungs.Attach(taikhoannguoidung).Property(x => x.DiemBaiTest).IsModified = true;
             _db.SaveChanges();
 
-            return RedirectToAction("Index", new { courseName = "" });
+            return RedirectToAction("Index", new { courseName = "", justDoTest = true });
         }
 
     }
