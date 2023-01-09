@@ -137,6 +137,9 @@
                                                  @Html.EditorFor(m => m.GioiThieu, new { htmlAttributes = new { @class = "ip-form", @required = "required" } })
                                             </textarea>*@
                                     </div>
+                                     <div class="message-error">
+                                                @Html.ValidationMessageFor(model => model.GioiThieu, "", new { @class = "text-danger" })
+                                         </div>
                                     <hr />
                                     <div class="row-nowrap">
                                         <div class="col-sm-3">
@@ -149,6 +152,9 @@
                                                 @Html.EditorFor(m => m.DanhGiaVeViecGiaSu, new { htmlAttributes = new { @class = "ip-form", @required = "required" } })
                                             </textarea>*@
                                     </div>
+                                     <div class="message-error">
+                                                @Html.ValidationMessageFor(model => model.DanhGiaVeViecGiaSu, "", new { @class = "text-danger" })
+                                        </div>
                                     <hr />
                                     <div class="row-nowrap">
                                         <h4>Môn gia sư thứ 1:</h4>
