@@ -185,6 +185,11 @@ namespace VLUTUTORS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(string HoTen, string Email, string MatKhau)
         {
+            if (ModelState["Email"].Errors.Count == 0 && ModelState["MatKhau"].Errors.Count == 0)
+            {
+                ModelState.Clear();
+            }
+
             if (ModelState.IsValid)
             {
                 var taiKhoan = db.Taikhoannguoidungs.AsNoTracking().SingleOrDefault(x => x.Email.ToLower() == Email.ToLower());
@@ -197,15 +202,18 @@ namespace VLUTUTORS.Controllers
                         Email = Email,
                         MatKhau = MatKhau,
                         TrangThaiTaiKhoan = true,
-                        IdxetDuyet = 7
+                        IdgioiTinh = 1,
+                        Idkhoa = 1,
+                        IdxetDuyet = 6
                     };
                     try
                     {
                         db.Add(taiKhoanNguoiDung);
                         await db.SaveChangesAsync();
                     }
-                    catch
+                    catch (Exception ex)
                     {
+                        Console.WriteLine(ex);
                         return RedirectToAction("Login", "Accounts");
                     }
                 }
