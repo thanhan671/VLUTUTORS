@@ -200,19 +200,26 @@ namespace VLUTUTORS.Controllers
 
                 if (taiKhoan == null)
                 {
+                    Random verify = new Random();
+                    int numVerify = verify.Next(100000, 999999);
                     Taikhoannguoidung taiKhoanNguoiDung = new Taikhoannguoidung
                     {
                         HoTen = HoTen,
                         Email = Email,
                         MatKhau = MatKhau,
                         TrangThaiTaiKhoan = true,
-                        IdxetDuyet = 6
+                        IdxetDuyet = 6,
+                        XacThuc = false,
+                        MaXacThuc = numVerify
                     };
                     try
                     {
                         ViewBag.Message = "Đăng ký tài khoản thành công!";
                         db.Add(taiKhoanNguoiDung);
                         await db.SaveChangesAsync();
+                        return RedirectToAction("SendMail", "ManageTuTors",
+                        new { toEmail = Email, mailBody = "Mã xác thực của bạn là"+numVerify+"Vui lòng xác thực để sử dụng các tính năng của trang web! " });
+
                     }
                     catch
                     {
@@ -225,6 +232,12 @@ namespace VLUTUTORS.Controllers
                     return RedirectToAction("Login", "Accounts");
                 }
             }
+            return RedirectToAction("VerifyAccount", "Accounts");
+        }
+
+        public IActionResult VerifyAccount()
+        {
+
             return RedirectToAction("Login", "Accounts");
         }
 
@@ -303,6 +316,37 @@ namespace VLUTUTORS.Controllers
             smtp.Send(message);
 
             return RedirectToAction("Login", "Accounts");
+        }
+
+        public IActionResult SendMail(string toEmail, string mailBody)
+        {
+            string mailTitle = "Gia Sư Văn Lang";
+            string fromMail = "giasuvanlang.thongtin@gmail.com";
+            string fromEmailPass = "wwxtjmqczzdgwqke";
+
+            //Email and content
+            MailMessage message = new MailMessage(new MailAddress(fromMail, mailTitle), new MailAddress(toEmail));
+            message.Subject = "Xác thực Email cho Gia sư Văn Lang";
+            message.Body = mailBody;
+
+            //Server detail
+            SmtpClient smtp = new SmtpClient();
+            smtp.Host = "smtp.gmail.com";
+            smtp.Port = 587;
+            smtp.EnableSsl = true;
+            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+
+            //Credentials
+            System.Net.NetworkCredential credential = new System.Net.NetworkCredential();
+            credential.UserName = fromMail;
+            credential.Password = fromEmailPass;
+            smtp.UseDefaultCredentials = false;
+            smtp.Credentials = credential;
+
+            smtp.Send(message);
+
+
+            return RedirectToAction("Index", "ManageTutors");
         }
     }
 }

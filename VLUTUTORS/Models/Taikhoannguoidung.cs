@@ -56,6 +56,8 @@ namespace VLUTUTORS.Models
         public string TenChungChiHoacDiemMon2 { get; set; }
         public double? DiemBaiTest { get; set; }
         public bool? TrangThaiGiaSu { get; set; }
+        public int? MaXacThuc { get; set; }
+        public bool? XacThuc { get; set; }
 
         public virtual Gioitinh IdgioiTinhNavigation { get; set; }
         public virtual Khoa IdkhoaNavigation { get; set; }
