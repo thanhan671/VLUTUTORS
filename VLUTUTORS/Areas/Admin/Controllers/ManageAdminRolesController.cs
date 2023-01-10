@@ -34,6 +34,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             {
                 try
                 {
+                    TempData["message"] = "Thêm mới thành công!";
                     _context.Update(quyen);
                     await _context.SaveChangesAsync();
                 }
@@ -65,6 +66,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             {
                 try
                 {
+                    TempData["message"] = "Cập nhật thành công!";
                     _context.Update(quyen);
                     await _context.SaveChangesAsync();
                 }

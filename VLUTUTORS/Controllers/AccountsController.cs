@@ -210,6 +210,7 @@ namespace VLUTUTORS.Controllers
                     };
                     try
                     {
+                        ViewBag.Message = "Đăng ký tài khoản thành công!";
                         db.Add(taiKhoanNguoiDung);
                         await db.SaveChangesAsync();
                     }
@@ -224,7 +225,6 @@ namespace VLUTUTORS.Controllers
                     return RedirectToAction("Login", "Accounts");
                 }
             }
-            ViewBag.Message = "Đăng ký tài khoản thành công!";
             return RedirectToAction("Login", "Accounts");
         }
 

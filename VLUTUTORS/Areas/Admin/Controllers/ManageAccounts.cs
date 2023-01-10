@@ -49,12 +49,14 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 var taiKhoan = _context.Taikhoanadmins.AsNoTracking().SingleOrDefault(x => x.TaiKhoan.ToLower() == taikhoanadmin.TaiKhoan.ToLower());
                 if(taiKhoan != null)
                 {
+                    TempData["message"] = "Tài khoản đã tồn tại, vui lòng kiểm tra lại";
                     return RedirectToAction("Index");
                 }
                 else
                 {
                     try
                     {
+                        TempData["message"] = "Thêm mới tài khoản thành công!";
                         _context.Add(taikhoanadmin);
                         await _context.SaveChangesAsync();
                     }
