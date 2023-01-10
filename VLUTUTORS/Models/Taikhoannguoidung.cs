@@ -24,15 +24,25 @@ namespace VLUTUTORS.Models
         [Required(ErrorMessage = "Vui lòng điền trường này!")]
         [MinLength(6, ErrorMessage = "Mật khẩu phải trên 6 ký tự")]
         public string MatKhau { get; set; } = null!;
+
+        [Required(ErrorMessage = "Vui lòng chọn trường này")]
+        [Range(1, Int32.MaxValue, ErrorMessage = "Vui lòng chọn trường này")]
         public int? IdgioiTinh { get; set; }
         public string Sdt { get; set; }
         public DateTime? NgaySinh { get; set; }
+
+        [Required(ErrorMessage = "Vui lòng chọn trường này")]
+        [Range(1, Int32.MaxValue, ErrorMessage = "Vui lòng chọn trường này")]
         public int? Idkhoa { get; set; }
         public string AnhDaiDien { get; set; }
         public bool? TrangThaiTaiKhoan { get; set; }
         public string SoTaiKhoan { get; set; }
         public int? IdnganHang { get; set; }
+
+        [RegularExpression(@"[a-zA-Z0-9]*[:(),.]", ErrorMessage = "Không nhập ký tự đặc biệt")]
         public string GioiThieu { get; set; }
+
+        [RegularExpression(@"[a-zA-Z0-9]*[:(),.]", ErrorMessage = "Không nhập ký tự đặc biệt")]
         public string DanhGiaVeViecGiaSu { get; set; }
         public double? DiemTrungBinh { get; set; }
         public int? IdmonGiaSu1 { get; set; }

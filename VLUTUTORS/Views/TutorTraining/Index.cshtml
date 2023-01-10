@@ -32,21 +32,13 @@
                 </div>
             </div>
         </div>
-        @if(@Model.currentScore == null || @Model.currentScore == 0)
+        @if(@Model.currentScore != null)
         {
             <div class="input-wrapper">
-                <label class="lb-form">Điểm hiện tại:</label>
-                @Html.TextBoxFor(m => m.currentScore, new { @readonly = true })
+                <label class="lb-form">Điểm hiện tại: @Model.currentScore</label>
             </div>
         }
-        else
-        {
-             <div class="input-wrapper">
-                <label class="lb-form">Điểm hiện tại:</label>
-                @Html.TextBoxFor(m => m.currentScore, new { @readonly = true })
-            </div>
-        }
-        @if(Model.currentScore <= 7)
+        @if(Model.currentScore <= 7 || Model.currentScore == null)
         {
             <a class="main-btn" href="@Url.Action("DoTest", "TutorTraining")">Bài kiểm tra cuối khóa học</a>
         }
@@ -55,6 +47,10 @@
              <label class="lb-form">Bạn đã đạt đủ điểm để xét duyệt</label>
         }
     </div>
+    @if (TempData["message"] != null)
+    {
+        <script>alert('@TempData["message"]');</script>
+    }
 
 </form>
 
