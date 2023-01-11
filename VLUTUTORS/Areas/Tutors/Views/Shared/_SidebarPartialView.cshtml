@@ -18,8 +18,8 @@
                 data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
                  with font-awesome or any other icon font library -->
-                <li class="nav-item menu-open">
-                    <a href="#" class="nav-link active">
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>Thống kê</p>
                     </a>
@@ -52,5 +52,14 @@
         </nav>
         <!-- /.sidebar-menu -->
     </div>
+    <script>
+        const getNavItem = document.querySelectorAll('.nav-item');
+        getNavItem.forEach(item => {
+            const link = item.querySelector('.nav-link');
+            if (link.href === window.location.href) {
+                item.classList.add('menu-open')
+            }
+        })
+    </script>
     <!-- /.sidebar -->
 </aside>

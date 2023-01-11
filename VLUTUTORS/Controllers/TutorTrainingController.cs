@@ -37,6 +37,9 @@ namespace VLUTUTORS.Controllers
             Console.WriteLine("ten bai hoc la gi: " + courseName);
 
             ViewData["link"] = _db.Khoadaotaos.FirstOrDefault(l => l.TenBaiHoc.Equals(courseName)).Link; // use this instead of above code line
+            var userInfo = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
+            Taikhoannguoidung taikhoannguoidung = _db.Taikhoannguoidungs.Find(userInfo.Id);
+            baihoc.currentScore = taikhoannguoidung.DiemBaiTest;
 
             return View(baihoc);
         }
@@ -119,13 +122,14 @@ namespace VLUTUTORS.Controllers
 
             var userInfo = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
             Taikhoannguoidung taikhoannguoidung = _db.Taikhoannguoidungs.Find(userInfo.Id);
-            taikhoannguoidung.DiemBaiTest = Convert.ToDouble(userScore);
-            taikhoannguoidung.IdxetDuyet = 2;
+            taikhoannguoidung.DiemBaiTest = Math.Round(Convert.ToDouble(userScore), 2);
+            if(taikhoannguoidung.DiemBaiTest > 8)
+                taikhoannguoidung.IdxetDuyet = 2;
 
             _db.Taikhoannguoidungs.Attach(taikhoannguoidung).Property(x => x.DiemBaiTest).IsModified = true;
             _db.SaveChanges();
 
-            return RedirectToAction("Index", "Home", new {area="default"});
+            return RedirectToAction("Index", new { courseName = "" });
         }
 
     }

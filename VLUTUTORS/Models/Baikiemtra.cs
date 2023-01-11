@@ -34,6 +34,7 @@ namespace VLUTUTORS.Models
         [NotMapped]
         public string dChecked { get; set; }
 
+
         [NotMapped]
         public List<Baikiemtra> quizes { get; set; }
     }
