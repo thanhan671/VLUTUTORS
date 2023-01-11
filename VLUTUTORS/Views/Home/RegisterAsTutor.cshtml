@@ -68,9 +68,9 @@
                                             @Html.DropDownListFor(m => m.Idkhoa, Model.DepartmentItems, "Chọn khoa", new { @class = "form__select" })
                                         </div>
                                         <div class="message-error">
-                                                @Html.ValidationMessageFor(model => model.Idkhoa, "", new { @class = "text-danger" })
+                                            @Html.ValidationMessageFor(model => model.Idkhoa, "", new { @class = "text-danger" })
                                         </div>
-                                       
+
                                         <div class="form-radio">
                                             <label for="form__label" class="form__label">Giới tính</label>
                                             <li>
@@ -84,7 +84,7 @@
                                                 @Html.ValidationMessageFor(model => model.IdgioiTinh, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
-                                       
+
                                         <div class="form__input">
                                             <label class="lb-form">Ngày sinh</label>
                                             <input type="date" name="NgaySinh" placeholder="Ngày sinh" required />
@@ -130,17 +130,17 @@
                                             <span class="warning-icon">!</span>
                                             <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                                         </div>
-                                         <div class="message-error">
-                                                @Html.ValidationMessageFor(model => model.GioiThieu, "", new { @class = "text-danger" })
-                                         </div>
+                                        <div class="message-error">
+                                            @Html.ValidationMessageFor(model => model.GioiThieu, "", new { @class = "text-danger" })
+                                        </div>
                                         <div class="form__input">
                                             <label class="lb-form">Đánh giá về việc gia sư</label>
                                             <textarea type="text" name="DanhGiaVeViecGiaSu" placeholder="Đánh giá của bản thân về việc gia sư" required></textarea>
                                             <span class="warning-icon">!</span>
                                             <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                                         </div>
-                                         <div class="message-error">
-                                                @Html.ValidationMessageFor(model => model.DanhGiaVeViecGiaSu, "", new { @class = "text-danger" })
+                                        <div class="message-error">
+                                            @Html.ValidationMessageFor(model => model.DanhGiaVeViecGiaSu, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
@@ -164,7 +164,7 @@
                                                    placeholder="Chứng Chỉ"
                                                    required
                                                    multiple="multiple"
-                                                   accept=".jpg, .jpeg, .png, .doc, .docx, .pdf"/>
+                                                   accept=".jpg, .jpeg, .png, .doc, .docx, .pdf" />
                                             <span class="warning-icon">!</span>
                                             <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                                         </div>
