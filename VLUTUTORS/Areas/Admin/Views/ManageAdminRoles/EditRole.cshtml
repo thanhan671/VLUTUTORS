@@ -28,14 +28,14 @@
             <div class="container" style="margin-top: 20px; margin-bottom: 20px">
                 <div class="main-body">
                     <div class="row gutters-sm">
-                        <div class="col-md-8">
+                        <div class="col">
                             <div class="card mb-3">
                                 <div class="card-body">
                                     <h3>Chỉnh sửa quyền</h3>
                                     <hr />
                                     <div class="row">
                                         <div class="col-sm-3">
-                                            <h6 class="mb-0">Username</h6>
+                                            <h6 class="mb-0">Tên quyền</h6>
                                         </div>
                                         <input class="col-sm-9 text-secondary" name="TenQuyen" id="TenQuyen" type="text" value="@*@Model.TaiKhoan*@">
                                         @*@Html.ValidationMessageFor(m => m.TaiKhoan, "", new { @class = "text-danger" })*@

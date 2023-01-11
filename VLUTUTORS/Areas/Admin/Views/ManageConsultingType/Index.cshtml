@@ -8,7 +8,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <div class="container-fluid">
-            <div class="row mb-2">
+            <div class="row mb-2 justify-content-center text-center text-uppercase">
                 <div class="col-sm-6">
                     <h1>Quản lý loại tư vấn</h1>
                 </div>
@@ -54,10 +54,10 @@
                                 @*@Html.DisplayFor(modelItem => item.TaiKhoan)*@    Tên
                             </td>
                             <td class="project-actions">
-                                <a class="btn btn-primary btn-sm"
+                                <a class="btn btn-info btn-sm"
                                    asp-action="EditType" asp-controller="ManageConsultingType" asp-route-id="@*@item.Id*@">
                                     <i class="fas fa-pen"> </i>
-                                    Chỉnh sửa
+                                    Sửa
                                 </a>
                             </td>
                         </tr>

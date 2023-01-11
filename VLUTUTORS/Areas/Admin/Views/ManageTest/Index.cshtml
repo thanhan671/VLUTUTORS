@@ -10,11 +10,10 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <div class="container-fluid">
-            <div class="row mb-2">
+            <div class="row mb-2 justify-content-center text-center text-uppercase">
                 <div class="col-sm-6">
                     <h1>Quản lý bài kiểm tra</h1>
                 </div>
-                <div class="col-sm-6"></div>
             </div>
         </div>
         <!-- /.container-fluid -->
@@ -45,7 +44,7 @@
                             <th>Đáp án C</th>
                             <th>Đáp án D</th>
                             <th>Đáp án đúng</th>
-                            <th>Chức năng</th>
+                            <th class="action">Chức năng</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -78,7 +77,7 @@
                                         <a class="btn btn-info btn-sm"
                                        asp-action="EditQuestion" asp-controller="ManageTest" asp-route-id="@item.IdCauHoi">
                                             <i class="fas fa-pencil-alt"> </i>
-                                            Sửa
+                                           Sửa
                                         </a>
                                         <a class="btn btn-danger btn-sm"
                                        data-toggle="modal"
