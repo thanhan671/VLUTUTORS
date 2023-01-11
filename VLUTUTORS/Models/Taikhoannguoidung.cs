@@ -39,10 +39,10 @@ namespace VLUTUTORS.Models
         public string SoTaiKhoan { get; set; }
         public int? IdnganHang { get; set; }
 
-        [RegularExpression(@"[a-zA-Z0-9]*[:(),.]", ErrorMessage = "Không nhập ký tự đặc biệt")]
+        [RegularExpression("^([a-zA-Z0-9 .,:'-]+)$", ErrorMessage = "Không nhập ký tự đặc biệt")]
         public string GioiThieu { get; set; }
 
-        [RegularExpression(@"[a-zA-Z0-9]*[:(),.]", ErrorMessage = "Không nhập ký tự đặc biệt")]
+        [RegularExpression("^([a-zA-Z0-9 .,:'-]+)$", ErrorMessage = "Không nhập ký tự đặc biệt")]
         public string DanhGiaVeViecGiaSu { get; set; }
         public double? DiemTrungBinh { get; set; }
         public int? IdmonGiaSu1 { get; set; }
