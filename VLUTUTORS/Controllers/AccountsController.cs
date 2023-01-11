@@ -194,6 +194,11 @@ namespace VLUTUTORS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register([FromForm] string HoTen, [FromForm] string Email, [FromForm] string MatKhau)
         {
+            if (ModelState["Email"].Errors.Count == 0 && ModelState["MatKhau"].Errors.Count == 0)
+            {
+                ModelState.Clear();
+            }
+
             if (ModelState.IsValid)
             {
                 var taiKhoan = db.Taikhoannguoidungs.AsNoTracking().SingleOrDefault(x => x.Email.ToLower() == Email.ToLower());
@@ -221,8 +226,9 @@ namespace VLUTUTORS.Controllers
                         new { toEmail = Email, mailBody = "Mã xác thực của bạn là"+numVerify+"Vui lòng xác thực để sử dụng các tính năng của trang web! " });
 
                     }
-                    catch
+                    catch (Exception ex)
                     {
+                        Console.WriteLine(ex);
                         return RedirectToAction("Login", "Accounts");
                     }
                 }
