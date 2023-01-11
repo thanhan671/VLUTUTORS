@@ -205,25 +205,27 @@ namespace VLUTUTORS.Controllers
 
                 if (taiKhoan == null)
                 {
-                    Random verify = new Random();
-                    int numVerify = verify.Next(100000, 999999);
+                    //Random verify = new Random();
+                    //int numVerify = verify.Next(100000, 999999);
                     Taikhoannguoidung taiKhoanNguoiDung = new Taikhoannguoidung
                     {
                         HoTen = HoTen,
                         Email = Email,
                         MatKhau = MatKhau,
                         TrangThaiTaiKhoan = true,
+                        IdgioiTinh = 1,
+                        Idkhoa = 1,
                         IdxetDuyet = 6,
-                        XacThuc = false,
-                        MaXacThuc = numVerify
+                        //XacThuc = false,
+                        //MaXacThuc = numVerify
                     };
                     try
                     {
-                        ViewBag.Message = "Đăng ký tài khoản thành công!";
+
                         db.Add(taiKhoanNguoiDung);
                         await db.SaveChangesAsync();
-                        return RedirectToAction("SendMail", "ManageTuTors",
-                        new { toEmail = Email, mailBody = "Mã xác thực của bạn là"+numVerify+"Vui lòng xác thực để sử dụng các tính năng của trang web! " });
+                        //return RedirectToAction("SendMail", "ManageTuTors",
+                        //new { toEmail = Email, mailBody = "Mã xác thực của bạn là"+numVerify+"Vui lòng xác thực để sử dụng các tính năng của trang web! " });
 
                     }
                     catch (Exception ex)
@@ -238,7 +240,8 @@ namespace VLUTUTORS.Controllers
                     return RedirectToAction("Login", "Accounts");
                 }
             }
-            return RedirectToAction("VerifyAccount", "Accounts");
+            ViewBag.Message = "Đăng ký tài khoản thành công!";
+            return RedirectToAction("Login", "Accounts");
         }
 
         public IActionResult VerifyAccount()

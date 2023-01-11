@@ -259,7 +259,7 @@
                                 <div class="help-block with-errors"></div>
                             </div>
                             <div class="singel-form">
-                                @Html.DropDownList("LoaiTuVan", (IEnumerable <SelectListItem>)ViewData["loaiTuVan"], "Loại Tư Vấn", new {@class="form-index", @required="required"})
+                                @Html.DropDownList("LoaiTuVan", (IEnumerable<SelectListItem>)ViewData["loaiTuVan"], "Loại Tư Vấn", new { @class = "form-index", @required = "required" })
                                 <div class="help-block with-errors"></div>
                             </div>
                             <div class="singel-form">
@@ -267,7 +267,7 @@
                                 <div class="help-block with-errors"></div>
                             </div>
                             <div class="singel-form">
-                                <button class="main-btn" type="submit" onclick="popup()">
+                                <button class="main-btn" type="submit">
                                     Đăng ký tư vấn
                                 </button>
                             </div>
@@ -279,21 +279,9 @@
         </div>
         <!-- row -->
     </div>
-    <script>
-        function popup() {
-            alert('Đăng ký tư vấn được gửi thành công!');
-        }
-        $('#myForm').on('submit', function (e) {
-            e.preventDefault(); // Now nothing will happen
-        });
-    </script>
-    @if (ViewBag.Message != null)
+    @if (TempData["message"] != null)
     {
-        <script type="text/javascript">
-        window.onload = function () {
-            alert("@ViewBag.Message");
-        };
-        </script>
+        <script>alert('@TempData["message"]');</script>
     }
     <!-- container -->
 </section>
