@@ -24,6 +24,7 @@
         <input type="hidden" asp-for="HoVaTen" />
         <input type="hidden" asp-for="NoiDungTuVan" />
         <input type="hidden" asp-for="Sdt" />
+        <input type="hidden" asp-for="Email" />
         <section class="content">
             <div class="container" style="margin-top: 20px; margin-bottom: 20px">
                 <div class="main-body">
@@ -55,6 +56,15 @@
                                         </div>
                                         <div class="col-sm-9 text-secondary">
                                             @Html.DisplayFor(model => model.Sdt)
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Email</h6>
+                                        </div>
+                                        <div class="col-sm-9 text-secondary">
+                                            @Html.DisplayFor(model => model.Email)
                                         </div>
                                     </div>
                                     <hr />
