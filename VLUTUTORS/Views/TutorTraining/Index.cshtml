@@ -35,7 +35,7 @@
         @if(@Model.currentScore != null)
         {
             <div class="input-wrapper">
-                <label class="lb-form">Điểm hiện tại: @Model.currentScore</label>
+                <label class="lb-form">Điểm hiện tại: <h4 style="color:red">@Model.currentScore</h4></label>
             </div>
         }
         @if(Model.currentScore <= 7 || Model.currentScore == null)
@@ -44,7 +44,7 @@
         }
         else
         {
-             <label class="lb-form">Bạn đã đạt đủ điểm để xét duyệt</label>
+             <h6 style="color:green">Bạn đã đạt đủ điểm để xét duyệt, vui lòng chờ thông báo qua Email</h6>
         }
     </div>
     @if (TempData["message"] != null)
