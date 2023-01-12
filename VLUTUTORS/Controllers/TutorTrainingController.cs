@@ -131,7 +131,7 @@ namespace VLUTUTORS.Controllers
             var userInfo = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
             Taikhoannguoidung taikhoannguoidung = _db.Taikhoannguoidungs.Find(userInfo.Id);
             taikhoannguoidung.DiemBaiTest = Math.Round(Convert.ToDouble(userScore), 2);
-            if(taikhoannguoidung.DiemBaiTest > 8)
+            if(taikhoannguoidung.DiemBaiTest > 7)
                 taikhoannguoidung.IdxetDuyet = 2;
 
             _db.Taikhoannguoidungs.Attach(taikhoannguoidung).Property(x => x.DiemBaiTest).IsModified = true;
