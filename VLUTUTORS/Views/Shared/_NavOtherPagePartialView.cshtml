@@ -43,14 +43,6 @@
                             {
                                 <li class="nav-item">
                                     <a asp-controller="Accounts" asp-action="Details" asp-route-id="@httpContextAccessor.HttpContext.Session.GetInt32("LoginId")"><i class="fa-solid fa-user-tie active"></i></a>
-                                    <ul class="sub-menu">
-                                        <li>
-                                            <a href=""
-                                               data-toggle="modal"
-                                               data-target="#logoutModal"
-                                               id="logout">Đăng Xuất</a>
-                                        </li>
-                                    </ul>
                                 </li>
                             }
                             else

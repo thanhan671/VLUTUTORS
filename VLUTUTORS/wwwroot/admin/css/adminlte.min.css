@@ -2937,15 +2937,16 @@ fieldset:disabled a.btn {
 
 .btn-primary {
     color: #fff;
-    background-color: #007bff;
-    border-color: #007bff;
+    background-color: #07294D;
+    border-color: #07294D;
     box-shadow: none;
+    transition: 0.4s ease-in-out;
 }
 
     .btn-primary:hover {
         color: #fff;
-        background-color: #0069d9;
-        border-color: #0062cc;
+        background-color: #EC6923;
+        border-color: #EC6923;
     }
 
     .btn-primary.focus,
@@ -14528,7 +14529,7 @@ body:not(.layout-fixed) .main-sidebar {
     }
 
 [class*='sidebar-dark-'] {
-    background-color: #343a40;
+    background-color: #07294D;
 }
 
     [class*='sidebar-dark-'] .user-panel a:hover {
@@ -14624,7 +14625,7 @@ body:not(.layout-fixed) .main-sidebar {
 
 .sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link.active,
 .sidebar-light-primary .nav-sidebar > .nav-item > .nav-link.active {
-    background-color: #007bff;
+    background-color: #EC6923;
     color: #fff;
 }
 
@@ -39855,8 +39856,8 @@ td.active:hover {
 
 .dark-mode .btn-primary {
     color: #fff;
-    background-color: #3f6791;
-    border-color: #3f6791;
+    background-color: #07294D;
+    border-color: #07294D;
     box-shadow: none;
 }
 
@@ -60157,4 +60158,14 @@ a.text-muted:hover {
 }
 .button-search{
     width:80px;
+}
+
+.action { 
+    width: 200px;
+}
+#IdtrangThai {
+    width: 100%;
+    height: 30px;
+    border-color: #000;
+    border-radius: 0px;
 }

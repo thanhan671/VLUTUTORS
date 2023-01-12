@@ -19,8 +19,12 @@
                             foreach (var item in @Model.courses)
                             {
                                 index++;
+
+                                <button type="submit" class="course-item" name="courseName" value="@item"><p class="course-title">Bài @index : @item.ToString()</p></button><br>
+
                                 <button type="submit" class="course-item" name="courseName" value="@item"><p class="course-title">Bài @index : @item.ToString()</p></button>
                                 <br>
+
                             }
                         }
                     </div>

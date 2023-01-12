@@ -24,6 +24,11 @@
           referrerpolicy="no-referrer" />
 </head>
 <body>
+@*    <div>
+        <button class="back">
+            <i class="fa-sharp fa-solid fa-arrow-left"></i>
+        </button>
+    </div>*@
     <div class="container">
         <div class="forms-container">
             <div class="signin-signup">
@@ -102,9 +107,9 @@
     @if (ViewBag.Message != null)
     {
         <script type="text/javascript">
-        window.onload = function () {
-            alert("@ViewBag.Message");
-        };
+            window.onload = function () {
+                alert("@ViewBag.Message");
+            };
         </script>
     }
 
