@@ -37,12 +37,14 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 var mon = _context.Mongiasus.AsNoTracking().SingleOrDefault(x => x.TenMonGiaSu.ToLower() == mongiasu.TenMonGiaSu.ToLower());
                 if (mon != null)
                 {
+                    TempData["message"] = "Môn gia sư đã tồn tại!";
                     return RedirectToAction("AddSubject");
                 }
                 else
                 {
                     try
                     {
+                        TempData["message"] = "Thêm mới thành công!";
                         _context.Add(mongiasu);
                         await _context.SaveChangesAsync();
                     }
@@ -82,6 +84,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             {
                 try
                 {
+                    TempData["message"] = "Cập nhật thành công!";
                     _context.Update(mongiasu);
                     await _context.SaveChangesAsync();
                 }

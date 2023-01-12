@@ -47,7 +47,12 @@ namespace VLUTUTORS.Controllers
             string email = taikhoannguoidung.Email;
             string password = taikhoannguoidung.MatKhau;
 
-            if(ModelState.IsValid)
+            if (ModelState["Email"].Errors.Count == 0 && ModelState["MatKhau"].Errors.Count == 0)
+            {
+                ModelState.Clear();
+            }
+
+            if (ModelState.IsValid)
             {
                 Taikhoannguoidung checkAccount;
                 checkAccount = db.Taikhoannguoidungs.Where(acc => acc.Email.Equals(email.Trim())).FirstOrDefault();
@@ -189,27 +194,43 @@ namespace VLUTUTORS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register([FromForm] string HoTen, [FromForm] string Email, [FromForm] string MatKhau)
         {
+            if (ModelState["Email"].Errors.Count == 0 && ModelState["MatKhau"].Errors.Count == 0)
+            {
+                ModelState.Clear();
+            }
+
             if (ModelState.IsValid)
             {
                 var taiKhoan = db.Taikhoannguoidungs.AsNoTracking().SingleOrDefault(x => x.Email.ToLower() == Email.ToLower());
 
                 if (taiKhoan == null)
                 {
+                    //Random verify = new Random();
+                    //int numVerify = verify.Next(100000, 999999);
                     Taikhoannguoidung taiKhoanNguoiDung = new Taikhoannguoidung
                     {
                         HoTen = HoTen,
                         Email = Email,
                         MatKhau = MatKhau,
                         TrangThaiTaiKhoan = true,
-                        IdxetDuyet = 6
+                        IdgioiTinh = 1,
+                        Idkhoa = 1,
+                        IdxetDuyet = 6,
+                        //XacThuc = false,
+                        //MaXacThuc = numVerify
                     };
                     try
                     {
+
                         db.Add(taiKhoanNguoiDung);
                         await db.SaveChangesAsync();
+                        //return RedirectToAction("SendMail", "ManageTuTors",
+                        //new { toEmail = Email, mailBody = "Mã xác thực của bạn là"+numVerify+"Vui lòng xác thực để sử dụng các tính năng của trang web! " });
+
                     }
-                    catch
+                    catch (Exception ex)
                     {
+                        Console.WriteLine(ex);
                         return RedirectToAction("Login", "Accounts");
                     }
                 }
@@ -223,12 +244,18 @@ namespace VLUTUTORS.Controllers
             return RedirectToAction("Login", "Accounts");
         }
 
+        public IActionResult VerifyAccount()
+        {
+
+            return RedirectToAction("Login", "Accounts");
+        }
+
         public IActionResult LoginSuccessCall(Taikhoannguoidung taikhoannguoidung)
         {
             // add session info here
             //HttpContext.Session.
             HttpContext.Session.SetInt32("LoginId", taikhoannguoidung.Id);
-            HttpContext.Session.SetInt32("IdGiaSu", (int)taikhoannguoidung.IdxetDuyet);
+            HttpContext.Session.SetInt32("IdGiaSu", taikhoannguoidung.IdxetDuyet == null ? 0 : (int)taikhoannguoidung.IdxetDuyet);
             HttpContext.Session.SetString("loginName", taikhoannguoidung.HoTen);
             HttpContext.Session.SetString("SessionInfo", JsonConvert.SerializeObject(taikhoannguoidung));
 
@@ -298,6 +325,37 @@ namespace VLUTUTORS.Controllers
             smtp.Send(message);
 
             return RedirectToAction("Login", "Accounts");
+        }
+
+        public IActionResult SendMail(string toEmail, string mailBody)
+        {
+            string mailTitle = "Gia Sư Văn Lang";
+            string fromMail = "giasuvanlang.thongtin@gmail.com";
+            string fromEmailPass = "wwxtjmqczzdgwqke";
+
+            //Email and content
+            MailMessage message = new MailMessage(new MailAddress(fromMail, mailTitle), new MailAddress(toEmail));
+            message.Subject = "Xác thực Email cho Gia sư Văn Lang";
+            message.Body = mailBody;
+
+            //Server detail
+            SmtpClient smtp = new SmtpClient();
+            smtp.Host = "smtp.gmail.com";
+            smtp.Port = 587;
+            smtp.EnableSsl = true;
+            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+
+            //Credentials
+            System.Net.NetworkCredential credential = new System.Net.NetworkCredential();
+            credential.UserName = fromMail;
+            credential.Password = fromEmailPass;
+            smtp.UseDefaultCredentials = false;
+            smtp.Credentials = credential;
+
+            smtp.Send(message);
+
+
+            return RedirectToAction("Index", "ManageTutors");
         }
     }
 }

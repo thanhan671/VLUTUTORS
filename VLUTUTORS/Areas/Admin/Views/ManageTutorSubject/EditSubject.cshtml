@@ -42,7 +42,7 @@
                                     <div class="row">
                                         <div class="col-12 flex-right mb-4">
                                             <a href='javascript:history.go(-1)' class="btn btn-secondary mr-3">Quay Lại</a>
-                                            <input type="submit" value="Lưu" class="btn btn-success" onclick="popup()" />
+                                            <input type="submit" value="Lưu" class="btn btn-success" />
                                         </div>
                                     </div>
                                 </div>
@@ -55,11 +55,7 @@
     </form>
     <!-- /.content -->
 </div>
-<script>
-    function popup() {
-        alert('Cập nhật thành công!');
-    }
-    $('#myForm').on('submit', function (e) {
-        e.preventDefault(); // Now nothing will happen
-    });
-</script>
+@if (TempData["message"] != null)
+{
+    <script>alert('@TempData["message"]');</script>
+}

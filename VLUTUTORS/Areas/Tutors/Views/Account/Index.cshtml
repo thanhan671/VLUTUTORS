@@ -24,6 +24,7 @@
             <div class="main-body">
                 <form method="post" enctype="multipart/form-data" asp-controller="Account" asp-action="Index">
                     @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     <div class="row gutters-sm">
                         <div class="col-md-4 mb-3 center-card">
                             <div class="card">
@@ -78,6 +79,9 @@
                                             <h6 class="mb-0">Khoa</h6>
                                         </div>
                                         @Html.DropDownListFor(m => m.Idkhoa, Model.DepartmentItems, new { disabled = "disabled" })
+                                         <div class="message-error">
+                                            @Html.ValidationMessageFor(model => model.Idkhoa, "", new { @class = "text-danger" })
+                                        </div>
                                     </div>
                                     <hr />
                                     <div class="row-nowrap">
@@ -133,6 +137,9 @@
                                                  @Html.EditorFor(m => m.GioiThieu, new { htmlAttributes = new { @class = "ip-form", @required = "required" } })
                                             </textarea>*@
                                     </div>
+                                     <div class="message-error">
+                                                @Html.ValidationMessageFor(model => model.GioiThieu, "", new { @class = "text-danger" })
+                                         </div>
                                     <hr />
                                     <div class="row-nowrap">
                                         <div class="col-sm-3">
@@ -145,6 +152,9 @@
                                                 @Html.EditorFor(m => m.DanhGiaVeViecGiaSu, new { htmlAttributes = new { @class = "ip-form", @required = "required" } })
                                             </textarea>*@
                                     </div>
+                                     <div class="message-error">
+                                                @Html.ValidationMessageFor(model => model.DanhGiaVeViecGiaSu, "", new { @class = "text-danger" })
+                                        </div>
                                     <hr />
                                     <div class="row-nowrap">
                                         <h4>Môn gia sư thứ 1:</h4>

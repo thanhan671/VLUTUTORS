@@ -52,14 +52,13 @@
         </nav>
         <!-- /.sidebar-menu -->
     </div>
-    <script>
-        const getNavItem = document.querySelectorAll('.nav-item');
+    <script>const getNavItem = document.querySelectorAll('.nav-item');
         getNavItem.forEach(item => {
             const link = item.querySelector('.nav-link');
             if (link.href === window.location.href) {
                 item.classList.add('menu-open')
+                link.classList.add('active')
             }
-        })
-    </script>
+        })</script>
     <!-- /.sidebar -->
 </aside>

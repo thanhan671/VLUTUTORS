@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using VLUTUTORS.Models;
 
 namespace VLUTUTORS.Areas.Admin.Controllers
 {
@@ -11,17 +13,70 @@ namespace VLUTUTORS.Areas.Admin.Controllers
     [Authorize(Roles = "Quản trị viên hệ thống")]
     public class ManageAdminRolesController : Controller
     {
-        public IActionResult Index()
+        private readonly CP25Team01Context _context = new CP25Team01Context();
+
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var quyens = await _context.Quyens.ToListAsync();
+            
+            return View(quyens);
         }
         public IActionResult AddRole()
         {
             return View();
         }
-        public IActionResult EditRole()
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddRole([Bind("TenQuyen")] Quyen quyen)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    TempData["message"] = "Thêm mới thành công!";
+                    _context.Update(quyen);
+                    await _context.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                return RedirectToAction("Index");
+            }
+            return View(quyen);
+        }
+
+        public async Task<IActionResult> EditRole(int id)
+        {
+            var quyen = await _context.Quyens.FindAsync(id);
+
+            return View(quyen);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditRole(int id, [Bind("IdQuyen,TenQuyen")] Quyen quyen)
+        {
+            if (id != quyen.IdQuyen)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    TempData["message"] = "Cập nhật thành công!";
+                    _context.Update(quyen);
+                    await _context.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                return RedirectToAction("Index");
+            }
+            return View(quyen);
         }
     }
 }

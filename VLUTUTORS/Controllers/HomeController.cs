@@ -46,6 +46,10 @@ namespace VLUTUTORS.Controllers
             ViewData["Email"] = noiDung.Email;
             ViewData["Fb"] = noiDung.Facebook;
             ViewData["gioiThieu"] = noiDung.GioiThieu;
+
+            var loaiTuVan = new SelectList(_db.Loaituvans.ToList(), "IdLoaiTuVan", "TenLoaiTuVan");
+            ViewData["loaiTuVan"] = loaiTuVan;
+
             return View(noiDung);
         }
 
@@ -57,51 +61,55 @@ namespace VLUTUTORS.Controllers
             {
                 return RedirectToAction("Login", "Accounts");
             }
-            Taikhoannguoidung taikhoannguoidung = new Taikhoannguoidung();
+            Taikhoannguoidung dbTaikhoannguoidung = new Taikhoannguoidung();
             var userInfo = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
-            taikhoannguoidung.Id = userInfo.Id;
-            taikhoannguoidung.HoTen = userInfo.HoTen;
-            taikhoannguoidung.Email = userInfo.Email;
-            taikhoannguoidung.MatKhau = userInfo.MatKhau;
+            dbTaikhoannguoidung.Id = userInfo.Id;
+            dbTaikhoannguoidung.HoTen = userInfo.HoTen;
+            dbTaikhoannguoidung.Email = userInfo.Email;
+            dbTaikhoannguoidung.MatKhau = userInfo.MatKhau;
 
-            taikhoannguoidung.DepartmentItems = new SelectList(_db.Khoas, "Idkhoa", "TenKhoa", taikhoannguoidung.Idkhoa);
-            taikhoannguoidung.GenderItems = new SelectList(_db.Gioitinhs, "IdgioiTinh", "GioiTinh1", taikhoannguoidung.IdgioiTinh);
-            taikhoannguoidung.BankItems = new SelectList(_db.Nganhangs, "Id", "TenNganHangHoacViDienTu", taikhoannguoidung.IdnganHang);
-            taikhoannguoidung.Subject1Items = new SelectList(_db.Mongiasus, "IdmonGiaSu", "TenMonGiaSu", taikhoannguoidung.IdmonGiaSu1);
-            taikhoannguoidung.Subject2Items = new SelectList(_db.Mongiasus, "IdmonGiaSu", "TenMonGiaSu", taikhoannguoidung.IdmonGiaSu2);
-
-            return View(taikhoannguoidung);
+            dbTaikhoannguoidung.DepartmentItems = new SelectList(_db.Khoas, "Idkhoa", "TenKhoa", dbTaikhoannguoidung.Idkhoa);
+            dbTaikhoannguoidung.GenderItems = new SelectList(_db.Gioitinhs, "IdgioiTinh", "GioiTinh1", dbTaikhoannguoidung.IdgioiTinh);
+            dbTaikhoannguoidung.BankItems = new SelectList(_db.Nganhangs, "Id", "TenNganHangHoacViDienTu", dbTaikhoannguoidung.IdnganHang);
+            dbTaikhoannguoidung.Subject1Items = new SelectList(_db.Mongiasus, "IdmonGiaSu", "TenMonGiaSu", dbTaikhoannguoidung.IdmonGiaSu1);
+            dbTaikhoannguoidung.Subject2Items = new SelectList(_db.Mongiasus, "IdmonGiaSu", "TenMonGiaSu", dbTaikhoannguoidung.IdmonGiaSu2);
+            return View(dbTaikhoannguoidung);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult RegisterAsTutor([Bind(include: "Id, HoTen, Email, MatKhau, IdgioiTinh, Sdt, NgaySinh, Idkhoa, AnhDaiDien, TrangThaiTaiKhoan, SoTaiKhoan, IdnganHang, GioiThieu, DanhGiaVeViecGiaSu, DiemTrungBinh, IdmonGiaSu1, TenChungChiHoacDiemMon1, ChungChiMon1, GioiThieuVeMonGiaSu1, IdmonGiaSu2, TenChungChiHoacDiemMon2, ChungChiMon2, GioiThieuVeMonGiaSu2")]Taikhoannguoidung taikhoannguoidung, List<IFormFile> avatar, List<IFormFile> certificates1, List<IFormFile> certificates2)
+        public IActionResult RegisterAsTutor([Bind(include: "Id, HoTen, Email, MatKhau, IdgioiTinh, Sdt, NgaySinh, Idkhoa, AnhDaiDien, TrangThaiTaiKhoan, SoTaiKhoan, IdnganHang, GioiThieu, DanhGiaVeViecGiaSu, DiemTrungBinh, IdmonGiaSu1, TenChungChiHoacDiemMon1, ChungChiMon1, GioiThieuVeMonGiaSu1, IdmonGiaSu2, TenChungChiHoacDiemMon2, ChungChiMon2, GioiThieuVeMonGiaSu2, MaXacThuc, XacThuc")]Taikhoannguoidung taikhoannguoidung, List<IFormFile> avatar, List<IFormFile> certificates1, List<IFormFile> certificates2)
         {
             string certificates1Path = Path.Combine("certificates", taikhoannguoidung.Id.ToString(), "cer1");
             string certificates2Path = Path.Combine("certificates", taikhoannguoidung.Id.ToString(), "cer2");
             string avatarPath = Path.Combine("avatars", taikhoannguoidung.Id.ToString());
 
-            taikhoannguoidung.TrangThaiTaiKhoan = true;
-            taikhoannguoidung.ChungChiMon1 = TutorServices.SaveUploadImages(this._environment.WebRootPath, certificates1Path, certificates1);
-            taikhoannguoidung.ChungChiMon2 = TutorServices.SaveUploadImages(this._environment.WebRootPath, certificates2Path, certificates2);
-            taikhoannguoidung.AnhDaiDien = TutorServices.SaveAvatar(this._environment.WebRootPath, avatarPath, avatar);
-            taikhoannguoidung.IdxetDuyet = (int)ApprovalStatus.TRAINING;
-            taikhoannguoidung.TrangThaiGiaSu = true;
-
-            Console.WriteLine("chung chi: " + JsonConvert.DeserializeObject(taikhoannguoidung.AnhDaiDien));
-            if (ModelState.IsValid)
+            foreach (var error in ViewData.ModelState.Values.SelectMany(modelState => modelState.Errors)) 
             {
-                _db.Entry(taikhoannguoidung).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                _db.SaveChanges();
+                Console.WriteLine("eeeeeeeeeeeeeeeeeeeeeeeee" + error);
             }
 
+            if (ModelState.IsValid)
+            {
+                taikhoannguoidung.TrangThaiTaiKhoan = true;
+                taikhoannguoidung.ChungChiMon1 = TutorServices.SaveUploadImages(this._environment.WebRootPath, certificates1Path, certificates1);
+                taikhoannguoidung.ChungChiMon2 = TutorServices.SaveUploadImages(this._environment.WebRootPath, certificates2Path, certificates2);
+                taikhoannguoidung.AnhDaiDien = TutorServices.SaveAvatar(this._environment.WebRootPath, avatarPath, avatar);
+                taikhoannguoidung.IdxetDuyet = (int)ApprovalStatus.TRAINING;
+                taikhoannguoidung.TrangThaiGiaSu = true;
+
+                _db.Entry(taikhoannguoidung).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                _db.SaveChanges();
+
+                return RedirectToAction("Index", "TutorTraining", new { courseName = "" });
+            }
             taikhoannguoidung.DepartmentItems = new SelectList(_db.Khoas, "Idkhoa", "TenKhoa", taikhoannguoidung.Idkhoa);
             taikhoannguoidung.GenderItems = new SelectList(_db.Gioitinhs, "IdgioiTinh", "GioiTinh1", taikhoannguoidung.IdgioiTinh);
             taikhoannguoidung.BankItems = new SelectList(_db.Nganhangs, "Id", "TenNganHangHoacViDienTu", taikhoannguoidung.IdnganHang);
             taikhoannguoidung.Subject1Items = new SelectList(_db.Mongiasus, "IdmonGiaSu", "TenMonGiaSu", taikhoannguoidung.IdmonGiaSu1);
             taikhoannguoidung.Subject2Items = new SelectList(_db.Mongiasus, "IdmonGiaSu", "TenMonGiaSu", taikhoannguoidung.IdmonGiaSu2);
-
-            return RedirectToAction("Index", "TutorTraining", new { courseName = "" });
+            Console.WriteLine(" error post: " + ModelState["Idkhoa"].Errors.Count);
+            return View(taikhoannguoidung);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -113,19 +121,22 @@ namespace VLUTUTORS.Controllers
         //Send consulting register
 
         [HttpPost]
-        public async Task<IActionResult> SendConsulting(string HoTen, string SDT, string NoiDung)
+        public async Task<IActionResult> SendConsulting(string HoTen, string Email, string SDT, string NoiDung, int LoaiTuVan)
         {
             try
             {
                 Tuvan tuVan = new Tuvan
                 {
                     HoVaTen = HoTen,
+                    Email = Email,
                     Sdt = SDT,
                     NoiDungTuVan = NoiDung,
-                    IdtrangThai = 1
+                    IdtrangThai = 1,
+                    IdLoaiTuVan= LoaiTuVan
                 };
                 try
                 {
+                    TempData["message"] = "Gửi đăng ký tư vấn thành công!";
                     _db.Add(tuVan);
                     await _db.SaveChangesAsync();
                 }
@@ -185,6 +196,7 @@ namespace VLUTUTORS.Controllers
                 return RedirectToAction("Contact", "Home");
 
             }
+            TempData["message"] = "Gửi phản hồi thành công!";
             return RedirectToAction("Contact", "Home");
         }
 

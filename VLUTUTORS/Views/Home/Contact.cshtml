@@ -74,7 +74,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="singel-form">
-                                        <button type="submit" class="main-btn" onclick="popup()">Gửi liên hệ</button>
+                                        <button type="submit" class="main-btn">Gửi liên hệ</button>
                                     </div>
                                     <!-- singel form -->
                                 </div>
@@ -153,14 +153,10 @@
         </div>
         <!-- row -->
     </div>
+    @if (TempData["message"] != null)
+    {
+        <script>alert('@TempData["message"]');</script>
+    }
     <!-- container -->
 </section>
-<script>
-    function popup() {
-        alert('Liên hệ được gửi thành công!');
-    }
-    $('#myForm').on('submit', function (e) {
-        e.preventDefault(); // Now nothing will happen
-    });
-</script>
 
