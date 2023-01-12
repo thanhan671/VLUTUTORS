@@ -2570,6 +2570,7 @@ i.active,
                 line-height: 60px;
                 margin-top: 20px;
             }
+
 .form-index {
     width: 100%;
     height: 60px;
@@ -7541,7 +7542,7 @@ i.active,
             margin-top: 20px;
         }
 
-            .category-form .main-form .singel-form input select{
+            .category-form .main-form .singel-form input select {
                 width: 100%;
                 height: 60px;
                 padding: 0 30px;
@@ -9884,20 +9885,6 @@ p.form-message.error {
     .course-item:hover {
         background-color: #ccc;
     }*/
-<<<<<<< HEAD
-
-.course-item {
-    cursor: pointer;
-    width: 100%;
-    border: none;
-    margin-bottom: 10px;
-    background: none;
-}
-
-    .course-item:hover {
-        background-color: #ccc;
-    }
-=======
 
 .course-item {
     cursor: pointer;
@@ -9911,7 +9898,6 @@ p.form-message.error {
         background-color: #ccc;
     }
 
->>>>>>> 118d89798c2c5d2979c84bc1c054f23bd4a8115a
 .coure-title {
     font-family: 'Montserrat';
     font-weight: 600;
@@ -9919,10 +9905,7 @@ p.form-message.error {
     text-align: left;
     color: #000;
 }
-<<<<<<< HEAD
-=======
 
->>>>>>> 118d89798c2c5d2979c84bc1c054f23bd4a8115a
 .course-container {
     display: flex;
     height: 100%;

@@ -19,12 +19,8 @@
                             foreach (var item in @Model.courses)
                             {
                                 index++;
-
-                                <button type="submit" class="course-item" name="courseName" value="@item"><p class="course-title">Bài @index : @item.ToString()</p></button><br>
-
                                 <button type="submit" class="course-item" name="courseName" value="@item"><p class="course-title">Bài @index : @item.ToString()</p></button>
                                 <br>
-
                             }
                         }
                     </div>
@@ -36,19 +32,19 @@
                 </div>
             </div>
         </div>
-        @if(@Model.currentScore != null)
+        @if (@Model.currentScore != null)
         {
             <div class="input-wrapper">
                 <label class="lb-form">Điểm hiện tại: <h4 style="color:red">@Model.currentScore</h4></label>
             </div>
         }
-        @if(Model.currentScore <= 7 || Model.currentScore == null)
+        @if (Model.currentScore <= 7 || Model.currentScore == null)
         {
             <a class="main-btn" href="@Url.Action("DoTest", "TutorTraining")">Bài kiểm tra cuối khóa học</a>
         }
         else
         {
-             <h6 style="color:green">Bạn đã đạt đủ điểm để xét duyệt, vui lòng chờ thông báo qua Email</h6>
+            <h6 style="color:green">Bạn đã đạt đủ điểm để xét duyệt, vui lòng chờ thông báo qua Email</h6>
         }
     </div>
     @if (TempData["message"] != null)
@@ -57,4 +53,3 @@
     }
 
 </form>
-
