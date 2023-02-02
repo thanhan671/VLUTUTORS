@@ -13,6 +13,7 @@ namespace VLUTUTORS.Models
         public string LinkTaiLieu { get; set; }
         public int IdKhoaDaoTao { get; set; }
 
+
         public virtual Khoadaotao IdKhoaDaoTaoNavigation { get; set; }
     }
 }

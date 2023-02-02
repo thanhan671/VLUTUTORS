@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 
 #nullable disable
 
@@ -18,5 +20,11 @@ namespace VLUTUTORS.Models
         public string TenBaiHoc { get; set; }
 
         public virtual ICollection<Chitietbaihoc> Chitietbaihocs { get; set; }
+
+        [NotMapped]
+        public List<string> courses { get; set; }
+
+        [NotMapped]
+        public double? currentScore { get; set; }
     }
 }
