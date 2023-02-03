@@ -31,7 +31,6 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult AddLesson()
         {
-            //Khoadaotao khoadaotao = new Khoadaotao();
 
             return View();
         }
@@ -117,13 +116,6 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpGet]
-        public IActionResult AddLessonFile()
-        {
-
-            return View();
-        }
-
         //[HttpPost]
         //[ValidateAntiForgeryToken]
         //public async Task<IActionResult> AddLessonFile([Bind(include: "IdBaiHoc,TenBaiHoc,TaiLieu")] Khoadaotao khoadaotao, IFormFile tepBaiGiang)
@@ -156,18 +148,5 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         //    return View(khoadaotao);
         //}
 
-        [HttpGet]
-        public IActionResult ContentLesson()
-        {
-
-            return View();
-        }
-
-        [HttpGet]
-        public IActionResult AddLessonVideo()
-        {
-
-            return View();
-        }
     }
 }

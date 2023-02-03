@@ -18,7 +18,6 @@ namespace VLUTUTORS.Models
         }
 
         public virtual DbSet<Baikiemtra> Baikiemtras { get; set; }
-        public virtual DbSet<Chitietbaihoc> Chitietbaihocs { get; set; }
         public virtual DbSet<Gioitinh> Gioitinhs { get; set; }
         public virtual DbSet<Khoa> Khoas { get; set; }
         public virtual DbSet<Khoadaotao> Khoadaotaos { get; set; }
@@ -79,34 +78,6 @@ namespace VLUTUTORS.Models
                     .HasMaxLength(500);
             });
 
-            modelBuilder.Entity<Chitietbaihoc>(entity =>
-            {
-                entity.HasKey(e => e.IdNoiDung);
-
-                entity.ToTable("CHITIETBAIHOC");
-
-                entity.Property(e => e.IdKhoaDaoTao).HasColumnName("idKhoaDaoTao");
-
-                entity.Property(e => e.LinkTaiLieu)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.LinkVideo)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.TenBaiHoc)
-                    .IsRequired()
-                    .HasMaxLength(200)
-                    .IsUnicode(false);
-
-                entity.HasOne(d => d.IdKhoaDaoTaoNavigation)
-                    .WithMany(p => p.Chitietbaihocs)
-                    .HasForeignKey(d => d.IdKhoaDaoTao)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_CHITIETBAIHOC_KHOADAOTAO");
-            });
-
             modelBuilder.Entity<Gioitinh>(entity =>
             {
                 entity.HasKey(e => e.IdgioiTinh);
@@ -139,6 +110,14 @@ namespace VLUTUTORS.Models
                 entity.HasKey(e => e.IdBaiHoc);
 
                 entity.ToTable("KHOADAOTAO");
+
+                entity.Property(e => e.LinkVideo)
+                    .HasMaxLength(500)
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.TaiLieu)
+                    .HasMaxLength(500)
+                    .IsFixedLength(true);
 
                 entity.Property(e => e.TenBaiHoc)
                     .IsRequired()

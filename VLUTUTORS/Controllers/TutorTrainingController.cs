@@ -37,7 +37,7 @@ namespace VLUTUTORS.Controllers
             courseName = courseName == null ? _db.Khoadaotaos.FirstOrDefault(kdt => kdt.IdBaiHoc == 1).TenBaiHoc : courseName; // use this instead of above code line
             Console.WriteLine("ten bai hoc la gi: " + courseName);
 
-            ViewData["link"] = _db.Chitietbaihocs.FirstOrDefault(l => l.TenBaiHoc.Equals(courseName)).LinkVideo; // use this instead of above code line
+            ViewData["link"] = _db.Khoadaotaos.FirstOrDefault(l => l.TenBaiHoc.Equals(courseName)).LinkVideo; // use this instead of above code line
             var userInfo = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
             Taikhoannguoidung taikhoannguoidung = _db.Taikhoannguoidungs.Find(userInfo.Id);
             //Console.WriteLine("diem bai kiem tra: " + taikhoannguoidung.DiemBaiTest);
