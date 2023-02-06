@@ -30,5 +30,6 @@ namespace VLUTUTORS.Models
 
         [NotMapped]
         public double? currentScore { get; set; }
+
     }
 }

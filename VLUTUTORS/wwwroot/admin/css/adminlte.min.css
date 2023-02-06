@@ -3019,7 +3019,12 @@ fieldset:disabled a.btn {
         .show > .btn-secondary.dropdown-toggle:focus {
             box-shadow: 0 0 0 0 rgba(130, 138, 145, 0.5);
         }
-
+.btn-delete {
+    background-color: red;
+    width: 95px;
+    color: white;
+    margin: 3px;
+}
 .btn-success {
     color: #fff;
     background-color: #28a745;
