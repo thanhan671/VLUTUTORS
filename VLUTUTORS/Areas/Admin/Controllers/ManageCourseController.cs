@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,14 @@ namespace VLUTUTORS.Areas.Admin.Controllers
     public class ManageCourseController : Controller
     {
         private readonly CP25Team01Context _context = new CP25Team01Context();
+        private readonly ILogger<ManageCourseController> _logger;
         private IHostingEnvironment _environment;
+        public ManageCourseController(ILogger<ManageCourseController> logger, IHostingEnvironment environment)
+        {
+            _logger = logger;
+            this._environment = environment;
+        }
+
         public async Task<IActionResult> Index()
         {
             var khoaHocs = await _context.Khoadaotaos.ToListAsync();
@@ -37,11 +45,11 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddLesson(IFormCollection link, [Bind(include: "IdBaiHoc,TenBaiHoc,TaiLieu,LinkVideo")] Khoadaotao khoadaotao, List<IFormFile> file)
+        public async Task<ActionResult> AddLesson(IFormCollection link, [Bind(include: "IdBaiHoc,TenBaiHoc,TaiLieu,LinkVideo")] Khoadaotao khoadaotao, List<IFormFile> tepBaiGiang)
         {
             List<string> listLink = link["LinkVideo"].ToList();
             string linkVideo = JsonConvert.SerializeObject(listLink);
-            string Filepath = Path.Combine("Files");
+            string filePath = Path.Combine("Files");
 
             if (ModelState.IsValid)
             {
@@ -54,7 +62,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 {
                     try
                     {
-                        if (listLink.Count != 0 && file.Count == 0)
+                        if (listLink.Count != 0 && tepBaiGiang.Count == 0)
                         {
                             khoadaotao.LinkVideo = linkVideo;
                             khoadaotao.TaiLieu = null;
@@ -62,15 +70,15 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                             await _context.SaveChangesAsync();
                             TempData["message"] = "Thêm thành công!";
                         }
-                        else if (listLink.Count == 0 && file.Count != 0)
+                        else if (listLink.Count == 0 && tepBaiGiang.Count != 0)
                         {
                             khoadaotao.LinkVideo = null;
-                            khoadaotao.TaiLieu = file.Count != 0 ? TutorServices.SaveUploadImages(this._environment.WebRootPath, Filepath, file) : khoadaotao.TaiLieu;
+                            khoadaotao.TaiLieu = tepBaiGiang.Count != 0 ? TutorServices.SaveUploadFiles(this._environment.WebRootPath, filePath, tepBaiGiang) : khoadaotao.TaiLieu;
                             _context.Add(khoadaotao);
                             await _context.SaveChangesAsync();
                             TempData["message"] = "Thêm thành công!";
                         }
-                        else if (listLink.Count == 0 && file.Count == 0)
+                        else if (listLink.Count == 0 && tepBaiGiang.Count == 0)
                         {
                             TempData["message"] = "Vui lòng thêm file hoặc link video!";
                         }

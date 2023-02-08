@@ -59,8 +59,8 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             string avatarPath = Path.Combine("avatars", taikhoannguoidung.Id.ToString());
 
             taikhoannguoidung.TrangThaiTaiKhoan = true;
-            taikhoannguoidung.ChungChiMon1 = certificates1.Count != 0 ? TutorServices.SaveUploadImages(this._environment.WebRootPath, certificates1Path, certificates1) : taikhoannguoidung.ChungChiMon1;
-            taikhoannguoidung.ChungChiMon2 = certificates2.Count != 0 ? TutorServices.SaveUploadImages(this._environment.WebRootPath, certificates2Path, certificates2) : taikhoannguoidung.ChungChiMon2;
+            taikhoannguoidung.ChungChiMon1 = certificates1.Count != 0 ? TutorServices.SaveUploadFiles(this._environment.WebRootPath, certificates1Path, certificates1) : taikhoannguoidung.ChungChiMon1;
+            taikhoannguoidung.ChungChiMon2 = certificates2.Count != 0 ? TutorServices.SaveUploadFiles(this._environment.WebRootPath, certificates2Path, certificates2) : taikhoannguoidung.ChungChiMon2;
             taikhoannguoidung.AnhDaiDien = avatar.Count != 0 ? TutorServices.SaveAvatar(this._environment.WebRootPath, avatarPath, avatar) : taikhoannguoidung.AnhDaiDien;
             taikhoannguoidung.IdxetDuyet = (int)ApprovalStatus.TRAINING;
 

@@ -92,8 +92,8 @@ namespace VLUTUTORS.Controllers
             if (ModelState.IsValid)
             {
                 taikhoannguoidung.TrangThaiTaiKhoan = true;
-                taikhoannguoidung.ChungChiMon1 = TutorServices.SaveUploadImages(this._environment.WebRootPath, certificates1Path, certificates1);
-                taikhoannguoidung.ChungChiMon2 = TutorServices.SaveUploadImages(this._environment.WebRootPath, certificates2Path, certificates2);
+                taikhoannguoidung.ChungChiMon1 = TutorServices.SaveUploadFiles(this._environment.WebRootPath, certificates1Path, certificates1);
+                taikhoannguoidung.ChungChiMon2 = TutorServices.SaveUploadFiles(this._environment.WebRootPath, certificates2Path, certificates2);
                 taikhoannguoidung.AnhDaiDien = TutorServices.SaveAvatar(this._environment.WebRootPath, avatarPath, avatar);
                 taikhoannguoidung.IdxetDuyet = (int)ApprovalStatus.TRAINING;
                 taikhoannguoidung.TrangThaiGiaSu = true;
