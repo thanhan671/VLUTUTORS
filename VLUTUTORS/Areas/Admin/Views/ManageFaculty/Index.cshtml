@@ -1,6 +1,6 @@
-﻿@model IEnumerable<VLUTUTORS.Models.Taikhoanadmin>
+﻿@model IEnumerable<VLUTUTORS.Models.Khoa>
 @{
-    ViewData["Title"] = "Quản lý tài khoản";
+    ViewData["Title"] = "Quản lý khoa";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
@@ -10,7 +10,7 @@
         <div class="container-fluid">
             <div class="row mb-2 justify-content-center text-center text-uppercase">
                 <div class="col-sm-6">
-                    <h1>Quản lý tài khoản</h1>
+                    <h1>Quản lý khoa</h1>
                 </div>
             </div>
         </div>
@@ -22,11 +22,12 @@
         <!-- Default box -->
         <div class="card">
             <div class="card-header">
+                <h3 class="card-title">Danh sách khoa</h3>
                 <div class="card-tools">
                     <a class="btn btn-primary btn-sm"
-                       href="~/Admin/ManageAccounts/AddNewAccounts">
+                       asp-action="AddFaculty" asp-controller="ManageFaculty">
                         <i class="fas fa-plus"> </i>
-                        Thêm tài khoản
+                        Thêm khoa mới
                     </a>
                 </div>
             </div>
@@ -34,11 +35,9 @@
                 <table class="table table-striped projects" id="myTable">
                     <thead>
                         <tr>
-                            <th style="width: 1%">#</th>
-                            <th style="width: 20%">Username</th>
-                            <th style="width: 20%">Mật Khẩu</th>
-                            <th style="width: 20%">Quyền</th>
-                            <th style="width: 20%"></th>
+                            <th style="width: 20%">STT</th>
+                            <th style="width: 20%">Tên khoa</th>
+                            <th style="width: 15%">Chức năng</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -48,22 +47,13 @@
                             {
                                 index++;
                                 <tr>
+                                    <td>@index</td>
                                     <td>
-                                        @index
+                                        @Html.DisplayFor(modeItem => item.TenKhoa)
                                     </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.TaiKhoan)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.MatKhau)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Quyen)
-                                    </td>
-                                    <td class="project-actions text-right">
-                                        <a class="btn btn-info btn-sm"
-                                            asp-action="EditAccounts" asp-controller="ManageAccounts" asp-route-id="@item.Id">
-                                            <i class="fas fa-pen"> </i>
+                                    <td class="project-actions">
+                                        <a class="btn btn-info btn-sm" asp-action="EditFaculty" asp-controller="ManageFaculty" asp-route-id="@item.Idkhoa">
+                                            <i class="fas fa-pencil-alt"> </i>
                                             Sửa
                                         </a>
                                     </td>
@@ -75,12 +65,13 @@
             </div>
             <!-- /.card-body -->
         </div>
+
         <!-- /.card -->
     </section>
     <!-- /.content -->
+    @if (TempData["message"] != null)
+    {
+        <script>alert('@TempData["message"]');</script>
+    }
 </div>
-@if (TempData["message"] != null)
-{
-    <script>alert('@TempData["message"]');</script>
-}
 

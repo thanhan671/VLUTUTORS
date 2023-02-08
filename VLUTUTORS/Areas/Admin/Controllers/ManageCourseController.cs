@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -29,41 +30,62 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult AddLesson()
+        public ActionResult AddLesson()
         {
-
             return View();
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> AddLesson()
-        //{
-        //    //if (ModelState.IsValid)
-        //    //{
-        //    //    var khoaDaoTao = _context.Khoadaotaos.AsNoTracking().SingleOrDefault(x => x.TenBaiHoc.ToLower() == khoadaotao.TenBaiHoc.ToLower());
-        //    //    if (khoaDaoTao != null)
-        //    //    {
-        //    //        return RedirectToAction("Index");
-        //    //    }
-        //    //    else
-        //    //    {
-        //    //        try
-        //    //        {
-        //    //            string newLink = khoadaotao.Link.Replace(@"https://www.youtube.com/watch?v=", @"https://www.youtube.com/embed/");
-        //    //            khoadaotao.Link = newLink;
-        //    //            _context.Add(khoadaotao);
-        //    //            await _context.SaveChangesAsync();
-        //    //        }
-        //    //        catch (Exception ex)
-        //    //        {
-        //    //            return RedirectToAction(nameof(Index));
-        //    //        }
-        //    //        return RedirectToAction("Index");
-        //    //    }
-        //    //}
-        //    return View(khoadaotao);
-        //}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddLesson(IFormCollection link, [Bind(include: "IdBaiHoc,TenBaiHoc,TaiLieu,LinkVideo")] Khoadaotao khoadaotao, List<IFormFile> file)
+        {
+            List<string> listLink = link["LinkVideo"].ToList();
+            string linkVideo = JsonConvert.SerializeObject(listLink);
+            string Filepath = Path.Combine("Files");
+
+            if (ModelState.IsValid)
+            {
+                var checkKhoaDaoTao = _context.Khoadaotaos.AsNoTracking().SingleOrDefault(x => x.TenBaiHoc.ToLower() == khoadaotao.TenBaiHoc.ToLower());
+                if (checkKhoaDaoTao != null)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    try
+                    {
+                        if (listLink.Count != 0 && file.Count == 0)
+                        {
+                            khoadaotao.LinkVideo = linkVideo;
+                            khoadaotao.TaiLieu = null;
+                            _context.Add(khoadaotao);
+                            await _context.SaveChangesAsync();
+                            TempData["message"] = "Thêm thành công!";
+                        }
+                        else if (listLink.Count == 0 && file.Count != 0)
+                        {
+                            khoadaotao.LinkVideo = null;
+                            khoadaotao.TaiLieu = file.Count != 0 ? TutorServices.SaveUploadImages(this._environment.WebRootPath, Filepath, file) : khoadaotao.TaiLieu;
+                            _context.Add(khoadaotao);
+                            await _context.SaveChangesAsync();
+                            TempData["message"] = "Thêm thành công!";
+                        }
+                        else if (listLink.Count == 0 && file.Count == 0)
+                        {
+                            TempData["message"] = "Vui lòng thêm file hoặc link video!";
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        return RedirectToAction(nameof(Index));
+                    }
+                    return RedirectToAction("Index");
+
+                }
+            }
+
+            return View();
+        }
 
         [HttpGet]
         public async Task<IActionResult> EditLesson(int? id = -1)

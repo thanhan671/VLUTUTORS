@@ -1,0 +1,61 @@
+﻿@model VLUTUTORS.Models.Khoa
+@{
+    ViewData["Title"] = "Thêm mới khoa";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="~/Admin">Trang chủ</a></li>
+                    <li class="breadcrumb-item"><a href="~/Admin/ManageFaculty">Quản lý khoa</a></li>
+                    <li class="breadcrumb-item active">Thêm mới khoa</li>
+                </ol>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
+    <!-- Main content -->
+    <form method="post" asp-controller="ManageFaculty" asp-action="AddFaculty">
+        <section class="content">
+            <div class="container" style="margin-top: 20px; margin-bottom: 20px">
+                <div class="main-body">
+                    <div class="row gutters-sm">
+                        <div class="col">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h3>Thêm mới môn gia sư</h3>
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Tên khoa</h6>
+                                        </div>
+                                        <input class="col-sm-9 text-secondary" name="TenKhoa" id="TenKhoa" type="text">
+                                        @Html.ValidationMessageFor(m => m.TenKhoa, "", new { @class = "text-danger" })
+                                    </div>
+                                    <hr />
+
+                                    <div class="row">
+                                        <div class="col-12 flex-right mb-4">
+                                            <a href='javascript:history.go(-1)' class="btn btn-secondary mr-3">Quay Lại</a>
+                                            <input type="submit" value="Lưu" class="btn btn-success" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </form>
+    <!-- /.content -->
+</div>
+@if (TempData["message"] != null)
+{
+    <script>alert('@TempData["message"]');</script>
+}
+

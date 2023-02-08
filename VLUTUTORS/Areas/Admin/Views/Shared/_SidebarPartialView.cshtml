@@ -21,7 +21,7 @@
                 role="menu"
                 data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
-                with font-awesome or any other icon font library -->
+    with font-awesome or any other icon font library -->
 
                 <li class="nav-item">
                     <a href="#" class="nav-link">
@@ -37,18 +37,35 @@
                             <p>Quản lý quyền</p>
                         </a>
                     </li>
+
                     <li class="nav-item">
                         <a href="~/Admin/ManageAccounts" class="nav-link">
                             <i class="fa-sharp fa-solid fa-user-group"></i>
                             <p>Quản lý tài khoản</p>
                         </a>
                     </li>
+
+                    <li class="nav-item">
+                        <a href="~/Admin/ManageFaculty" class="nav-link">
+                            <i class="fa-sharp fa-solid fa-suitcase"></i>
+                            <p>Quản lý khoa</p>
+                        </a>
+                    </li>
+
                     <li class="nav-item">
                         <a href="~/Admin/ManageTutorSubject" class="nav-link">
                             <i class="fa-sharp fa-solid fa-book"></i>
                             <p>Quản lý môn gia sư</p>
                         </a>
                     </li>
+
+                    <li class="nav-item">
+                        <a href="~/Admin/ManageTimeClass" class="nav-link">
+                            <i class="fa-sharp fa-solid fa-clock"></i>
+                            <p>Quản lý ca dạy</p>
+                        </a>
+                    </li>
+
                     <li class="nav-item">
                         <a href="~/Admin/ManageCourse" class="nav-link">
                             <i class="fa-sharp fa-solid fa-graduation-cap"></i>
@@ -66,6 +83,19 @@
                         <a href="~/Admin/ManageConsultingType" class="nav-link">
                             <i class="fa-sharp fa-solid fa-envelope-open"></i>
                             <p>Quản lý loại tư vấn</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="~/Admin/ManageFeedback" class="nav-link">
+                            <i class="fa-sharp fa-solid fa-comments"></i>
+                            <p>Quản lý phản hồi</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="~/Admin/ManageContent" class="nav-link">
+                            <i class="fa-sharp fa-solid fa-pen-to-square"></i>
+                            <p>Quản lý nội dung</p>
                         </a>
                     </li>
                 }
@@ -103,25 +133,7 @@
                             <p>Quản lý tư vấn</p>
                         </a>
                     </li>
-                }
-                @if (@httpContextAccessor.HttpContext.Session.GetInt32("IdQuyen") == 1)
-                {
-                    <li class="nav-item">
-                        <a href="~/Admin/ManageFeedback" class="nav-link">
-                            <i class="fa-sharp fa-solid fa-comments"></i>
-                            <p>Quản lý phản hồi</p>
-                        </a>
-                    </li>
 
-                    <li class="nav-item">
-                        <a href="~/Admin/ManageContent" class="nav-link">
-                            <i class="fa-sharp fa-solid fa-pen-to-square"></i>
-                            <p>Quản lý nội dung</p>
-                        </a>
-                    </li>
-                }
-                @if (@httpContextAccessor.HttpContext.Session.GetInt32("IdQuyen") == 4)
-                {
                     <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="fa-sharp fa-solid fa-money-check-dollar"></i>

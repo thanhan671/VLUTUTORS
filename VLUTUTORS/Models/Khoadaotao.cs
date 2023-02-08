@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable disable
@@ -9,6 +10,8 @@ namespace VLUTUTORS.Models
     public partial class Khoadaotao
     {
         public int IdBaiHoc { get; set; }
+
+        [Required(ErrorMessage = "Vui lòng điền trường này!")]
         public string TenBaiHoc { get; set; }
         public string TaiLieu { get; set; }
         public string LinkVideo { get; set; }
@@ -30,6 +33,5 @@ namespace VLUTUTORS.Models
 
         [NotMapped]
         public double? currentScore { get; set; }
-
     }
 }

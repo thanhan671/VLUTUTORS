@@ -18,6 +18,7 @@ namespace VLUTUTORS.Models
         }
 
         public virtual DbSet<Baikiemtra> Baikiemtras { get; set; }
+        public virtual DbSet<Cahoc> Cahocs { get; set; }
         public virtual DbSet<Gioitinh> Gioitinhs { get; set; }
         public virtual DbSet<Khoa> Khoas { get; set; }
         public virtual DbSet<Khoadaotao> Khoadaotaos { get; set; }
@@ -78,6 +79,13 @@ namespace VLUTUTORS.Models
                     .HasMaxLength(500);
             });
 
+            modelBuilder.Entity<Cahoc>(entity =>
+            {
+                entity.HasKey(e => e.IdCaHoc);
+
+                entity.ToTable("CAHOC");
+            });
+
             modelBuilder.Entity<Gioitinh>(entity =>
             {
                 entity.HasKey(e => e.IdgioiTinh);
@@ -111,13 +119,9 @@ namespace VLUTUTORS.Models
 
                 entity.ToTable("KHOADAOTAO");
 
-                entity.Property(e => e.LinkVideo)
-                    .HasMaxLength(500)
-                    .IsFixedLength(true);
+                entity.Property(e => e.LinkVideo).IsUnicode(false);
 
-                entity.Property(e => e.TaiLieu)
-                    .HasMaxLength(500)
-                    .IsFixedLength(true);
+                entity.Property(e => e.TaiLieu).IsUnicode(false);
 
                 entity.Property(e => e.TenBaiHoc)
                     .IsRequired()
