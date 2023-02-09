@@ -48,6 +48,10 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         public async Task<ActionResult> AddLesson(IFormCollection link, [Bind(include: "IdBaiHoc,TenBaiHoc,TaiLieu,LinkVideo")] Khoadaotao khoadaotao, List<IFormFile> tepBaiGiang)
         {
             List<string> listLink = link["LinkVideo"].ToList();
+            if (listLink.Contains(""))
+            {
+                listLink.Remove("");
+            }
             string linkVideo = JsonConvert.SerializeObject(listLink);
             string filePath = Path.Combine("Files");
 
@@ -73,6 +77,14 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                         else if (listLink.Count == 0 && tepBaiGiang.Count != 0)
                         {
                             khoadaotao.LinkVideo = null;
+                            khoadaotao.TaiLieu = tepBaiGiang.Count != 0 ? TutorServices.SaveUploadFiles(this._environment.WebRootPath, filePath, tepBaiGiang) : khoadaotao.TaiLieu;
+                            _context.Add(khoadaotao);
+                            await _context.SaveChangesAsync();
+                            TempData["message"] = "Thêm thành công!";
+                        }
+                        else if (listLink.Count != 0 && tepBaiGiang.Count != 0)
+                        {
+                            khoadaotao.LinkVideo = linkVideo;
                             khoadaotao.TaiLieu = tepBaiGiang.Count != 0 ? TutorServices.SaveUploadFiles(this._environment.WebRootPath, filePath, tepBaiGiang) : khoadaotao.TaiLieu;
                             _context.Add(khoadaotao);
                             await _context.SaveChangesAsync();
