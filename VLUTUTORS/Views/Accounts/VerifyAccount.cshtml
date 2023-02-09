@@ -9,7 +9,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gia Sư Văn Lang | Khôi phục mật khẩu</title>
+    <title>Gia Sư Văn Lang | Xác thực tài khoản</title>
     <!--====== Favicon Icon ======-->
     <link rel="shortcut icon" href="~/images/LogoVL.png" type="image/png" />
     <link rel="stylesheet"
@@ -25,35 +25,32 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="text-center">
-                            <h3><i class="fa fa-lock fa-4x"></i></h3>
-                            <h2 class="text-center">Bạn quên mật khẩu?</h2>
-                            <p>Hãy nhập email đã đăng ký để lấy lại mật khẩu</p>
+                            <h3><i class="fa fa-check-circle fa-2x"></i></h3>
+                            <h2 class="text-center">Xác thực tài khoản</h2>
+                            <p>Vui lòng nhập mã xác thực được gửi kèm đến email!</p>
                             <div class="panel-body">
                                 <form id="myForm"
                                       role="form"
                                       autocomplete="off"
                                       class="form"
-                                      method="post" enctype="multipart/form-data" asp-controller="Accounts" asp-action="ForGotPass">
+                                      method="post" enctype="multipart/form-data" asp-controller="Accounts" asp-action="VerifyAccount">
                                     <div class="form-group">
                                         <div class="input-group">
                                             <span class="input-group-addon">
-                                                <i class="glyphicon glyphicon-envelope color-blue"></i>
+                                                <i class="fa fa-key"></i>
                                             </span>
-                                            <input id="email"
-                                                   name="email"
-                                                   placeholder="Địa chỉ email"
+                                            <input id="verifyCode"
+                                                   name="verifyCode"
+                                                   placeholder="Mã xác thực"
                                                    class="form-control"
-                                                   type="email"
+                                                   type="text"
                                                    required />
                                         </div>
                                     </div>
                                     <div class="form-group" style="margin-top: 20px">
                                         <button class="btn main-btn"
-                                                type="submit"
-                                                data-toggle="modal"
-                                                data-target="#resetPass"
-                                                onclick="popup()">
-                                            Khôi phục mật khẩu
+                                                type="submit">
+                                            Xác thực
                                         </button>
                                     </div>
                                 </form>
@@ -64,14 +61,10 @@
             </div>
         </div>
     </div>
-    <script>
-        function popup() {
-            alert('Mật khẩu mới đã được gửi tới email của bạn! Vui lòng kiểm tra mail!');
-        }
-        $('#myForm').on('submit', function (e) {
-            e.preventDefault(); // Now nothing will happen
-        });
-    </script>
+    @if (TempData["message"] != null)
+    {
+        <script>alert('@TempData["message"]');</script>
+    }
 </body>
 </html>
 

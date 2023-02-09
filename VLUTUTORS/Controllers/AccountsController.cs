@@ -82,11 +82,11 @@ namespace VLUTUTORS.Controllers
                     }
                 }
             }
-            
+
             return View();
         }
 
-        
+
         public async Task<IActionResult> Details(int? id = -1)
         {
             if (id == null)
@@ -103,7 +103,7 @@ namespace VLUTUTORS.Controllers
             ViewData["gioiThieu"] = noiDung.GioiThieu;
 
             var taiKhoan = await db.Taikhoannguoidungs.FirstOrDefaultAsync(m => m.Id == id);
-            if(taiKhoan.AnhDaiDien != null)
+            if (taiKhoan.AnhDaiDien != null)
             {
                 TempData["avt"] = "Yes";
             }
@@ -205,8 +205,8 @@ namespace VLUTUTORS.Controllers
 
                 if (taiKhoan == null)
                 {
-                    //Random verify = new Random();
-                    //int numVerify = verify.Next(100000, 999999);
+                    Random verify = new Random();
+                    int numVerify = verify.Next(100000, 999999);
                     Taikhoannguoidung taiKhoanNguoiDung = new Taikhoannguoidung
                     {
                         HoTen = HoTen,
@@ -216,16 +216,16 @@ namespace VLUTUTORS.Controllers
                         IdgioiTinh = 1,
                         Idkhoa = 1,
                         IdxetDuyet = 6,
-                        //XacThuc = false,
-                        //MaXacThuc = numVerify
+                        XacThuc = false,
+                        MaXacThuc = numVerify
                     };
                     try
                     {
 
                         db.Add(taiKhoanNguoiDung);
                         await db.SaveChangesAsync();
-                        //return RedirectToAction("SendMail", "ManageTuTors",
-                        //new { toEmail = Email, mailBody = "Mã xác thực của bạn là"+numVerify+"Vui lòng xác thực để sử dụng các tính năng của trang web! " });
+                        return RedirectToAction("SendMail", "Accounts",
+                        new { toEmail = Email, mailBody = "Mã xác thực của bạn là" + numVerify + "Vui lòng xác thực để sử dụng các tính năng của trang web! " });
 
                     }
                     catch (Exception ex)
@@ -241,11 +241,34 @@ namespace VLUTUTORS.Controllers
                 }
             }
             ViewBag.Message = "Đăng ký tài khoản thành công!";
-            return RedirectToAction("Login", "Accounts");
+            return RedirectToAction("VerifyAccount", "Accounts", new { email = Email });
         }
 
+        [HttpGet]
         public IActionResult VerifyAccount()
         {
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> VerifyAccount(string verifyCode, string email)
+        {
+            var dbTaikhoannguoidung = await db.Taikhoannguoidungs.FindAsync(email);
+
+            if (dbTaikhoannguoidung != null)
+            {
+                if (dbTaikhoannguoidung.MaXacThuc == int.Parse(verifyCode))
+                {
+                    dbTaikhoannguoidung.XacThuc = true;
+                    db.Update(dbTaikhoannguoidung);
+                    await db.SaveChangesAsync();
+                }
+            }
+            else
+            {
+                return NotFound();
+            }
 
             return RedirectToAction("Login", "Accounts");
         }
@@ -305,7 +328,7 @@ namespace VLUTUTORS.Controllers
             //Email and content
             MailMessage message = new MailMessage(new MailAddress(fromMail, mailTitle), new MailAddress(Email));
             message.Subject = "Khôi phục mật khẩu";
-            message.Body= "<p>Mật khẩu mới của bạn là<p><br/> <b>" + newPass + "</b><br/><p>Vui lòng đăng nhập với mật khẩu mới để thay đổi mật khẩu!<p>";
+            message.Body = "<p>Mật khẩu mới của bạn là<p><br/> <b>" + newPass + "</b><br/><p>Vui lòng đăng nhập với mật khẩu mới để thay đổi mật khẩu!<p>";
             message.IsBodyHtml = true;
 
             //Server detail
@@ -355,7 +378,7 @@ namespace VLUTUTORS.Controllers
             smtp.Send(message);
 
 
-            return RedirectToAction("Index", "ManageTutors");
+            return RedirectToAction("VerifyAccount", "Accounts");
         }
     }
 }
