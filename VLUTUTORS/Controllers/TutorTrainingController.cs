@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using VLUTUTORS.Models;
@@ -13,6 +16,14 @@ namespace VLUTUTORS.Controllers
     public class TutorTrainingController : Controller
     {
         private CP25Team01Context _db = new CP25Team01Context();
+        private readonly ILogger<TutorTrainingController> _logger;
+        private IHostingEnvironment _environment;
+
+        public TutorTrainingController(ILogger<TutorTrainingController> logger, IHostingEnvironment environment)
+        {
+            _logger = logger;
+            this._environment = environment;
+        }
 
         [HttpGet]
         public async Task<IActionResult> Index(string courseName, bool justDoTest)
@@ -34,10 +45,14 @@ namespace VLUTUTORS.Controllers
             baihoc.courses = (from l in lesson
                               select l.TenBaiHoc).ToList();
 
-            courseName = courseName == null ? _db.Khoadaotaos.FirstOrDefault(kdt => kdt.IdBaiHoc == 1).TenBaiHoc : courseName; // use this instead of above code line
+            courseName = courseName == null ? _db.Khoadaotaos.First<Khoadaotao>().TenBaiHoc : courseName; // use this instead of above code line
             Console.WriteLine("ten bai hoc la gi: " + courseName);
 
-            ViewData["link"] = _db.Khoadaotaos.FirstOrDefault(l => l.TenBaiHoc.Equals(courseName)).LinkVideo; // use this instead of above code line
+            string videoListInJson = _db.Khoadaotaos.Where(l => l.TenBaiHoc == courseName).First().LinkVideo;
+            baihoc.courseLink = JsonConvert.DeserializeObject<List<string>>(videoListInJson);
+
+            baihoc.TaiLieu = _db.Khoadaotaos.Where(l => l.TenBaiHoc == courseName).First().TaiLieu;
+
             var userInfo = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
             Taikhoannguoidung taikhoannguoidung = _db.Taikhoannguoidungs.Find(userInfo.Id);
             //Console.WriteLine("diem bai kiem tra: " + taikhoannguoidung.DiemBaiTest);
@@ -50,6 +65,17 @@ namespace VLUTUTORS.Controllers
             }
 
             return View(baihoc);
+        }
+
+        public FileResult DownloadFile(string fileName)
+        {
+            //string courseFilePath = id == 1 ? Path.Combine("certificates", tutorId.ToString(), "cer1") : Path.Combine("certificates", tutorId.ToString(), "cer2");
+
+            string path = Path.Combine(this._environment.WebRootPath, "Files", fileName);
+
+            byte[] bytes = System.IO.File.ReadAllBytes(path);
+
+            return File(bytes, "application/octet-stream", fileName);
         }
 
         [HttpPost]
