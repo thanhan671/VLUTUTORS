@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\admin\js\datatables2.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MailKit" Version="3.4.3" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Forms" Version="5.0.17" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
@@ -44,6 +48,7 @@
     <None Include="wwwroot\admin\js\adminlte.min.js" />
     <None Include="wwwroot\admin\js\chart\Chart.min.js" />
     <None Include="wwwroot\admin\js\chart\uPlot.iife.min.js" />
+    <None Include="wwwroot\admin\js\datatables2.js" />
     <None Include="wwwroot\admin\js\datatables.js" />
     <None Include="wwwroot\admin\js\demo.js" />
     <None Include="wwwroot\admin\js\pages\dashboard3.js" />

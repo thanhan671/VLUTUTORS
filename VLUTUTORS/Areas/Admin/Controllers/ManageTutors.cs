@@ -57,11 +57,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                     var subject = monGiaSus.FirstOrDefault(it => it.IdmonGiaSu == account.IdmonGiaSu1);
                     if (subject == null)
                         subject = new Mongiasu();
-                    if (
-                        string.IsNullOrEmpty(search) ||
-                        (!string.IsNullOrEmpty(search) && (account.HoTen.ToLower().Contains(search.ToLower()) || subject.TenMonGiaSu.ToLower().Contains(search.ToLower())))
-                    )
-                    {
+
                         awaitTutors.Add(new TutorViewModel()
                         {
                             Tutor = account,
@@ -69,7 +65,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                             ApprovedStatus = awaitApproveStatus.TenTrangThai
                         });
 
-                    }
+
 
                 }
             }
@@ -87,18 +83,12 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                         if (subject == null)
                             subject = new Mongiasu();
 
-                        if (
-                           string.IsNullOrEmpty(search) ||
-                           (!string.IsNullOrEmpty(search) && (account.HoTen.ToLower().Contains(search.ToLower()) || subject.TenMonGiaSu.ToLower().Contains(search.ToLower())))
-                        )
-                        {
                             approvedTutors.Add(new TutorViewModel()
                             {
                                 Tutor = account,
                                 Subject1 = subject.TenMonGiaSu,
                                 ApprovedStatus = approvedStatus.TenTrangThai
                             });
-                        }
                     }
                 }
             }
