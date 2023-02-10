@@ -1,0 +1,95 @@
+﻿
+@{
+    ViewData["Title"] = "EditLessonPlan";
+    Layout = "~/Areas/Tutors/Views/Shared/_TutorsLayout.cshtml";
+}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item">
+                            <a href="#">Đăng ký lịch dạy</a>
+                        </li>
+                        <li class="breadcrumb-item active">Thông tin lịch dạy</li>
+                    </ol>
+                </div>
+                <div class="col"></div>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row row-center">
+            <div class="col">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Lịch dạy</h3>
+
+                        <div class="card-tools">
+                            <button type="button"
+                                    class="btn btn-tool"
+                                    data-card-widget="collapse"
+                                    title="Collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <form class="form-group p-3">
+                        <div class="form-group">
+                            <label for="inputName">Tên môn gia sư</label>
+                            <select disabled class="form-control" name="" id="">
+                                <option value="">Anh văn cơ bản</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="select-shifts">Loại ca dạy</label>
+                            <select class="form-control mb-2"
+                                    name="select-shifts"
+                                    id="">
+                                <option value="">45 Phút</option>
+                                <option value="">60 Phút</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputName">Ngày dạy</label>
+                            <input type="date"
+                                   id="inputName"
+                                   class="form-control"
+                                   pattern="\d{1,2}/\d{1,2}/\d{4}"
+                                   value="01/02/2023"
+                                    />
+                        </div>
+                        <div class="form-group form-flex">
+                            <label for="">Chọn Khung Giờ</label>
+                            <div class="input-flex">
+                                <input 
+                                       type="time"
+                                       id="inputDate"
+                                       class="form-control form-date" />
+                            </div>
+                        </div>
+                    </form>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+        </div>
+        <div class="row float-right">
+            <div class="col">
+                <a href="~/Tutors/SignUpLessonPlan" class="btn btn-secondary">Quay Lại</a>
+                <input type="submit" value="Lưu" class="btn btn-success" />
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->

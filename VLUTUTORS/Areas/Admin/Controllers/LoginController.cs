@@ -48,7 +48,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                     {
                         if (!admin.MatKhau.Equals(password))
                         {
-                            TempData["message"] = "Mật khẩu chưa đúng vui lòng kiểm tra lại";
+                            ViewBag.Message = "Mật khẩu chưa đúng vui lòng kiểm tra lại";
                         }
                         HttpContext.Session.SetInt32("LoginId", admin.Id);
                         HttpContext.Session.SetInt32("IdQuyen", admin.IdQuyen);
@@ -57,8 +57,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                     }
                     else
                     {
-                        Console.WriteLine("alert");
-                        TempData["message"] = "Tên tài khoản hoặc mật khẩu chưa đúng vui lòng kiểm tra lại";
+                        ViewBag.Message = "Tên tài khoản hoặc mật khẩu chưa đúng vui lòng kiểm tra lại";
                         return View();
                     }    
                     return RedirectToAction("Index", "Home");
