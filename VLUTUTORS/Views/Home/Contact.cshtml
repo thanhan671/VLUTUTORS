@@ -1,4 +1,5 @@
-﻿
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor httpContextAccessor
 @{
     ViewData["Title"] = "Liên Hệ";
     Layout = "~/Views/Shared/_otherPageLayout.cshtml";
@@ -20,23 +21,51 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="singel-form form-group">
-                                        <input name="Ten"
-                                               type="text"
-                                               placeholder="Tên của bạn"
-                                               data-error="Vui lòng điền đủ thông tin."
-                                               required="required" />
-                                        <div class="help-block with-errors"></div>
+                                        @{
+                                            if (@httpContextAccessor.HttpContext.Session.GetString("loginName") != null)
+                                            {
+                                                <input name="Ten"
+                                                       type="text"
+                                                       value="@httpContextAccessor.HttpContext.Session.GetString("loginName")"
+                                                       data-error="Vui lòng điền đủ thông tin."
+                                                       required="required" />
+                                                <div class="help-block with-errors"></div>
+                                            }
+                                            else
+                                            {
+                                                <input name="Ten"
+                                                       type="text"
+                                                       placeholder="Tên của bạn"
+                                                       data-error="Vui lòng điền đủ thông tin."
+                                                       required="required" />
+                                                <div class="help-block with-errors"></div>
+                                            }
+                                        }
                                     </div>
                                     <!-- singel form -->
                                 </div>
                                 <div class="col-md-6">
                                     <div class="singel-form form-group">
-                                        <input name="Email"
-                                               type="email"
-                                               placeholder="Email"
-                                               data-error="Vui lòng điền đủ thông tin."
-                                               required="required" />
-                                        <div class="help-block with-errors"></div>
+                                        @{
+                                            if (@httpContextAccessor.HttpContext.Session.GetString("loginEmail") != null)
+                                            {
+                                                <input name="Email"
+                                                       type="email"
+                                                       value="@httpContextAccessor.HttpContext.Session.GetString("loginEmail")"
+                                                       data-error="Vui lòng điền đủ thông tin."
+                                                       required="required" />
+                                                <div class="help-block with-errors"></div>
+                                            }
+                                            else
+                                            {
+                                                <input name="Email"
+                                                       type="email"
+                                                       placeholder="Email"
+                                                       data-error="Vui lòng điền đủ thông tin."
+                                                       required="required" />
+                                                <div class="help-block with-errors"></div>
+                                            }
+                                        }
                                     </div>
                                     <!-- singel form -->
                                 </div>
