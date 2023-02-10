@@ -1,5 +1,6 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor httpContextAccessor
 @{
     Layout = null;
 }
@@ -34,19 +35,55 @@
                                       autocomplete="off"
                                       class="form"
                                       method="post" enctype="multipart/form-data" asp-controller="Accounts" asp-action="VerifyAccount">
-                                    <div class="form-group">
-                                        <div class="input-group">
-                                            <span class="input-group-addon">
-                                                <i class="fa fa-key"></i>
-                                            </span>
-                                            <input id="verifyCode"
-                                                   name="verifyCode"
-                                                   placeholder="Mã xác thực"
-                                                   class="form-control"
-                                                   type="text"
-                                                   required />
-                                        </div>
-                                    </div>
+                                    @{
+                                        if (@httpContextAccessor.HttpContext.Session.GetString("email") != null)
+                                        {
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                        <i class="fa fa-key"></i>
+                                                    </span>
+                                                    <input id="verifyCode"
+                                                           name="verifyCode"
+                                                           placeholder="Mã xác thực"
+                                                           class="form-control"
+                                                           type="text"
+                                                           required />
+                                                </div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                        <i class="fa fa-envelope-o"></i>
+                                                    </span>
+                                                    <input id="email"
+                                                           name="email"
+                                                           placeholder="Email đã đăng ký tài khoản"
+                                                           class="form-control"
+                                                           type="text"
+                                                           required />
+                                                </div>
+                                            </div>
+                                            <br/>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                        <i class="fa fa-key"></i>
+                                                    </span>
+                                                    <input id="verifyCode"
+                                                           name="verifyCode"
+                                                           placeholder="Mã xác thực"
+                                                           class="form-control"
+                                                           type="text"
+                                                           required />
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+
                                     <div class="form-group" style="margin-top: 20px">
                                         <button class="btn main-btn"
                                                 type="submit">

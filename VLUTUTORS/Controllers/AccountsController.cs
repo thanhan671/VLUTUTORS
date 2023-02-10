@@ -63,22 +63,30 @@ namespace VLUTUTORS.Controllers
                 }
                 else
                 {
-                    if (checkAccount.TrangThaiTaiKhoan == true)
+                    if (checkAccount.XacThuc==false)
                     {
-                        if (checkAccount != null)
-                        {
-                            _loginSuccessCallback = LoginSuccessCall;
-                        }
-
-                        if (checkAccount.MatKhau.Equals(password.Trim()))
-                        {
-                            return _loginSuccessCallback.Invoke(checkAccount);
-                        }
-                        ViewBag.Message = "Mật khẩu chưa đúng, vui lòng kiểm tra lại";
+                        ViewBag.Message = "Vui lòng kiểm tra email để xác thực tài khoản!";
+                        return View();
                     }
                     else
                     {
-                        ViewBag.Message = "Tài khoản có Email đăng nhập là " + checkAccount.Email + " đã bị khóa, vui lòng liên hệ với chúng tôi để được giải quyết! Xin cảm ơn";
+                        if (checkAccount.TrangThaiTaiKhoan == true)
+                        {
+                            if (checkAccount != null)
+                            {
+                                _loginSuccessCallback = LoginSuccessCall;
+                            }
+
+                            if (checkAccount.MatKhau.Equals(password.Trim()))
+                            {
+                                return _loginSuccessCallback.Invoke(checkAccount);
+                            }
+                            ViewBag.Message = "Mật khẩu chưa đúng, vui lòng kiểm tra lại";
+                        }
+                        else
+                        {
+                            ViewBag.Message = "Tài khoản có Email đăng nhập là " + checkAccount.Email + " đã bị khóa, vui lòng liên hệ với chúng tôi để được giải quyết! Xin cảm ơn";
+                        }
                     }
                 }
             }
@@ -224,8 +232,9 @@ namespace VLUTUTORS.Controllers
 
                         db.Add(taiKhoanNguoiDung);
                         await db.SaveChangesAsync();
+                        HttpContext.Session.SetString("email", Email);
                         return RedirectToAction("SendMail", "Accounts",
-                        new { toEmail = Email, mailBody = "Mã xác thực của bạn là" + numVerify + "Vui lòng xác thực để sử dụng các tính năng của trang web! " });
+                        new { toEmail = Email, mailBody = "Mã xác thực của bạn là " + numVerify + "<br/>Vui lòng xác thực để sử dụng các tính năng của trang web! " });
 
                     }
                     catch (Exception ex)
@@ -241,7 +250,7 @@ namespace VLUTUTORS.Controllers
                 }
             }
             ViewBag.Message = "Đăng ký tài khoản thành công!";
-            return RedirectToAction("VerifyAccount", "Accounts", new { email = Email });
+            return RedirectToAction("VerifyAccount", "Accounts");
         }
 
         [HttpGet]
@@ -254,20 +263,27 @@ namespace VLUTUTORS.Controllers
         [HttpPost]
         public async Task<IActionResult> VerifyAccount(string verifyCode, string email)
         {
-            var dbTaikhoannguoidung = await db.Taikhoannguoidungs.FindAsync(email);
-
-            if (dbTaikhoannguoidung != null)
+            if (HttpContext.Session.GetString("email") != null)
             {
-                if (dbTaikhoannguoidung.MaXacThuc == int.Parse(verifyCode))
-                {
-                    dbTaikhoannguoidung.XacThuc = true;
-                    db.Update(dbTaikhoannguoidung);
-                    await db.SaveChangesAsync();
-                }
+                email = HttpContext.Session.GetString("email");
             }
             else
             {
-                return NotFound();
+                var dbTaikhoannguoidung = db.Taikhoannguoidungs.AsNoTracking().SingleOrDefault(x => x.Email.ToLower() == email.ToLower());
+
+                if (dbTaikhoannguoidung != null)
+                {
+                    if (dbTaikhoannguoidung.MaXacThuc == int.Parse(verifyCode))
+                    {
+                        dbTaikhoannguoidung.XacThuc = true;
+                        db.Update(dbTaikhoannguoidung);
+                        await db.SaveChangesAsync();
+                    }
+                }
+                else
+                {
+                    return NotFound();
+                }
             }
 
             return RedirectToAction("Login", "Accounts");
@@ -280,6 +296,7 @@ namespace VLUTUTORS.Controllers
             HttpContext.Session.SetInt32("LoginId", taikhoannguoidung.Id);
             HttpContext.Session.SetInt32("IdGiaSu", taikhoannguoidung.IdxetDuyet == null ? 0 : (int)taikhoannguoidung.IdxetDuyet);
             HttpContext.Session.SetString("loginName", taikhoannguoidung.HoTen);
+            HttpContext.Session.SetString("loginEmail", taikhoannguoidung.Email);
             HttpContext.Session.SetString("SessionInfo", JsonConvert.SerializeObject(taikhoannguoidung));
 
             Console.WriteLine("login success");
@@ -360,6 +377,7 @@ namespace VLUTUTORS.Controllers
             MailMessage message = new MailMessage(new MailAddress(fromMail, mailTitle), new MailAddress(toEmail));
             message.Subject = "Xác thực Email cho Gia sư Văn Lang";
             message.Body = mailBody;
+            message.IsBodyHtml = true;
 
             //Server detail
             SmtpClient smtp = new SmtpClient();
@@ -377,6 +395,7 @@ namespace VLUTUTORS.Controllers
 
             smtp.Send(message);
 
+            ViewBag.email = toEmail;
 
             return RedirectToAction("VerifyAccount", "Accounts");
         }

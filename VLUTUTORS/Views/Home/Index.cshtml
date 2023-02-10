@@ -1,4 +1,6 @@
-﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor httpContextAccessor
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     ViewData["Title"] = "Trang Chủ";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -247,12 +249,32 @@
                     <div class="main-form">
                         <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="SendConsulting">
                             <div class="singel-form">
-                                <input type="text" name="HoTen" placeholder="Tên của bạn" data-error="Vui lòng không để trống!." required="required" />
-                                <div class="help-block with-errors"></div>
+                                @{
+                                    if (@httpContextAccessor.HttpContext.Session.GetString("loginName") != null)
+                                    {
+                                        <input type="text" name="HoTen" value="@httpContextAccessor.HttpContext.Session.GetString("loginName")" data-error="Vui lòng không để trống!." required="required" />
+                                        <div class="help-block with-errors"></div>
+                                    }
+                                    else
+                                    {
+                                        <input type="text" name="HoTen" placeholder="Họ và tên" data-error="Vui lòng không để trống!." required="required" />
+                                        <div class="help-block with-errors"></div>
+                                    }
+                                }
                             </div>
                             <div class="singel-form">
-                                <input type="text" name="Email" placeholder="Email của bạn" data-error="Vui lòng không để trống!." required="required" />
-                                <div class="help-block with-errors"></div>
+                                @{
+                                    if (@httpContextAccessor.HttpContext.Session.GetString("loginEmail") != null)
+                                    {
+                                        <input type="text" name="Email" value="@httpContextAccessor.HttpContext.Session.GetString("loginEmail")" data-error="Vui lòng không để trống!." required="required" />
+                                        <div class="help-block with-errors"></div>
+                                    }
+                                    else
+                                    {
+                                        <input type="text" name="Email" placeholder="Email của bạn" data-error="Vui lòng không để trống!." required="required" />
+                                        <div class="help-block with-errors"></div>
+                                    }
+                                }
                             </div>
                             <div class="singel-form">
                                 <input type="tel" name="SDT" placeholder="Điện thoại" data-error="Vui lòng không để trống!." required="required" />
