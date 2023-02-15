@@ -32,6 +32,9 @@ namespace VLUTUTORS.Models
         public List<string> courses { get; set; }
 
         [NotMapped]
+        public List<string> courseLink { get; set; }
+
+        [NotMapped]
         public double? currentScore { get; set; }
     }
 }

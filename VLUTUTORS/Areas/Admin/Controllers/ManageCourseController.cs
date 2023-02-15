@@ -52,6 +52,12 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             {
                 listLink.Remove("");
             }
+            for(int i = 0; i < listLink.Count; i++)
+            {
+                var editLink = listLink[i].Replace(@"https://www.youtube.com/watch?v=", @"https://www.youtube.com/embed/");
+                listLink[i] = editLink;
+            } 
+                
             string linkVideo = JsonConvert.SerializeObject(listLink);
             string filePath = Path.Combine("Files");
 
