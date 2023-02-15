@@ -49,7 +49,15 @@ namespace VLUTUTORS.Controllers
             Console.WriteLine("ten bai hoc la gi: " + courseName);
 
             string videoListInJson = _db.Khoadaotaos.Where(l => l.TenBaiHoc == courseName).First().LinkVideo;
-            baihoc.courseLink = JsonConvert.DeserializeObject<List<string>>(videoListInJson);
+            
+            if(videoListInJson != null)
+            {
+                baihoc.courseLink = JsonConvert.DeserializeObject<List<string>>(videoListInJson);
+            }
+            else
+            {
+                baihoc.courseLink = null;
+            }
 
             baihoc.TaiLieu = _db.Khoadaotaos.Where(l => l.TenBaiHoc == courseName).First().TaiLieu;
 
