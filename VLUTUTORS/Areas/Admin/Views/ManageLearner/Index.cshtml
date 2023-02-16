@@ -1,4 +1,5 @@
-﻿
+﻿@model IEnumerable<VLUTUTORS.Models.Taikhoannguoidung>
+
 @{
     ViewData["Title"] = "Quản lý học viên";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
@@ -36,31 +37,31 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @*@{
+                        @{
                     var index = 0;
                     foreach (var item in Model)
                     {
-                        index++;*@
+                        index++;
                         <tr>
                             <td>
-                                @*@index*@  1
+                                @index
                             </td>
                             <td>
-                                Nguyễn Thanh An
+                                @Html.DisplayFor(modelItem => item.HoTen)
                             </td>
                             <td>
-                                an.197pm09415@vanlanguni.vn
+                                @Html.DisplayFor(modelItem => item.Email)
                             </td>
                             <td class="project-actions">
                                 <a class="btn btn-info btn-sm"
-                                   asp-action="DetailLearner" asp-controller="ManageLearner">
+                                   asp-action="DetailLearner" asp-controller="ManageLearner" asp-route-id="@item.Id">
                                     <i class="fas fa-pen"> </i>
                                     Xem
                                 </a>
                             </td>
                         </tr>
-                        @*}
-                    }*@
+                        }
+                    }
                     </tbody>
                 </table>
             </div>
