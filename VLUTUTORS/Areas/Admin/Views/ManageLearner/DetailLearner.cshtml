@@ -31,10 +31,13 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="d-flex flex-column align-items-center text-center">
-                                        <img src="~/@Model.AnhDaiDien"
-                                             alt="Admin"
-                                             class="rounded-circle"
-                                             width="150" />
+                                        @foreach (var file in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.AnhDaiDien))
+                                        {
+                                            <img src="~/@file"
+                                                 alt="Admin"
+                                                 class="rounded-circle"
+                                                 width="150" />
+                                        }
                                     </div>
                                 </div>
                             </div>
