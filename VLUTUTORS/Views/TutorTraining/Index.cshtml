@@ -24,6 +24,18 @@
                             }
                         }
                     </div>
+                    @if (Model.TaiLieu != null)
+                    {
+                        <div class="row-nowrap">
+                            <div class="col">
+                                <h6 class="course-title">File Bài Giảng</h6>
+                            </div>
+                            @foreach (var file in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.TaiLieu))
+                            {
+                                <p style="padding-left:2.00em;">@Html.ActionLink(file + "  ", "DownloadFile", new { fileName = file})</p>
+                            }
+                        </div>
+                    }
                 </div>
             </div>
             @if(@Model.courseLink != null)
@@ -32,24 +44,13 @@
                 <div class="course-video">
                     @foreach(var link in Model.courseLink)
                     {
-                        <iframe width="560" height="315" src=@link frameborder="0" allowfullscreen></iframe>
+                        <iframe style="margin-bottom: 20px" width="560" height="315" src=@link frameborder="0" allowfullscreen></iframe>
                     }
                 </div>
                 </div>
             }
             
-            @if(Model.TaiLieu != null)
-            {
-                <div class="row-nowrap">
-                <div class="col-sm-3">
-                        <h6 class="mb-0">File Bài Giảng</h6>
-                </div>
-                    @foreach (var file in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.TaiLieu))
-                    {
-                        <p style="padding-left:2.00em;">@Html.ActionLink(file + "  ", "DownloadFile", new { fileName = file})</p>
-                    }
-                </div>
-            }
+
             
         </div>
         @if (@Model.currentScore != null)
