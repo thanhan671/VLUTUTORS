@@ -30,7 +30,6 @@ namespace VLUTUTORS.Controllers
             this._environment = environment;
         }
 
-
         [HttpGet]
         public async Task<IActionResult> Index()
         {
