@@ -7495,6 +7495,7 @@ i.active,
                 font-size: 18px;
                 -webkit-transition: all 0.4s linear;
                 transition: all 0.4s linear;
+                padding: 5px;
             }
 
             .category-2-items .singel-items .items-cont span {

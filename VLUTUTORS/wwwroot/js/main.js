@@ -323,8 +323,8 @@ $(function () {
   //===== Counter Up
 
   $(".counter").counterUp({
-    delay: 10,
-    time: 3000,
+    delay: 2,
+    time: 50,
   });
 
   //===== Slick testimonial Slied

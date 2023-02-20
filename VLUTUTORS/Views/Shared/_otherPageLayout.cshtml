@@ -1,7 +1,5 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
-
 <head>
     <!--====== Required meta tags ======-->
     <meta charset="utf-8" />
@@ -70,7 +68,7 @@
     @await Html.PartialAsync("_NavOtherPagePartialView")
 
 
-    @RenderBody();
+    @RenderBody()
     <!--====== FOOTER PART START ======-->
     <footer id="footer-part">
         <div class="footer-top pt-40 pb-70">
@@ -79,7 +77,7 @@
                     <div class="col-lg-3 col-md-6">
                         <div class="footer-about mt-40">
                             <div class="logo">
-                                <a href="#"><img src="images/LogoNew.png" alt="Logo" /></a>
+                                <a href="#"><img src="~/images/LogoNew.png" alt="Logo" /></a>
                             </div>
                             <p>
                                 @ViewData["gtChanTrang"]
@@ -101,21 +99,21 @@
                             </div>
                             <ul>
                                 <li>
-                                    <a href="/Home"><i class="fa fa-angle-right"></i>Trang chủ</a>
+                                    <a href="~/Home"><i class="fa fa-angle-right"></i>Trang chủ</a>
                                 </li>
 
                                 <li>
-                                    <a href="/Home/AboutUs"><i class="fa fa-angle-right"></i>Về chúng tôi</a>
+                                    <a href="~/Home/AboutUs"><i class="fa fa-angle-right"></i>Về chúng tôi</a>
                                 </li>
 
                             </ul>
                             <ul>
                                 <li>
-                                    <a href="#"><i class="fa fa-angle-right"></i>Tìm gia sư</a>
+                                    <a href="~/BookTutor"><i class="fa fa-angle-right"></i>Tìm gia sư</a>
                                 </li>
 
                                 <li>
-                                    <a href="/Home/RegisterAsTutor"><i class="fa fa-angle-right"></i>Trở thành gia sư</a>
+                                    <a href="~/Home/RegisterAsTutor"><i class="fa fa-angle-right"></i>Trở thành gia sư</a>
                                 </li>
                             </ul>
                         </div>

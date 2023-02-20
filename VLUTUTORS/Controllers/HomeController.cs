@@ -49,6 +49,27 @@ namespace VLUTUTORS.Controllers
             var loaiTuVan = new SelectList(_db.Loaituvans.ToList(), "IdLoaiTuVan", "TenLoaiTuVan");
             ViewData["loaiTuVan"] = loaiTuVan;
 
+            int giaSu = 0;
+            int hocVien = 0;
+            var taiKhoans = await _db.Taikhoannguoidungs.ToListAsync();
+
+            foreach(var taiKhoan in taiKhoans)
+            {
+                if (taiKhoan.IdxetDuyet == 6)
+                {
+                    hocVien++;
+                }
+                if(taiKhoan.IdxetDuyet == 5)
+                {
+                    giaSu++;
+                }
+            }
+
+            var monGiaSu = await _db.Mongiasus.ToListAsync();
+            ViewData["monGiaSu"] = monGiaSu.Count();
+            ViewData["giaSu"] = giaSu;
+            ViewData["hocVien"] = hocVien;
+
             return View(noiDung);
         }
 
