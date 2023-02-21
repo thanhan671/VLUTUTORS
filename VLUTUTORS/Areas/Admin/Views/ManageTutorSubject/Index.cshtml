@@ -54,7 +54,7 @@
                                     <td class="project-actions">
                                         <a class="btn btn-info btn-sm" asp-action="EditSubject" asp-controller="ManageTutorSubject" asp-route-id="@item.IdmonGiaSu">
                                             <i class="fas fa-pencil-alt"> </i>
-                                           Sửa
+                                            Sửa
                                         </a>
                                     </td>
                                 </tr>
@@ -65,7 +65,10 @@
             </div>
             <!-- /.card-body -->
         </div>
-
+        @if (TempData["message"] != null)
+        {
+            <script>alert('@TempData["message"]');</script>
+        }
         <!-- /.card -->
     </section>
     <!-- /.content -->

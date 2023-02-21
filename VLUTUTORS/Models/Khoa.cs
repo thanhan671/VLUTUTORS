@@ -15,7 +15,7 @@ namespace VLUTUTORS.Models
 
         public int Idkhoa { get; set; }
 
-        [Required(ErrorMessage = "Vui lòng điền trường này!")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Vui lòng điền trường này!")]
         public string TenKhoa { get; set; }
 
         public virtual ICollection<Taikhoannguoidung> Taikhoannguoidungs { get; set; }

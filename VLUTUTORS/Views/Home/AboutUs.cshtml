@@ -1,9 +1,10 @@
 ﻿@model VLUTUTORS.Models.Noidung
+@using VLUTUTORS.Models;
 @{
     ViewData["Title"] = "Về Chúng Tôi";
     Layout = "~/Views/Shared/_otherPageLayout.cshtml";
+    var noiDung = new CP25Team01Context().Noidungs.FirstOrDefault(m => m.Id == 1);
 }
-
 <section id="about-page" class="pt-10 pb-20">
     <div class="container">
         <div class="row">
@@ -15,7 +16,7 @@
                 <!-- section title -->
                 <div class="about-cont">
                     <p>
-                        @Model.GioiThieu
+                        @noiDung.GioiThieu
                     </p>
                 </div>
             </div>

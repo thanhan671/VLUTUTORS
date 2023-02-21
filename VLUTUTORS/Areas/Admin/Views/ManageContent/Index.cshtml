@@ -19,7 +19,7 @@
     </section>
 
     <!-- Main content -->
-    <form asp-action="Index">
+    <form method="post" asp-controller="ManageContent" asp-action="Index"  asp-route-id="1">
 
         <section class="content">
             <div class="container" style="margin-top: 20px; margin-bottom: 20px">
@@ -94,7 +94,7 @@
 
                                     <div class="row">
                                         <div class="col-12 flex-right mb-4">
-                                            <input type="submit" value="Lưu" class="btn btn-success" asp-route-id="@Model.Id==1" onclick="popup()" />
+                                            <input type="submit" value="Lưu" class="btn btn-success" onclick="popup()" />
                                         </div>
                                     </div>
                                 </div>
@@ -107,12 +107,8 @@
     </form>
     <!-- /.content -->
 </div>
-<script>
-    function popup() {
-        alert('Cập nhật thành công!');
-    }
-    $('#myForm').on('submit', function (e) {
-        e.preventDefault(); // Now nothing will happen
-    });
-</script>
+@if (TempData["message"] != null)
+{
+    <script>alert('@TempData["message"]');</script>
+}
 

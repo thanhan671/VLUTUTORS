@@ -12,17 +12,17 @@ namespace VLUTUTORS.Models
     {
 
         public int IdCauHoi { get; set; }
-        [Required(ErrorMessage = "Vui lòng điền trường này!")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Vui lòng điền trường này!")]
         public string CauHoi { get; set; }
-        [Required(ErrorMessage = "Vui lòng điền trường này!")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Vui lòng điền trường này!")]
         public string DapAnA { get; set; }
-        [Required(ErrorMessage = "Vui lòng điền trường này!")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Vui lòng điền trường này!")]
         public string DapAnB { get; set; }
-        [Required(ErrorMessage = "Vui lòng điền trường này!")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Vui lòng điền trường này!")]
         public string DapAnC { get; set; }
-        [Required(ErrorMessage = "Vui lòng điền trường này!")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Vui lòng điền trường này!")]
         public string DapAnD { get; set; }
-        [Required(ErrorMessage = "Vui lòng điền trường này!")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Vui lòng điền trường này!")]
         public string DapAnDung { get; set; }
 
         [NotMapped]
