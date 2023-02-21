@@ -63,12 +63,15 @@
                             <label for="inputName">Ngày dạy</label>
                             <input type="date" id="inputName" class="form-control" />
                         </div>
-                        <div class="form-group form-flex">
+                        <div class="form-group">
                             <label for="">Chọn Khung Giờ</label>
-                            <div class="input-flex">
-                                <input type="time"
-                                       id="inputDate"
-                                       class="form-control form-date" />
+                            <div id="divCont">
+                                <div class="input-flex">
+                                    <input type="time"
+                                           id="inputDate"
+                                           class="form-control form-date" />
+                                    <input onclick="AddTextBox()" type="button" value="+" class="btn-add" />
+                                </div>
                             </div>
                         </div>
                     </form>
@@ -131,3 +134,17 @@
     </section>
     <!-- /.content -->
 </div>
+<script type="text/javascript">
+
+    function getDynamicTextBox(value) {
+        return '<div class="input-flex" style="margin-top:5px"><input type="time" id = "inputDate" class="form-control form-date"/><input onclick ="RemoveTextBox(this)" type ="button" value ="X" class="btn-delete" style="width:38px; height:38px"/></div>'
+    }
+    function AddTextBox() {
+        var div = document.createElement('DIV');
+        div.innerHTML = getDynamicTextBox("");
+        document.getElementById("divCont").appendChild(div);
+    }
+    function RemoveTextBox(div) {
+        document.getElementById("divCont").removeChild(div.parentNode.parentNode);
+    }
+</script>

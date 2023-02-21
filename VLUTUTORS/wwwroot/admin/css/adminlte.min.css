@@ -3023,6 +3023,16 @@ fieldset:disabled a.btn {
     width: fit-content;
 }
 
+.btn-add {
+    color: #fff;
+    background-color: #28a745;
+    border-color: #28a745;
+    box-shadow: none;
+    width: 38px;
+    height: 38px;
+    margin-left: 3px;
+}
+
     .btn-success:hover {
         color: #fff;
         background-color: #218838;
