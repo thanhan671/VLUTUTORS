@@ -51,7 +51,7 @@
                                 <tr>
                                     <td>@index</td>
                                     <td>
-                                        <a asp-action="ContentLesson" asp-controller="ManageCourse" asp-route-id="@item.IdBaiHoc">@Html.DisplayFor(modelItem => item.TenBaiHoc)</a>
+                                        @Html.DisplayFor(modelItem => item.TenBaiHoc)
                                     </td>
                                     <td class="project-actions">
                                         <a class="btn btn-info btn-sm"

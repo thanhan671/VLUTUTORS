@@ -41,10 +41,83 @@
                                         @Html.ValidationMessageFor(m => m.TenBaiHoc, "", new { @class = "text-danger" })
                                     </div>
                                     <hr />
+                                    @{
+                                        if (Model.TaiLieu != null)
+                                        {
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">Tên tài liệu cho khóa đào tạo</h6>
+                                                </div>
+                                                @foreach (var file in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.TaiLieu))
+                                                {
+                                                    <p name="TaiLieu" id="TaiLieu">@Html.ActionLink(file + "  ", "DownloadFile", new { fileName = file })</p><br />
+                                                }
+                                            </div>
+                                            <div class="row-nowrap">
+                                                <input class=""
+                                                       type="file"
+                                                       name="tepBaiGiang"
+                                                       placeholder="Tài liệu"
+                                                       multiple="multiple"
+                                                       accept=".doc, .docx, .pdf, .pptx, .ppt" />
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">Tên tài liệu cho khóa đào tạo</h6>
+                                                </div>
+                                                <div class="row-nowrap">
+                                                    <input class=""
+                                                           type="file"
+                                                           name="tepBaiGiang"
+                                                           placeholder="Tài liệu"
+                                                           multiple="multiple"
+                                                           accept=".doc, .docx, .pdf, .pptx, .ppt" />
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                    <hr />
+                                    @{
+                                        if (@Model.courseLink != null)
+                                        {
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">Link cho khóa đào tạo</h6>
+                                                </div>
+                                            </div>
+                                            @foreach (var link in Model.courseLink)
+                                            {
+                                                <input class="col-sm-9 text-secondary" style="margin-top:5px" name="LinkVideo" id="LinkVideo" type="text" value="@link">
+                                            }
+                                            <div class="col-sm-9" id="divCont">
+                                                <div>
+                                                    <input style="margin-top: 5px" onclick="AddTextBox()" type="button" value="Thêm link" class="btn btn-success" />
+                                                </div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">Link video bài học</h6>
+                                                </div>
+                                                <div class="col-sm-9" id="divCont">
+                                                    <div>
+                                                        <input class="text-secondary" name="LinkVideo" id="LinkVideo" type="text">
+                                                        <input onclick="AddTextBox()" type="button" value="Thêm link" class="btn btn-success" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                    <hr />
                                     <div class="row">
                                         <div class="col-12 flex-right mb-4">
                                             <a href='javascript:history.go(-1)' class="btn btn-secondary mr-3">Quay Lại</a>
-                                            <input type="submit" value="Lưu" class="btn btn-success" onclick="popup()" />
+                                            <input type="submit" value="Lưu" class="btn btn-success" />
                                         </div>
                                     </div>
                                 </div>
@@ -57,12 +130,18 @@
     </form>
     <!-- /.content -->
 </div>
-<script>
-    function popup() {
-        alert('Cập nhật thành công!');
+<script type="text/javascript">
+
+    function getDynamicTextBox(value) {
+        return '<div><input  class="col-sm-9 text-secondary" name="LinkVideo" id="LinkVideo" type="text"><input onclick ="RemoveTextBox(this)" type ="button" value ="Xóa" class="btn-delete"/><div>'
     }
-    $('#myForm').on('submit', function (e) {
-        e.preventDefault(); // Now nothing will happen
-    });
+    function AddTextBox() {
+        var div = document.createElement('DIV');
+        div.innerHTML = getDynamicTextBox("");
+        document.getElementById("divCont").appendChild(div);
+    }
+    function RemoveTextBox(div) {
+        document.getElementById("divCont").removeChild(div.parentNode.parentNode);
+    }
 </script>
 
