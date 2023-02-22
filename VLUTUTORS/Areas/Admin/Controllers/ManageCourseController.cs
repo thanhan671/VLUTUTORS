@@ -169,9 +169,9 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
                     string linkVideo = JsonConvert.SerializeObject(listLink);
                     string filePath = Path.Combine("Files");
-                    khoadaotao.LinkVideo = linkVideo;
-                    khoadaotao.TaiLieu = tepBaiGiang.Count != 0 ? TutorServices.SaveUploadFiles(this._environment.WebRootPath, filePath, tepBaiGiang) : _context.Khoadaotaos.Where(l => l.IdBaiHoc == id).First().TaiLieu;
-                    _context.Update(khoadaotao);
+                    baihoc.LinkVideo = linkVideo;
+                    baihoc.TaiLieu = tepBaiGiang.Count != 0 ? TutorServices.SaveUploadFiles(this._environment.WebRootPath, filePath, tepBaiGiang) : baihoc.TaiLieu;
+                    _context.Update(baihoc);
                     await _context.SaveChangesAsync();
                     TempData["message"] = "Cập nhật thành công!";
                 }

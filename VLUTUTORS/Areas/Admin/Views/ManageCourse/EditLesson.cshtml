@@ -48,10 +48,12 @@
                                                 <div class="col-sm-3">
                                                     <h6 class="mb-0">Tên tài liệu cho khóa đào tạo</h6>
                                                 </div>
-                                                @foreach (var file in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.TaiLieu))
-                                                {
-                                                    <p name="TaiLieu" id="TaiLieu">@Html.ActionLink(file + "  ", "DownloadFile", new { fileName = file })</p><br />
-                                                }
+                                                <div class="col-sm-9">
+                                                    @foreach (var file in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.TaiLieu))
+                                                    {
+                                                        <div class="row" name="TaiLieu" id="TaiLieu">@Html.ActionLink(file + "  ", "DownloadFile", new { fileName = file })</div>
+                                                    }
+                                                </div>
                                             </div>
                                             <div class="row-nowrap">
                                                 <input class=""
@@ -85,16 +87,21 @@
                                         {
                                             <div class="row">
                                                 <div class="col-sm-3">
-                                                    <h6 class="mb-0">Link cho khóa đào tạo</h6>
+                                                    <h6 class="mb-0">Link video đào tạo</h6>
                                                 </div>
-                                            </div>
-                                            @foreach (var link in Model.courseLink)
-                                            {
-                                                <input class="col-sm-9 text-secondary" style="margin-top:5px" name="LinkVideo" id="LinkVideo" type="text" value="@link">
-                                            }
-                                            <div class="col-sm-9" id="divCont">
-                                                <div>
-                                                    <input style="margin-top: 5px" onclick="AddTextBox()" type="button" value="Thêm link" class="btn btn-success" />
+                                                <div class="col-sm-9" id="divCont">
+                                                    @foreach (var link in Model.courseLink)
+                                                    {
+                                                        <div id="divLink">
+                                                            <div>
+                                                                <input class="col-sm-9 text-secondary" style="margin-top:5px" name="LinkVideo" id="LinkVideo" type="text" value="@link">
+                                                                <input onclick="RemoveTextBox(this)" type="button" value="Xóa" class="btn-delete" />
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                    <div>
+                                                        <input style="margin-top: 5px" onclick="AddTextBox()" type="button" value="Thêm link" class="btn btn-success" />
+                                                    </div>
                                                 </div>
                                             </div>
                                         }
@@ -133,7 +140,7 @@
 <script type="text/javascript">
 
     function getDynamicTextBox(value) {
-        return '<div><input  class="col-sm-9 text-secondary" name="LinkVideo" id="LinkVideo" type="text"><input onclick ="RemoveTextBox(this)" type ="button" value ="Xóa" class="btn-delete"/><div>'
+        return '<div><input class="text-secondary" name="LinkVideo" id="LinkVideo" type="text"><input onclick ="RemoveTextBox(this)" type ="button" value ="Xóa" class="btn-delete"/><div>'
     }
     function AddTextBox() {
         var div = document.createElement('DIV');
@@ -142,6 +149,7 @@
     }
     function RemoveTextBox(div) {
         document.getElementById("divCont").removeChild(div.parentNode.parentNode);
+        document.getElementById("divLink").removeChild(div.parentNode.parentNode);
     }
 </script>
 
