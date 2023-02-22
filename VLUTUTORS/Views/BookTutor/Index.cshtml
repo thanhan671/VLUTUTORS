@@ -4,35 +4,71 @@
     Layout = "~/Views/Shared/_otherPageLayout.cshtml";
 }
 
-<div class="search-container">
-    <div class="left-search">
 
-        <h3 class="search-title">Tìm Kiếm</h3>
-        <div class="search-select">
-            <select>
-                <option value="1">Chọn Môn Học</option>
-                <option value="2">JS</option>
-                <option value="3">HTML/CSS!</option>
-                <option value="3">Anh Văn</option>
-            </select>
+<div class="search-container">
+    <section class="grid-demo">
+
+        <h2 class="section-title"><span>Tìm gia sư</span></h2>
+
+        <div class="controls cf">
+            <div class="control search">
+                <div class="control-icon">
+                    <i class="material-icons">&#xE8B6;</i>
+                </div>
+                <input class="control-field search-field form-search " type="text" name="search" placeholder="Tìm kiếm..." />
+            </div>
+            <div class="control filter">
+                <div class="control-icon">
+                    <i class="material-icons">&#xE152;</i>
+                </div>
+                <div class="select-arrow">
+                    <i class="material-icons">&#xE313;</i>
+                </div>
+                <select class="control-field filter-field form-search">
+                    <option value="" selected>Môn học</option>
+                    <option value="">JS</option>
+                    <option value="">Anh Văn Chuyên Ngành</option>
+                    <option value="">HTML/CSS</option>
+                </select>
+            </div>
+            <div class="control filter">
+                <div class="control-icon">
+                    <i class="material-icons">&#xE164;</i>
+                </div>
+                <div class="select-arrow">
+                    <!-- <i class="material-icons">&#xE313;</i> -->
+                </div>
+                <select class="control-field sort-field form-search">
+                    <option value="order" selected>Lọc Theo</option>
+                    <option value="title">Gia sư yêu thích</option>
+                    <option value="color">Đang hoạt động</option>
+                </select>
+            </div>
+            <div class="control filter">
+                <div class="control-icon">
+                    <i class="material-icons">&#xE871;</i>
+                </div>
+                <div class="select-arrow">
+                    <!-- <i class="material-icons">&#xE313;</i> -->
+                </div>
+                <select class="control-field layout-field form-search">
+                    <option value="left-top" selected>Ca học</option>
+                    <option value="">45 phút</option>
+                    <option value="">60 phút</option>
+                </select>
+            </div>
         </div>
-        <div class="search-select">
-            <select>
-                <option value="1">Lọc theo</option>
-                <option value="2">Đánh gá</option>
-                <option value="3">Gia sư yêu thích</option>
-            </select>
-        </div>
-        <button class="main-btn mb-20 ml-10 mt-20">Tìm kiếm</button>
-    </div>
+        <button class="main-btn" style="float: right;margin: 5px;">Search</button>
+    </section>
     <div class="right-search">
         <div class="card-tutor-container">
+            <hr>
             <div class="search-card ml-10 mt-30 mb-20">
                 <div class="tutor-avt pt-50">
                     <img src="images/teacher1.png" alt="">
                 </div>
                 <div class="tutor-desc">
-                    <h3 class="tutor-name">Mộng Trinh</h3>
+                    <h3 class="tutor-name">Mộng Trinh <span class="active-status"></span></h3>
                     <div class="tutor-rating">
                         <span><i class="fa-solid fa-star"></i></span>
                         <span><i class="fa-solid fa-star"></i></span>
@@ -55,7 +91,7 @@
 
                         <i onclick="toggle()" class="fa-solid fa-heart icon-heart" id="heart"></i>
                     </button>
-                    <a href="~/BookTutor/DetailTutor" class="card-btn">Xem Chi Tiết</a>
+                    <a href="tutor.html" class="card-btn" target="_blank">Xem Chi Tiết</a>
                 </div>
             </div>
             <div class="search-card ml-10 mt-30 mb-20">
@@ -63,7 +99,7 @@
                     <img src="images/teachers/t-2.jpg" alt="">
                 </div>
                 <div class="tutor-desc">
-                    <h3 class="tutor-name">Thanh Long</h3>
+                    <h3 class="tutor-name">Thanh Long <span class="active-status"></span></h3>
                     <div class="tutor-rating">
                         <span><i class="fa-solid fa-star"></i></span>
                         <span><i class="fa-solid fa-star"></i></span>
@@ -86,7 +122,7 @@
 
                         <i onclick="toggle2()" class="fa-solid fa-heart icon-heart" id="heart2"></i>
                     </button>
-                    <a href="~/BookTutor/DetailTutor" class="card-btn">Xem Chi Tiết</a>
+                    <a href="tutor.html" class="card-btn" target="_blank">Xem Chi Tiết</a>
                 </div>
             </div>
         </div>

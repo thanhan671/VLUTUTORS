@@ -342,7 +342,7 @@ $(function () {
 
   //===== Nice Select
 
-  $("select").niceSelect();
+/*  $("select").niceSelect();*/
 
   //===== Count Down
 
