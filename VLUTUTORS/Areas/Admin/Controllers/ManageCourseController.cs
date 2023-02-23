@@ -193,5 +193,14 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             _context.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        public FileResult DownloadFile(string fileName)
+        {
+            string path = Path.Combine(this._environment.WebRootPath, "Files", fileName);
+
+            byte[] bytes = System.IO.File.ReadAllBytes(path);
+
+            return File(bytes, "application/octet-stream", fileName);
+        }
     }
 }
