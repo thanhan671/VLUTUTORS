@@ -1,0 +1,46 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Tutors/Views/Shared/_TutorsLayout.cshtml";
+}
+
+<div class="content-wrapper">
+
+    <!-- Main content -->
+    <div class="card_container">
+        <div class="card-checkout">
+            <div class="card_name">
+                <h1>Nguyễn Thanh An</h1>
+            </div>
+            <div class="card_number">Số dư ví: 100.000&nbsp;VND</div>
+        </div>
+    </div>
+    <div class="row">
+            <div type="button" data-toggle="modal"
+                 data-target="#checkoutModal" class="btn-card-input">Nạp tiền vào ví</div>
+            <div type="button" class="btn-card-output">Rút tiền</div>
+    </div>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+<div class="modal fade"
+     id="checkoutModal"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="checkoutModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Thông tin chuyển khoản</h5>
+            </div>
+            <div class="modal-body" style="color: red">
+                NGÂN HÀNG VIETCOMBANK - HOANG VAN DAT - STK: 123456789
+            </div>
+            <div class="modal-footer">
+                <div type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Xác nhận</div>
+            </div>
+        </div>
+    </div>
+</div>
+
