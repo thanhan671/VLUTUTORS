@@ -243,7 +243,7 @@
                                 <div class="help-block with-errors"></div>
                             </div>
                             <div class="singel-form">
-                                <input /> @Html.DropDownList("LoaiTuVan", (IEnumerable<SelectListItem>)ViewData["loaiTuVan"], "Loại Tư Vấn", new { @class = "form-index", @required = "required" })
+                                @Html.DropDownList("LoaiTuVan", (IEnumerable<SelectListItem>)ViewData["loaiTuVan"], "Loại Tư Vấn", new { @class = "form-index", @required = "required" })
                                 <div class="help-block with-errors"></div>
                             </div>
                             <div class="singel-form">
