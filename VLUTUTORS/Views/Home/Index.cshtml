@@ -281,7 +281,7 @@
                                 <div class="help-block with-errors"></div>
                             </div>
                             <div class="singel-form">
-                                @Html.DropDownList("LoaiTuVan", (IEnumerable<SelectListItem>)ViewData["loaiTuVan"], "Loại Tư Vấn", new { @class = "form-index", @required = "required" })
+                                @Html.DropDownList("LoaiTuVan", (IEnumerable<SelectListItem>)ViewData["loaiTuVan"], "Loại Tư Vấn", new { @class = "nice-select mb-4", @required = "required", @style = "height: 60px; border: 1px solid #a1a1a1;"})
                                 <div class="help-block with-errors"></div>
                             </div>
                             <div class="singel-form">
