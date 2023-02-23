@@ -13,28 +13,17 @@ namespace VLUTUTORS.Controllers
         private CP25Team01Context _db = new CP25Team01Context();
         public async Task<IActionResult> Index()
         {
-            var noiDung = await _db.Noidungs.FirstOrDefaultAsync(m => m.Id == 1);
-            ViewData["Slogan"] = noiDung.Slogan;
-            ViewData["gtChanTrang"] = noiDung.GioiThieuChanTrang;
-            ViewData["diaChi"] = noiDung.DiaChi;
-            ViewData["Sdt"] = noiDung.Sdt;
-            ViewData["Email"] = noiDung.Email;
-            ViewData["Fb"] = noiDung.Facebook;
-            ViewData["gioiThieu"] = noiDung.GioiThieu;
-            return View(noiDung);
+            return View();
         }
 
         public async Task<IActionResult> DetailTutor()
         {
-            var noiDung = await _db.Noidungs.FirstOrDefaultAsync(m => m.Id == 1);
-            ViewData["Slogan"] = noiDung.Slogan;
-            ViewData["gtChanTrang"] = noiDung.GioiThieuChanTrang;
-            ViewData["diaChi"] = noiDung.DiaChi;
-            ViewData["Sdt"] = noiDung.Sdt;
-            ViewData["Email"] = noiDung.Email;
-            ViewData["Fb"] = noiDung.Facebook;
-            ViewData["gioiThieu"] = noiDung.GioiThieu;
-            return View(noiDung);
+            return View();
+        }
+
+        public async Task<IActionResult> HistoryBooking()
+        {
+            return View();
         }
     }
 }

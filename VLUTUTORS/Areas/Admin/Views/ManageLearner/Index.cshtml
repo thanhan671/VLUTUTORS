@@ -1,4 +1,5 @@
-﻿
+﻿@model IEnumerable<VLUTUTORS.Models.Taikhoannguoidung>
+
 @{
     ViewData["Title"] = "Quản lý học viên";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
@@ -32,35 +33,50 @@
                             <th style="width: 10%">#</th>
                             <th style="width: 20%">Họ tên</th>
                             <th style="width: 20%">Email</th>
+                            <th style="width: 20%" class="text-center">Trạng thái tài khoản</th>
                             <th style="width: 20%">Chức năng</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @*@{
-                    var index = 0;
-                    foreach (var item in Model)
-                    {
-                        index++;*@
-                        <tr>
-                            <td>
-                                @*@index*@  1
-                            </td>
-                            <td>
-                                Nguyễn Thanh An
-                            </td>
-                            <td>
-                                an.197pm09415@vanlanguni.vn
-                            </td>
-                            <td class="project-actions">
-                                <a class="btn btn-info btn-sm"
-                                   asp-action="DetailLearner" asp-controller="ManageLearner">
-                                    <i class="fas fa-pen"> </i>
-                                    Xem
-                                </a>
-                            </td>
-                        </tr>
-                        @*}
-                    }*@
+                        @{
+                            var index = 0;
+                            foreach (var item in Model)
+                            {
+                                index++;
+                                <tr>
+                                    <td>
+                                        @index
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HoTen)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Email)
+                                    </td>
+                                    @{
+                                        if (item.TrangThaiTaiKhoan == true)
+                                        {
+                                            <td class="project-state">
+                                                <span class="badge badge-success">Hoạt Động</span>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td class="project-state">
+                                                <span class="badge badge-block">Tạm Khóa</span>
+                                            </td>
+                                        }
+                                    }
+                                    <td class="project-actions">
+                                        <a class="btn btn-info btn-sm"
+                                           asp-action="DetailLearner" asp-controller="ManageLearner" asp-route-id="@item.Id">
+                                            <i class="fas fa-pen"> </i>
+                                            Xem
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
                     </tbody>
                 </table>
             </div>

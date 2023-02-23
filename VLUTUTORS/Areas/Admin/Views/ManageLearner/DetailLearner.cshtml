@@ -1,4 +1,5 @@
-﻿
+﻿@model VLUTUTORS.Models.Taikhoannguoidung
+
 @{
     ViewData["Title"] = "Chi tiết học viên";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
@@ -20,7 +21,8 @@
     </section>
 
     <!-- Main content -->
-    <form>
+    <form asp-action="DetailLearner">
+        <input type="hidden" asp-for="Id" />
         <section class="content">
             <div class="container" style="margin-top: 20px; margin-bottom: 20px">
                 <div class="main-body">
@@ -29,10 +31,13 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="d-flex flex-column align-items-center text-center">
-                                        <img src=""
-                                             alt="Admin"
-                                             class="rounded-circle"
-                                             width="150" />
+                                        @foreach (var file in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.AnhDaiDien))
+                                        {
+                                            <img src="~/@file"
+                                                 alt="Admin"
+                                                 class="rounded-circle"
+                                                 width="150" />
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -45,7 +50,7 @@
                                             <h6 class="mb-0">Họ và tên</h6>
                                         </div>
                                         <div class="col-sm-9 text-secondary">
-                                            Nguyễn Thanh An
+                                            @Html.DisplayFor(model => model.HoTen)
                                         </div>
                                     </div>
                                     <hr />
@@ -54,7 +59,7 @@
                                             <h6 class="mb-0">Email</h6>
                                         </div>
                                         <div class="col-sm-9 text-secondary">
-                                            an.197pm09415@vanlanguni.vn
+                                            @Html.DisplayFor(model => model.Email)
                                         </div>
                                     </div>
                                     <hr />
@@ -63,9 +68,9 @@
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Trạng thái</h6>
                                         </div>
-                                        <select>
-                                            <option>Hoạt động</option>
-                                            <option>Tạm khóa</option>
+                                        <select id="trangThai" name="trangThai">
+                                            <option value="1" selected="@(Model.TrangThaiTaiKhoan)">Hoạt động</option>
+                                            <option value="0" selected="@(!Model.TrangThaiTaiKhoan)">Tạm khóa</option>
                                         </select>
 
                                     </div>

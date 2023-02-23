@@ -1,0 +1,230 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Tutors/Views/Shared/_TutorsLayout.cshtml";
+}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2 justify-content-between">
+                <div class="col-auto mr-auto"><h1>Quản lý ví</h1></div>
+@*                <button data-toggle="modal"
+                        data-target="#exampleModal"
+                        class="col-auto btn-success">
+                    Thêm lịch dạy
+                </button>*@
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
+    <!-- Main content -->
+    <div class="card_container">
+        <div class="card-checkout">
+            <div class="card_name">
+                <h1>Nguyễn Thanh An</h1>
+            </div>
+            <div class="card_number">Số dư ví: 100.000&nbsp;VND</div>
+        </div>
+    </div>
+    <div class="col justify-content-center gap-10 d-flex">
+            <div type="button" data-toggle="modal"
+                 data-target="#checkoutModal" class="btn-card-input d-flex justify-content-center align-items-center mr-2" style="height: 50px">Nạp tiền vào ví</div>
+                 
+        <div type="button" class="btn-card-output d-flex justify-content-center align-items-center " style="height: 50px">Rút tiền</div>
+    </div>
+    <!-- /.content -->
+
+    <!-- modal Add -->
+    <div class="modal fade"
+         id="exampleModal"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        Thêm lịch dạy
+                    </h5>
+                    <button type="button"
+                            class="close text-right"
+                            data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="inputName">Tên môn gia sư</label>
+                            <select class="form-control" name="" id="">
+                                <option value="">Anh văn cơ bản</option>
+                                <option value="">Javascript cơ bản</option>
+                                <option value="">Tin học cơ bản</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="select-shifts">Loại ca dạy</label>
+                            <select class="form-control mb-2"
+                                    name="select-shifts"
+                                    id="">
+                                <option value="">45 Phút</option>
+                                <option value="">60 Phút</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputName">Ngày dạy</label>
+                            <input type="date" id="inputName" class="form-control" />
+                        </div>
+                        <div class="form-group form-flex">
+                            <label for="">Chọn Khung Giờ</label>
+                            <div class="input-flex">
+                                <input type="time"
+                                       id="inputDate"
+                                       class="form-control form-date" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button"
+                            class="btn btn-secondary"
+                            data-dismiss="modal">
+                        Hủy
+                    </button>
+                    <button type="button" class="btn btn-primary">Xác nhận</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row " id="dropdown-filter">
+            <div class="col d-flex">
+              <label class="form-label" for="min">Ngày bắt đầu:</label>
+              <input
+                type="text"
+                class="form-control-sm"
+                id="min"
+                name="min"
+                style="width: 150px"
+              />
+              <label class="form-label ml-3" for="max">Ngày kết thúc:</label>
+              <input
+                type="text"
+                id="max"
+                name="max"
+                class="form-control-sm"
+                style="width: 150px"
+              />
+            </div>
+          </div>
+        <!-- Default box -->
+        <table id="myTable">
+            <thead>
+                <tr>
+                    <th>Loại giao dịch</th>
+                    <th>Ngày</th>
+                    <th>Mã giao dịch</th>
+                    <th>Số tiền</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Rút tiền</td>
+                    <td>2023-02-11</td>
+                    <td>thanhan1234</td>
+                    <td>400,000</td>
+
+                </tr>
+                <hr />
+                <tr>
+                    <td>Nạp tiền</td>
+                    <td>2023-02-12</td>
+                    <td>thanhan1234</td>
+                    <td>500,000</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- /.card -->
+    </section>
+</div>
+<!-- /.content-wrapper -->
+<div class="modal fade"
+     id="checkoutModal"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="checkoutModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Thông tin chuyển khoản</h5>
+            </div>
+            <div class="modal-body" style="color: red">
+                NGÂN HÀNG VIETCOMBANK - HOANG VAN DAT - STK: 123456789
+            </div>
+            <div class="modal-footer">
+                <div type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Xác nhận</div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/admin/jquery/jquery.min.js"></script>
+@section scripts {
+    <script src="~/admin/jquery/jquery.min.js"></script>
+        <script src="~/admin/js/datatables.js"></script>
+            <script src="~/admin/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.2/moment.min.js" ></script>
+    <script src="https://cdn.datatables.net/datetime/1.1.2/js/dataTables.dateTime.min.js"></script>
+    <script>
+        var minDate, maxDate;
+
+        // Custom filtering function which will search data in column four between two values
+        $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
+            var min = minDate.val();
+            var max = maxDate.val();
+            var date = new Date(data[1]);
+
+            if (
+                (min === null && max === null) ||
+                (min === null && date <= max) ||
+                (min <= date && max === null) ||
+                (min <= date && date <= max)
+            ) {
+                return true;
+            }
+            return false;
+        });
+
+        $(document).ready(function () {
+            // Create date inputs
+            minDate = new DateTime($('#min'), {
+                format: 'MMMM Do YYYY',
+            });
+            maxDate = new DateTime($('#max'), {
+                format: 'MMMM Do YYYY',
+            });
+
+            // DataTables initialisation
+            var table = $('#myTable').DataTable();
+
+            // Refilter the table
+            $('#min, #max').on('change', function () {
+                table.draw();
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            $('#myTable_filter').append($('#dropdown-filter')).clone();
+            $('#filter-fade').remove();
+        })
+    </script>
+}

@@ -98,6 +98,13 @@
                             <p>Quản lý nội dung</p>
                         </a>
                     </li>
+
+                    <li class="nav-item">
+                        <a href="~/Admin/ManageEvaluationCriteria" class="nav-link">
+                            <i class="fa-sharp fa-solid fa-check"></i>
+                            <p>Quản lý tiêu chí đánh giá</p>
+                        </a>
+                    </li>
                 }
                 @if (@httpContextAccessor.HttpContext.Session.GetInt32("IdQuyen") == 2)
                 {

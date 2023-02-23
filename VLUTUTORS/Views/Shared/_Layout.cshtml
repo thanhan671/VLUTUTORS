@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="vi">
+@using VLUTUTORS.Models;
 <head>
     <!--====== Required meta tags ======-->
     <meta charset="utf-8" />
@@ -77,22 +78,24 @@
     @RenderBody();
 
     <!--====== FOOTER PART START ======-->
-
+    @{
+        var noiDung = new CP25Team01Context().Noidungs.FirstOrDefault(m => m.Id == 1); 
+        }
     <footer id="footer-part">
-        <div class="footer-top pt-40 pb-70">
+        <div class="footer-top pb-10">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-3 col-md-6">
                         <div class="footer-about mt-40">
                             <div class="logo">
-                                <a href="#"><img src="images/LogoNew.png" alt="Logo" /></a>
+                                <a href="#"><img src="~/images/LogoNew.png" alt="Logo" /></a>
                             </div>
                             <p>
-                                @ViewData["gtChanTrang"]
+                                @noiDung.GioiThieuChanTrang
                             </p>
                             <ul class="mt-20">
                                 <li>
-                                    <a href="@ViewData["Fb"]">
+                                    <a href="@noiDung.Facebook">
                                         <i class="fa-brands fa-facebook"></i>
                                     </a>
                                 </li>
@@ -107,21 +110,21 @@
                             </div>
                             <ul>
                                 <li>
-                                    <a href="/Home"><i class="fa fa-angle-right"></i>Trang chủ</a>
+                                    <a href="~/Home"><i class="fa fa-angle-right"></i>Trang chủ</a>
                                 </li>
 
                                 <li>
-                                    <a href="/Home/AboutUs"><i class="fa fa-angle-right"></i>Về chúng tôi</a>
+                                    <a href="~/Home/AboutUs"><i class="fa fa-angle-right"></i>Về chúng tôi</a>
                                 </li>
 
                             </ul>
                             <ul>
                                 <li>
-                                    <a href="#"><i class="fa fa-angle-right"></i>Tìm gia sư</a>
+                                    <a href="~/BookTutor"><i class="fa fa-angle-right"></i>Tìm gia sư</a>
                                 </li>
 
                                 <li>
-                                    <a href="/Home/RegisterAsTutor"><i class="fa fa-angle-right"></i>Trở thành gia sư</a>
+                                    <a href="~/Home/RegisterAsTutor"><i class="fa fa-angle-right"></i>Trở thành gia sư</a>
                                 </li>
                             </ul>
                         </div>
@@ -152,7 +155,7 @@
                                     </div>
                                     <div class="cont">
                                         <p>
-                                            @ViewData["diaChi"]
+                                            @noiDung.DiaChi
                                         </p>
                                     </div>
                                 </li>
@@ -161,7 +164,7 @@
                                         <i class="fa fa-phone"></i>
                                     </div>
                                     <div class="cont">
-                                        <p>@ViewData["Sdt"]</p>
+                                        <p>@noiDung.Sdt</p>
                                     </div>
                                 </li>
                                 <li>
@@ -169,7 +172,7 @@
                                         <i class="fa fa-envelope-o"></i>
                                     </div>
                                     <div class="cont">
-                                        <p>@ViewData["Email"]</p>
+                                        <p>@noiDung.Email</p>
                                     </div>
                                 </li>
                             </ul>

@@ -30,7 +30,6 @@ namespace VLUTUTORS.Controllers
             this._environment = environment;
         }
 
-
         [HttpGet]
         public async Task<IActionResult> Index()
         {
@@ -38,19 +37,32 @@ namespace VLUTUTORS.Controllers
             {
                 Console.WriteLine("login id: " + HttpContext.Session.GetInt32("LoginId"));
             }
-            var noiDung = await _db.Noidungs.FirstOrDefaultAsync(m => m.Id == 1);
-            ViewData["Slogan"] = noiDung.Slogan;
-            ViewData["gtChanTrang"] = noiDung.GioiThieuChanTrang;
-            ViewData["diaChi"] = noiDung.DiaChi;
-            ViewData["Sdt"] = noiDung.Sdt;
-            ViewData["Email"] = noiDung.Email;
-            ViewData["Fb"] = noiDung.Facebook;
-            ViewData["gioiThieu"] = noiDung.GioiThieu;
 
             var loaiTuVan = new SelectList(_db.Loaituvans.ToList(), "IdLoaiTuVan", "TenLoaiTuVan");
             ViewData["loaiTuVan"] = loaiTuVan;
 
-            return View(noiDung);
+            int giaSu = 0;
+            int hocVien = 0;
+            var taiKhoans = await _db.Taikhoannguoidungs.ToListAsync();
+
+            foreach(var taiKhoan in taiKhoans)
+            {
+                if (taiKhoan.IdxetDuyet == 6)
+                {
+                    hocVien++;
+                }
+                if(taiKhoan.IdxetDuyet == 5)
+                {
+                    giaSu++;
+                }
+            }
+
+            var monGiaSu = await _db.Mongiasus.ToListAsync();
+            ViewData["monGiaSu"] = monGiaSu.Count();
+            ViewData["giaSu"] = giaSu;
+            ViewData["hocVien"] = hocVien;
+
+            return View();
         }
 
         [HttpGet]
@@ -83,11 +95,6 @@ namespace VLUTUTORS.Controllers
             string certificates1Path = Path.Combine("certificates", taikhoannguoidung.Id.ToString(), "cer1");
             string certificates2Path = Path.Combine("certificates", taikhoannguoidung.Id.ToString(), "cer2");
             string avatarPath = Path.Combine("avatars", taikhoannguoidung.Id.ToString());
-
-            foreach (var error in ViewData.ModelState.Values.SelectMany(modelState => modelState.Errors)) 
-            {
-                Console.WriteLine("eeeeeeeeeeeeeeeeeeeeeeeee" + error);
-            }
 
             if (ModelState.IsValid)
             {
@@ -156,15 +163,7 @@ namespace VLUTUTORS.Controllers
         [HttpGet]
         public async Task<IActionResult> Contact()
         {
-            var noiDung = await _db.Noidungs.FirstOrDefaultAsync(m => m.Id == 1);
-            ViewData["Slogan"] = noiDung.Slogan;
-            ViewData["gtChanTrang"] = noiDung.GioiThieuChanTrang;
-            ViewData["diaChi"] = noiDung.DiaChi;
-            ViewData["Sdt"] = noiDung.Sdt;
-            ViewData["Email"] = noiDung.Email;
-            ViewData["Fb"] = noiDung.Facebook;
-            ViewData["gioiThieu"] = noiDung.GioiThieu;
-            return View(noiDung);
+            return View();
         }
 
         [HttpPost]
@@ -202,15 +201,7 @@ namespace VLUTUTORS.Controllers
 
         public async Task<IActionResult> AboutUs()
         {
-            var noiDung = await _db.Noidungs.FirstOrDefaultAsync(m => m.Id == 1);
-            ViewData["Slogan"] = noiDung.Slogan;
-            ViewData["gtChanTrang"] = noiDung.GioiThieuChanTrang;
-            ViewData["diaChi"] = noiDung.DiaChi;
-            ViewData["Sdt"] = noiDung.Sdt;
-            ViewData["Email"] = noiDung.Email;
-            ViewData["Fb"] = noiDung.Facebook;
-            ViewData["gioiThieu"] = noiDung.GioiThieu;
-            return View(noiDung);
+            return View();
         }
 
     }

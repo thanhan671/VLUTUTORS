@@ -15,7 +15,7 @@ namespace VLUTUTORS.Models
         }
 
         public int IdmonGiaSu { get; set; }
-        [Required(ErrorMessage = "Vui lòng điền trường này!")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Vui lòng điền trường này!")]
         public string TenMonGiaSu { get; set; }
 
         public virtual ICollection<Taikhoannguoidung> TaikhoannguoidungIdmonGiaSu1Navigations { get; set; }

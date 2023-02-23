@@ -1,10 +1,11 @@
 ﻿@model VLUTUTORS.Models.Noidung
+@using VLUTUTORS.Models;
 @{
     ViewData["Title"] = "Về Chúng Tôi";
     Layout = "~/Views/Shared/_otherPageLayout.cshtml";
+    var noiDung = new CP25Team01Context().Noidungs.FirstOrDefault(m => m.Id == 1);
 }
-
-<section id="about-page" class="pt-70 pb-110">
+<section id="about-page" class="pt-10 pb-20">
     <div class="container">
         <div class="row">
             <div class="col-lg-5">
@@ -15,14 +16,7 @@
                 <!-- section title -->
                 <div class="about-cont">
                     <p>
-                        @Model.GioiThieu
-                        @*Website VLU TUTORS - Gia sư Văn Lang được xây dựng nhằm mục đích kết nối những học sinh khá giỏi các
-                            lĩnh vực Ngoại ngữ, Tin học, ... với những học sinh có nhu cầu củng cố kiến thức tại trường.
-                            Trong giai đoạn 1, trang web sẽ được sử dụng cho sinh viên trường Đại học Văn Lang, sau đó sẽ mở rộng
-                            cho sinh viên các trường đại học khác. <br />
-                            <br />
-                            Chức năng chính của VLU TUTORS là kết nối người dạy kèm và người học, nhằm tạo ra một cộng đồng học
-                            tập sinh động cho sinh viên Văn Lang.*@
+                        @noiDung.GioiThieu
                     </p>
                 </div>
             </div>

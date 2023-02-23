@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -13,6 +14,8 @@ namespace VLUTUTORS.Models
         }
 
         public int IdLoaiTuVan { get; set; }
+
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Vui lòng điền trường này!")]
         public string TenLoaiTuVan { get; set; }
 
         public virtual ICollection<Tuvan> Tuvans { get; set; }

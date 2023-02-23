@@ -11,10 +11,10 @@ namespace VLUTUTORS.Models
     {
         public int IdCaHoc { get; set; }
 
-        [Required(ErrorMessage = "Vui lòng điền trường này!")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Vui lòng điền trường này!")]
         public int LoaiCa { get; set; }
 
-        [Required(ErrorMessage = "Vui lòng điền trường này!")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Vui lòng điền trường này!")]
         public double GiaTien { get; set; }
     }
 }
