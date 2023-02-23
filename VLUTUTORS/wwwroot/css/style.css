@@ -65,8 +65,7 @@ body {
 }
 
 img {
-    max-width: 70%;
-    max-height: 90%;
+    max-width: 100%;
 }
 
 a:focus,
@@ -893,7 +892,7 @@ select.form-search {
 /*===== Header top =====*/
 
 .logo {
-    width: 60%;
+    width: 100%;
 }
 
 .header-top {
@@ -4807,7 +4806,7 @@ i.active,
 
 .contact-from {
     background-color: #fff;
-    padding: 50px;
+    padding: 20px;
     border-radius: 5px;
 }
 
@@ -4858,7 +4857,7 @@ p.form-message.error {
 
 .contact-address {
     background-color: #fff;
-    padding: 20px 50px 50px;
+    padding: 20px;
     border-radius: 5px;
 }
 
@@ -4909,7 +4908,7 @@ p.form-message.error {
     }
 
 .contact-address .contact-heading {
-    padding-top: 35px;
+    padding-top: 5px;
 }
 
     .contact-address .contact-heading h5 {
