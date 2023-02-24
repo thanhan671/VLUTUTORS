@@ -10,11 +10,6 @@
         <div class="container-fluid">
             <div class="row mb-2 justify-content-between">
                 <div class="col-auto mr-auto"><h1>Quản lý ví</h1></div>
-@*                <button data-toggle="modal"
-                        data-target="#exampleModal"
-                        class="col-auto btn-success">
-                    Thêm lịch dạy
-                </button>*@
             </div>
         </div>
         <!-- /.container-fluid -->
@@ -30,77 +25,12 @@
     </div>
     <div class="col justify-content-center gap-10 d-flex">
             <div type="button" data-toggle="modal"
-                 data-target="#checkoutModal" class="btn-card-input d-flex justify-content-center align-items-center mr-2" style="height: 50px">Nạp tiền vào ví</div>
+                 data-target="#inputModal" class="btn-card-input d-flex justify-content-center align-items-center mr-2" style="height: 50px">Nạp tiền vào ví</div>
                  
-        <div type="button" class="btn-card-output d-flex justify-content-center align-items-center " style="height: 50px">Rút tiền</div>
+        <div type="button" data-toggle="modal"
+                 data-target="#outputModal" class="btn-card-output d-flex justify-content-center align-items-center " style="height: 50px">Rút tiền</div>
     </div>
     <!-- /.content -->
-
-    <!-- modal Add -->
-    <div class="modal fade"
-         id="exampleModal"
-         tabindex="-1"
-         role="dialog"
-         aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">
-                        Thêm lịch dạy
-                    </h5>
-                    <button type="button"
-                            class="close text-right"
-                            data-dismiss="modal"
-                            aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="form-group">
-                            <label for="inputName">Tên môn gia sư</label>
-                            <select class="form-control" name="" id="">
-                                <option value="">Anh văn cơ bản</option>
-                                <option value="">Javascript cơ bản</option>
-                                <option value="">Tin học cơ bản</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="select-shifts">Loại ca dạy</label>
-                            <select class="form-control mb-2"
-                                    name="select-shifts"
-                                    id="">
-                                <option value="">45 Phút</option>
-                                <option value="">60 Phút</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="inputName">Ngày dạy</label>
-                            <input type="date" id="inputName" class="form-control" />
-                        </div>
-                        <div class="form-group form-flex">
-                            <label for="">Chọn Khung Giờ</label>
-                            <div class="input-flex">
-                                <input type="time"
-                                       id="inputDate"
-                                       class="form-control form-date" />
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button"
-                            class="btn btn-secondary"
-                            data-dismiss="modal">
-                        Hủy
-                    </button>
-                    <button type="button" class="btn btn-primary">Xác nhận</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Main content -->
     <section class="content">
@@ -157,7 +87,7 @@
 </div>
 <!-- /.content-wrapper -->
 <div class="modal fade"
-     id="checkoutModal"
+     id="inputModal"
      tabindex="-1"
      role="dialog"
      aria-labelledby="checkoutModalLabel"
@@ -168,10 +98,36 @@
                 <h5 class="modal-title" id="exampleModalLabel">Thông tin chuyển khoản</h5>
             </div>
             <div class="modal-body" style="color: red">
-                NGÂN HÀNG VIETCOMBANK - HOANG VAN DAT - STK: 123456789
+                <p>
+                    Vui lòng chuyển khoản đến NGÂN HÀNG VIETCOMBANK - GIA SU VAN LANG - STK: 123456789
+                    với nội dung: GSxxxxxx - Nguyen Thanh An
+                </p>
             </div>
             <div class="modal-footer">
-                <div type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Xác nhận</div>
+                <button type="submit" class="btn btn-primary btn-sm" data-dismiss="modal">Xác nhận</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade"
+     id="outputModal"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="checkoutModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Lập lệnh rút tiền</h5>
+            </div>
+            <form>
+                <div class="form-group">
+                    <label for="inputName">Số tiền muốn rút</label>
+                    <input type="text" id="" class="form-control" />
+                </div>
+            </form>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary btn-sm" data-dismiss="modal">Xác nhận</button>
             </div>
         </div>
     </div>
