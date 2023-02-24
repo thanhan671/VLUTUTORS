@@ -5095,7 +5095,22 @@ p.form-message.error {
     font-weight: 500;
     width: 150px;
 }
-
+.course-item {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 16px;
+    color: #000;
+    cursor: pointer;
+    background-color: #fff;
+    height: 40px;
+    text-transform: uppercase;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    transition: .2s ease-in-out;
+}
+.course-item:hover{
+    background-color: #aaaaaa;
+}
 .course-container {
     display: flex;
     height: 100%;
@@ -5148,8 +5163,35 @@ p.form-message.error {
 .course-video {
     width: 562px;
     height: 316px;
+    overflow-y: scroll;
+    width: 100%;
     border: 1px solid rgba(228, 228, 228, 1);
     border-radius: 4px;
+    height: 315px;
+    overflow-x: hidden;
+}
+    .course-video::-webkit-scrollbar {
+        margin-left: 15px;
+        width: 10px;
+        margin-top: 4px;
+    }
+
+    .course-video::-webkit-scrollbar-track {
+        background-color: #ebebeb;
+        -webkit-border-radius: 7px;
+        border-radius: 7px;
+    }
+
+.course-video::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 7px;
+    border-radius: 7px;
+    background: #6d6d6d;
+}
+.course-title {
+    font-size: 16px;
+    font-weight: 700;
+    font-family: 'Montserrat';
+    color: #000000;
 }
 
 .course-title-wrapper {
