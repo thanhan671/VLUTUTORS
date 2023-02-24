@@ -132,18 +132,13 @@
         </div>
     </div>
 </div>
-<script src="~/admin/jquery/jquery.min.js"></script>
 @section scripts {
-    <script src="~/admin/jquery/jquery.min.js"></script>
-        <script src="~/admin/js/datatables.js"></script>
-            <script src="~/admin/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.2/moment.min.js" ></script>
-    <script src="https://cdn.datatables.net/datetime/1.1.2/js/dataTables.dateTime.min.js"></script>
     <script>
         var minDate, maxDate;
 
         // Custom filtering function which will search data in column four between two values
         $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
+            console.log(minDate, maxDate);
             var min = minDate.val();
             var max = maxDate.val();
             var date = new Date(data[1]);
@@ -179,7 +174,7 @@
     </script>
     <script type="text/javascript">
         $(function () {
-            $('#myTable_filter').append($('#dropdown-filter')).clone();
+            $('#myTable_filter').prepend($('#dropdown-filter')).clone();
             $('#filter-fade').remove();
         })
     </script>

@@ -27,7 +27,7 @@
                     @if (Model.TaiLieu != null)
                     {
                         <div class="row-nowrap">
-                            <div class="col">
+                            <div class="course-file">
                                 <h6 class="course-title">File Bài Giảng</h6>
                             </div>
                             @foreach (var file in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.TaiLieu))
@@ -61,7 +61,7 @@
         }
         @if (Model.currentScore <= 7 || Model.currentScore == null)
         {
-            <a class="main-btn" href="@Url.Action("DoTest", "TutorTraining")">Bài kiểm tra cuối khóa học</a>
+            <a class="main-btn mt-5 mb-5" href="@Url.Action("DoTest", "TutorTraining")">Bài kiểm tra cuối khóa học</a>
         }
         else
         {
