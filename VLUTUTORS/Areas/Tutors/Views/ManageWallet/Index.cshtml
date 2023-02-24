@@ -10,11 +10,11 @@
         <div class="container-fluid">
             <div class="row mb-2 justify-content-between">
                 <div class="col-auto mr-auto"><h1>Quản lý ví</h1></div>
-                @*                <button data-toggle="modal"
-                            data-target="#exampleModal"
-                            class="col-auto btn-success">
-                        Thêm lịch dạy
-                    </button>*@
+@*                <button data-toggle="modal"
+                        data-target="#exampleModal"
+                        class="col-auto btn-success">
+                    Thêm lịch dạy
+                </button>*@
             </div>
         </div>
         <!-- /.container-fluid -->
@@ -29,12 +29,13 @@
         </div>
     </div>
     <div class="col justify-content-center gap-10 d-flex">
-        <div type="button" data-toggle="modal"
-             data-target="#checkoutModal" class="btn-card-input d-flex justify-content-center align-items-center mr-2" style="height: 50px">Nạp tiền vào ví</div>
-
+            <div type="button" data-toggle="modal"
+                 data-target="#checkoutModal" class="btn-card-input d-flex justify-content-center align-items-center mr-2" style="height: 50px">Nạp tiền vào ví</div>
+                 
         <div type="button" class="btn-card-output d-flex justify-content-center align-items-center " style="height: 50px">Rút tiền</div>
     </div>
     <!-- /.content -->
+
     <!-- modal Add -->
     <div class="modal fade"
          id="exampleModal"
@@ -105,20 +106,24 @@
     <section class="content">
         <div class="row " id="dropdown-filter">
             <div class="col d-flex">
-                <label class="form-label" for="min">Ngày bắt đầu:</label>
-                <input type="text"
-                       class="form-control-sm"
-                       id="min"
-                       name="min"
-                       style="width: 150px" />
-                <label class="form-label ml-3" for="max">Ngày kết thúc:</label>
-                <input type="text"
-                       id="max"
-                       name="max"
-                       class="form-control-sm"
-                       style="width: 150px" />
+              <label class="form-label" for="min">Ngày bắt đầu:</label>
+              <input
+                type="text"
+                class="form-control-sm"
+                id="min"
+                name="min"
+                style="width: 150px"
+              />
+              <label class="form-label ml-3" for="max">Ngày kết thúc:</label>
+              <input
+                type="text"
+                id="max"
+                name="max"
+                class="form-control-sm"
+                style="width: 150px"
+              />
             </div>
-        </div>
+          </div>
         <!-- Default box -->
         <table id="myTable">
             <thead>
@@ -174,9 +179,9 @@
 <script src="~/admin/jquery/jquery.min.js"></script>
 @section scripts {
     <script src="~/admin/jquery/jquery.min.js"></script>
-    <script src="~/admin/js/datatables.js"></script>
-    <script src="~/admin/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.2/moment.min.js"></script>
+        <script src="~/admin/js/datatables.js"></script>
+            <script src="~/admin/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.2/moment.min.js" ></script>
     <script src="https://cdn.datatables.net/datetime/1.1.2/js/dataTables.dateTime.min.js"></script>
     <script>
         var minDate, maxDate;

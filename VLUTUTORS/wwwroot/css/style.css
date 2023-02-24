@@ -138,14 +138,6 @@ p {
     margin: 0px;
 }
 
-.bg_cover {
-    background-image: url(../images/background.jpg);
-    background-position: center center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    width: 100%;
-    height: 100%;
-}
 section.demo {
   margin-top: 30px;
 }
@@ -337,6 +329,7 @@ select.form-search {
 }
 /* cmcmcmcm */
 .bg_cover {
+
     background-position: center center;
     background-size: cover;
     background-repeat: no-repeat;

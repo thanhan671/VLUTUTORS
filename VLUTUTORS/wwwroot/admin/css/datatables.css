@@ -458,6 +458,8 @@ table.dataTable {
     .dataTables_wrapper .dataTables_filter {
         float: right;
         text-align: right;
+        display: flex;
+        flex-direction: row-reverse;
     }
 
         .dataTables_wrapper .dataTables_filter input {
