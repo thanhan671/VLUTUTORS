@@ -1,4 +1,5 @@
-﻿
+﻿@model VLUTUTORS.Models.BookTutorViewModel
+
 @{
     ViewData["Title"] = "Chi tiết gia sư";
     Layout = "~/Views/Shared/_otherPageLayout.cshtml";
@@ -10,17 +11,26 @@
             <div class="col-lg-4 col-md-8">
                 <div class="teachers-left mt-50">
                     <div class="hero">
-                        <img src="~/images/teacher1.png" alt="Teachers" />
+                        <img src="~/@Model.Tutor.AnhDaiDien" alt="Teachers" />
                     </div>
+
+                    
                     <div class="name">
-                        <h6>Mộng Trinh</h6>
-                        <span>Anh văn cơ bản</span>
+                        <h6>@Model.Tutor.HoTen</h6>
+
+                        @if (Model.Subject1 != null)
+                        {
+                            <span>@Model.Subject1.TenMonGiaSu</span>
+                        }
+
+                        @if (Model.Subject2 != null)
+                        {
+                            <span>@Model.Subject2.TenMonGiaSu</span>
+                        }
                     </div>
                     <div class="description">
                         <p>
-                            Tôi được đánh giá là một người vui tính và hiện đại. Tôi luôn
-                            tận tâm với công việc gia sư của mình, luôn mang đến cho người
-                            học những buổi học đầy vui vẻ và sáng tạo.
+                            @Model.Tutor.DanhGiaVeViecGiaSu
                         </p>
                     </div>
                 </div>
@@ -65,31 +75,27 @@
                                 <div class="singel-dashboard pt-40">
                                     <h5>Về tôi</h5>
                                     <p>
-                                        Phong cách giảng dạy của tôi rất thân thiện và dễ gần.
-                                        Tôi rất vui vẻ, kiên nhẫn và thích làm cho các bài học
-                                        của tôi trở nên vui vẻ và hấp dẫn! Trong những năm qua,
-                                        tôi đã dạy kèm rất nhiều sinh viên để đạt được kết quả
-                                        mong muốn trong kỳ thi hoặc chỉ để cảm thấy tự tin hơn
-                                        trong các môn học mà họ đang gặp khó khăn. Tôi thường
-                                        xuyên sử dụng phương pháp dạy mới mẻ trong các bài dạy
-                                        của mình, ...
+                                        @Model.Tutor.GioiThieu
                                     </p>
                                 </div>
                                 <!-- singel dashboard -->
                                 <div class="singel-dashboard pt-40">
                                     <h5>Chứng chỉ</h5>
                                     <p>
-                                        Tôi đạt được hai chứng chỉ là IELTS 6.5 và TOEIC 700
+                                        @Model.Tutor.TenChungChiHoacDiemMon1
+                                    </p>
+                                    <p>
+                                        @Model.Tutor.TenChungChiHoacDiemMon2
                                     </p>
                                 </div>
                                 <!-- singel dashboard -->
                                 <div class="singel-dashboard pt-40">
                                     <h5>Môn tôi gia sư</h5>
                                     <p>
-                                        Tiếng Anh là một ngôn ngữ mà tôi rất yêu thích, từ việc
-                                        yêu thích nó mà tôi muốn truyền đạt tới các bạn sinh
-                                        viên niềm yêu thích đó. Đồng thời giúp các bạn cũng cố
-                                        thêm kiến thức và không còn xem Anh Văn là một nỗi sợ.
+                                        @Model.Tutor.GioiThieuVeMonGiaSu1
+                                    </p>
+                                    <p>
+                                        @Model.Tutor.GioiThieuVeMonGiaSu2
                                     </p>
                                 </div>
                                 <!-- singel dashboard -->
@@ -227,63 +233,39 @@
                                     <h6>Đánh giá của học viên</h6>
                                 </div>
                                 <ul>
-                                    <li>
-                                        <div class="singel-reviews">
-                                            <div class="reviews-author">
-                                                <div class="author-thum">
-                                                    <img src="~/images/review/r-1.jpg" alt="Reviews" />
+                                    @{
+                                        foreach (var comment in Model.Commnents)
+                                        {
+                                            <li>
+                                                <div class="singel-reviews">
+                                                    <div class="reviews-author">
+                                                        <div class="author-thum">
+                                                            <img src="~/@comment.NguoiDanhGia.AnhDaiDien" alt="Reviews" />
+                                                        </div>
+                                                        <div class="author-name">
+                                                            <h6>@comment.NguoiDanhGia.HoTen</h6>
+                                                            <span>@comment.Comment.NgayTao.ToString("dd/MM/yyyy")</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="reviews-description pt-20">
+                                                        <p>
+                                                            @comment.Comment.Danhgia
+                                                        </p>
+                                                        <div class="rating">
+                                                            
+                                                            <ul>
+                                                                @for (int i = 0; i < comment.Comment.Diem; ++i)
+                                                                {
+                                                                    <li><i class="fa fa-star"></i></li>
+                                                                }
+                                                            </ul>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="author-name">
-                                                    <h6>Yến Ngân</h6>
-                                                    <span>09/08/2022</span>
-                                                </div>
-                                            </div>
-                                            <div class="reviews-description pt-20">
-                                                <p>
-                                                    Gia sư rất thân thiện và vui vẻ, học rất thích
-                                                </p>
-                                                <div class="rating">
-                                                    <ul>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- singel reviews -->
-                                    </li>
-                                    <li>
-                                        <div class="singel-reviews">
-                                            <div class="reviews-author">
-                                                <div class="author-thum">
-                                                    <img src="~/images/review/r-2.jpg" alt="Reviews" />
-                                                </div>
-                                                <div class="author-name">
-                                                    <h6>Quốc Duy</h6>
-                                                    <span>30/10/2022</span>
-                                                </div>
-                                            </div>
-                                            <div class="reviews-description pt-20">
-                                                <p>
-                                                    Bài giảng rất sinh động và dễ hiểu, cách dạy hiện
-                                                    đại, linh hoạt giúp mình tiếp thu khá tốt
-                                                </p>
-                                                <div class="rating">
-                                                    <ul>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- singel reviews -->
-                                    </li>
+                                                <!-- singel reviews -->
+                                            </li>
+                                        }
+                                    }
                                 </ul>
                                 <div class="title pt-15">
                                     <h6>Hãy để lại đánh giá của bạn</h6>

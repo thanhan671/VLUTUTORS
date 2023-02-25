@@ -33,6 +33,8 @@ namespace VLUTUTORS.Models
         public virtual DbSet<Trangthai> Trangthais { get; set; }
         public virtual DbSet<Tuvan> Tuvans { get; set; }
         public virtual DbSet<Xetduyet> Xetduyets { get; set; }
+        public virtual DbSet<Giasuyeuthich> Giasuyeuthichs { get; set; }
+        public virtual DbSet<Danhgiagiasu> Danhgiagiasus { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -396,6 +398,21 @@ namespace VLUTUTORS.Models
                     .HasColumnName("IDXetDuyet");
 
                 entity.Property(e => e.TenTrangThai).HasMaxLength(50);
+            });
+            
+            modelBuilder.Entity<Giasuyeuthich>(entity =>
+            {
+                entity.HasKey(e => e.GiasuId);
+                entity.HasKey(e => e.NguoidungId);
+
+                entity.ToTable("GIASUYEUTHICH");
+            });
+            
+            modelBuilder.Entity<Danhgiagiasu>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+
+                entity.ToTable("DANHGIAGIASU");
             });
 
             OnModelCreatingPartial(modelBuilder);
