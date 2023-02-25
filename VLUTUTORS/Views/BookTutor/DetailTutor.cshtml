@@ -229,47 +229,55 @@
                              role="tabpanel"
                              aria-labelledby="reviews-tab">
                             <div class="reviews-cont">
-                                <div class="title">
-                                    <h6>Đánh giá của học viên</h6>
-                                </div>
-                                <ul>
-                                    @{
-                                        foreach (var comment in Model.Commnents)
-                                        {
-                                            <li>
-                                                <div class="singel-reviews">
-                                                    <div class="reviews-author">
-                                                        <div class="author-thum">
-                                                            <img src="~/@comment.NguoiDanhGia.AnhDaiDien" alt="Reviews" />
+                                @if (Model.Commnents.Count > 0)
+                                {
+                                    <div class="title">
+                                        <h6>Đánh giá của học viên</h6>
+                                    </div>
+                                    <ul>
+                                        @{
+                                            foreach (var comment in Model.Commnents)
+                                            {
+                                                <li>
+                                                    <div class="singel-reviews">
+                                                        <div class="reviews-author">
+                                                            <div class="author-thum">
+                                                                <img src="~/@comment.NguoiDanhGia.AnhDaiDien" alt="Reviews" />
+                                                            </div>
+                                                            <div class="author-name">
+                                                                <h6>@comment.NguoiDanhGia.HoTen</h6>
+                                                                <span>@comment.Comment.NgayTao.ToString("dd/MM/yyyy")</span>
+                                                            </div>
                                                         </div>
-                                                        <div class="author-name">
-                                                            <h6>@comment.NguoiDanhGia.HoTen</h6>
-                                                            <span>@comment.Comment.NgayTao.ToString("dd/MM/yyyy")</span>
+                                                        <div class="reviews-description pt-20">
+                                                            <p>
+                                                                @comment.Comment.Danhgia
+                                                            </p>
+                                                            <div class="rating">
+
+                                                                <ul>
+                                                                    @for (int i = 0; i < comment.Comment.Diem; ++i)
+                                                                    {
+                                                                        <li><i class="fa fa-star"></i></li>
+                                                                    }
+                                                                </ul>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <div class="reviews-description pt-20">
-                                                        <p>
-                                                            @comment.Comment.Danhgia
-                                                        </p>
-                                                        <div class="rating">
-                                                            
-                                                            <ul>
-                                                                @for (int i = 0; i < comment.Comment.Diem; ++i)
-                                                                {
-                                                                    <li><i class="fa fa-star"></i></li>
-                                                                }
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- singel reviews -->
-                                            </li>
+                                                    <!-- singel reviews -->
+                                                </li>
+                                            }
                                         }
-                                    }
-                                </ul>
-                                <div class="title pt-15">
-                                    <h6>Hãy để lại đánh giá của bạn</h6>
-                                </div>
+                                    </ul>
+                                    <div class="title pt-15">
+                                        <h6>Hãy để lại đánh giá của bạn</h6>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <p>Chưa có đánh giá cho gia sư này</p>
+                                }
+
                             </div>
                             <!-- reviews cont -->
                         </div>
