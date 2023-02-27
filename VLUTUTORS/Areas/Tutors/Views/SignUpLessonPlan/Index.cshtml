@@ -1,6 +1,6 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-@*@model IEnumerable<VLUTUTORS.Areas.Tutors.Models.LessonPlan>*@
-    @model VLUTUTORS.Areas.Tutors.Models.LessonPlan
+@model IEnumerable<VLUTUTORS.Models.Caday>
+    @*@model VLUTUTORS.Areas.Tutors.Models.LessonPlan*@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Tutors/Views/Shared/_TutorsLayout.cshtml";
@@ -105,16 +105,21 @@
                 </tr>
             </thead>
             <tbody>
-               @*  @foreach (var lesson in Model)
+                 @foreach (var lesson in Model)
                  {
                     <tr>
-                        <td>@lesson.IDMonGiaSuNavigation.TenMonGiaSu</td>
-                        <td>@lesson.NgayDay</td>
-                        <td>@lesson.GioBatDau + ":" + @lesson.PhutKetThuc + " - " + @lesson.GioKetThuc + ":" + @lesson.PhutKetThuc</td>
-                        <td>@lesson.IdCaDayNavigation.ThoiGianDay</td>
+                        <td>@lesson.tenMonDay</td>
+                        <td>@lesson.NgayDay.ToString("dd/MM/yyyy")</td>
+                        <td>@lesson.GioBatDau:@lesson.PhutKetThuc - @lesson.GioKetThuc:@lesson.PhutKetThuc</td>
+                        <td>@lesson.tenLoaiCaDay phút</td>
+                        <td class="project-actions text-right">
+                        <a class="btn btn-info btn-sm" href="~/Tutors/SignUpLessonPlan/EditLessonPlan">
+                            <i class="fas fa-pencil-alt"> </i>
+                            Sửa
+                        </a>
                     </tr>
-                 }*@
-                  <tr>
+                 }
+                  @*<tr>
                         <td>@Model.IDMonDay</td>
                         <td>@Model.NgayDay.ToString("dd/MM/yyyy")</td>
                         <td>@Model.GioBatDau : @Model.PhutBatDau - @Model.GioKetThuc : @Model.PhutKetThuc</td>
@@ -125,7 +130,7 @@
                             Sửa
                         </a>
                     </td>
-                    </tr>
+                    </tr>*@
             </tbody>
         </table>
 

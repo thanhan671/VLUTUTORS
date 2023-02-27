@@ -21,18 +21,24 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             var userInfo = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
             Taikhoannguoidung taikhoannguoidung = _db.Taikhoannguoidungs.Find(userInfo.Id);
 
-            LessonPlan lessonPlan = new LessonPlan();
-            lessonPlan.ID = 1;
-            lessonPlan.IDNguoiDay = userInfo.Id;
-            lessonPlan.IDMonDay = (int) taikhoannguoidung.IdmonGiaSu1;
-            lessonPlan.NgayDay = DateTime.Today;
-            lessonPlan.GioBatDau = 20;
-            lessonPlan.PhutBatDau = 0;
-            //lessonPlan.GioKetThuc = lessonPlan.Gio
-            //lessonPlan.IdCaDayNavigation.ThoiGianDay = 45;
-            GetEndTime(lessonPlan);
+            List<Caday> cadays = _db.Cadays.Where(ca => ca.IdnguoiDay.Equals(taikhoannguoidung.Id)).ToList();
+            foreach(var caday in cadays)
+            {
+                caday.tenMonDay = _db.Mongiasus.Find(caday.IdmonDay).TenMonGiaSu.ToString();
+                caday.tenLoaiCaDay = _db.Cahocs.Find(caday.IdloaiCaDay).LoaiCa.ToString();
+            }
+            //LessonPlan lessonPlan = new LessonPlan();
+            //lessonPlan.ID = 1;
+            //lessonPlan.IDNguoiDay = userInfo.Id;
+            //lessonPlan.IDMonDay = (int) taikhoannguoidung.IdmonGiaSu1;
+            //lessonPlan.NgayDay = DateTime.Today;
+            //lessonPlan.GioBatDau = 20;
+            //lessonPlan.PhutBatDau = 0;
+            ////lessonPlan.GioKetThuc = lessonPlan.Gio
+            ////lessonPlan.IdCaDayNavigation.ThoiGianDay = 45;
+            //GetEndTime(lessonPlan);
 
-            return View(lessonPlan);
+            return View(cadays);
         }
 
         private void GetEndTime(LessonPlan lessonPlan)
