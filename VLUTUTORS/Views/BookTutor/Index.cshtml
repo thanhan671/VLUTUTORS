@@ -52,12 +52,23 @@
                         <i class="material-icons">&#xE164;</i>
                     </div>
                     <div class="select-arrow">
-                         <i class="material-icons">&#xE313;</i> 
+                        <i class="material-icons">&#xE313;</i>
                     </div>
-                    <select class="control-field sort-field form-search">
-                        <option value="order" selected>Lọc Theo</option>
-                        <option value="title">Gia sư yêu thích</option>
-                        <option value="color">Đang hoạt động</option>
+                    <select class="control-field sort-field form-search" name="nameFilter">
+                        @{
+                            if (ViewData["NameFilter"] != null)
+                            {
+                                <option value="" selected="selected">Lọc Theo</option>
+                                <option value="1">Gia sư yêu thích</option>
+                                <option value="2">Đang hoạt động</option>
+                            }
+                            else
+                            {
+                                <option value="">Lọc Theo</option>
+                                <option value="1" selected="selected">Gia sư yêu thích</option>
+                                <option value="2">Đang hoạt động</option>
+                            }
+                        }
                     </select>
                 </div>
                 <div class="control filter">
@@ -65,7 +76,7 @@
                         <i class="material-icons">&#xE871;</i>
                     </div>
                     <div class="select-arrow">
-                         <i class="material-icons">&#xE313;</i> 
+                        <i class="material-icons">&#xE313;</i>
                     </div>
                     <select class="control-field layout-field form-search">
                         <option value="left-top" selected>Ca học</option>
