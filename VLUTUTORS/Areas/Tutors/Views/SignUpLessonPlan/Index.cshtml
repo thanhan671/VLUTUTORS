@@ -1,11 +1,9 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-@model IEnumerable<VLUTUTORS.Models.Caday>
-    @*@model VLUTUTORS.Areas.Tutors.Models.LessonPlan*@
+@model Tuple<VLUTUTORS.Models.Caday,IEnumerable<VLUTUTORS.Models.Caday>>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Tutors/Views/Shared/_TutorsLayout.cshtml";
 }
-
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -31,6 +29,7 @@
          aria-labelledby="exampleModalLabel"
          aria-hidden="true">
          <form asp-action="AddLessonPlan" asp-controller="SignUpLessonPlan" method="post">
+             @Html.HiddenFor(m => m.Item1.IdnguoiDay)
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -48,23 +47,18 @@
                         <form>
                             <div class="form-group">
                                 <label for="inputName">Tên môn gia sư</label>
-                                <select class="form-control" name="" id="">
-                                    <option value="">Anh văn cơ bản</option>
-                                </select>
+                                 @Html.DropDownListFor(m => m.Item1.IdmonDay, Model.Item1.subjectItems, new { @class = "form__select" })
+                                <span asp-validation-for="Item1.IdmonDay" class="warning"></span>
                             </div>
                             <div>
                                 <label for="select-shifts">Loại ca dạy</label>
-                                <select class="form-control mb-2"
-                                        name="select-shifts"
-                                        id="">
-                                    <option value="">45 Phút</option>
-                                    <option value="">60 Phút</option>
-                                </select>
+                                 @Html.DropDownListFor(m => m.Item1.IdloaiCaDay, Model.Item1.teachTimeItems, new { @class = "form__select" })
+                                <span asp-validation-for="Item1.IdloaiCaDay" class="warning"></span>
                             </div>
 
                             <div class="form-group">
                                 <label for="inputName">Ngày dạy</label>
-                                <input type="date" id="inputName" class="form-control" />
+                                <input type="date" id="inputName" name = "inputDate" class="form-control" />
                             </div>
                             <div class="form-group">
                                 <label for="">Chọn Khung Giờ</label>
@@ -72,7 +66,7 @@
                                     <div class="input-flex">
                                         <input type="time"
                                                id="inputDate"
-                                               name = "inputDate"
+                                               name = "inputHour"
                                                class="form-control form-date" />
                                         <input onclick="AddTextBox()" type="button" value="+" class="btn-add" />
                                     </div>
@@ -105,7 +99,7 @@
                 </tr>
             </thead>
             <tbody>
-                 @foreach (var lesson in Model)
+                 @foreach (var lesson in Model.Item2)
                  {
                     <tr>
                         <td>@lesson.tenMonDay</td>
@@ -119,18 +113,6 @@
                         </a>
                     </tr>
                  }
-                  @*<tr>
-                        <td>@Model.IDMonDay</td>
-                        <td>@Model.NgayDay.ToString("dd/MM/yyyy")</td>
-                        <td>@Model.GioBatDau : @Model.PhutBatDau - @Model.GioKetThuc : @Model.PhutKetThuc</td>
-                        <td>@Model.IDLoaiCaDay</td>
-                         <td class="project-actions text-right">
-                        <a class="btn btn-info btn-sm" href="~/Tutors/SignUpLessonPlan/EditLessonPlan">
-                            <i class="fas fa-pencil-alt"> </i>
-                            Sửa
-                        </a>
-                    </td>
-                    </tr>*@
             </tbody>
         </table>
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -25,6 +26,13 @@ namespace VLUTUTORS.Models
         public string tenMonDay { get; set; }
         [NotMapped]
         public string tenLoaiCaDay { get; set; }
+
+        [NotMapped]
+        public SelectList subjectItems { get; set; }
+
+        [NotMapped]
+        public SelectList teachTimeItems { get; set; }
+
         public virtual Cahoc IdloaiCaDayNavigation { get; set; }
         public virtual Mongiasu IdmonDayNavigation { get; set; }
         public virtual Taikhoannguoidung IdnguoiDayNavigation { get; set; }
