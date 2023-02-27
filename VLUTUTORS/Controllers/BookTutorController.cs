@@ -41,7 +41,7 @@ namespace VLUTUTORS.Controllers
 
                     var subject1 = subjects.FirstOrDefault(it => it.IdmonGiaSu == tutor.IdmonGiaSu1);
                     var subject2 = subjects.FirstOrDefault(it => it.IdmonGiaSu == tutor.IdmonGiaSu2);
-                    var isInWishlish = wishlish.FirstOrDefault(it => it.GiasuId == tutor.Id);
+                    var isInWishlish = wishlish.Where(it => it.GiasuId == tutor.Id);
 
                     var commentModel = new List<CommentViewModel>();
                     var danhGiaGiaSu = _db.Danhgiagiasus.Where(it=> it.GiasuId == tutor.Id).ToList();
@@ -99,7 +99,7 @@ namespace VLUTUTORS.Controllers
             if (currentUserId > 0 && id > 0)
             {
                 var giaSuYeuThich = _db.Giasuyeuthichs.FirstOrDefault(it => it.GiasuId == id && it.NguoidungId == currentUserId.Value);
-                if(giaSuYeuThich != null)
+                if (giaSuYeuThich != null)
                 {
                     _db.Remove(giaSuYeuThich);
                     await _db.SaveChangesAsync();

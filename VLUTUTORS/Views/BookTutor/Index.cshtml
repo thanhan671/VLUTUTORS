@@ -1,6 +1,8 @@
 ﻿@using VLUTUTORS.Models
 @model IEnumerable<VLUTUTORS.Models.BookTutorViewModel>
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor httpContextAccessor
 @{
     ViewData["Title"] = "Tìm gia sư";
     Layout = "~/Views/Shared/_otherPageLayout.cshtml";
@@ -17,7 +19,7 @@
                     <div class="control-icon">
                         <i class="material-icons">&#xE8B6;</i>
                     </div>
-                    <input class="control-field search-field form-search " type="text" name="keyword" placeholder="Tìm kiếm..." value='@ViewData["Keyword"]'/>
+                    <input class="control-field search-field form-search " type="text" name="keyword" placeholder="Tìm kiếm..." value='@ViewData["Keyword"]' />
                 </div>
                 <div class="control filter">
                     <div class="control-icon">
@@ -50,7 +52,7 @@
                         <i class="material-icons">&#xE164;</i>
                     </div>
                     <div class="select-arrow">
-                        <!-- <i class="material-icons">&#xE313;</i> -->
+                         <i class="material-icons">&#xE313;</i> 
                     </div>
                     <select class="control-field sort-field form-search">
                         <option value="order" selected>Lọc Theo</option>
@@ -63,7 +65,7 @@
                         <i class="material-icons">&#xE871;</i>
                     </div>
                     <div class="select-arrow">
-                        <!-- <i class="material-icons">&#xE313;</i> -->
+                         <i class="material-icons">&#xE313;</i> 
                     </div>
                     <select class="control-field layout-field form-search">
                         <option value="left-top" selected>Ca học</option>
@@ -77,12 +79,12 @@
         <div class="right-search">
             <div class="card-tutor-container">
                 <hr>
-                @foreach(var tutor in Model)
+                @foreach (var tutor in Model)
                 {
                     <div class="search-card ml-10 mt-30 mb-20">
                         <div class="tutor-avt pt-50">
                             <img src="~/@tutor.Tutor.AnhDaiDien"
-                             width="150" />
+                                 width="150" />
                         </div>
                         <div class="tutor-desc">
                             <h3 class="tutor-name">@tutor.Tutor.HoTen <span class="active-status"></span></h3>
@@ -94,44 +96,52 @@
                                     {
                                         <span><i class="fa-solid fa-star"></i></span>
                                     }
-                                    if (totalStar  > 0) 
+                                    if (totalStar > 0)
                                     {
                                         <span class="ml-2 mt-1">@totalStar</span>
                                     }
                                 }
                             </div>
-                            @if(@tutor.Subject1 != null)
+                            @if (@tutor.Subject1 != null)
                             {
                                 <p class="card-price"><b>@tutor.Subject1.TenMonGiaSu</b></p>
                                 <h4 class="head-desc">@tutor.Tutor.GioiThieuVeMonGiaSu1</h4>
-                                <p class="desc">
-                                    @tutor.Tutor.DanhGiaVeViecGiaSu
-                                </p>
                             }
 
                             @if (@tutor.Subject2 != null)
                             {
                                 <p class="card-price"><b>@tutor.Subject2.TenMonGiaSu</b></p>
                                 <h4 class="head-desc">@tutor.Tutor.GioiThieuVeMonGiaSu2</h4>
-                                <p class="desc">
-                                        @tutor.Tutor.DanhGiaVeViecGiaSu
-                                </p>
                             }
                         </div>
                         <div class="tutor-view">
-                            @if(!@tutor.IsInWishlish)
-                            {
-                                <button class="fav-tutor" type="submit" asp-action="AddToWishlish" asp-route-id="@tutor.Tutor.Id">
-                                    <i class="fa-solid fa-heart icon-heart" id="heart"></i>
-                                </button>
+                            @{
+                                bool temp = true;
+                                var tutors = new CP25Team01Context().Giasuyeuthichs.Where(it => (it.GiasuId == @tutor.Tutor.Id)).ToList();
+                                foreach (var item in tutors)
+                                {
+                                    if (item.NguoidungId != @httpContextAccessor.HttpContext.Session.GetInt32("LoginId"))
+                                    {
+                                        temp = true;
+                                    }
+                                    else
+                                    {
+                                        temp = false;
+                                    }
+                                }
+                                if (temp == true)
+                                {
+                                    <button class="fav-tutor" type="submit" asp-action="AddToWishlish" asp-route-id="@tutor.Tutor.Id">
+                                        <i class="fa-solid fa-heart icon-heart" id="heart"></i>
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button style="color:red" class="fav-tutor" type="submit" asp-action="RemoveFromWishlish" asp-route-id="@tutor.Tutor.Id">
+                                        <i class="fa-solid fa-heart icon-heart" id="heart1"></i>
+                                    </button>
+                                }
                             }
-                            else
-                            {
-                                <button class="fav-tutor" type="submit" asp-action="RemoveFromWishlish" asp-route-id="@tutor.Tutor.Id">
-                                    <i class="fa-solid fa-heart icon-heart" id="heart1"></i>
-                                </button>
-                            }
-
                             <a asp-action="DetailTutor" asp-route-id="@tutor.Tutor.Id" class="card-btn">Xem Chi Tiết</a>
                         </div>
                     </div>

@@ -7,37 +7,58 @@
 
 <section id="teachers-singel" class="pt-30 pb-120 gray-bg">
     <div class="container">
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="javascript:history.go(-1)">Tìm gia sư</a></li>
+                        <li class="breadcrumb-item active">Chi tiết gia sư @Model.Tutor.HoTen</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
         <div class="row justify-content-center">
             <div class="col-lg-4 col-md-8">
-                <div class="teachers-left mt-50">
+                <div class="teachers-left">
                     <div class="hero">
                         <img src="~/@Model.Tutor.AnhDaiDien" alt="Teachers" />
                     </div>
+                    @{
+                        var totalRate = Model.Commnents.Sum(it => it.Comment.Diem);
+                        int totalStar = (Model.Commnents.Count > 0 ? totalRate / Model.Commnents.Count : 0);
+                        for (int i = 0; i < totalStar; ++i)
+                        {
+                            <span><i class="fa-solid fa-star"></i></span>
+                        }
+                        if (totalStar > 0)
+                        {
+                            <span class="ml-2 mt-1">@totalStar</span>
+                        }
+                    }
 
-                    
                     <div class="name">
                         <h6>@Model.Tutor.HoTen</h6>
 
                         @if (Model.Subject1 != null)
                         {
-                            <span>@Model.Subject1.TenMonGiaSu</span>
+                            <div style="color:crimson">@Model.Subject1.TenMonGiaSu</div>
                         }
 
                         @if (Model.Subject2 != null)
                         {
-                            <span>@Model.Subject2.TenMonGiaSu</span>
+                            <div style="color:crimson">@Model.Subject2.TenMonGiaSu</div>
                         }
                     </div>
                     <div class="description">
                         <p>
-                            @Model.Tutor.DanhGiaVeViecGiaSu
+                            @Model.Tutor.GioiThieu
                         </p>
                     </div>
                 </div>
                 <!-- teachers left -->
             </div>
             <div class="col-lg-8">
-                <div class="teachers-right mt-50">
+                <div class="teachers-right">
                     <ul class="nav nav-justified" id="myTab" role="tablist">
                         <li class="nav-item">
                             <a class="active"
@@ -72,35 +93,65 @@
                              role="tabpanel"
                              aria-labelledby="dashboard-tab">
                             <div class="dashboard-cont">
-                                <div class="singel-dashboard pt-40">
-                                    <h5>Về tôi</h5>
+                                <div class="singel-dashboard pt-30">
+                                    <h3>Đánh giá bản thân về việc gia sư</h3>
                                     <p>
-                                        @Model.Tutor.GioiThieu
+                                        @Model.Tutor.DanhGiaVeViecGiaSu
                                     </p>
                                 </div>
                                 <!-- singel dashboard -->
-                                <div class="singel-dashboard pt-40">
-                                    <h5>Chứng chỉ</h5>
-                                    <p>
-                                        @Model.Tutor.TenChungChiHoacDiemMon1
-                                    </p>
-                                    <p>
-                                        @Model.Tutor.TenChungChiHoacDiemMon2
-                                    </p>
+                                <div class="singel-dashboard pt-30">
+                                    <h3>Chứng chỉ</h3>
+
+                                    @if (Model.Subject1 != null)
+                                    {
+                                        <div>
+                                            <div style="font-size:18px; color:blue"><b>Chứng chỉ môn: @Model.Subject1.TenMonGiaSu</b></div>
+                                            <p>
+                                                @Model.Tutor.TenChungChiHoacDiemMon1
+                                            </p>
+                                        </div>
+                                    }
+
+                                    @if (Model.Subject2 != null)
+                                    {
+                                        <div>
+                                            <div>
+                                                <div style="font-size:18px; color:blue"><b>Chứng chỉ môn: @Model.Subject2.TenMonGiaSu</b></div>
+                                                <p>
+                                                    @Model.Tutor.TenChungChiHoacDiemMon2
+                                                </p>
+                                            </div>
+                                        </div>
+                                    }
+                                    <!-- singel dashboard -->
+                                    <div class="singel-dashboard pt-30">
+                                        <h3>Môn tôi gia sư</h3>
+
+                                        @if (Model.Subject1 != null)
+                                        {
+                                            <div>
+                                                <div style="font-size:18px; color:blue"><b>Giới thiệu về môn: @Model.Subject1.TenMonGiaSu</b></div>
+                                                <p>
+                                                    @Model.Tutor.GioiThieuVeMonGiaSu1
+                                                </p>
+                                            </div>
+                                        }
+
+                                        @if (Model.Subject2 != null)
+                                        {
+                                            <div>
+                                                <div style="font-size:18px; color:blue"><b>Giới thiệu về môn: @Model.Subject2.TenMonGiaSu</b></div>
+                                                <p>
+                                                    @Model.Tutor.GioiThieuVeMonGiaSu2
+                                                </p>
+                                            </div>
+                                        }
+                                    </div>
+                                    <!-- singel dashboard -->
                                 </div>
-                                <!-- singel dashboard -->
-                                <div class="singel-dashboard pt-40">
-                                    <h5>Môn tôi gia sư</h5>
-                                    <p>
-                                        @Model.Tutor.GioiThieuVeMonGiaSu1
-                                    </p>
-                                    <p>
-                                        @Model.Tutor.GioiThieuVeMonGiaSu2
-                                    </p>
-                                </div>
-                                <!-- singel dashboard -->
+                                <!-- dashboard cont -->
                             </div>
-                            <!-- dashboard cont -->
                         </div>
                         <div class="tab-pane fade"
                              id="courses"
@@ -281,14 +332,14 @@
                             </div>
                             <!-- reviews cont -->
                         </div>
+                        <!-- tab content -->
                     </div>
-                    <!-- tab content -->
+                    <!-- teachers right -->
                 </div>
-                <!-- teachers right -->
             </div>
+            <!-- row -->
         </div>
-        <!-- row -->
+        <!-- container -->
     </div>
-    <!-- container -->
 </section>
 

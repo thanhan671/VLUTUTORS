@@ -403,7 +403,6 @@ namespace VLUTUTORS.Models
             modelBuilder.Entity<Giasuyeuthich>(entity =>
             {
                 entity.HasKey(e => e.GiasuId);
-                entity.HasKey(e => e.NguoidungId);
 
                 entity.ToTable("GIASUYEUTHICH");
             });
