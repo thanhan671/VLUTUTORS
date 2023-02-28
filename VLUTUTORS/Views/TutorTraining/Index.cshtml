@@ -24,27 +24,48 @@
                             }
                         }
                     </div>
+                    @if (Model.TaiLieu != null)
+                    {
+                        <div class="row-nowrap">
+                            <div class="course-file">
+                                <h6 class="course-title">File Bài Giảng</h6>
+                            </div>
+                            @foreach (var file in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.TaiLieu))
+                            {
+                                <p style="padding-left:2.00em;">@Html.ActionLink(file + "  ", "DownloadFile", new { fileName = file})</p>
+                            }
+                        </div>
+                    }
                 </div>
             </div>
-            <div class="col-md-6">
+            @if(@Model.courseLink != null)
+            {
+                <div class="col-md-6">
                 <div class="course-video">
-                    <iframe width="560" height="315" src=@ViewData["link"] frameborder="0" allowfullscreen></iframe>
+                    @foreach(var link in Model.courseLink)
+                    {
+                        <iframe style="margin-bottom: 20px" width="560" height="315" src=@link frameborder="0" allowfullscreen></iframe>
+                    }
                 </div>
-            </div>
+                </div>
+            }
+            
+
+            
         </div>
-        @if(@Model.currentScore != null)
+        @if (@Model.currentScore != null)
         {
             <div class="input-wrapper">
                 <label class="lb-form">Điểm hiện tại: <h4 style="color:red">@Model.currentScore</h4></label>
             </div>
         }
-        @if(Model.currentScore <= 7 || Model.currentScore == null)
+        @if (Model.currentScore <= 7 || Model.currentScore == null)
         {
-            <a class="main-btn" href="@Url.Action("DoTest", "TutorTraining")">Bài kiểm tra cuối khóa học</a>
+            <a class="main-btn mt-5 mb-5" href="@Url.Action("DoTest", "TutorTraining")">Bài kiểm tra cuối khóa học</a>
         }
         else
         {
-             <h6 style="color:green">Bạn đã đạt đủ điểm để xét duyệt, vui lòng chờ thông báo qua Email</h6>
+            <h6 style="color:green">Bạn đã đạt đủ điểm để xét duyệt, vui lòng chờ thông báo qua Email</h6>
         }
     </div>
     @if (TempData["message"] != null)
@@ -53,4 +74,3 @@
     }
 
 </form>
-

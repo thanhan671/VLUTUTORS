@@ -1,0 +1,93 @@
+﻿@model IEnumerable<VLUTUTORS.Models.Taikhoannguoidung>
+
+@{
+    ViewData["Title"] = "Quản lý học viên";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2 justify-content-center text-center text-uppercase">
+                <div class="col-sm-6">
+                    <h1>Quản lý học viên</h1>
+                </div>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <!-- Default box -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-tools">
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-striped projects" id="myTable">
+                    <thead>
+                        <tr>
+                            <th style="width: 10%">#</th>
+                            <th style="width: 20%">Họ tên</th>
+                            <th style="width: 20%">Email</th>
+                            <th style="width: 20%" class="text-center">Trạng thái tài khoản</th>
+                            <th style="width: 20%">Chức năng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            var index = 0;
+                            foreach (var item in Model)
+                            {
+                                index++;
+                                <tr>
+                                    <td>
+                                        @index
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HoTen)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Email)
+                                    </td>
+                                    @{
+                                        if (item.TrangThaiTaiKhoan == true)
+                                        {
+                                            <td class="project-state">
+                                                <span class="badge badge-success">Hoạt Động</span>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td class="project-state">
+                                                <span class="badge badge-block">Tạm Khóa</span>
+                                            </td>
+                                        }
+                                    }
+                                    <td class="project-actions">
+                                        <a class="btn btn-info btn-sm"
+                                           asp-action="DetailLearner" asp-controller="ManageLearner" asp-route-id="@item.Id">
+                                            <i class="fas fa-pen"> </i>
+                                            Xem
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </section>
+    <!-- /.content -->
+</div>
+@if (TempData["message"] != null)
+{
+    <script>alert('@TempData["message"]');</script>
+}
+

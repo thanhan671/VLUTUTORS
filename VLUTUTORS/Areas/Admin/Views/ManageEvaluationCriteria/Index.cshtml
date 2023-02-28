@@ -1,0 +1,146 @@
+﻿
+@{
+    ViewData["Title"] = "Quản lý tiêu chí đánh giá";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2 justify-content-center text-center text-uppercase">
+                <div class="col-sm-6">
+                    <h1>Quản lý tiêu chí đánh giá</h1>
+                </div>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <!-- Default box -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Danh sách tiêu chí</h3>
+                <div class="card-tools">
+                    <button data-toggle="modal"
+                            data-target="#addcriteria"
+                            class="col-auto btn-success">
+                        Thêm tiêu chí
+                    </button>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-striped projects" id="myTable">
+                    <thead>
+                        <tr>
+                            <th style="width: 20%">STT</th>
+                            <th style="width: 20%">Tên tiêu chí</th>
+                            <th style="width: 15%">Chức năng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @*@{
+                            var index = 0;
+                            foreach (var item in Model)
+                            {
+                                index++;*@
+                        <tr>
+                            <td>@*@index*@ 1 </td>
+                            <td>
+                                @*@Html.DisplayFor(modeItem => item.TenMonGiaSu)*@ Thân thiện
+                            </td>
+                            <td class="project-actions">
+                                <a class="btn btn-info btn-sm" asp-action="EditCriteria" asp-controller="ManageEvaluationCriteria" >
+                                    <i class="fas fa-pencil-alt"> </i>
+                                    Sửa
+                                </a>
+                                <a class="btn btn-danger btn-sm"
+                                   data-toggle="modal"
+                                   data-target="#exampleModal"
+                                   onclick="document.getElementById('hdInput').value = @*@item.IdBaiHoc*@">
+                                    <i class="fas fa-trash"> </i>
+                                    Xoá
+                                </a>
+                            </td>
+                        </tr>
+                        @*}
+                            }*@
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        @if (TempData["message"] != null)
+        {
+            <script>alert('@TempData["message"]');</script>
+        }
+        <!-- /.card -->
+    </section>
+    <div class="modal fade"
+         id="addcriteria"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        Thêm tiêu chí
+                    </h5>
+                    <button type="button"
+                            class="close text-right"
+                            data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="inputName">Tên tiêu chí</label>
+                            <input type="text" id="" class="form-control" />
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button"
+                            class="btn btn-secondary"
+                            data-dismiss="modal">
+                        Hủy
+                    </button>
+                    <button type="submit" class="btn btn-primary">Xác nhận</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade"
+         id="exampleModal"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <form asp-action="DeleteCriteria" method="post" asp-controller="ManageEvaluationCriteria">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <h5>Bạn muốn xóa tiêu chí này?</h5>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-default" type="button" data-dismiss="modal">
+                            Hủy
+                        </button>
+                        <button class="btn btn-primary" type="submit">
+                            Đồng ý
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" id="hdInput" name="hdInput" />
+        </form>
+    </div>
+
+    <!-- /.content -->
+</div>

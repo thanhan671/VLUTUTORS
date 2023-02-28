@@ -18,6 +18,7 @@ namespace VLUTUTORS.Models
         }
 
         public virtual DbSet<Baikiemtra> Baikiemtras { get; set; }
+        public virtual DbSet<Cahoc> Cahocs { get; set; }
         public virtual DbSet<Gioitinh> Gioitinhs { get; set; }
         public virtual DbSet<Khoa> Khoas { get; set; }
         public virtual DbSet<Khoadaotao> Khoadaotaos { get; set; }
@@ -32,13 +33,15 @@ namespace VLUTUTORS.Models
         public virtual DbSet<Trangthai> Trangthais { get; set; }
         public virtual DbSet<Tuvan> Tuvans { get; set; }
         public virtual DbSet<Xetduyet> Xetduyets { get; set; }
+        public virtual DbSet<Giasuyeuthich> Giasuyeuthichs { get; set; }
+        public virtual DbSet<Danhgiagiasu> Danhgiagiasus { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=tuleap.vanlanguni.edu.vn,18082;Database=CP25Team01;User Id=CP25Team01; Password=Cap25t01;Integrated Security=True;Trusted_Connection=False;ApplicationIntent=ReadWrite;MultipleActiveResultSets=False");
+                optionsBuilder.UseSqlServer("Server=tuleap.vanlanguni.edu.vn,18082;Database=CP25Team01;User Id=CP25Team01; Password=VLUTUTORS01;Integrated Security=True;Trusted_Connection=False;ApplicationIntent=ReadWrite;MultipleActiveResultSets=False");
             }
         }
 
@@ -78,6 +81,13 @@ namespace VLUTUTORS.Models
                     .HasMaxLength(500);
             });
 
+            modelBuilder.Entity<Cahoc>(entity =>
+            {
+                entity.HasKey(e => e.IdCaHoc);
+
+                entity.ToTable("CAHOC");
+            });
+
             modelBuilder.Entity<Gioitinh>(entity =>
             {
                 entity.HasKey(e => e.IdgioiTinh);
@@ -111,7 +121,7 @@ namespace VLUTUTORS.Models
 
                 entity.ToTable("KHOADAOTAO");
 
-                entity.Property(e => e.Link).HasMaxLength(500);
+                entity.Property(e => e.LinkVideo).IsUnicode(false);
 
                 entity.Property(e => e.TaiLieu).IsUnicode(false);
 
@@ -349,6 +359,8 @@ namespace VLUTUTORS.Models
 
                 entity.Property(e => e.IdtuVan).HasColumnName("IDTuVan");
 
+                entity.Property(e => e.Email).HasMaxLength(255);
+
                 entity.Property(e => e.HoVaTen)
                     .IsRequired()
                     .HasMaxLength(50);
@@ -386,6 +398,20 @@ namespace VLUTUTORS.Models
                     .HasColumnName("IDXetDuyet");
 
                 entity.Property(e => e.TenTrangThai).HasMaxLength(50);
+            });
+            
+            modelBuilder.Entity<Giasuyeuthich>(entity =>
+            {
+                entity.HasKey(e => e.GiasuId);
+
+                entity.ToTable("GIASUYEUTHICH");
+            });
+            
+            modelBuilder.Entity<Danhgiagiasu>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+
+                entity.ToTable("DANHGIAGIASU");
             });
 
             OnModelCreatingPartial(modelBuilder);

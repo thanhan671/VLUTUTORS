@@ -9,64 +9,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Admin | Gia Sư Văn Lang</title>
 
-    <!-- Google Font: Source Sans Pro -->
+@*    <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
     <!-- icheck bootstrap -->
     <link rel="stylesheet" href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
     <!-- Theme style -->
-    <link rel="stylesheet" href="~/admin/css/adminlte.min.css">
+    <link rel="stylesheet" href="~/admin/css/adminlte.min.css">*@
     <link rel="shortcut icon" href="~/admin/img/favicon2.png" type="image/png" />
+
+    <link rel="stylesheet"
+          type="text/css"
+          href="vendor/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet"
+          type="text/css"
+          href="~/admin/fonts/Linearicons-Free-v1.0.0/icon-font.min.css" />
+
+    <link rel="stylesheet" type="text/css" href="~/admin/css/util.css" />
+    <link rel="stylesheet" type="text/css" href="~/admin/css/mainLogin.css" />
 </head>
 <body class="hold-transition login-page">
-    <div class="login-box">
-        <!-- /.login-logo -->
-        <div class="card">
-            <div class="card-body login-card-body">
-                <p class="login-box-msg">Đăng nhập để truy cập vào trang quản trị</p>
-
-                <form method="post" enctype="multipart/form-data" asp-controller="Login" asp-action="Index">
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="TaiKhoan" placeholder="Tên Đăng Nhập">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-envelope"></span>
-                            </div>
-                        </div>
+    <div class="limiter">
+        <div class="container-login100"
+             style="
+          background-image: url('https://huongnghiep.hocmai.vn/wp-content/uploads/2022/03/152166687_2149163368548048_1971264751875744463_n.jpg');
+        ">
+            <div class="wrap-login100 p-t-30 p-b-50">
+                <span class="login100-form-title p-b-41"> Admin Login </span>
+                <form class="login100-form validate-form p-b-33 p-t-5" method="post" enctype="multipart/form-data" asp-controller="Login" asp-action="Index">
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="wrap-input100 validate-input"
+                         data-validate="Enter username">
+                        <input class="input100"
+                               type="text"
+                               name="TaiKhoan" placeholder="User Name" />
+                        <span class="focus-input100" data-placeholder="&#xe82a;"></span>
                     </div>
                     @Html.ValidationMessageFor(m => m.TaiKhoan, "", new { @class = "text-danger" })
-                    <div class="input-group mb-3">
-                        <input type="password" class="form-control" name="MatKhau" placeholder="Mật Khẩu">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-lock"></span>
-                            </div>
-                        </div>
+                    <div class="wrap-input100 validate-input"
+                         data-validate="Enter password">
+                        <input class="input100"
+                               type="password"
+                               name="MatKhau" placeholder="Password" />
+                        <span class="focus-input100" data-placeholder="&#xe80f;"></span>
                     </div>
                     @Html.ValidationMessageFor(m => m.MatKhau, "", new { @class = "text-danger" })
-                    <div class="row">
-                        <!-- /.col -->
-                        <div class="col-6">
-                            <button type="submit" class="btn btn-primary btn-block">Đăng Nhập</button>
-                        </div>
-                        <!-- /.col -->
+
+                    <div class="container-login100-form-btn m-t-32">
+                        <button type="submit" class="login100-form-btn">Login</button>
                     </div>
                 </form>
             </div>
-            <!-- /.login-card-body -->
         </div>
     </div>
-    <!-- /.login-box -->
-    <!-- jQuery -->
-    <script src="../../plugins/jquery/jquery.min.js"></script>
-    <!-- Bootstrap 4 -->
-    <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="../../dist/js/adminlte.min.js"></script>
-    @if (TempData["message"] != null)
+
+    <script src="~/js/app.js"></script>
+    @if (ViewBag.Message != null)
     {
-        <script>alert('@TempData["message"]');</script>
+        <script type="text/javascript">
+            window.onload = function () {
+                alert("@ViewBag.Message");
+            };
+        </script>
     }
 </body>
 </html>

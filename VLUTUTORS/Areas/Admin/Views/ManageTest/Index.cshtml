@@ -10,11 +10,10 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <div class="container-fluid">
-            <div class="row mb-2">
+            <div class="row mb-2 justify-content-center text-center text-uppercase">
                 <div class="col-sm-6">
                     <h1>Quản lý bài kiểm tra</h1>
                 </div>
-                <div class="col-sm-6"></div>
             </div>
         </div>
         <!-- /.container-fluid -->
@@ -35,7 +34,7 @@
                 </div>
             </div>
             <div class="card-body p-0">
-                <table class="table table-striped projects">
+                <table class="table table-striped projects" id="myTable">
                     <thead>
                         <tr>
                             <th>Câu</th>
@@ -45,7 +44,7 @@
                             <th>Đáp án C</th>
                             <th>Đáp án D</th>
                             <th>Đáp án đúng</th>
-                            <th>Chức năng</th>
+                            <th class="action">Chức năng</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -76,14 +75,14 @@
                                     </td>
                                     <td class="project-actions">
                                         <a class="btn btn-info btn-sm"
-                                       asp-action="EditQuestion" asp-controller="ManageTest" asp-route-id="@item.IdCauHoi">
+                                           asp-action="EditQuestion" asp-controller="ManageTest" asp-route-id="@item.IdCauHoi">
                                             <i class="fas fa-pencil-alt"> </i>
                                             Sửa
                                         </a>
                                         <a class="btn btn-danger btn-sm"
-                                       data-toggle="modal"
-                                       data-target="#exampleModal"
-                                       onclick="document.getElementById('hdInput').value = @item.IdCauHoi">
+                                           data-toggle="modal"
+                                           data-target="#exampleModal"
+                                           onclick="document.getElementById('hdInput').value = @item.IdCauHoi">
 
                                             <i class="fas fa-trash"> </i>
                                             Xoá
@@ -97,7 +96,10 @@
             </div>
             <!-- /.card-body -->
         </div>
-
+        @if (TempData["message"] != null)
+        {
+            <script>alert('@TempData["message"]');</script>
+        }
         <!-- /.card -->
     </section>
     <!-- /.content -->

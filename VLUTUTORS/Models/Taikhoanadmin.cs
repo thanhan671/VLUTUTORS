@@ -11,11 +11,11 @@ namespace VLUTUTORS.Models
     public partial class Taikhoanadmin
     {
         public int Id { get; set; }
-        [Required(ErrorMessage = "Vui lòng điền trường này!")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Vui lòng điền trường này!")]
         public string TaiKhoan { get; set; }
-        [Required(ErrorMessage = "Vui lòng điền trường này!")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Vui lòng điền trường này!")]
         public string MatKhau { get; set; }
-        [Required(ErrorMessage = "Vui lòng điền trường này!")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Vui lòng điền trường này!")]
         public int IdQuyen { get; set; }
 
 

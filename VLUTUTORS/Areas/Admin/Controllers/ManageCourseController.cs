@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -21,7 +23,14 @@ namespace VLUTUTORS.Areas.Admin.Controllers
     public class ManageCourseController : Controller
     {
         private readonly CP25Team01Context _context = new CP25Team01Context();
+        private readonly ILogger<ManageCourseController> _logger;
         private IHostingEnvironment _environment;
+        public ManageCourseController(ILogger<ManageCourseController> logger, IHostingEnvironment environment)
+        {
+            _logger = logger;
+            this._environment = environment;
+        }
+
         public async Task<IActionResult> Index()
         {
             var khoaHocs = await _context.Khoadaotaos.ToListAsync();
@@ -29,60 +38,114 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult AddLesson()
+        public ActionResult AddLesson()
         {
-            Khoadaotao khoadaotao = new Khoadaotao();
-
-            return View(khoadaotao);
+            return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddLesson([Bind(include: "IdBaiHoc,TenBaiHoc,Link")] Khoadaotao khoadaotao)
+        public async Task<ActionResult> AddLesson(IFormCollection link, [Bind(include: "IdBaiHoc,TenBaiHoc,TaiLieu,LinkVideo")] Khoadaotao khoadaotao, List<IFormFile> tepBaiGiang)
         {
+            List<string> listLink = link["LinkVideo"].ToList();
+            if (listLink.Contains(""))
+            {
+                listLink.Remove("");
+            }
+            for (int i = 0; i < listLink.Count; i++)
+            {
+                var editLink = listLink[i].Replace(@"https://www.youtube.com/watch?v=", @"https://www.youtube.com/embed/");
+                listLink[i] = editLink;
+            }
+
+            string linkVideo = JsonConvert.SerializeObject(listLink);
+            string filePath = Path.Combine("Files");
+
             if (ModelState.IsValid)
             {
-                var khoaDaoTao = _context.Khoadaotaos.AsNoTracking().SingleOrDefault(x => x.TenBaiHoc.ToLower() == khoadaotao.TenBaiHoc.ToLower());
-                if (khoaDaoTao != null)
+                var checkKhoaDaoTao = _context.Khoadaotaos.AsNoTracking().SingleOrDefault(x => x.TenBaiHoc.ToLower() == khoadaotao.TenBaiHoc.ToLower());
+                if (checkKhoaDaoTao != null)
                 {
+                    TempData["message"] = "Bài học đã tồn tại, vui lòng kiểm tra lại";
                     return RedirectToAction("Index");
                 }
                 else
                 {
                     try
                     {
-                        string newLink = khoadaotao.Link.Replace(@"https://www.youtube.com/watch?v=", @"https://www.youtube.com/embed/");
-                        khoadaotao.Link = newLink;
-                        _context.Add(khoadaotao);
-                        await _context.SaveChangesAsync();
+                        if (listLink.Count != 0 && tepBaiGiang.Count == 0)
+                        {
+                            khoadaotao.LinkVideo = linkVideo;
+                            khoadaotao.TaiLieu = null;
+                            _context.Add(khoadaotao);
+                            await _context.SaveChangesAsync();
+                            TempData["message"] = "Thêm thành công!";
+                        }
+                        else if (listLink.Count == 0 && tepBaiGiang.Count != 0)
+                        {
+                            khoadaotao.LinkVideo = null;
+                            khoadaotao.TaiLieu = tepBaiGiang.Count != 0 ? TutorServices.SaveUploadFiles(this._environment.WebRootPath, filePath, tepBaiGiang) : khoadaotao.TaiLieu;
+                            _context.Add(khoadaotao);
+                            await _context.SaveChangesAsync();
+                            TempData["message"] = "Thêm thành công!";
+                        }
+                        else if (listLink.Count != 0 && tepBaiGiang.Count != 0)
+                        {
+                            khoadaotao.LinkVideo = linkVideo;
+                            khoadaotao.TaiLieu = tepBaiGiang.Count != 0 ? TutorServices.SaveUploadFiles(this._environment.WebRootPath, filePath, tepBaiGiang) : khoadaotao.TaiLieu;
+                            _context.Add(khoadaotao);
+                            await _context.SaveChangesAsync();
+                            TempData["message"] = "Thêm thành công!";
+                        }
+                        else if (listLink.Count == 0 && tepBaiGiang.Count == 0)
+                        {
+                            TempData["message"] = "Vui lòng thêm file hoặc link video!";
+                        }
                     }
                     catch (Exception ex)
                     {
                         return RedirectToAction(nameof(Index));
                     }
                     return RedirectToAction("Index");
+
                 }
             }
-            return View(khoadaotao);
+
+            return View();
         }
 
         [HttpGet]
-        public async Task<IActionResult> EditLesson(int? id = -1)
+        public async Task<IActionResult> EditLessonAsync(int? id = -1)
         {
             if (id == null)
             {
                 return NotFound();
             }
+            List<Khoadaotao> lesson = _context.Khoadaotaos.ToList();
 
-            var khoaDaoTao = await _context.Khoadaotaos.FirstOrDefaultAsync(m => m.IdBaiHoc == id);
-            if (khoaDaoTao == null)
-                return NotFound();
-            return View(khoaDaoTao);
+            var baihoc = await _context.Khoadaotaos.FirstOrDefaultAsync(m => m.IdBaiHoc == id);
+
+            baihoc.TenBaiHoc = _context.Khoadaotaos.Where(l => l.IdBaiHoc == id).First().TenBaiHoc;
+
+            string videoListInJson = _context.Khoadaotaos.Where(l => l.IdBaiHoc == id).First().LinkVideo;
+
+            if (videoListInJson != null)
+            {
+                baihoc.courseLink = JsonConvert.DeserializeObject<List<string>>(videoListInJson);
+            }
+            else
+            {
+                baihoc.courseLink = null;
+            }
+
+            baihoc.TaiLieu = _context.Khoadaotaos.Where(l => l.IdBaiHoc == id).First().TaiLieu;
+
+            return View(baihoc);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditLesson(int id, [Bind(include: "IdBaiHoc,TenBaiHoc,Link")] Khoadaotao khoadaotao)
+        public async Task<IActionResult> EditLesson(int id, [Bind(include: "IdBaiHoc,TenBaiHoc,TaiLieu,LinkVideo")] Khoadaotao khoadaotao, List<IFormFile> tepBaiGiang, IFormCollection link)
         {
             if (id != khoadaotao.IdBaiHoc)
             {
@@ -93,10 +156,25 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             {
                 try
                 {
-                    string newLink = khoadaotao.Link.Replace(@"https://www.youtube.com/watch?v=", @"https://www.youtube.com/embed/");
-                    khoadaotao.Link = newLink;
-                    _context.Update(khoadaotao);
+                    var baihoc = await _context.Khoadaotaos.FirstOrDefaultAsync(m => m.IdBaiHoc == id);
+                    List<string> listLink = link["LinkVideo"].ToList();
+                    if (listLink.Contains(""))
+                    {
+                        listLink.Remove("");
+                    }
+                    for (int i = 0; i < listLink.Count; i++)
+                    {
+                        var editLink = listLink[i].Replace(@"https://www.youtube.com/watch?v=", @"https://www.youtube.com/embed/");
+                        listLink[i] = editLink;
+                    }
+                    
+                    string linkVideo = JsonConvert.SerializeObject(listLink);
+                    string filePath = Path.Combine("Files");
+                    baihoc.LinkVideo = linkVideo;
+                    baihoc.TaiLieu = tepBaiGiang.Count != 0 ? TutorServices.SaveUploadFiles(this._environment.WebRootPath, filePath, tepBaiGiang) : baihoc.TaiLieu;
+                    _context.Update(baihoc);
                     await _context.SaveChangesAsync();
+                    TempData["message"] = "Cập nhật thành công!";
                 }
                 catch (Exception ex)
                 {
@@ -104,7 +182,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            return View(khoadaotao);
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
@@ -117,44 +195,13 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpGet]
-        public IActionResult AddLessonFile()
+        public FileResult DownloadFile(string fileName)
         {
-            Khoadaotao khoadaotao = new Khoadaotao();
+            string path = Path.Combine(this._environment.WebRootPath, "Files", fileName);
 
-            return View(khoadaotao);
-        }
+            byte[] bytes = System.IO.File.ReadAllBytes(path);
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddLessonFile([Bind(include: "IdBaiHoc,TenBaiHoc,TaiLieu")] Khoadaotao khoadaotao, IFormFile tepBaiGiang)
-        {
-            if (ModelState.IsValid)
-            {
-                var khoaDaoTao = _context.Khoadaotaos.AsNoTracking().SingleOrDefault(x => x.TenBaiHoc.ToLower() == khoadaotao.TenBaiHoc.ToLower());
-                if (khoaDaoTao != null)
-                {
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    try
-                    {
-                        Console.WriteLine("tep bai giang: " + tepBaiGiang.FileName);
-                        string Filepath = Path.Combine("Files");
-                        TutorServices.UploadFile(tepBaiGiang);
-                        //khoadaotao.TaiLieu = tepBaiGiang.Count != 0 ? TutorServices.SaveUploadImages(this._environment.WebRootPath, Filepath, tepBaiGiang) : khoadaotao.TaiLieu;
-                        //_context.Add(khoadaotao);
-                        //await _context.SaveChangesAsync();
-                    }
-                    catch (Exception ex)
-                    {
-                        return RedirectToAction(nameof(Index));
-                    }
-                    return RedirectToAction("Index");
-                }
-            }
-            return View(khoadaotao);
+            return File(bytes, "application/octet-stream", fileName);
         }
     }
 }

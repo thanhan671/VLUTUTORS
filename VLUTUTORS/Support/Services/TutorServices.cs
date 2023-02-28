@@ -11,7 +11,7 @@ namespace VLUTUTORS.Support.Services
 {
     public static class TutorServices
     {
-        public static string SaveUploadImages(string enviromentPath, string path, List<IFormFile> images)
+        public static string SaveUploadFiles(string enviromentPath, string path, List<IFormFile> images)
         {
             List<string> filesName = new List<string>();
             string namesJson;

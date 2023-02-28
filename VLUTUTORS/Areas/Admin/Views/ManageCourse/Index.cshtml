@@ -10,11 +10,10 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <div class="container-fluid">
-            <div class="row mb-2">
+            <div class="row mb-2 justify-content-center text-center text-uppercase">
                 <div class="col-sm-6">
-                    <h1>Quản lý khóa đào tạo</h1>
+                    <h1>Quản lý khóa đào tạo gia sư</h1>
                 </div>
-                <div class="col-sm-6"></div>
             </div>
         </div>
         <!-- /.container-fluid -->
@@ -25,28 +24,21 @@
         <!-- Default box -->
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Danh sách khóa đào tạo</h3>
+                <h3 class="card-title">Danh sách bài học</h3>
                 <div class="card-tools">
                     <a class="btn btn-primary btn-sm"
                        href="~/Admin/ManageCourse/AddLesson">
                         <i class="fas fa-plus"> </i>
-                        Thêm bài học dạng video
-                    </a>
-                    <a class="btn btn-primary btn-sm"
-                       href="~/Admin/ManageCourse/AddLessonFile">
-                        <i class="fas fa-plus"> </i>
-                        Thêm bài học dạng file
+                        Thêm bài học
                     </a>
                 </div>
             </div>
             <div class="card-body p-0">
-                <table class="table table-striped projects">
+                <table class="table table-striped projects" id="myTable">
                     <thead>
                         <tr>
                             <th style="width: 10%">STT</th>
                             <th style="width: 20%">Tên bài học</th>
-                            <th style="width: 15%">Link bài học</th>
-                            <th style="width: 15%">Tên tệp tài liệu</th>
                             <th style="width: 15%">Chức năng</th>
                         </tr>
                     </thead>
@@ -61,22 +53,16 @@
                                     <td>
                                         @Html.DisplayFor(modelItem => item.TenBaiHoc)
                                     </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Link)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.TaiLieu)
-                                    </td>
                                     <td class="project-actions">
                                         <a class="btn btn-info btn-sm"
-                                       asp-action="EditLesson" asp-controller="ManageCourse" asp-route-id="@item.IdBaiHoc">
+                                           asp-action="EditLesson" asp-controller="ManageCourse" asp-route-id="@item.IdBaiHoc">
                                             <i class="fas fa-pencil-alt"> </i>
                                             Sửa
                                         </a>
                                         <a class="btn btn-danger btn-sm"
-                                       data-toggle="modal"
-                                       data-target="#exampleModal"
-                                       onclick="document.getElementById('hdInput').value = @item.IdBaiHoc">
+                                           data-toggle="modal"
+                                           data-target="#exampleModal"
+                                           onclick="document.getElementById('hdInput').value = @item.IdBaiHoc">
                                             <i class="fas fa-trash"> </i>
                                             Xoá
                                         </a>
@@ -96,6 +82,10 @@
 </div>
 <!-- /.content-wrapper -->
 <!-- Modal -->
+@if (TempData["message"] != null)
+{
+    <script>alert('@TempData["message"]');</script>
+}
 <div class="modal fade"
      id="exampleModal"
      tabindex="-1"

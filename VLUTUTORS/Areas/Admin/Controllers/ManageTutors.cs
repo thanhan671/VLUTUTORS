@@ -57,11 +57,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                     var subject = monGiaSus.FirstOrDefault(it => it.IdmonGiaSu == account.IdmonGiaSu1);
                     if (subject == null)
                         subject = new Mongiasu();
-                    if (
-                        string.IsNullOrEmpty(search) ||
-                        (!string.IsNullOrEmpty(search) && (account.HoTen.ToLower().Contains(search.ToLower()) || subject.TenMonGiaSu.ToLower().Contains(search.ToLower())))
-                    )
-                    {
+
                         awaitTutors.Add(new TutorViewModel()
                         {
                             Tutor = account,
@@ -69,7 +65,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                             ApprovedStatus = awaitApproveStatus.TenTrangThai
                         });
 
-                    }
+
 
                 }
             }
@@ -87,18 +83,12 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                         if (subject == null)
                             subject = new Mongiasu();
 
-                        if (
-                           string.IsNullOrEmpty(search) ||
-                           (!string.IsNullOrEmpty(search) && (account.HoTen.ToLower().Contains(search.ToLower()) || subject.TenMonGiaSu.ToLower().Contains(search.ToLower())))
-                        )
-                        {
                             approvedTutors.Add(new TutorViewModel()
                             {
                                 Tutor = account,
                                 Subject1 = subject.TenMonGiaSu,
                                 ApprovedStatus = approvedStatus.TenTrangThai
                             });
-                        }
                     }
                 }
             }
@@ -175,23 +165,13 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 int.TryParse(form["Tutor.IdxetDuyet"], out int idxetDuyet);
                 try
                 {
-                    if (idxetDuyet > 0 && idxetDuyet != 3)
-                    {
-                        account.IdxetDuyet = idxetDuyet;
-                        account.TrangThaiGiaSu = true;
 
-                        _context.Update(account);
-                        await _context.SaveChangesAsync();
-                    }
-                    else if (idxetDuyet == 3)
-                    {
-                        account.IdxetDuyet = idxetDuyet;
-                        account.TrangThaiGiaSu = true;
-                        account.DiemBaiTest = null;
+                    account.IdxetDuyet = idxetDuyet;
+                    account.TrangThaiGiaSu = true;
 
-                        _context.Update(account);
-                        await _context.SaveChangesAsync();
-                    }
+                    _context.Update(account);
+                    await _context.SaveChangesAsync();
+
                 }
                 catch (Exception ex)
                 {
@@ -200,19 +180,14 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 if (idxetDuyet == 3)
                 {
                     return RedirectToAction("SendMail", "ManageTuTors",
-                        new { toEmail = account.Email, mailBody = "Rất tiếc! Điểm bài kiểm tra của bạn chưa đủ để xét duyệt, vui lòng thực hiện lại bài kiểm tra!", mailSubject = "Thông báo kết quả xét duyệt hồ sơ" });
+                        new { toEmail = account.Email, mailBody = "Chúc mừng! Hồ sơ của bạn đã đủ điều kiện tham gia phỏng vấn, vui lòng theo dõi điện thoại để nhận lịch hẹn phỏng vấn!", mailSubject = "Thông báo kết quả xét duyệt hồ sơ" });
                 }
                 else if (idxetDuyet == 4)
                 {
                     return RedirectToAction("SendMail", "ManageTuTors",
-                        new { toEmail = account.Email, mailBody = "Chúc mừng! Hồ sơ của bạn đã đủ điều kiện tham gia phỏng vấn, vui lòng theo dõi điện thoại để nhận lịch hẹn phỏng vấn!", mailSubject = "Thông báo kết quả xét duyệt hồ sơ" });
-                }
-                else if (idxetDuyet == 5)
-                {
-                    return RedirectToAction("SendMail", "ManageTuTors",
                         new { toEmail = account.Email, mailBody = "Rất tiếc! Bạn đã không đạt được các tiêu chí để trở thành gia sư của Văn Lang, hẹn gặp lại bạn dịp khác!", mailSubject = "Thông báo kết quả xét duyệt hồ sơ" });
                 }
-                else if (idxetDuyet == 6)
+                else if (idxetDuyet == 5)
                 {
                     return RedirectToAction("SendMail", "ManageTuTors",
                         new { toEmail = account.Email, mailBody = "Chúc mừng! Bạn đã chính thức trở thành gia sư của Văn Lang, bây giờ bạn có thể đăng nhập và sử dụng chức năng của gia sư!", mailSubject = "Thông báo kết quả xét duyệt hồ sơ" });

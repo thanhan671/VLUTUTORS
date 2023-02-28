@@ -133,9 +133,6 @@
                                             <h6 class="mb-0">Giới thiệu bản thân</h6>
                                         </div>
                                         @Html.TextAreaFor(m => m.GioiThieu, new { htmlAttributes = new { @class = "ip-form", @required = "required" } })
-                                        @*<textarea name="" id="" cols="30" rows="10">
-                                                 @Html.EditorFor(m => m.GioiThieu, new { htmlAttributes = new { @class = "ip-form", @required = "required" } })
-                                            </textarea>*@
                                     </div>
                                      <div class="message-error">
                                                 @Html.ValidationMessageFor(model => model.GioiThieu, "", new { @class = "text-danger" })
@@ -148,9 +145,6 @@
                                             </h6>
                                         </div>
                                         @Html.TextAreaFor(m => m.DanhGiaVeViecGiaSu, new { htmlAttributes = new { @class = "ip-form", @required = "required" } })
-                                        @*<textarea name="" id="" cols="30" rows="10">
-                                                @Html.EditorFor(m => m.DanhGiaVeViecGiaSu, new { htmlAttributes = new { @class = "ip-form", @required = "required" } })
-                                            </textarea>*@
                                     </div>
                                      <div class="message-error">
                                                 @Html.ValidationMessageFor(model => model.DanhGiaVeViecGiaSu, "", new { @class = "text-danger" })
@@ -180,9 +174,7 @@
                                         </div>
                                         @foreach (var file in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.ChungChiMon1))
                                         {
-                                            @*<td><img src="~/@Url.Content(img)" height="150" width="200"/></td>*@
-                                            <p style="padding-left:2.00em;">@Html.ActionLink(file + " ", "DownloadFile", new { fileName = file, id = 1})</p><br /> // id 1 representation for certificate 1
-                                           
+                                            <p style="padding-left:2.00em;">@Html.ActionLink(file + " ", "DownloadFile", new { fileName = file, id = 1})</p><br /> // id 1 representation for certificate 1   
                                         }
                                     </div>
                                     <div class="row-nowrap">

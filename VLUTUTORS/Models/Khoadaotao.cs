@@ -10,26 +10,31 @@ namespace VLUTUTORS.Models
     public partial class Khoadaotao
     {
         public int IdBaiHoc { get; set; }
-        [Required(ErrorMessage = "Vui lòng điền trường này!")]
+
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Vui lòng điền trường này!")]
         public string TenBaiHoc { get; set; }
-        public string Link { get; set; }
         public string TaiLieu { get; set; }
-        public Khoadaotao()
-        {
-        }
+        public string LinkVideo { get; set; }
+
         public Khoadaotao(int IdBaiHoc, string TenBaiHoc, string Link, string TaiLieu)
         {
             this.IdBaiHoc = IdBaiHoc;
             this.TenBaiHoc = TenBaiHoc;
-            this.Link = Link;
+            this.LinkVideo = Link;
             this.TaiLieu = TaiLieu;
+        }
+
+        public Khoadaotao()
+        {
         }
 
         [NotMapped]
         public List<string> courses { get; set; }
 
         [NotMapped]
-        public double? currentScore { get; set; }
+        public List<string> courseLink { get; set; }
 
+        [NotMapped]
+        public double? currentScore { get; set; }
     }
 }

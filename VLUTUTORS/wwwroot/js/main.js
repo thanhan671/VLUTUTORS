@@ -31,10 +31,10 @@ $(function () {
     var scroll = $(window).scrollTop();
     if (scroll < 245) {
       $(".navigation").removeClass("sticky");
-      $(".navigation-3 img").attr("src", "images/logo-vlu.png");
+        $(".navigation-3 img").attr("src", "images/LogoNew.png");
     } else {
       $(".navigation").addClass("sticky");
-      $(".navigation-3 img").attr("src", "images/logo-vlu.png");
+        $(".navigation-3 img").attr("src", "images/LogoNew.png");
     }
   });
 
@@ -323,8 +323,8 @@ $(function () {
   //===== Counter Up
 
   $(".counter").counterUp({
-    delay: 10,
-    time: 3000,
+    delay: 2,
+    time: 50,
   });
 
   //===== Slick testimonial Slied
@@ -342,7 +342,7 @@ $(function () {
 
   //===== Nice Select
 
-  $("select").niceSelect();
+/*  $("select").niceSelect();*/
 
   //===== Count Down
 

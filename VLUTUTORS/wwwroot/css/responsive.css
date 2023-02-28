@@ -240,6 +240,7 @@
 .navigation-3 .navbar-collapse{
     background-color: #fff;
     padding: 0 15px;
+	width: 100%;
 }
 .navigation-3 .navbar .navbar-nav li a{
     color: #07294d;
@@ -510,6 +511,7 @@
 .navigation-3 .navbar-collapse{
     background-color: #fff;
     padding: 0 15px;
+	width: 100%;
 }
 .navigation-3 .navbar .navbar-nav li a{
     color: #07294d;
@@ -950,6 +952,7 @@
 .navigation-3 .navbar-collapse{
     background-color: #fff;
     padding: 0 15px;
+	width: 100%;
 }
 .navigation-3 .navbar .navbar-nav li a{
     color: #07294d;
@@ -1382,10 +1385,30 @@
 
 
 
+.right-search{
+	width: 100%;
+}
+.card-tutor-container {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+	.card-tutor-container {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
 
-
-
-
+.search-card{
+width: 400px;
+height: 600px
+}
 
 
 

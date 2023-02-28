@@ -1,0 +1,77 @@
+﻿@model IEnumerable<VLUTUTORS.Models.Khoa>
+@{
+    ViewData["Title"] = "Quản lý khoa";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2 justify-content-center text-center text-uppercase">
+                <div class="col-sm-6">
+                    <h1>Quản lý khoa</h1>
+                </div>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <!-- Default box -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Danh sách khoa</h3>
+                <div class="card-tools">
+                    <a class="btn btn-primary btn-sm"
+                       asp-action="AddFaculty" asp-controller="ManageFaculty">
+                        <i class="fas fa-plus"> </i>
+                        Thêm khoa mới
+                    </a>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-striped projects" id="myTable">
+                    <thead>
+                        <tr>
+                            <th style="width: 20%">STT</th>
+                            <th style="width: 20%">Tên khoa</th>
+                            <th style="width: 15%">Chức năng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            var index = 0;
+                            foreach (var item in Model)
+                            {
+                                index++;
+                                <tr>
+                                    <td>@index</td>
+                                    <td>
+                                        @Html.DisplayFor(modeItem => item.TenKhoa)
+                                    </td>
+                                    <td class="project-actions">
+                                        <a class="btn btn-info btn-sm" asp-action="EditFaculty" asp-controller="ManageFaculty" asp-route-id="@item.Idkhoa">
+                                            <i class="fas fa-pencil-alt"> </i>
+                                            Sửa
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+
+        <!-- /.card -->
+    </section>
+    <!-- /.content -->
+    @if (TempData["message"] != null)
+    {
+        <script>alert('@TempData["message"]');</script>
+    }
+</div>
+

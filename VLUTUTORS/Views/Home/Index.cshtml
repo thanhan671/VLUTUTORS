@@ -1,18 +1,23 @@
-﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor httpContextAccessor
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using VLUTUTORS.Models;
 @{
     ViewData["Title"] = "Trang Chủ";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var noiDung = new CP25Team01Context().Noidungs.FirstOrDefault(m => m.Id == 1);
 }
 
 <!--====== SLIDER PART START ======-->
 <section id="slider-part-3"
-         class="bg_cover">
+         class="bg_cover" style="background-image: url(../images/background.jpg);">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-10">
                 <div class="slider-cont-3 text-center">
                     <h2>Chào Mừng Đến Với Gia Sư Văn Lang</h2>
-                    <span>@ViewData["Slogan"]</span>
+                    <span>@noiDung.Slogan</span>
                 </div>
                 <!-- slider cont3 -->
             </div>
@@ -26,7 +31,7 @@
                             <img src="~/images/all-icon/man.png" alt="icon" />
                         </div>
                         <div class="cont">
-                            <h3 class="counter">130</h3>
+                            <h3 class="counter">@ViewData["giaSU"]</h3>
                             <span>Gia Sư</span>
                         </div>
                     </div>
@@ -38,7 +43,7 @@
                             <img src="~/images/all-icon/book.png" alt="icon" />
                         </div>
                         <div class="cont">
-                            <h3 class="counter">5</h3>
+                            <h3 class="counter">@ViewData["monGiaSu"]</h3>
                             <span>Môn Học Khác Nhau</span>
                         </div>
                     </div>
@@ -50,8 +55,8 @@
                             <img src="~/images/all-icon/expert.png" alt="icon" />
                         </div>
                         <div class="cont">
-                            <h3 class="counter">50</h3>
-                            <span>Học Viên Đang Học</span>
+                            <h3 class="counter">@ViewData["hocVien"]</h3>
+                            <span>Học Viên</span>
                         </div>
                     </div>
                     <!-- singel slider feature -->
@@ -66,75 +71,34 @@
 
 <!--====== SLIDER PART ENDS ======-->
 <!--====== CATEGORY PART START ======-->
-<section id="category-3" class="category-2-items pt-50 pb-80 gray-bg">
+<section id="category-3" class="category-2-items pt-20 gray-bg">
     <div class="container">
+        <h3>Các Môn Gia Sư:</h3>
         <div class="row-item">
-            <div class="col-lg-3 col-md-6 pl-0">
-                <div class="singel-items text-center mt-30">
-                    <div class="items-image">
-                        <img src="~/images/category/ctg-1.jpg" alt="Category" />
+            @{
+                var monGiaSu = new CP25Team01Context().Mongiasus.ToList();
+                foreach (var item in monGiaSu)
+                {
+                    <div class="col-lg-3 col-md-6">
+                        <div class="singel-items text-center mt-30">
+                            <div class="items-image">
+                                <img src="~/images/category/bgcolor.jpg" alt="Category" />
+                            </div>
+                            <div class="items-cont">
+                                <h5>@Html.DisplayFor(modeItem => item.TenMonGiaSu)</h5>
+                            </div>
+                        </div>
+                        <!-- singel items -->
                     </div>
-                    <div class="items-cont">
-                        <a href="#">
-                            <h5>Anh văn cơ bản</h5>
-                            <span>10 Gia sư</span>
-                        </a>
-                    </div>
-                </div>
-                <!-- singel items -->
-            </div>
-            <div class="col-lg-3 col-md-6 pl-0">
-                <div class="singel-items text-center mt-30">
-                    <div class="items-image">
-                        <img src="~/images/category/ctg-1.jpg" alt="Category" />
-                    </div>
-                    <div class="items-cont">
-                        <a href="#">
-                            <h5>Anh văn cơ bản</h5>
-                            <span>10 Gia sư</span>
-                        </a>
-                    </div>
-                </div>
-                <!-- singel items -->
-            </div>
-            <div class="col-lg-3 col-md-6 pl-0">
-                <div class="singel-items text-center mt-30">
-                    <div class="items-image">
-                        <img src="~/images/category/ctg-1.jpg" alt="Category" />
-                    </div>
-                    <div class="items-cont">
-                        <a href="#">
-                            <h5>Tin học cơ bản</h5>
-                            <span>10 Gia sư</span>
-                        </a>
-                    </div>
-                </div>
-                <!-- singel items -->
-            </div>
-            <div class="col-lg-3 col-md-6 pl-0">
-                <div class="singel-items text-center mt-30">
-                    <div class="items-image">
-                        <img src="~/images/category/ctg-1.jpg" alt="Category" />
-                    </div>
-                    <div class="items-cont">
-                        <a href="#">
-                            <h5>Coming soon</h5>
-                            <span>Coming soon</span>
-                        </a>
-                    </div>
-                </div>
-                <!-- singel items -->
-            </div>
+                }
+            }
             <div class="col-lg-3 col-md-6">
                 <div class="singel-items text-center mt-30">
                     <div class="items-image">
-                        <img src="~/images/category/ctg-1.jpg" alt="Category" />
+                        <img src="~/images/category/bgcolor.jpg" alt="Category" />
                     </div>
                     <div class="items-cont">
-                        <a href="#">
-                            <h5>Coming soon</h5>
-                            <span>Coming soon</span>
-                        </a>
+                        <h5>Coming soon</h5>
                     </div>
                 </div>
                 <!-- singel items -->
@@ -147,7 +111,7 @@
 
 <!--====== TEACHERS PART START ======-->
 
-<section id="teachers-page" class="pt-90 pb-120 gray-bg">
+<section id="teachers-page" class="pt-50 pb-120 gray-bg">
     <div class="container">
         <h3>Gia Sư Nổi Bật</h3>
         <div class="row">
@@ -231,7 +195,7 @@
 <!--====== CULTING PART START ======-->
 <section>
     <div class="container">
-        <div class="row align-items-center justify-content-center">
+        <div class="row align-items-center justify-content-center pt-20">
             <div class="col-lg-6">
                 <div class="count-down-cont mt-50">
                     <img src="~/images/teacher-up-down.png" />
@@ -247,19 +211,39 @@
                     <div class="main-form">
                         <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="SendConsulting">
                             <div class="singel-form">
-                                <input type="text" name="HoTen" placeholder="Tên của bạn" data-error="Vui lòng không để trống!." required="required" />
-                                <div class="help-block with-errors"></div>
+                                @{
+                                    if (@httpContextAccessor.HttpContext.Session.GetString("loginName") != null)
+                                    {
+                                        <input type="text" name="HoTen" value="@httpContextAccessor.HttpContext.Session.GetString("loginName")" data-error="Vui lòng không để trống!." required="required" />
+                                        <div class="help-block with-errors"></div>
+                                    }
+                                    else
+                                    {
+                                        <input type="text" name="HoTen" placeholder="Họ và tên" data-error="Vui lòng không để trống!." required="required" />
+                                        <div class="help-block with-errors"></div>
+                                    }
+                                }
                             </div>
                             <div class="singel-form">
-                                <input type="text" name="Email" placeholder="Email của bạn" data-error="Vui lòng không để trống!." required="required" />
-                                <div class="help-block with-errors"></div>
+                                @{
+                                    if (@httpContextAccessor.HttpContext.Session.GetString("loginEmail") != null)
+                                    {
+                                        <input type="text" name="Email" value="@httpContextAccessor.HttpContext.Session.GetString("loginEmail")" data-error="Vui lòng không để trống!." required="required" />
+                                        <div class="help-block with-errors"></div>
+                                    }
+                                    else
+                                    {
+                                        <input type="text" name="Email" placeholder="Email của bạn" data-error="Vui lòng không để trống!." required="required" />
+                                        <div class="help-block with-errors"></div>
+                                    }
+                                }
                             </div>
                             <div class="singel-form">
                                 <input type="tel" name="SDT" placeholder="Điện thoại" data-error="Vui lòng không để trống!." required="required" />
                                 <div class="help-block with-errors"></div>
                             </div>
                             <div class="singel-form">
-                                @Html.DropDownList("LoaiTuVan", (IEnumerable<SelectListItem>)ViewData["loaiTuVan"], "Loại Tư Vấn", new { @class = "form-index", @required = "required" })
+                                @Html.DropDownList("LoaiTuVan", (IEnumerable<SelectListItem>)ViewData["loaiTuVan"], "Loại Tư Vấn", new { @class = "nice-select mb-4", @required = "required", @style = "height: 60px; border: 1px solid #a1a1a1;" })
                                 <div class="help-block with-errors"></div>
                             </div>
                             <div class="singel-form">
@@ -285,5 +269,4 @@
     }
     <!-- container -->
 </section>
-
 <!--====== CULTING PART ENDS ======-->

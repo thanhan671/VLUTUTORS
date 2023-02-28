@@ -1,0 +1,166 @@
+﻿@using VLUTUTORS.Models
+@model IEnumerable<VLUTUTORS.Models.BookTutorViewModel>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor httpContextAccessor
+@{
+    ViewData["Title"] = "Tìm gia sư";
+    Layout = "~/Views/Shared/_otherPageLayout.cshtml";
+}
+
+<form asp-controller="BookTutor">
+    <div class="search-container">
+        <section class="grid-demo">
+
+            <h2 class="section-title"><span>Tìm gia sư</span></h2>
+
+            <div class="controls cf">
+                <div class="control search">
+                    <div class="control-icon">
+                        <i class="material-icons">&#xE8B6;</i>
+                    </div>
+                    <input class="control-field search-field form-search " type="text" name="keyword" placeholder="Tìm kiếm..." value='@ViewData["Keyword"]' />
+                </div>
+                <div class="control filter">
+                    <div class="control-icon">
+                        <i class="material-icons">&#xE152;</i>
+                    </div>
+                    <div class="select-arrow">
+                        <i class="material-icons">&#xE313;</i>
+                    </div>
+                    <select class="control-field filter-field form-search" name="subjectId">
+                        <option value="">Môn học</option>
+                        @{
+                            List<Mongiasu> subjects = new List<Mongiasu>(ViewBag.Subjects);
+                            foreach (var subject in subjects)
+                            {
+                                if (ViewData["SubjectId"] != null && subject.IdmonGiaSu == (int)ViewData["SubjectId"])
+                                {
+                                    <option value="@subject.IdmonGiaSu" selected="selected">@subject.TenMonGiaSu</option>
+
+                                }
+                                else
+                                {
+                                    <option value="@subject.IdmonGiaSu">@subject.TenMonGiaSu</option>
+                                }
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="control filter">
+                    <div class="control-icon">
+                        <i class="material-icons">&#xE164;</i>
+                    </div>
+                    <div class="select-arrow">
+                        <i class="material-icons">&#xE313;</i>
+                    </div>
+                    <select class="control-field sort-field form-search" name="nameFilter">
+                        @{
+                            if (ViewData["NameFilter"] != null)
+                            {
+                                <option value="" selected="selected">Lọc Theo</option>
+                                <option value="1">Gia sư yêu thích</option>
+                                <option value="2">Đang hoạt động</option>
+                            }
+                            else
+                            {
+                                <option value="">Lọc Theo</option>
+                                <option value="1" selected="selected">Gia sư yêu thích</option>
+                                <option value="2">Đang hoạt động</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="control filter">
+                    <div class="control-icon">
+                        <i class="material-icons">&#xE871;</i>
+                    </div>
+                    <div class="select-arrow">
+                        <i class="material-icons">&#xE313;</i>
+                    </div>
+                    <select class="control-field layout-field form-search">
+                        <option value="left-top" selected>Ca học</option>
+                        <option value="">45 phút</option>
+                        <option value="">60 phút</option>
+                    </select>
+                </div>
+            </div>
+            <button class="main-btn" style="float: right;margin: 5px;" type="submit" asp-action="Index">Search</button>
+        </section>
+        <div class="right-search">
+            <div class="card-tutor-container">
+                <hr>
+                @foreach (var tutor in Model)
+                {
+                    <div class="search-card ml-10 mt-30 mb-20">
+                        <div class="tutor-avt pt-50">
+                            <img src="~/@tutor.Tutor.AnhDaiDien"
+                                 width="150" />
+                        </div>
+                        <div class="tutor-desc">
+                            <h3 class="tutor-name">@tutor.Tutor.HoTen <span class="active-status"></span></h3>
+                            <div class="tutor-rating">
+                                @{
+                                    var totalRate = tutor.Commnents.Sum(it => it.Comment.Diem);
+                                    int totalStar = (tutor.Commnents.Count > 0 ? totalRate / tutor.Commnents.Count : 0);
+                                    for (int i = 0; i < totalStar; ++i)
+                                    {
+                                        <span><i class="fa-solid fa-star"></i></span>
+                                    }
+                                    if (totalStar > 0)
+                                    {
+                                        <span class="ml-2 mt-1">@totalStar</span>
+                                    }
+                                }
+                            </div>
+                            @if (@tutor.Subject1 != null)
+                            {
+                                <p class="card-price"><b>@tutor.Subject1.TenMonGiaSu</b></p>
+                                <h4 class="head-desc">@tutor.Tutor.GioiThieuVeMonGiaSu1</h4>
+                            }
+
+                            @if (@tutor.Subject2 != null)
+                            {
+                                <p class="card-price"><b>@tutor.Subject2.TenMonGiaSu</b></p>
+                                <h4 class="head-desc">@tutor.Tutor.GioiThieuVeMonGiaSu2</h4>
+                            }
+                        </div>
+                        <div class="tutor-view">
+                            @{
+                                bool temp = true;
+                                var tutors = new CP25Team01Context().Giasuyeuthichs.Where(it => (it.GiasuId == @tutor.Tutor.Id)).ToList();
+                                foreach (var item in tutors)
+                                {
+                                    if (item.NguoidungId != @httpContextAccessor.HttpContext.Session.GetInt32("LoginId"))
+                                    {
+                                        temp = true;
+                                    }
+                                    else
+                                    {
+                                        temp = false;
+                                    }
+                                }
+                                if (temp == true)
+                                {
+                                    <button class="fav-tutor" type="submit" asp-action="AddToWishlish" asp-route-id="@tutor.Tutor.Id">
+                                        <i class="fa-solid fa-heart icon-heart" id="heart"></i>
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button style="color:red" class="fav-tutor" type="submit" asp-action="RemoveFromWishlish" asp-route-id="@tutor.Tutor.Id">
+                                        <i class="fa-solid fa-heart icon-heart" id="heart1"></i>
+                                    </button>
+                                }
+                            }
+                            <a asp-action="DetailTutor" asp-route-id="@tutor.Tutor.Id" class="card-btn">Xem Chi Tiết</a>
+                        </div>
+                    </div>
+
+                }
+            </div>
+        </div>
+    </div>
+
+</form>
+

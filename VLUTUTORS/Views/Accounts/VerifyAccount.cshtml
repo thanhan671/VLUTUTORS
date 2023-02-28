@@ -1,0 +1,108 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor httpContextAccessor
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gia Sư Văn Lang | Xác thực tài khoản</title>
+    <!--====== Favicon Icon ======-->
+    <link rel="shortcut icon" href="~/images/LogoVL.png" type="image/png" />
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/style.css" />
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="text-center">
+                            <h3><i class="fa fa-check-circle fa-2x"></i></h3>
+                            <h2 class="text-center">Xác thực tài khoản</h2>
+                            <p>Vui lòng nhập mã xác thực được gửi kèm đến email!</p>
+                            <div class="panel-body">
+                                <form id="myForm"
+                                      role="form"
+                                      autocomplete="off"
+                                      class="form"
+                                      method="post" enctype="multipart/form-data" asp-controller="Accounts" asp-action="VerifyAccount">
+                                    @{
+                                        if (@httpContextAccessor.HttpContext.Session.GetString("email") != null)
+                                        {
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                        <i class="fa fa-key"></i>
+                                                    </span>
+                                                    <input id="verifyCode"
+                                                           name="verifyCode"
+                                                           placeholder="Mã xác thực"
+                                                           class="form-control"
+                                                           type="text"
+                                                           required />
+                                                </div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                        <i class="fa fa-envelope-o"></i>
+                                                    </span>
+                                                    <input id="email"
+                                                           name="email"
+                                                           placeholder="Email đã đăng ký tài khoản"
+                                                           class="form-control"
+                                                           type="text"
+                                                           required />
+                                                </div>
+                                            </div>
+                                            <br/>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                        <i class="fa fa-key"></i>
+                                                    </span>
+                                                    <input id="verifyCode"
+                                                           name="verifyCode"
+                                                           placeholder="Mã xác thực"
+                                                           class="form-control"
+                                                           type="text"
+                                                           required />
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+
+                                    <div class="form-group" style="margin-top: 20px">
+                                        <button class="btn main-btn"
+                                                type="submit">
+                                            Xác thực
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @if (TempData["message"] != null)
+    {
+        <script>alert('@TempData["message"]');</script>
+    }
+</body>
+</html>
+
+

@@ -1,10 +1,13 @@
-﻿
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor httpContextAccessor
+@using VLUTUTORS.Models;
 @{
     ViewData["Title"] = "Liên Hệ";
     Layout = "~/Views/Shared/_otherPageLayout.cshtml";
+    var noiDung = new CP25Team01Context().Noidungs.FirstOrDefault(m => m.Id == 1);
 }
 
-<section id="contact-page" class="pt-90 pb-120 gray-bg">
+<section id="contact-page" class="pt-30 pb-30 gray-bg">
     <div class="container">
         <div class="row">
             <div class="col-lg-8">
@@ -13,30 +16,58 @@
                         <h2>Liên hệ với chúng tôi</h2>
                     </div>
                     <!-- section title -->
-                    <div class="main-form pt-45">
+                    <div class="main-form">
                         <form id="contact-form"
                               method="post"
                               data-toggle="validator" enctype="multipart/form-data" asp-controller="Home" asp-action="Contact">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="singel-form form-group">
-                                        <input name="Ten"
-                                               type="text"
-                                               placeholder="Tên của bạn"
-                                               data-error="Vui lòng điền đủ thông tin."
-                                               required="required" />
-                                        <div class="help-block with-errors"></div>
+                                        @{
+                                            if (@httpContextAccessor.HttpContext.Session.GetString("loginName") != null)
+                                            {
+                                                <input name="Ten"
+                                                       type="text"
+                                                       value="@httpContextAccessor.HttpContext.Session.GetString("loginName")"
+                                                       data-error="Vui lòng điền đủ thông tin."
+                                                       required="required" />
+                                                <div class="help-block with-errors"></div>
+                                            }
+                                            else
+                                            {
+                                                <input name="Ten"
+                                                       type="text"
+                                                       placeholder="Tên của bạn"
+                                                       data-error="Vui lòng điền đủ thông tin."
+                                                       required="required" />
+                                                <div class="help-block with-errors"></div>
+                                            }
+                                        }
                                     </div>
                                     <!-- singel form -->
                                 </div>
                                 <div class="col-md-6">
                                     <div class="singel-form form-group">
-                                        <input name="Email"
-                                               type="email"
-                                               placeholder="Email"
-                                               data-error="Vui lòng điền đủ thông tin."
-                                               required="required" />
-                                        <div class="help-block with-errors"></div>
+                                        @{
+                                            if (@httpContextAccessor.HttpContext.Session.GetString("loginEmail") != null)
+                                            {
+                                                <input name="Email"
+                                                       type="email"
+                                                       value="@httpContextAccessor.HttpContext.Session.GetString("loginEmail")"
+                                                       data-error="Vui lòng điền đủ thông tin."
+                                                       required="required" />
+                                                <div class="help-block with-errors"></div>
+                                            }
+                                            else
+                                            {
+                                                <input name="Email"
+                                                       type="email"
+                                                       placeholder="Email"
+                                                       data-error="Vui lòng điền đủ thông tin."
+                                                       required="required" />
+                                                <div class="help-block with-errors"></div>
+                                            }
+                                        }
                                     </div>
                                     <!-- singel form -->
                                 </div>
@@ -89,9 +120,11 @@
             <div class="col-lg-4">
                 <div class="contact-address">
                     <div class="contact-heading">
-                        <h5>
-                            Nếu bạn có bất kỳ câu hỏi nào khác, vui lòng liên hệ với chúng tôi.
-                        </h5>
+                        <h4>
+                            <b>
+                                Nếu bạn có bất kỳ câu hỏi nào khác, vui lòng liên hệ với chúng tôi.
+                            </b>
+                        </h4>
                     </div>
                     <ul>
                         <li>
@@ -101,7 +134,7 @@
                                 </div>
                                 <div class="cont">
                                     <p>
-                                        @ViewData["diaChi"]
+                                        @noiDung.DiaChi
                                     </p>
                                 </div>
                             </div>
@@ -114,7 +147,7 @@
                                 </div>
                                 <div class="cont">
                                     <p>
-                                        @ViewData["Sdt"]
+                                        @noiDung.Sdt
                                     </p>
                                 </div>
                             </div>
@@ -127,7 +160,7 @@
                                 </div>
                                 <div class="cont">
                                     <p>
-                                        @ViewData["Email"]
+                                        @noiDung.Email
                                     </p>
                                 </div>
                             </div>
@@ -140,7 +173,7 @@
                                 </div>
                                 <div class="cont">
                                     <p>
-                                        @ViewData["Fb"]
+                                        @noiDung.Facebook
                                     </p>
                                 </div>
                             </div>
@@ -155,7 +188,7 @@
     </div>
     @if (TempData["message"] != null)
     {
-        <script>alert('@TempData["message"]');</script>
+        <script>alert('@TempData["message"]')</script>
     }
     <!-- container -->
 </section>
