@@ -76,17 +76,32 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
 
             int teachTime = _db.Cahocs.Find(caday.IdloaiCaDay).LoaiCa;
 
+            List<Caday> lessonPlans = new List<Caday>();
             foreach (string time in timeSlot["inputHour"])
             {
-                DateTime hour = DateTime.Parse(time);
-                caday.GioBatDau = hour.Hour;
-                caday.PhutBatDau = hour.Minute;
-                GetEndTime(caday, teachTime);
-                if (ModelState.IsValid)
+                Caday lessonPlan = new Caday()
                 {
-                    _db.Add(caday);
-                    await _db.SaveChangesAsync();
-                }
+                    IdnguoiDay = caday.IdnguoiDay,
+                    IdmonDay = caday.IdmonDay,
+                    IdloaiCaDay = caday.IdloaiCaDay,
+                    NgayDay = caday.NgayDay,
+                    LapLich = caday.LapLich
+                };
+                DateTime hour = new DateTime();
+
+                hour = DateTime.Parse(time);
+                lessonPlan.GioBatDau = hour.Hour;
+                lessonPlan.PhutBatDau = hour.Minute;
+
+                GetEndTime(lessonPlan, teachTime);
+                
+                lessonPlans.Add(lessonPlan);
+            }
+          
+            if (ModelState.IsValid)
+            {
+                await _db.AddRangeAsync(lessonPlans);
+                await _db.SaveChangesAsync();
             }
 
             return RedirectToAction("Index", "SignUpLessonPlan");
@@ -94,8 +109,6 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
 
         private void GetEndTime(Caday caDay, int teachTime)
         {
-            //int teachTime = lessonPlan.IdCaDayNavigation.ThoiGianDay;
-            teachTime = 45;
             int startHour = caDay.GioBatDau;
             int startMinute = caDay.PhutBatDau;
             var temp = startMinute + teachTime;
@@ -115,14 +128,67 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             }
         }
 
-        public IActionResult EditLessonPlan()
+        private List<Mongiasu> GetListSubject()
         {
-            return View();
+            var userInfo = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
+            Taikhoannguoidung taikhoannguoidung = _db.Taikhoannguoidungs.Find(userInfo.Id);
+
+            List<Mongiasu> subjects = new List<Mongiasu>();
+            subjects.Add(_db.Mongiasus.FirstOrDefault(i => i.IdmonGiaSu.Equals(taikhoannguoidung.IdmonGiaSu1)));
+            if (taikhoannguoidung.IdmonGiaSu2 != null)
+            {
+                subjects.Add(_db.Mongiasus.FirstOrDefault(i => i.IdmonGiaSu.Equals(taikhoannguoidung.IdmonGiaSu2)));
+            }
+            return subjects;
         }
 
-        public IActionResult DeleteLessonPlan()
+        [HttpGet]
+        public IActionResult EditLessonPlan(int lessonPlanId)
         {
-            return View();
+            List<Mongiasu> subjects = GetListSubject();
+
+            Caday caDay = _db.Cadays.Find(lessonPlanId);
+            caDay.subjectItems = new SelectList(subjects, "IdmonGiaSu", "TenMonGiaSu", caDay.IdmonDay);
+            caDay.teachTimeItems = new SelectList(_db.Cahocs, "IdCaHoc", "LoaiCa", caDay.IdloaiCaDay);
+
+            return View(caDay);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditLessonPlan(IFormCollection timeSlot, [Bind(include: "Id, IdnguoiDay, IdmonDay, IdloaiCaDay")] Caday caday)
+        {
+            List<DateTime> timeSlots = new List<DateTime>();
+            DateTime date = DateTime.Parse(timeSlot["inputDate"]);
+            caday.NgayDay = date;
+            int teachTime = _db.Cahocs.Find(caday.IdloaiCaDay).LoaiCa;
+
+            DateTime hour = DateTime.Parse(timeSlot["inputHour"]);
+            caday.GioBatDau = hour.Hour;
+            caday.PhutBatDau = hour.Minute;
+            GetEndTime(caday, teachTime);
+            if (ModelState.IsValid)
+            {
+                _db.Update(caday);
+                await _db.SaveChangesAsync();
+            }
+
+            return RedirectToAction("Index", "SignUpLessonPlan");
+        }
+
+        public async Task<IActionResult> DeleteLessonPlan(int lessonPlanId)
+        {
+            // call check lesson has register
+
+            Caday caDay = _db.Cadays.Where(p => p.Id == lessonPlanId).FirstOrDefault();
+            _db.Cadays.Remove(caDay);
+            await _db.SaveChangesAsync();
+
+            return RedirectToAction("Index", "SignUpLessonPlan");
+        }
+
+        private bool CheckLessonHasRegister()
+        {
+            return true;
         }
     }
 }

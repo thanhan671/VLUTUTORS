@@ -65,7 +65,7 @@
                                 <div id="divCont">
                                     <div class="input-flex">
                                         <input type="time"
-                                               id="inputDate"
+                                               id="inputHour"
                                                name = "inputHour"
                                                class="form-control form-date" />
                                         <input onclick="AddTextBox()" type="button" value="+" class="btn-add" />
@@ -100,14 +100,18 @@
             </thead>
             <tbody>
                  @foreach (var lesson in Model.Item2)
-                 {
+                {
                     <tr>
                         <td>@lesson.tenMonDay</td>
                         <td>@lesson.NgayDay.ToString("dd/MM/yyyy")</td>
-                        <td>@lesson.GioBatDau:@lesson.PhutKetThuc - @lesson.GioKetThuc:@lesson.PhutKetThuc</td>
+                        <td>@lesson.GioBatDau:@lesson.PhutBatDau - @lesson.GioKetThuc:@lesson.PhutKetThuc</td>
                         <td>@lesson.tenLoaiCaDay phút</td>
                         <td class="project-actions text-right">
-                        <a class="btn btn-info btn-sm" href="~/Tutors/SignUpLessonPlan/EditLessonPlan">
+                        <a class="btn btn-info btn-sm" href="@Url.Action("DeleteLessonPlan", "SignUpLessonPlan", new { lessonPlanId = @lesson.Id})">
+                        <i class="fas fa-pencil-alt"> </i>
+                            Xóa
+                        </a>
+                        <a class="btn btn-info btn-sm" href="@Url.Action("EditLessonPlan", "SignUpLessonPlan", new { lessonPlanId = @lesson.Id})">
                             <i class="fas fa-pencil-alt"> </i>
                             Sửa
                         </a>
@@ -123,7 +127,7 @@
 <script type="text/javascript">
 
     function getDynamicTextBox(value) {
-        return '<div class="input-flex" style="margin-top:5px"><input type="time" id = "inputDate" name = "inputDate" class="form-control form-date"/><input onclick ="RemoveTextBox(this)" type ="button" value ="X" class="btn-delete" style="width:38px; height:38px"/></div>'
+        return '<div class="input-flex" style="margin-top:5px"><input type="time" id = "inputHour" name = "inputHour" class="form-control form-date"/><input onclick ="RemoveTextBox(this)" type ="button" value ="X" class="btn-delete" style="width:38px; height:38px"/></div>'
     }
     function AddTextBox() {
         var div = document.createElement('DIV');

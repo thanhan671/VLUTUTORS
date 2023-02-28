@@ -9,6 +9,7 @@ namespace VLUTUTORS.Models
 {
     public partial class Caday
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public int IdnguoiDay { get; set; }
         public int IdmonDay { get; set; }

@@ -1,4 +1,5 @@
-﻿
+﻿@*@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers*@
+@model VLUTUTORS.Models.Caday
 @{
     ViewData["Title"] = "EditLessonPlan";
     Layout = "~/Areas/Tutors/Views/Shared/_TutorsLayout.cshtml";
@@ -42,53 +43,55 @@
                             </button>
                         </div>
                     </div>
-                    <form class="form-group p-3">
+                     <form method="post" enctype="multipart/form-data" asp-controller="SignUpLessonPlan" asp-action="EditLessonPlan">
+                        @Html.TextBoxFor(m => m.Id);
+                        @Html.HiddenFor(m => m.IdnguoiDay)
                         <div class="form-group">
-                            <label for="inputName">Tên môn gia sư</label>
-                            <select disabled class="form-control" name="" id="">
-                                <option value="">Anh văn cơ bản</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="select-shifts">Loại ca dạy</label>
-                            <select class="form-control mb-2"
-                                    name="select-shifts"
-                                    id="">
-                                <option value="">45 Phút</option>
-                                <option value="">60 Phút</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="inputName">Ngày dạy</label>
-                            <input type="date"
-                                   id="inputName"
-                                   class="form-control"
-                                   pattern="\d{1,2}/\d{1,2}/\d{4}"
-                                   value="01/02/2023"
-                                    />
-                        </div>
-                        <div class="form-group form-flex">
-                            <label for="">Chọn Khung Giờ</label>
-                            <div class="input-flex">
-                                <input 
-                                       type="time"
-                                       id="inputDate"
-                                       class="form-control form-date" />
+                                <label for="inputName">Tên môn gia sư</label>
+                                 @Html.DropDownListFor(m => m.IdmonDay, Model.subjectItems, new { @class = "form__select" })
+                                <span asp-validation-for="IdmonDay" class="warning"></span>
                             </div>
-                        </div>
+                            <div>
+                                <label for="select-shifts">Loại ca dạy</label>
+                                 @Html.DropDownListFor(m => m.IdloaiCaDay, Model.teachTimeItems, new { @class = "form__select" })
+                                <span asp-validation-for="IdloaiCaDay" class="warning"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="inputName">Ngày dạy</label>
+                                <input type="date" id="inputName" name="inputDate" class="form-control" value="@Model.NgayDay.ToString("yyyy-MM-dd")" />
+                            </div>
+                            <div class="form-group">
+                                <label for="">Chọn Khung Giờ</label>
+                                <div id="divCont">
+                                    <div class="input-flex">
+                                        <input type="time"
+                                               id="inputDate"
+                                               name="inputHour"
+                                               class="form-control form-date"
+                                               value="@Model.GioBatDau.ToString("D2"):@Model.PhutBatDau.ToString("D2")" />         
+                                    </div>
+                                </div>
+                            </div>
+                              <div class="row float-right">
+                                <div class="col">
+                                    <a href="~/Tutors/SignUpLessonPlan" class="btn btn-secondary">Quay Lại</a>
+                                    <button type="submit" class="btn btn-primary">Lưu</button>
+                                </div>
+                            </div>
                     </form>
                     <!-- /.card-body -->
                 </div>
                 <!-- /.card -->
             </div>
         </div>
-        <div class="row float-right">
+        @*<div class="row float-right">
             <div class="col">
                 <a href="~/Tutors/SignUpLessonPlan" class="btn btn-secondary">Quay Lại</a>
-                <input type="submit" value="Lưu" class="btn btn-success" />
+                <button type="submit" class="btn btn-primary">Lưu</button>
             </div>
-        </div>
+        </div>*@
+        @*</form>*@
     </section>
     <!-- /.content -->
 </div>
