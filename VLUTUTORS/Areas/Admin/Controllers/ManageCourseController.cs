@@ -66,6 +66,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 var checkKhoaDaoTao = _context.Khoadaotaos.AsNoTracking().SingleOrDefault(x => x.TenBaiHoc.ToLower() == khoadaotao.TenBaiHoc.ToLower());
                 if (checkKhoaDaoTao != null)
                 {
+                    TempData["message"] = "Bài học đã tồn tại, vui lòng kiểm tra lại";
                     return RedirectToAction("Index");
                 }
                 else

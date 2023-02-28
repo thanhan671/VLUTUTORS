@@ -36,16 +36,25 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                try
+                var checkQues = _context.Baikiemtras.AsNoTracking().SingleOrDefault(x => x.CauHoi.ToLower() == baikiemtra.CauHoi.ToLower());
+                if (checkQues != null)
                 {
-                    _context.Add(baikiemtra);
-                    await _context.SaveChangesAsync();
+                    TempData["message"] = "Câu hỏi này đã tồn tại!";
+                    return RedirectToAction("AddQuestion");
                 }
-                catch (Exception ex)
+                else
                 {
-                    return RedirectToAction(nameof(Index));
+                    try
+                    {
+                        _context.Add(baikiemtra);
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (Exception ex)
+                    {
+                        return RedirectToAction(nameof(Index));
+                    }
+                    return RedirectToAction("Index");
                 }
-                return RedirectToAction("Index");
             }
             return View(baikiemtra);
         }

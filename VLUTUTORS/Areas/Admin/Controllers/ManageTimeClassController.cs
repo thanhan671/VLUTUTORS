@@ -36,7 +36,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 if (checkCa != null)
                 {
                     TempData["message"] = "Ca học này đã tồn tại!";
-                    return RedirectToAction("AddSubject");
+                    return RedirectToAction("AddTimeClass");
                 }
                 else
                 {

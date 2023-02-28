@@ -32,7 +32,15 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                try
+                var Quyen = _context.Quyens.AsNoTracking().SingleOrDefault(x => x.TenQuyen.ToLower() == quyen.TenQuyen.ToLower());
+                if (Quyen != null)
+                {
+                    TempData["message"] = "Quyền đã tồn tại, vui lòng kiểm tra lại";
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    try
                 {
                     TempData["message"] = "Thêm mới thành công!";
                     _context.Update(quyen);
@@ -43,6 +51,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                     return RedirectToAction(nameof(Index));
                 }
                 return RedirectToAction("Index");
+            }
             }
             return View(quyen);
         }

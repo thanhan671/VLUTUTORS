@@ -36,7 +36,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 if (checkKhoa != null)
                 {
                     TempData["message"] = "Khoa này đã tồn tại!";
-                    return RedirectToAction("AddSubject");
+                    return RedirectToAction("AddFaculty");
                 }
                 else
                 {

@@ -69,7 +69,10 @@
             </div>
             <!-- /.card-body -->
         </div>
-
+        @if (TempData["message"] != null)
+        {
+            <script>alert('@TempData["message"]');</script>
+        }
         <!-- /.card -->
     </section>
     <!-- /.content -->
