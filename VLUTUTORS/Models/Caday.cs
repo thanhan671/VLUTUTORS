@@ -20,6 +20,7 @@ namespace VLUTUTORS.Models
         public int GioKetThuc { get; set; }
         public int PhutKetThuc { get; set; }
         public bool? LapLich { get; set; }
+        public int? IdnguoiHoc { get; set; }
 
         [NotMapped]
         public string tenNguoiDay { get; set; }
@@ -37,5 +38,6 @@ namespace VLUTUTORS.Models
         public virtual Cahoc IdloaiCaDayNavigation { get; set; }
         public virtual Mongiasu IdmonDayNavigation { get; set; }
         public virtual Taikhoannguoidung IdnguoiDayNavigation { get; set; }
+        public virtual Taikhoannguoidung IdnguoiHocNavigation { get; set; }
     }
 }

@@ -11,6 +11,12 @@ namespace VLUTUTORS.Models
 {
     public partial class Taikhoannguoidung : IValidatableObject
     {
+        public Taikhoannguoidung()
+        {
+            CadayIdnguoiDayNavigations = new HashSet<Caday>();
+            CadayIdnguoiHocNavigations = new HashSet<Caday>();
+        }
+
         public int Id { get; set; }
 
         public string HoTen { get; set; }
@@ -81,6 +87,9 @@ namespace VLUTUTORS.Models
 
         [NotMapped]
         public Microsoft.AspNetCore.Http.IFormFile avatarImage { get; set; }
+
+        public virtual ICollection<Caday> CadayIdnguoiDayNavigations { get; set; }
+        public virtual ICollection<Caday> CadayIdnguoiHocNavigations { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {

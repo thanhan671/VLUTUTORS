@@ -94,6 +94,8 @@ namespace VLUTUTORS.Models
 
                 entity.Property(e => e.IdnguoiDay).HasColumnName("IDNguoiDay");
 
+                entity.Property(e => e.IdnguoiHoc).HasColumnName("IDNguoiHoc");
+
                 entity.Property(e => e.NgayDay).HasColumnType("datetime");
 
                 entity.HasOne(d => d.IdloaiCaDayNavigation)
@@ -108,11 +110,17 @@ namespace VLUTUTORS.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_CADAY_MONGIASU");
 
+
                 entity.HasOne(d => d.IdnguoiDayNavigation)
                     .WithMany(p => p.Cadays)
                     .HasForeignKey(d => d.IdnguoiDay)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_CADAY_TAIKHOANNGUOIDUNG");
+
+                entity.HasOne(d => d.IdnguoiHocNavigation)
+                    .WithMany(p => p.CadayIdnguoiHocNavigations)
+                    .HasForeignKey(d => d.IdnguoiHoc)
+                    .HasConstraintName("FK_CADAY_TAIKHOANNGUOIDUNG1");
             });
 
             modelBuilder.Entity<Cahoc>(entity =>
