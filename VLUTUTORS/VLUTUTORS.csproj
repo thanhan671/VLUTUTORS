@@ -38,7 +38,6 @@
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Tutors\Data\" />
-    <Folder Include="Areas\Tutors\Models\" />
     <Folder Include="wwwroot\certificates\" />
     <Folder Include="wwwroot\certificates\1\" />
     <Folder Include="wwwroot\avatars\" />

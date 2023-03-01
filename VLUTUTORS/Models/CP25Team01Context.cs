@@ -18,7 +18,10 @@ namespace VLUTUTORS.Models
         }
 
         public virtual DbSet<Baikiemtra> Baikiemtras { get; set; }
+        public virtual DbSet<Caday> Cadays { get; set; }
         public virtual DbSet<Cahoc> Cahocs { get; set; }
+        public virtual DbSet<Danhgiagiasu> Danhgiagiasus { get; set; } 
+        public virtual DbSet<Giasuyeuthich> Giasuyeuthiches { get; set; }
         public virtual DbSet<Gioitinh> Gioitinhs { get; set; }
         public virtual DbSet<Khoa> Khoas { get; set; }
         public virtual DbSet<Khoadaotao> Khoadaotaos { get; set; }
@@ -81,11 +84,60 @@ namespace VLUTUTORS.Models
                     .HasMaxLength(500);
             });
 
+            modelBuilder.Entity<Caday>(entity =>
+            {
+                entity.ToTable("CADAY");
+
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.IdloaiCaDay).HasColumnName("IDLoaiCaDay");
+
+                entity.Property(e => e.IdmonDay).HasColumnName("IDMonDay");
+
+                entity.Property(e => e.IdnguoiDay).HasColumnName("IDNguoiDay");
+
+                entity.Property(e => e.NgayDay).HasColumnType("datetime");
+
+                entity.HasOne(d => d.IdloaiCaDayNavigation)
+                    .WithMany(p => p.Cadays)
+                    .HasForeignKey(d => d.IdloaiCaDay)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CADAY_CAHOC");
+
+                entity.HasOne(d => d.IdmonDayNavigation)
+                    .WithMany(p => p.Cadays)
+                    .HasForeignKey(d => d.IdmonDay)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CADAY_MONGIASU");
+
+                entity.HasOne(d => d.IdnguoiDayNavigation)
+                    .WithMany(p => p.Cadays)
+                    .HasForeignKey(d => d.IdnguoiDay)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CADAY_TAIKHOANNGUOIDUNG");
+            });
+
             modelBuilder.Entity<Cahoc>(entity =>
             {
                 entity.HasKey(e => e.IdCaHoc);
 
                 entity.ToTable("CAHOC");
+            });
+
+            modelBuilder.Entity<Danhgiagiasu>(entity =>
+            {
+                entity.ToTable("DANHGIAGIASU");
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.NgayTao).HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<Giasuyeuthich>(entity =>
+            {
+                entity.HasKey(e => new { e.GiasuId, e.NguoidungId });
+
+                entity.ToTable("GIASUYEUTHICH");
             });
 
             modelBuilder.Entity<Gioitinh>(entity =>

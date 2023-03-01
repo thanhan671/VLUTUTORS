@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 #nullable disable
 
@@ -65,7 +63,7 @@ namespace VLUTUTORS.Models
         public virtual Mongiasu IdmonGiaSu2Navigation { get; set; }
         public virtual Nganhang IdnganHangNavigation { get; set; }
         public virtual Xetduyet IdxetDuyetNavigation { get; set; }
-
+        public virtual ICollection<Caday> Cadays { get; set; }
         [NotMapped]
         public SelectList DepartmentItems { get; set; }
 

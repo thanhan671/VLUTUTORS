@@ -1,9 +1,9 @@
-﻿
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model Tuple<VLUTUTORS.Models.Caday,IEnumerable<VLUTUTORS.Models.Caday>>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Tutors/Views/Shared/_TutorsLayout.cshtml";
 }
-
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -28,64 +28,61 @@
          role="dialog"
          aria-labelledby="exampleModalLabel"
          aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">
-                        Thêm lịch dạy
-                    </h5>
-                    <button type="button"
-                            class="close text-right"
-                            data-dismiss="modal"
-                            aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="form-group">
-                            <label for="inputName">Tên môn gia sư</label>
-                            <select class="form-control" name="" id="">
-                                <option value="">Anh văn cơ bản</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="select-shifts">Loại ca dạy</label>
-                            <select class="form-control mb-2"
-                                    name="select-shifts"
-                                    id="">
-                                <option value="">45 Phút</option>
-                                <option value="">60 Phút</option>
-                            </select>
-                        </div>
+         <form asp-action="AddLessonPlan" asp-controller="SignUpLessonPlan" method="post">
+             @Html.HiddenFor(m => m.Item1.IdnguoiDay)
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">
+                            Thêm lịch dạy
+                        </h5>
+                        <button type="button"
+                                class="close text-right"
+                                data-dismiss="modal"
+                                aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="inputName">Tên môn gia sư</label>
+                                 @Html.DropDownListFor(m => m.Item1.IdmonDay, Model.Item1.subjectItems, new { @class = "form__select" })
+                                <span asp-validation-for="Item1.IdmonDay" class="warning"></span>
+                            </div>
+                            <div>
+                                <label for="select-shifts">Loại ca dạy</label>
+                                 @Html.DropDownListFor(m => m.Item1.IdloaiCaDay, Model.Item1.teachTimeItems, new { @class = "form__select" })
+                                <span asp-validation-for="Item1.IdloaiCaDay" class="warning"></span>
+                            </div>
 
-                        <div class="form-group">
-                            <label for="inputName">Ngày dạy</label>
-                            <input type="date" id="inputName" class="form-control" />
-                        </div>
-                        <div class="form-group">
-                            <label for="">Chọn Khung Giờ</label>
-                            <div id="divCont">
-                                <div class="input-flex">
-                                    <input type="time"
-                                           id="inputDate"
-                                           class="form-control form-date" />
-                                    <input onclick="AddTextBox()" type="button" value="+" class="btn-add" />
+                            <div class="form-group">
+                                <label for="inputName">Ngày dạy</label>
+                                <input type="date" id="inputName" name = "inputDate" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label for="">Chọn Khung Giờ</label>
+                                <div id="divCont">
+                                    <div class="input-flex">
+                                        <input type="time"
+                                               id="inputHour"
+                                               name = "inputHour"
+                                               class="form-control form-date" />
+                                        <input onclick="AddTextBox()" type="button" value="+" class="btn-add" />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button"
-                            class="btn btn-secondary"
-                            data-dismiss="modal">
-                        Hủy
-                    </button>
-                    <button type="button" class="btn btn-primary">Xác nhận</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button"
+                                class="btn btn-secondary"
+                                data-dismiss="modal">Hủy</button>
+                        <button type="submit" class="btn btn-primary">Xác nhận</button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 
     <!-- Main content -->
@@ -102,31 +99,24 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Anh Văn Cơ Bản</td>
-                    <td>12/01/2023</td>
-                    <td>7h - 7h45</td>
-                    <td>45 Phút</td>
-                    <td class="project-actions text-right">
-                        <a class="btn btn-info btn-sm" href="~/Tutors/SignUpLessonPlan/EditLessonPlan">
+                 @foreach (var lesson in Model.Item2)
+                {
+                    <tr>
+                        <td>@lesson.tenMonDay</td>
+                        <td>@lesson.NgayDay.ToString("dd/MM/yyyy")</td>
+                        <td>@lesson.GioBatDau:@lesson.PhutBatDau - @lesson.GioKetThuc:@lesson.PhutKetThuc</td>
+                        <td>@lesson.tenLoaiCaDay phút</td>
+                        <td class="project-actions text-right">
+                        <a class="btn btn-info btn-sm" href="@Url.Action("DeleteLessonPlan", "SignUpLessonPlan", new { lessonPlanId = @lesson.Id})">
+                        <i class="fas fa-pencil-alt"> </i>
+                            Xóa
+                        </a>
+                        <a class="btn btn-info btn-sm" href="@Url.Action("EditLessonPlan", "SignUpLessonPlan", new { lessonPlanId = @lesson.Id})">
                             <i class="fas fa-pencil-alt"> </i>
                             Sửa
                         </a>
-                    </td>
-                </tr>
-                <hr />
-                <tr>
-                    <td>Tin Học Cơ Bản</td>
-                    <td>12/01/2023</td>
-                    <td>7h - 7h45</td>
-                    <td>45 Phút</td>
-                    <td class="project-actions text-right">
-                        <a class="btn btn-info btn-sm" href="update-calendar.html">
-                            <i class="fas fa-pencil-alt"> </i>
-                            Sửa
-                        </a>
-                    </td>
-                </tr>
+                    </tr>
+                 }
             </tbody>
         </table>
 
@@ -137,7 +127,7 @@
 <script type="text/javascript">
 
     function getDynamicTextBox(value) {
-        return '<div class="input-flex" style="margin-top:5px"><input type="time" id = "inputDate" class="form-control form-date"/><input onclick ="RemoveTextBox(this)" type ="button" value ="X" class="btn-delete" style="width:38px; height:38px"/></div>'
+        return '<div class="input-flex" style="margin-top:5px"><input type="time" id = "inputHour" name = "inputHour" class="form-control form-date"/><input onclick ="RemoveTextBox(this)" type ="button" value ="X" class="btn-delete" style="width:38px; height:38px"/></div>'
     }
     function AddTextBox() {
         var div = document.createElement('DIV');
