@@ -22,8 +22,9 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             var userInfo = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
             Taikhoannguoidung taikhoannguoidung = _db.Taikhoannguoidungs.Find(userInfo.Id);
 
+            List<Taikhoannguoidung> teee = _db.Taikhoannguoidungs.ToList();
             List<Caday> cadays = _db.Cadays.Where(ca => ca.IdnguoiDay.Equals(taikhoannguoidung.Id)).ToList();
-            foreach(var cadayItem in cadays)
+            foreach (var cadayItem in cadays)
             {
                 cadayItem.tenMonDay = _db.Mongiasus.Find(cadayItem.IdmonDay).TenMonGiaSu.ToString();
                 cadayItem.tenLoaiCaDay = _db.Cahocs.Find(cadayItem.IdloaiCaDay).LoaiCa.ToString();
@@ -53,7 +54,7 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
 
             List<Mongiasu> subjects = new List<Mongiasu>();
             subjects.Add(_db.Mongiasus.FirstOrDefault(i => i.IdmonGiaSu.Equals(taikhoannguoidung.IdmonGiaSu1)));
-            if(taikhoannguoidung.IdmonGiaSu2 != null)
+            if (taikhoannguoidung.IdmonGiaSu2 != null)
             {
                 subjects.Add(_db.Mongiasus.FirstOrDefault(i => i.IdmonGiaSu.Equals(taikhoannguoidung.IdmonGiaSu2)));
             }
@@ -63,7 +64,7 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             caday.subjectItems = new SelectList(subjects, "IdmonGiaSu", "TenMonGiaSu", caday.IdmonDay);
             caday.teachTimeItems = new SelectList(_db.Cahocs, "IdCaHoc", "LoaiCa", caday.IdloaiCaDay);
 
-            Tuple<Caday,List<Caday>> turple = new Tuple<Caday, List<Caday>>(caday, new List<Caday>());
+            Tuple<Caday, List<Caday>> turple = new Tuple<Caday, List<Caday>>(caday, new List<Caday>());
             return View(turple);
         }
 
@@ -94,10 +95,17 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
                 lessonPlan.PhutBatDau = hour.Minute;
 
                 GetEndTime(lessonPlan, teachTime);
-                
+
+                bool isLessonLegit = CheckLessonHasRegister(lessonPlan.IdnguoiDay, lessonPlan.NgayDay, lessonPlan.GioBatDau, lessonPlan.PhutBatDau, lessonPlan.GioKetThuc, lessonPlan.PhutKetThuc);
+                if (!isLessonLegit)
+                {
+                    return RedirectToAction("Index", "SignUpLessonPlan");
+                }
+
                 lessonPlans.Add(lessonPlan);
             }
-          
+
+
             if (ModelState.IsValid)
             {
                 await _db.AddRangeAsync(lessonPlans);
@@ -166,6 +174,11 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             caday.GioBatDau = hour.Hour;
             caday.PhutBatDau = hour.Minute;
             GetEndTime(caday, teachTime);
+
+            bool isLessonLegit = CheckLessonHasRegister(caday.IdnguoiDay, caday.NgayDay, caday.GioBatDau, caday.PhutBatDau, caday.GioKetThuc, caday.PhutKetThuc);
+            if (!isLessonLegit)
+                return RedirectToAction("Index", "SignUpLessonPlan");
+
             if (ModelState.IsValid)
             {
                 _db.Update(caday);
@@ -186,9 +199,34 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             return RedirectToAction("Index", "SignUpLessonPlan");
         }
 
-        private bool CheckLessonHasRegister()
+        private bool CheckLessonHasRegister(int tutorId, DateTime regisDate, int startHour, int startMinute, int endHour, int endMinute)
         {
-            return true;
+            List<Caday> caDayByTutor = _db.Cadays.Where(c => c.IdnguoiDay == tutorId).ToList();
+            List<Caday> caDayByDate = caDayByTutor.Where(c => c.NgayDay == regisDate).ToList();
+
+            if (caDayByDate.Count == 0)
+            {
+                return true;
+            }
+
+            TimeSpan startTime = new TimeSpan(startHour, startMinute, 0);
+            TimeSpan endTime = new TimeSpan(endHour, endMinute, 0);
+
+            bool isLegit = true;
+
+            foreach (var caDay in caDayByDate)
+            {
+                TimeSpan caDayStartTime = new TimeSpan(caDay.GioBatDau, caDay.PhutBatDau, 0);
+                TimeSpan caDayEndTime = new TimeSpan(caDay.GioKetThuc, caDay.PhutKetThuc, 0);
+
+                isLegit = startTime <= caDayEndTime && caDayStartTime <= endTime;
+                if (!isLegit)
+                {
+                    break;
+                }
+            }
+
+            return isLegit;
         }
     }
 }

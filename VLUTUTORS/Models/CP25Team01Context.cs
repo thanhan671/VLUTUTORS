@@ -20,7 +20,7 @@ namespace VLUTUTORS.Models
         public virtual DbSet<Baikiemtra> Baikiemtras { get; set; }
         public virtual DbSet<Caday> Cadays { get; set; }
         public virtual DbSet<Cahoc> Cahocs { get; set; }
-        public virtual DbSet<Danhgiagiasu> Danhgiagiasus { get; set; } 
+        public virtual DbSet<Danhgiagiasu> Danhgiagiasus { get; set; }
         public virtual DbSet<Giasuyeuthich> Giasuyeuthiches { get; set; }
         public virtual DbSet<Gioitinh> Gioitinhs { get; set; }
         public virtual DbSet<Khoa> Khoas { get; set; }
@@ -110,17 +110,11 @@ namespace VLUTUTORS.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_CADAY_MONGIASU");
 
-
                 entity.HasOne(d => d.IdnguoiDayNavigation)
                     .WithMany(p => p.Cadays)
                     .HasForeignKey(d => d.IdnguoiDay)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_CADAY_TAIKHOANNGUOIDUNG");
-
-                entity.HasOne(d => d.IdnguoiHocNavigation)
-                    .WithMany(p => p.CadayIdnguoiHocNavigations)
-                    .HasForeignKey(d => d.IdnguoiHoc)
-                    .HasConstraintName("FK_CADAY_TAIKHOANNGUOIDUNG1");
             });
 
             modelBuilder.Entity<Cahoc>(entity =>
@@ -178,10 +172,6 @@ namespace VLUTUTORS.Models
                 entity.HasKey(e => e.IdBaiHoc);
 
                 entity.ToTable("KHOADAOTAO");
-
-                entity.Property(e => e.LinkVideo).IsUnicode(false);
-
-                entity.Property(e => e.TaiLieu).IsUnicode(false);
 
                 entity.Property(e => e.TenBaiHoc)
                     .IsRequired()

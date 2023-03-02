@@ -13,8 +13,7 @@ namespace VLUTUTORS.Models
     {
         public Taikhoannguoidung()
         {
-            CadayIdnguoiDayNavigations = new HashSet<Caday>();
-            CadayIdnguoiHocNavigations = new HashSet<Caday>();
+            Cadays = new HashSet<Caday>();
         }
 
         public int Id { get; set; }
@@ -70,6 +69,7 @@ namespace VLUTUTORS.Models
         public virtual Nganhang IdnganHangNavigation { get; set; }
         public virtual Xetduyet IdxetDuyetNavigation { get; set; }
         public virtual ICollection<Caday> Cadays { get; set; }
+
         [NotMapped]
         public SelectList DepartmentItems { get; set; }
 
@@ -87,9 +87,6 @@ namespace VLUTUTORS.Models
 
         [NotMapped]
         public Microsoft.AspNetCore.Http.IFormFile avatarImage { get; set; }
-
-        public virtual ICollection<Caday> CadayIdnguoiDayNavigations { get; set; }
-        public virtual ICollection<Caday> CadayIdnguoiHocNavigations { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
