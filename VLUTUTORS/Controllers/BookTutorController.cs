@@ -24,10 +24,10 @@ namespace VLUTUTORS.Controllers
             var approvedStatus = _db.Xetduyets.FirstOrDefault(it => it.TenTrangThai == "Đã xét duyệt");
             var subjects = _db.Mongiasus.ToList();
             var wishlish = _db.Giasuyeuthichs.Where(it => it.NguoidungId == currentUserId).ToList();
+            var tutors = _db.Taikhoannguoidungs.Where(it => (it.IdxetDuyet == approvedStatus.IdxetDuyet)).ToList();
             if (approvedStatus != null)
             {
-                var tutors = _db.Taikhoannguoidungs.Where(it => (it.IdxetDuyet == approvedStatus.IdxetDuyet)).ToList();
-                if (nameFilter == "1")
+                if (nameFilter == "favourite")
                 {
                     var favoriteTutors = _db.Giasuyeuthichs.Where(it => (it.NguoidungId == currentUserId)).ToList();
                     foreach(var tutor in tutors)
@@ -35,6 +35,53 @@ namespace VLUTUTORS.Controllers
                         foreach(var user in favoriteTutors)
                         {
                             if(tutor.Id == user.GiasuId)
+                            {
+                                string avatar = tutor.AnhDaiDien;
+                                if (!string.IsNullOrEmpty(avatar))
+                                    avatar = avatar.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
+                                tutor.AnhDaiDien = avatar;
+
+                                var subject1 = subjects.FirstOrDefault(it => it.IdmonGiaSu == tutor.IdmonGiaSu1);
+                                var subject2 = subjects.FirstOrDefault(it => it.IdmonGiaSu == tutor.IdmonGiaSu2);
+                                var isInWishlish = wishlish.Where(it => it.GiasuId == tutor.Id);
+
+                                var commentModel = new List<CommentViewModel>();
+                                var danhGiaGiaSu = _db.Danhgiagiasus.Where(it => it.GiasuId == tutor.Id).ToList();
+                                foreach (var danhGia in danhGiaGiaSu)
+                                {
+                                    var nguoiDanhGia = _db.Taikhoannguoidungs.Find(danhGia.NguoidungId);
+                                    if (nguoiDanhGia != null)
+                                    {
+                                        nguoiDanhGia.AnhDaiDien = nguoiDanhGia.AnhDaiDien.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
+                                        commentModel.Add(new CommentViewModel
+                                        {
+                                            Comment = danhGia,
+                                            NguoiDanhGia = nguoiDanhGia
+                                        });
+                                    }
+                                }
+                                models.Add(new BookTutorViewModel
+                                {
+                                    Tutor = tutor,
+                                    Subject1 = subject1,
+                                    Subject2 = subject2,
+                                    IsInWishlish = (isInWishlish != null),
+                                    Commnents = commentModel
+                                });
+                            }
+                        }
+                    }
+                }
+                else if (nameFilter == "favourite" && subjectId > 0)
+                {
+                    tutors = tutors.Where(it => it.IdmonGiaSu1 == subjectId || it.IdmonGiaSu2 == subjectId).ToList();
+                    var favoriteTutors = _db.Giasuyeuthichs.Where(it => (it.NguoidungId == currentUserId)).ToList();
+                    ViewData["NameFilter"] = nameFilter;
+                    foreach (var tutor in tutors)
+                    {
+                        foreach (var user in favoriteTutors)
+                        {
+                            if (tutor.Id == user.GiasuId)
                             {
                                 string avatar = tutor.AnhDaiDien;
                                 if (!string.IsNullOrEmpty(avatar))

@@ -272,7 +272,8 @@ select.form-search {
         }
 
 .controls {
-    margin: 30px 0px;
+    display: flex;
+    justify-content: center;
 }
 
 .control {
@@ -329,7 +330,7 @@ select.form-search {
 }
 /* cmcmcmcm */
 .bg_cover {
-
+    background-image: url(../images/background.jpg);
     background-position: center center;
     background-size: cover;
     background-repeat: no-repeat;

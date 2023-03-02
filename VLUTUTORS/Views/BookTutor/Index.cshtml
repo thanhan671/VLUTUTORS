@@ -56,32 +56,19 @@
                     </div>
                     <select class="control-field sort-field form-search" name="nameFilter">
                         @{
-                            if (ViewData["NameFilter"] != null)
+                            if (ViewData["NameFilter"] != null && ViewData["NameFilter"].Equals("favourite"))
                             {
-                                <option value="" selected="selected">Lọc Theo</option>
-                                <option value="1">Gia sư yêu thích</option>
-                                <option value="2">Đang hoạt động</option>
+                                <option value="">Lọc Theo</option>
+                                <option value="favourite" selected="selected">Gia sư yêu thích</option>
+                                <option value="online">Đang hoạt động</option>
                             }
                             else
                             {
-                                <option value="">Lọc Theo</option>
-                                <option value="1" selected="selected">Gia sư yêu thích</option>
-                                <option value="2">Đang hoạt động</option>
+                                <option value="" selected="selected">Lọc Theo</option>
+                                <option value="favourite">Gia sư yêu thích</option>
+                                <option value="online">Đang hoạt động</option>
                             }
                         }
-                    </select>
-                </div>
-                <div class="control filter">
-                    <div class="control-icon">
-                        <i class="material-icons">&#xE871;</i>
-                    </div>
-                    <div class="select-arrow">
-                        <i class="material-icons">&#xE313;</i>
-                    </div>
-                    <select class="control-field layout-field form-search">
-                        <option value="left-top" selected>Ca học</option>
-                        <option value="">45 phút</option>
-                        <option value="">60 phút</option>
                     </select>
                 </div>
             </div>
