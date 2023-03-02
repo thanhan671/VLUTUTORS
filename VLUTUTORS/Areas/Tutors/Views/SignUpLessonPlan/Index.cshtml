@@ -95,6 +95,10 @@
                     <th>Ngày</th>
                     <th>Khung Giờ</th>
                     <th>Ca dạy</th>
+                    @if (TempData["Message"] != null)
+                    {
+                        <div class="alert alert-success">@TempData["Message"]</div>
+                    }   
                     <th class="th-action"></th>
                 </tr>
             </thead>

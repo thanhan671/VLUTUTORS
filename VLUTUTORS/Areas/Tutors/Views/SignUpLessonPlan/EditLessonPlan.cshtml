@@ -73,6 +73,10 @@
                                     </div>
                                 </div>
                             </div>
+                            @if (TempData["Message"] != null)
+                            {
+                                <div class="alert alert-success">@TempData["Message"]</div>
+                            }   
                               <div class="row float-right">
                                 <div class="col">
                                     <a href="~/Tutors/SignUpLessonPlan" class="btn btn-secondary">Quay Lại</a>

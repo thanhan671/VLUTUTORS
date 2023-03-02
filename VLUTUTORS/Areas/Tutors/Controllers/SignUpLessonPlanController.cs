@@ -96,9 +96,10 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
 
                 GetEndTime(lessonPlan, teachTime);
 
-                bool isLessonLegit = CheckLessonHasRegister(lessonPlan.IdnguoiDay, lessonPlan.NgayDay, lessonPlan.GioBatDau, lessonPlan.PhutBatDau, lessonPlan.GioKetThuc, lessonPlan.PhutKetThuc);
-                if (!isLessonLegit)
+                bool isOverLapse = CheckLessonHasRegister(lessonPlan.IdnguoiDay, lessonPlan.NgayDay, lessonPlan.GioBatDau, lessonPlan.PhutBatDau, lessonPlan.GioKetThuc, lessonPlan.PhutKetThuc);
+                if (isOverLapse)
                 {
+                    TempData["Message"] = "Thời gian bị trùng với ca dạy khác";
                     return RedirectToAction("Index", "SignUpLessonPlan");
                 }
 
@@ -175,12 +176,20 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             caday.PhutBatDau = hour.Minute;
             GetEndTime(caday, teachTime);
 
-            bool isLessonLegit = CheckLessonHasRegister(caday.IdnguoiDay, caday.NgayDay, caday.GioBatDau, caday.PhutBatDau, caday.GioKetThuc, caday.PhutKetThuc);
-            if (!isLessonLegit)
-                return RedirectToAction("Index", "SignUpLessonPlan");
+            Caday lessonPlan = _db.Cadays.Find(caday.Id);
+            int oldStartHour = lessonPlan.GioBatDau;
+            int oldStartMinute = lessonPlan.PhutBatDau;
+
+            bool isOverLapse = CheckLessonHasRegister(caday.IdnguoiDay, caday.NgayDay, caday.GioBatDau, caday.PhutBatDau, caday.GioKetThuc, caday.PhutKetThuc, oldStartHour, oldStartMinute);
+            if (isOverLapse)
+            {
+                TempData["Message"] = "Thời gian bị trùng với ca dạy khác";
+                return RedirectToAction("EditLessonPlan", "SignUpLessonPlan", new { lessonPlanId = caday.Id});
+            }
 
             if (ModelState.IsValid)
             {
+                _db.ChangeTracker.Clear();
                 _db.Update(caday);
                 await _db.SaveChangesAsync();
             }
@@ -199,10 +208,14 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             return RedirectToAction("Index", "SignUpLessonPlan");
         }
 
-        private bool CheckLessonHasRegister(int tutorId, DateTime regisDate, int startHour, int startMinute, int endHour, int endMinute)
+        private bool CheckLessonHasRegister(int tutorId, DateTime regisDate, int startHour, int startMinute, int endHour, int endMinute, int editStartHour = 0, int editStartMinute = 0)
         {
             List<Caday> caDayByTutor = _db.Cadays.Where(c => c.IdnguoiDay == tutorId).ToList();
-            List<Caday> caDayByDate = caDayByTutor.Where(c => c.NgayDay == regisDate).ToList();
+            List<Caday> caDayByDate = caDayByTutor.Where(c => c.NgayDay.Date == regisDate.Date).ToList();
+            if(editStartMinute != 0 && editStartHour != 0)
+            {
+                caDayByDate.Remove(caDayByDate.Where(c => c.GioBatDau == editStartHour && c.PhutBatDau == editStartMinute).FirstOrDefault());
+            }    
 
             if (caDayByDate.Count == 0)
             {
@@ -212,21 +225,21 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             TimeSpan startTime = new TimeSpan(startHour, startMinute, 0);
             TimeSpan endTime = new TimeSpan(endHour, endMinute, 0);
 
-            bool isLegit = true;
+            bool isOverLapse = false;
 
             foreach (var caDay in caDayByDate)
             {
                 TimeSpan caDayStartTime = new TimeSpan(caDay.GioBatDau, caDay.PhutBatDau, 0);
                 TimeSpan caDayEndTime = new TimeSpan(caDay.GioKetThuc, caDay.PhutKetThuc, 0);
 
-                isLegit = startTime <= caDayEndTime && caDayStartTime <= endTime;
-                if (!isLegit)
+                isOverLapse = startTime <= caDayEndTime && caDayStartTime <= endTime;
+                if (isOverLapse)
                 {
                     break;
                 }
             }
 
-            return isLegit;
+            return isOverLapse;
         }
     }
 }
