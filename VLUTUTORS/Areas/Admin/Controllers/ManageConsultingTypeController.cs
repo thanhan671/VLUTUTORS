@@ -84,5 +84,14 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             }
             return View(loaituvan);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteConsulting([FromForm] int consultingID)
+        {
+            Loaituvan loaiTuVan = _context.Loaituvans.Where(p => p.IdLoaiTuVan == consultingID).FirstOrDefault();
+            _context.Loaituvans.Remove(loaiTuVan);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
     }
 }

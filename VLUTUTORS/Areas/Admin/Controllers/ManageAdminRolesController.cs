@@ -87,5 +87,14 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             }
             return View(quyen);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteRole([FromForm] int roleID)
+        {
+            Quyen quyen = _context.Quyens.Where(p => p.IdQuyen == roleID).FirstOrDefault();
+            _context.Quyens.Remove(quyen);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
     }
 }

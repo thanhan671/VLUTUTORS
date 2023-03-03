@@ -58,7 +58,14 @@
                                         <a class="btn btn-primary btn-sm"
                                            asp-action="EditType" asp-controller="ManageConsultingType" asp-route-id="@item.IdLoaiTuVan">
                                             <i class="fas fa-pen"> </i>
-                                            Chỉnh sửa
+                                            Sửa
+                                        </a>
+                                        <a class="btn btn-danger btn-sm"
+                                           data-toggle="modal"
+                                           data-target="#deleteModal"
+                                           onclick="document.getElementById('consultingID').value = @item.IdLoaiTuVan">
+                                            <i class="fas fa-pencil-alt"> </i>
+                                            Xóa
                                         </a>
                                     </td>
                                 </tr>
@@ -69,7 +76,31 @@
             </div>
             <!-- /.card-body -->
         </div>
-
+        <div class="modal fade"
+             id="deleteModal"
+             tabindex="-1"
+             role="dialog"
+             aria-labelledby="deleteModalLabel"
+             aria-hidden="true">
+            <form asp-action="DeleteConsulting" method="post" asp-controller="ManageConsultingType">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <h5>Bạn muốn xóa loại tư vấn này?</h5>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-default" type="button" data-dismiss="modal">
+                                Hủy
+                            </button>
+                            <button class="btn btn-primary" type="submit">
+                                Đồng ý
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" id="consultingID" name="consultingID" />
+            </form>
+        </div>
         <!-- /.card -->
     </section>
     <!-- /.content -->

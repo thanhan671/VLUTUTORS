@@ -94,5 +94,14 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             }
             return RedirectToAction("Index");
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteFaculty([FromForm] int facultyID)
+        {
+            Khoa khoa = _context.Khoas.Where(p => p.Idkhoa == facultyID).FirstOrDefault();
+            _context.Khoas.Remove(khoa);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
     }
 }

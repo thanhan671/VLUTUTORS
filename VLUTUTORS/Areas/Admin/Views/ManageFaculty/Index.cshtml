@@ -56,6 +56,13 @@
                                             <i class="fas fa-pencil-alt"> </i>
                                             Sửa
                                         </a>
+                                        <a class="btn btn-danger btn-sm"
+                                           data-toggle="modal"
+                                           data-target="#deleteModal"
+                                           onclick="document.getElementById('facultyID').value = @item.Idkhoa">
+                                            <i class="fas fa-pencil-alt"> </i>
+                                            Xóa
+                                        </a>
                                     </td>
                                 </tr>
                             }
@@ -65,7 +72,31 @@
             </div>
             <!-- /.card-body -->
         </div>
-
+        <div class="modal fade"
+             id="deleteModal"
+             tabindex="-1"
+             role="dialog"
+             aria-labelledby="deleteModalLabel"
+             aria-hidden="true">
+            <form asp-action="DeleteFaculty" method="post" asp-controller="ManageFaculty">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <h5>Bạn muốn xóa khoa này?</h5>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-default" type="button" data-dismiss="modal">
+                                Hủy
+                            </button>
+                            <button class="btn btn-primary" type="submit">
+                                Đồng ý
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" id="facultyID" name="facultyID" />
+            </form>
+        </div>
         <!-- /.card -->
     </section>
     <!-- /.content -->
