@@ -95,6 +95,10 @@
                     <th>Ngày</th>
                     <th>Khung Giờ</th>
                     <th>Ca dạy</th>
+                    @if (TempData["Message"] != null)
+                    {
+                        <div class="alert alert-success">@TempData["Message"]</div>
+                    }   
                     <th class="th-action"></th>
                 </tr>
             </thead>
@@ -125,7 +129,6 @@
     <!-- /.content -->
 </div>
 <script type="text/javascript">
-
     function getDynamicTextBox(value) {
         return '<div class="input-flex" style="margin-top:5px"><input type="time" id = "inputHour" name = "inputHour" class="form-control form-date"/><input onclick ="RemoveTextBox(this)" type ="button" value ="X" class="btn-delete" style="width:38px; height:38px"/></div>'
     }

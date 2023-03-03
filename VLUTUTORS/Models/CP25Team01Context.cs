@@ -94,6 +94,8 @@ namespace VLUTUTORS.Models
 
                 entity.Property(e => e.IdnguoiDay).HasColumnName("IDNguoiDay");
 
+                entity.Property(e => e.IdnguoiHoc).HasColumnName("IDNguoiHoc");
+
                 entity.Property(e => e.NgayDay).HasColumnType("datetime");
 
                 entity.HasOne(d => d.IdloaiCaDayNavigation)
@@ -170,10 +172,6 @@ namespace VLUTUTORS.Models
                 entity.HasKey(e => e.IdBaiHoc);
 
                 entity.ToTable("KHOADAOTAO");
-
-                entity.Property(e => e.LinkVideo).IsUnicode(false);
-
-                entity.Property(e => e.TaiLieu).IsUnicode(false);
 
                 entity.Property(e => e.TenBaiHoc)
                     .IsRequired()

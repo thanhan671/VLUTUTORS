@@ -11,6 +11,11 @@ namespace VLUTUTORS.Models
 {
     public partial class Taikhoannguoidung : IValidatableObject
     {
+        public Taikhoannguoidung()
+        {
+            Cadays = new HashSet<Caday>();
+        }
+
         public int Id { get; set; }
 
         public string HoTen { get; set; }
@@ -64,6 +69,7 @@ namespace VLUTUTORS.Models
         public virtual Nganhang IdnganHangNavigation { get; set; }
         public virtual Xetduyet IdxetDuyetNavigation { get; set; }
         public virtual ICollection<Caday> Cadays { get; set; }
+
         [NotMapped]
         public SelectList DepartmentItems { get; set; }
 

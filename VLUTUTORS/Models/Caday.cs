@@ -20,6 +20,7 @@ namespace VLUTUTORS.Models
         public int GioKetThuc { get; set; }
         public int PhutKetThuc { get; set; }
         public bool? LapLich { get; set; }
+        public int? IdnguoiHoc { get; set; }
 
         [NotMapped]
         public string tenNguoiDay { get; set; }
