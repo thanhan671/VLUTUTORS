@@ -75,6 +75,9 @@
                                         </div>
                                     </div>
                                     <hr />
+                                    @if (TempData["Message"] != null)
+                                    {
+                                        <div class="alert alert-danger">@TempData["Message"]</div>}
                                     <div class="row">
                                         <div class="col-12 flex-right mb-4">
                                             <a href='javascript:history.go(-1)' class="btn btn-secondary mr-3">Quay Lại</a>
@@ -89,6 +92,7 @@
             </div>
         </section>
     </form>
+
     <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->

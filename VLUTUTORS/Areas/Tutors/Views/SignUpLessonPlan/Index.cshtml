@@ -1,5 +1,5 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-@model Tuple<VLUTUTORS.Models.Caday,IEnumerable<VLUTUTORS.Models.Caday>>
+@model Tuple<VLUTUTORS.Models.Caday, IEnumerable<VLUTUTORS.Models.Caday>>
 @{
     ViewData["Title"] = "Đăng ký ca dạy";
     Layout = "~/Areas/Tutors/Views/Shared/_TutorsLayout.cshtml";
@@ -28,8 +28,8 @@
          role="dialog"
          aria-labelledby="exampleModalLabel"
          aria-hidden="true">
-         <form asp-action="AddLessonPlan" asp-controller="SignUpLessonPlan" method="post">
-             @Html.HiddenFor(m => m.Item1.IdnguoiDay)
+        <form asp-action="AddLessonPlan" asp-controller="SignUpLessonPlan" method="post">
+            @Html.HiddenFor(m => m.Item1.IdnguoiDay)
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -47,18 +47,18 @@
                         <form>
                             <div class="form-group">
                                 <label for="inputName">Tên môn gia sư</label>
-                                 @Html.DropDownListFor(m => m.Item1.IdmonDay, Model.Item1.subjectItems, new { @class = "form__select" })
+                                @Html.DropDownListFor(m => m.Item1.IdmonDay, Model.Item1.subjectItems, new { @class = "form__select" })
                                 <span asp-validation-for="Item1.IdmonDay" class="warning"></span>
                             </div>
                             <div>
                                 <label for="select-shifts">Loại ca dạy</label>
-                                 @Html.DropDownListFor(m => m.Item1.IdloaiCaDay, Model.Item1.teachTimeItems, new { @class = "form__select" })
+                                @Html.DropDownListFor(m => m.Item1.IdloaiCaDay, Model.Item1.teachTimeItems, new { @class = "form__select" })
                                 <span asp-validation-for="Item1.IdloaiCaDay" class="warning"></span>
                             </div>
 
                             <div class="form-group">
                                 <label for="inputName">Ngày dạy</label>
-                                <input type="date" id="inputName" name = "inputDate" class="form-control" />
+                                <input type="date" id="inputName" name="inputDate" class="form-control" />
                             </div>
                             <div class="form-group">
                                 <label for="">Chọn Khung Giờ</label>
@@ -66,7 +66,7 @@
                                     <div class="input-flex">
                                         <input type="time"
                                                id="inputHour"
-                                               name = "inputHour"
+                                               name="inputHour"
                                                class="form-control form-date" />
                                         <input onclick="AddTextBox()" type="button" value="+" class="btn-add" />
                                     </div>
@@ -77,7 +77,9 @@
                     <div class="modal-footer">
                         <button type="button"
                                 class="btn btn-secondary"
-                                data-dismiss="modal">Hủy</button>
+                                data-dismiss="modal">
+                            Hủy
+                        </button>
                         <button type="submit" class="btn btn-primary">Xác nhận</button>
                     </div>
                 </div>
@@ -97,13 +99,13 @@
                     <th>Ca dạy</th>
                     @if (TempData["Message"] != null)
                     {
-                        <div class="alert alert-success">@TempData["Message"]</div>
-                    }   
+                        <div class="alert alert-danger">@TempData["Message"]</div>
+                    }
                     <th class="th-action"></th>
                 </tr>
             </thead>
             <tbody>
-                 @foreach (var lesson in Model.Item2)
+                @foreach (var lesson in Model.Item2)
                 {
                     <tr>
                         <td>@lesson.tenMonDay</td>
@@ -111,22 +113,51 @@
                         <td>@lesson.GioBatDau:@lesson.PhutBatDau - @lesson.GioKetThuc:@lesson.PhutKetThuc</td>
                         <td>@lesson.tenLoaiCaDay phút</td>
                         <td class="project-actions text-right">
-                        <a class="btn btn-info btn-sm" href="@Url.Action("DeleteLessonPlan", "SignUpLessonPlan", new { lessonPlanId = @lesson.Id})">
-                        <i class="fas fa-pencil-alt"> </i>
-                            Xóa
-                        </a>
-                        <a class="btn btn-info btn-sm" href="@Url.Action("EditLessonPlan", "SignUpLessonPlan", new { lessonPlanId = @lesson.Id})">
-                            <i class="fas fa-pencil-alt"> </i>
-                            Sửa
-                        </a>
+
+                            <a class="btn btn-info btn-sm" href="@Url.Action("EditLessonPlan", "SignUpLessonPlan", new { lessonPlanId = @lesson.Id})">
+                                <i class="fas fa-pencil-alt"> </i>
+                                Sửa
+                            </a>
+                            <a class="btn btn-danger btn-sm" 
+                               data-toggle="modal"
+                               data-target="#deleteModal"
+                               onclick="document.getElementById('lessonPlanId').value = @lesson.Id">
+                                <i class="fas fa-pencil-alt"> </i>
+                                Xóa
+                            </a>
                     </tr>
-                 }
+                }
             </tbody>
         </table>
 
         <!-- /.card -->
     </section>
     <!-- /.content -->
+</div>
+<div class="modal fade"
+     id="deleteModal"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="deleteModalLabel"
+     aria-hidden="true">
+    <form asp-action="DeleteLessonPlan" method="post" asp-controller="SignUpLessonPlan">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h5>Bạn muốn xóa ca dạy này?</h5>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default" type="button" data-dismiss="modal">
+                        Hủy
+                    </button>
+                    <button class="btn btn-primary" type="submit">
+                        Đồng ý
+                    </button>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" id="lessonPlanId" name="lessonPlanId" />
+    </form>
 </div>
 <script type="text/javascript">
     function getDynamicTextBox(value) {
