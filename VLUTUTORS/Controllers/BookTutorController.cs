@@ -34,40 +34,43 @@ namespace VLUTUTORS.Controllers
                     {
                         foreach(var user in favoriteTutors)
                         {
-                            if(tutor.Id == user.GiasuId)
+                            if (tutor.Id != currentUserId)
                             {
-                                string avatar = tutor.AnhDaiDien;
-                                if (!string.IsNullOrEmpty(avatar))
-                                    avatar = avatar.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
-                                tutor.AnhDaiDien = avatar;
-
-                                var subject1 = subjects.FirstOrDefault(it => it.IdmonGiaSu == tutor.IdmonGiaSu1);
-                                var subject2 = subjects.FirstOrDefault(it => it.IdmonGiaSu == tutor.IdmonGiaSu2);
-                                var isInWishlish = wishlish.Where(it => it.GiasuId == tutor.Id);
-
-                                var commentModel = new List<CommentViewModel>();
-                                var danhGiaGiaSu = _db.Danhgiagiasus.Where(it => it.GiasuId == tutor.Id).ToList();
-                                foreach (var danhGia in danhGiaGiaSu)
+                                if (tutor.Id == user.GiasuId)
                                 {
-                                    var nguoiDanhGia = _db.Taikhoannguoidungs.Find(danhGia.NguoidungId);
-                                    if (nguoiDanhGia != null)
+                                    string avatar = tutor.AnhDaiDien;
+                                    if (!string.IsNullOrEmpty(avatar))
+                                        avatar = avatar.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
+                                    tutor.AnhDaiDien = avatar;
+
+                                    var subject1 = subjects.FirstOrDefault(it => it.IdmonGiaSu == tutor.IdmonGiaSu1);
+                                    var subject2 = subjects.FirstOrDefault(it => it.IdmonGiaSu == tutor.IdmonGiaSu2);
+                                    var isInWishlish = wishlish.Where(it => it.GiasuId == tutor.Id);
+
+                                    var commentModel = new List<CommentViewModel>();
+                                    var danhGiaGiaSu = _db.Danhgiagiasus.Where(it => it.GiasuId == tutor.Id).ToList();
+                                    foreach (var danhGia in danhGiaGiaSu)
                                     {
-                                        nguoiDanhGia.AnhDaiDien = nguoiDanhGia.AnhDaiDien.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
-                                        commentModel.Add(new CommentViewModel
+                                        var nguoiDanhGia = _db.Taikhoannguoidungs.Find(danhGia.NguoidungId);
+                                        if (nguoiDanhGia != null)
                                         {
-                                            Comment = danhGia,
-                                            NguoiDanhGia = nguoiDanhGia
-                                        });
+                                            nguoiDanhGia.AnhDaiDien = nguoiDanhGia.AnhDaiDien.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
+                                            commentModel.Add(new CommentViewModel
+                                            {
+                                                Comment = danhGia,
+                                                NguoiDanhGia = nguoiDanhGia
+                                            });
+                                        }
                                     }
+                                    models.Add(new BookTutorViewModel
+                                    {
+                                        Tutor = tutor,
+                                        Subject1 = subject1,
+                                        Subject2 = subject2,
+                                        IsInWishlish = (isInWishlish != null),
+                                        Commnents = commentModel
+                                    });
                                 }
-                                models.Add(new BookTutorViewModel
-                                {
-                                    Tutor = tutor,
-                                    Subject1 = subject1,
-                                    Subject2 = subject2,
-                                    IsInWishlish = (isInWishlish != null),
-                                    Commnents = commentModel
-                                });
                             }
                         }
                     }
@@ -79,43 +82,47 @@ namespace VLUTUTORS.Controllers
                     ViewData["NameFilter"] = nameFilter;
                     foreach (var tutor in tutors)
                     {
-                        foreach (var user in favoriteTutors)
+                        if (tutor.Id != currentUserId)
                         {
-                            if (tutor.Id == user.GiasuId)
+                            foreach (var user in favoriteTutors)
                             {
-                                string avatar = tutor.AnhDaiDien;
-                                if (!string.IsNullOrEmpty(avatar))
-                                    avatar = avatar.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
-                                tutor.AnhDaiDien = avatar;
-
-                                var subject1 = subjects.FirstOrDefault(it => it.IdmonGiaSu == tutor.IdmonGiaSu1);
-                                var subject2 = subjects.FirstOrDefault(it => it.IdmonGiaSu == tutor.IdmonGiaSu2);
-                                var isInWishlish = wishlish.Where(it => it.GiasuId == tutor.Id);
-
-                                var commentModel = new List<CommentViewModel>();
-                                var danhGiaGiaSu = _db.Danhgiagiasus.Where(it => it.GiasuId == tutor.Id).ToList();
-                                foreach (var danhGia in danhGiaGiaSu)
+                                if (tutor.Id == user.GiasuId)
                                 {
-                                    var nguoiDanhGia = _db.Taikhoannguoidungs.Find(danhGia.NguoidungId);
-                                    if (nguoiDanhGia != null)
+                                    string avatar = tutor.AnhDaiDien;
+                                    if (!string.IsNullOrEmpty(avatar))
+                                        avatar = avatar.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
+                                    tutor.AnhDaiDien = avatar;
+
+                                    var subject1 = subjects.FirstOrDefault(it => it.IdmonGiaSu == tutor.IdmonGiaSu1);
+                                    var subject2 = subjects.FirstOrDefault(it => it.IdmonGiaSu == tutor.IdmonGiaSu2);
+                                    var isInWishlish = wishlish.Where(it => it.GiasuId == tutor.Id);
+
+                                    var commentModel = new List<CommentViewModel>();
+                                    var danhGiaGiaSu = _db.Danhgiagiasus.Where(it => it.GiasuId == tutor.Id).ToList();
+                                    foreach (var danhGia in danhGiaGiaSu)
                                     {
-                                        nguoiDanhGia.AnhDaiDien = nguoiDanhGia.AnhDaiDien.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
-                                        commentModel.Add(new CommentViewModel
+                                        var nguoiDanhGia = _db.Taikhoannguoidungs.Find(danhGia.NguoidungId);
+                                        if (nguoiDanhGia != null)
                                         {
-                                            Comment = danhGia,
-                                            NguoiDanhGia = nguoiDanhGia
-                                        });
+                                            nguoiDanhGia.AnhDaiDien = nguoiDanhGia.AnhDaiDien.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
+                                            commentModel.Add(new CommentViewModel
+                                            {
+                                                Comment = danhGia,
+                                                NguoiDanhGia = nguoiDanhGia
+                                            });
+                                        }
                                     }
+                                    models.Add(new BookTutorViewModel
+                                    {
+                                        Tutor = tutor,
+                                        Subject1 = subject1,
+                                        Subject2 = subject2,
+                                        IsInWishlish = (isInWishlish != null),
+                                        Commnents = commentModel
+                                    });
                                 }
-                                models.Add(new BookTutorViewModel
-                                {
-                                    Tutor = tutor,
-                                    Subject1 = subject1,
-                                    Subject2 = subject2,
-                                    IsInWishlish = (isInWishlish != null),
-                                    Commnents = commentModel
-                                });
                             }
+
                         }
                     }
                 }
@@ -129,38 +136,41 @@ namespace VLUTUTORS.Controllers
 
                     foreach (var tutor in tutors)
                     {
-                        string avatar = tutor.AnhDaiDien;
-                        if (!string.IsNullOrEmpty(avatar))
-                            avatar = avatar.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
-                        tutor.AnhDaiDien = avatar;
-
-                        var subject1 = subjects.FirstOrDefault(it => it.IdmonGiaSu == tutor.IdmonGiaSu1);
-                        var subject2 = subjects.FirstOrDefault(it => it.IdmonGiaSu == tutor.IdmonGiaSu2);
-                        var isInWishlish = wishlish.Where(it => it.GiasuId == tutor.Id);
-
-                        var commentModel = new List<CommentViewModel>();
-                        var danhGiaGiaSu = _db.Danhgiagiasus.Where(it => it.GiasuId == tutor.Id).ToList();
-                        foreach (var danhGia in danhGiaGiaSu)
+                        if (tutor.Id != currentUserId)
                         {
-                            var nguoiDanhGia = _db.Taikhoannguoidungs.Find(danhGia.NguoidungId);
-                            if (nguoiDanhGia != null)
+                            string avatar = tutor.AnhDaiDien;
+                            if (!string.IsNullOrEmpty(avatar))
+                                avatar = avatar.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
+                            tutor.AnhDaiDien = avatar;
+
+                            var subject1 = subjects.FirstOrDefault(it => it.IdmonGiaSu == tutor.IdmonGiaSu1);
+                            var subject2 = subjects.FirstOrDefault(it => it.IdmonGiaSu == tutor.IdmonGiaSu2);
+                            var isInWishlish = wishlish.Where(it => it.GiasuId == tutor.Id);
+
+                            var commentModel = new List<CommentViewModel>();
+                            var danhGiaGiaSu = _db.Danhgiagiasus.Where(it => it.GiasuId == tutor.Id).ToList();
+                            foreach (var danhGia in danhGiaGiaSu)
                             {
-                                nguoiDanhGia.AnhDaiDien = nguoiDanhGia.AnhDaiDien.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
-                                commentModel.Add(new CommentViewModel
+                                var nguoiDanhGia = _db.Taikhoannguoidungs.Find(danhGia.NguoidungId);
+                                if (nguoiDanhGia != null)
                                 {
-                                    Comment = danhGia,
-                                    NguoiDanhGia = nguoiDanhGia
-                                });
+                                    nguoiDanhGia.AnhDaiDien = nguoiDanhGia.AnhDaiDien.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
+                                    commentModel.Add(new CommentViewModel
+                                    {
+                                        Comment = danhGia,
+                                        NguoiDanhGia = nguoiDanhGia
+                                    });
+                                }
                             }
+                            models.Add(new BookTutorViewModel
+                            {
+                                Tutor = tutor,
+                                Subject1 = subject1,
+                                Subject2 = subject2,
+                                IsInWishlish = (isInWishlish != null),
+                                Commnents = commentModel
+                            });
                         }
-                        models.Add(new BookTutorViewModel
-                        {
-                            Tutor = tutor,
-                            Subject1 = subject1,
-                            Subject2 = subject2,
-                            IsInWishlish = (isInWishlish != null),
-                            Commnents = commentModel
-                        });
                     }
                 }               
             }
