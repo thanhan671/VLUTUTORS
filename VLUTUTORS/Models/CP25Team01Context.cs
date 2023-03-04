@@ -20,6 +20,8 @@ namespace VLUTUTORS.Models
         public virtual DbSet<Baikiemtra> Baikiemtras { get; set; }
         public virtual DbSet<Caday> Cadays { get; set; }
         public virtual DbSet<Cahoc> Cahocs { get; set; }
+        public virtual DbSet<Danhgiagiasu> Danhgiagiasus { get; set; }
+        public virtual DbSet<Giasuyeuthich> Giasuyeuthiches { get; set; }
         public virtual DbSet<Gioitinh> Gioitinhs { get; set; }
         public virtual DbSet<Khoa> Khoas { get; set; }
         public virtual DbSet<Khoadaotao> Khoadaotaos { get; set; }
@@ -31,11 +33,10 @@ namespace VLUTUTORS.Models
         public virtual DbSet<Quyen> Quyens { get; set; }
         public virtual DbSet<Taikhoanadmin> Taikhoanadmins { get; set; }
         public virtual DbSet<Taikhoannguoidung> Taikhoannguoidungs { get; set; }
+        public virtual DbSet<Tieuchidanhgia> Tieuchidanhgia { get; set; }
         public virtual DbSet<Trangthai> Trangthais { get; set; }
         public virtual DbSet<Tuvan> Tuvans { get; set; }
         public virtual DbSet<Xetduyet> Xetduyets { get; set; }
-        public virtual DbSet<Giasuyeuthich> Giasuyeuthichs { get; set; }
-        public virtual DbSet<Danhgiagiasu> Danhgiagiasus { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -384,6 +385,15 @@ namespace VLUTUTORS.Models
                     .HasConstraintName("FK_TAIKHOANNGUOIDUNG_XETDUYET");
             });
 
+            modelBuilder.Entity<Tieuchidanhgia>(entity =>
+            {
+                entity.HasKey(e => e.IdTieuChi);
+
+                entity.ToTable("TIEUCHIDANHGIA");
+
+                entity.Property(e => e.TieuChi).HasMaxLength(200);
+            });
+
             modelBuilder.Entity<Trangthai>(entity =>
             {
                 entity.HasKey(e => e.IdtrangThai)
@@ -446,20 +456,6 @@ namespace VLUTUTORS.Models
                     .HasColumnName("IDXetDuyet");
 
                 entity.Property(e => e.TenTrangThai).HasMaxLength(50);
-            });
-            
-            modelBuilder.Entity<Giasuyeuthich>(entity =>
-            {
-                entity.HasKey(e => e.GiasuId);
-
-                entity.ToTable("GIASUYEUTHICH");
-            });
-            
-            modelBuilder.Entity<Danhgiagiasu>(entity =>
-            {
-                entity.HasKey(e => e.Id);
-
-                entity.ToTable("DANHGIAGIASU");
             });
 
             OnModelCreatingPartial(modelBuilder);
