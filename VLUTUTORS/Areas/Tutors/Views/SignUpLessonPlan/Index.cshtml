@@ -89,6 +89,22 @@
 
     <!-- Main content -->
     <section class="content">
+        <div class="row " id="dropdown-filter">
+            <div class="col d-flex">
+                <label class="form-label" for="min">Ngày bắt đầu:</label>
+                <input type="text"
+                       class="form-control-sm"
+                       id="min"
+                       name="min"
+                       style="width: 150px" />
+                <label class="form-label ml-3" for="max">Ngày kết thúc:</label>
+                <input type="text"
+                       id="max"
+                       name="max"
+                       class="form-control-sm"
+                       style="width: 150px" />
+            </div>
+        </div>
         <!-- Default box -->
         <table id="myTable">
             <thead>
@@ -173,3 +189,51 @@
         document.getElementById("divCont").removeChild(div.parentNode.parentNode);
     }
 </script>
+
+@section scripts {
+    <script>
+        var minDate, maxDate;
+
+        // Custom filtering function which will search data in column four between two values
+        $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
+            console.log(minDate, maxDate);
+            var min = minDate.val();
+            var max = maxDate.val();
+            var date = new Date(data[1]);
+
+            if (
+                (min === null && max === null) ||
+                (min === null && date <= max) ||
+                (min <= date && max === null) ||
+                (min <= date && date <= max)
+            ) {
+                return true;
+            }
+            return false;
+        });
+
+        $(document).ready(function () {
+            // Create date inputs
+            minDate = new DateTime($('#min'), {
+                format: 'MMMM Do YYYY',
+            });
+            maxDate = new DateTime($('#max'), {
+                format: 'MMMM Do YYYY',
+            });
+
+            // DataTables initialisation
+            var table = $('#myTable').DataTable();
+
+            // Refilter the table
+            $('#min, #max').on('change', function () {
+                table.draw();
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            $('#myTable_filter').prepend($('#dropdown-filter')).clone();
+            $('#filter-fade').remove();
+        })
+    </script>
+}
