@@ -1,0 +1,86 @@
+﻿
+@{
+    ViewData["Title"] = "HistoryBooking";
+    Layout = "~/Views/Shared/_otherPageLayout.cshtml";
+}
+
+<div class="container-table">
+    <div class="content-top">
+        <h3 class="title">Lịch Sử Đặt Lịch</h3>
+        <div class="filter">
+            <select class="form-control mb-2" name="" id="">
+                <option value="">Trạng thái</option>
+                <option>Đã học</option>
+                <option>Đã hủy</option>
+                <option>Sắp diễn ra</option>
+            </select>
+            <input type="date">
+            <span>Tới</span>
+            <input type="date">
+        </div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Môn Học</th>
+                <th>Tên Gia Sư</th>
+                <th>Ngày Học</th>
+                <th>Giá Tiền</th>
+                <th>Khung Giờ</th>
+                <th>Trạng Thái</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Anh Văn Cơ Bản</td>
+                <td><a href="">Văn Đạt</a></td>
+                <td>09/11/2022</td>
+                <td>70k VNĐ</td>
+                <td>7h - 8h</td>
+                <td class="done">Đã Học</td>
+            </tr>
+            <tr>
+                <td>Anh Văn Cơ Bản</td>
+                <td><a href="">Văn Đạt</a></td>
+                <td>09/11/2022</td>
+                <td>70k VNĐ</td>
+                <td>7h - 8h</td>
+                <td class="cancel">Đã Huỷ</td>
+            </tr>
+            <tr>
+                <td>Anh Văn Cơ Bản</td>
+                <td><a href="">Văn Đạt</a></td>
+                <td>09/11/2022</td>
+                <td>70k VNĐ</td>
+                <td>7h - 8h</td>
+                <td class="cms">Sắp Diễn Ra</td>
+            </tr>
+            <tr>
+                <td>Anh Văn Cơ Bản</td>
+                <td><a href="">Văn Đạt</a></td>
+                <td>09/11/2022</td>
+                <td>70k VNĐ</td>
+                <td>7h - 8h</td>
+                <td class="done">Đã Học</td>
+
+            </tr>
+            <tr>
+                <td>Anh Văn Cơ Bản</td>
+                <td><a href="">Văn Đạt</a></td>
+                <td>09/11/2022</td>
+                <td>70k VNĐ</td>
+                <td>7h - 8h</td>
+                <td class="cancel">Đã Huỷ</td>
+            </tr>
+        </tbody>
+    </table>
+    <ul id="pagination">
+        <li><a class="" href="#">«</a></li>
+        <li><a class="active" href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+        <li><a href="#">»</a></li>
+    </ul>
+</div>
+

@@ -5,9 +5,10 @@ using System.Collections.Generic;
 
 namespace VLUTUTORS.Models
 {
-    public partial class Giasuyeuthich
+    public class Giasuyeuthich
     {
         public int GiasuId { get; set; }
+
         public int NguoidungId { get; set; }
     }
 }

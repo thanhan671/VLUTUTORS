@@ -2972,6 +2972,37 @@ fieldset:disabled a.btn {
     border-color: #6c757d;
     box-shadow: none;
 }
+.btn-card-input {
+    color: #fff;
+    background-color: #2f9821;
+    box-shadow: none;
+    border-radius: 0.5rem;
+    width: 120px;
+    height: 120px;
+    text-align: center;
+    align-content: center;
+}
+    .btn-card-input:hover {
+        color: #fff;
+        background-color: #48a551;
+        border-color: #545b62;
+    }
+.btn-card-output {
+    color: #fff;
+    background-color: #cb3030;
+    box-shadow: none;
+    border-radius: 0.5rem;
+    width: 120px;
+    height: 120px;
+    text-align: center;
+    align-content: center;
+}
+
+    .btn-card-output:hover {
+        color: #fff;
+        background-color: #b33f3f;
+        border-color: #545b62;
+    }
 
     .btn-secondary:hover {
         color: #fff;
@@ -60136,18 +60167,33 @@ a.text-muted:hover {
         width: 100%;
         border-radius: 0.5rem;
     }
-
-.center-card {
+.card_container {
+    display: grid;
+    padding: 10px;
+    justify-content: space-around;
+}
+.card-checkout {
+    width: 400px;
+    height: 200px;
+    border-radius: 1rem;
+    display: grid;
+    padding: 0 2rem;
+    align-items: center;
+    color: #ffffff;
+    background: linear-gradient(to bottom, #d5252ed9 0%, #07294dd1 90%);
+    box-shadow: -0.6rem 0.6rem 1.8rem #4f46f83d;
+    border: 1px solid #ffffff;
+    z-index: 200;
     position: relative;
-    left: 50%;
-    transform: translateX(-50%);
+    align-content: center;
+    justify-items: center;
 }
-
-.navbar-item {
-    display: flex;
-    gap: 10px;
+.card_name {
+    color: #fff;
 }
+.card_number{
+    font-size: 25px;
+}
+.wallet-function{
 
-.nav-link-item {
-    color: #a1a1a1;
 }

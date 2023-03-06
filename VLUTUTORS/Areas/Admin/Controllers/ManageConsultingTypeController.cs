@@ -31,16 +31,25 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                try
+                var tuVan = _context.Loaituvans.AsNoTracking().SingleOrDefault(x => x.TenLoaiTuVan.ToLower() == loaiTuVan.TenLoaiTuVan.ToLower());
+                if (tuVan != null)
                 {
-                    _context.Update(loaiTuVan);
-                    await _context.SaveChangesAsync();
+                    TempData["message"] = "Loại tư vấn đã tồn tại, vui lòng kiểm tra lại";
+                    return RedirectToAction("Index");
                 }
-                catch (Exception ex)
+                else
                 {
-                    return RedirectToAction(nameof(Index));
+                    try
+                    {
+                        _context.Update(loaiTuVan);
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (Exception ex)
+                    {
+                        return RedirectToAction(nameof(Index));
+                    }
+                    return RedirectToAction("Index");
                 }
-                return RedirectToAction("Index");
             }
             return View(loaiTuVan);
         }
@@ -74,6 +83,15 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
             return View(loaituvan);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteConsulting([FromForm] int consultingID)
+        {
+            Loaituvan loaiTuVan = _context.Loaituvans.Where(p => p.IdLoaiTuVan == consultingID).FirstOrDefault();
+            _context.Loaituvans.Remove(loaiTuVan);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }

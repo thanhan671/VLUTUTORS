@@ -36,7 +36,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 if (checkCa != null)
                 {
                     TempData["message"] = "Ca học này đã tồn tại!";
-                    return RedirectToAction("AddSubject");
+                    return RedirectToAction("AddTimeClass");
                 }
                 else
                 {
@@ -92,6 +92,15 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 }
                 return RedirectToAction("Index");
             }
+            return RedirectToAction("Index");
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteTimeClass([FromForm] int timeClassID)
+        {
+            Cahoc caHoc = _context.Cahocs.Where(p => p.IdCaHoc == timeClassID).FirstOrDefault();
+            _context.Cahocs.Remove(caHoc);
+            _context.SaveChanges();
             return RedirectToAction("Index");
         }
     }

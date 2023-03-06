@@ -1,95 +1,151 @@
-﻿
+﻿@using VLUTUTORS.Models
+@model IEnumerable<VLUTUTORS.Models.BookTutorViewModel>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor httpContextAccessor
 @{
     ViewData["Title"] = "Tìm gia sư";
     Layout = "~/Views/Shared/_otherPageLayout.cshtml";
 }
 
-<div class="search-container">
-    <div class="left-search">
+<form asp-controller="BookTutor">
+    <div class="search-container">
+        <section class="grid-demo">
 
-        <h3 class="search-title">Tìm Kiếm</h3>
-        <div class="search-select">
-            <select>
-                <option value="1">Chọn Môn Học</option>
-                <option value="2">JS</option>
-                <option value="3">HTML/CSS!</option>
-                <option value="3">Anh Văn</option>
-            </select>
-        </div>
-        <div class="search-select">
-            <select>
-                <option value="1">Lọc theo</option>
-                <option value="2">Đánh gá</option>
-                <option value="3">Gia sư yêu thích</option>
-            </select>
-        </div>
-        <button class="main-btn mb-20 ml-10 mt-20">Tìm kiếm</button>
-    </div>
-    <div class="right-search">
-        <div class="card-tutor-container">
-            <div class="search-card ml-10 mt-30 mb-20">
-                <div class="tutor-avt pt-50">
-                    <img src="images/teacher1.png" alt="">
-                </div>
-                <div class="tutor-desc">
-                    <h3 class="tutor-name">Mộng Trinh</h3>
-                    <div class="tutor-rating">
-                        <span><i class="fa-solid fa-star"></i></span>
-                        <span><i class="fa-solid fa-star"></i></span>
-                        <span><i class="fa-solid fa-star"></i></span>
-                        <span><i class="fa-solid fa-star"></i></span>
-                        <span><i class="fa-solid fa-star"></i></span>
-                        <span class="ml-2 mt-1">5</span>
+            <h2 class="section-title"><span>Tìm gia sư</span></h2>
+
+            <div class="controls cf">
+                <div class="control search">
+                    <div class="control-icon">
+                        <i class="material-icons">&#xE8B6;</i>
                     </div>
-                    <p class="card-price"><b>Anh văn cơ bản</b></p>
-                    <h4 class="head-desc">Một gia sư Tiếng Anh thân thiện đang tìm cách giúp bạn!</h4>
-                    <p class="desc">
-                        Phong cách giảng dạy của tôi rất thân thiện và dễ gần. Tôi rất vui vẻ, kiên nhẫn và thích làm
-                        cho các bài học của tôi trở nên vui vẻ và hấp dẫn! Trong những năm qua, tôi đã dạy kèm rất nhiều sinh viên để
-                        đạt được kết quả mong muốn trong kỳ thi hoặc chỉ để cảm thấy tự tin hơn trong các môn học mà họ đang gặp khó
-                        khăn. Tôi thường xuyên sử dụng phương pháp dạy mới mẻ trong các bài dạy của mình, ...
-                    </p>
+                    <input class="control-field search-field form-search " type="text" name="keyword" placeholder="Tìm kiếm..." value='@ViewData["Keyword"]' />
                 </div>
-                <div class="tutor-view">
-                    <button class="fav-tutor">
+                <div class="control filter">
+                    <div class="control-icon">
+                        <i class="material-icons">&#xE152;</i>
+                    </div>
+                    <div class="select-arrow">
+                        <i class="material-icons">&#xE313;</i>
+                    </div>
+                    <select class="control-field filter-field form-search" name="subjectId">
+                        <option value="">Môn học</option>
+                        @{
+                            List<Mongiasu> subjects = new List<Mongiasu>(ViewBag.Subjects);
+                            foreach (var subject in subjects)
+                            {
+                                if (ViewData["SubjectId"] != null && subject.IdmonGiaSu == (int)ViewData["SubjectId"])
+                                {
+                                    <option value="@subject.IdmonGiaSu" selected="selected">@subject.TenMonGiaSu</option>
 
-                        <i onclick="toggle()" class="fa-solid fa-heart icon-heart" id="heart"></i>
-                    </button>
-                    <a href="~/BookTutor/DetailTutor" class="card-btn">Xem Chi Tiết</a>
+                                }
+                                else
+                                {
+                                    <option value="@subject.IdmonGiaSu">@subject.TenMonGiaSu</option>
+                                }
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="control filter">
+                    <div class="control-icon">
+                        <i class="material-icons">&#xE164;</i>
+                    </div>
+                    <div class="select-arrow">
+                        <i class="material-icons">&#xE313;</i>
+                    </div>
+                    <select class="control-field sort-field form-search" name="nameFilter">
+                        @{
+                            if (ViewData["NameFilter"] != null && ViewData["NameFilter"].Equals("favourite"))
+                            {
+                                <option value="">Lọc Theo</option>
+                                <option value="favourite" selected="selected">Gia sư yêu thích</option>
+                            }
+                            else
+                            {
+                                <option value="" selected="selected">Lọc Theo</option>
+                                <option value="favourite">Gia sư yêu thích</option>
+                            }
+                        }
+                    </select>
                 </div>
             </div>
-            <div class="search-card ml-10 mt-30 mb-20">
-                <div class="tutor-avt pt-50">
-                    <img src="images/teachers/t-2.jpg" alt="">
-                </div>
-                <div class="tutor-desc">
-                    <h3 class="tutor-name">Thanh Long</h3>
-                    <div class="tutor-rating">
-                        <span><i class="fa-solid fa-star"></i></span>
-                        <span><i class="fa-solid fa-star"></i></span>
-                        <span><i class="fa-solid fa-star"></i></span>
-                        <span><i class="fa-solid fa-star"></i></span>
-                        <span><i class="fa-solid fa-star"></i></span>
-                        <span class="ml-2 mt-1">5</span>
-                    </div>
-                    <p class="card-price"><b>Tin học cơ bản</b></p>
-                    <h4>Một gia sư Tin học vui tính đang muốn được hỗ trợ ban!</h4>
-                    <p class="desc">
-                        Phong cách giảng dạy của tôi rất thân thiện và hiện tại. Những bài học của tôi luôn chứa đựng
-                        những điều thú vị và bất ngờ. Trong những năm qua, tôi đã dạy kèm rất nhiều sinh viên để đạt được kết quả
-                        mong muốn trong kỳ thi hoặc chỉ để cảm thấy tự tin hơn trong các môn học mà họ đang gặp khó khăn.
-                        Tôi thường xuyên sử dụng các công cụ và công cụ mới nhất trong các bài dạy của mình, ...
-                    </p>
-                </div>
-                <div class="tutor-view">
-                    <button class="fav-tutor">
+            <button class="main-btn" style="float: right;margin: 5px;" type="submit" asp-action="Index">Tìm kiếm</button>
+        </section>
+        <div class="right-search">
+            <div class="card-tutor-container">
+                <hr>
+                @foreach (var tutor in Model)
+                {
+                    <div class="search-card ml-10 mt-30 mb-20">
+                        <div class="tutor-avt pt-50">
+                            <img src="~/@tutor.Tutor.AnhDaiDien"
+                                 width="150" />
+                        </div>
+                        <div class="tutor-desc">
+                            <h3 class="tutor-name">@tutor.Tutor.HoTen <span class="active-status"></span></h3>
+                            <div class="tutor-rating">
+                                @{
+                                    var totalRate = tutor.Commnents.Sum(it => it.Comment.Diem);
+                                    int totalStar = (tutor.Commnents.Count > 0 ? totalRate / tutor.Commnents.Count : 0);
+                                    for (int i = 0; i < totalStar; ++i)
+                                    {
+                                        <span><i class="fa-solid fa-star"></i></span>
+                                    }
+                                    if (totalStar > 0)
+                                    {
+                                        <span class="ml-2 mt-1">@totalStar</span>
+                                    }
+                                }
+                            </div>
+                            @if (@tutor.Subject1 != null)
+                            {
+                                <p class="card-price"><b>@tutor.Subject1.TenMonGiaSu</b></p>
+                                <h4 class="head-desc">@tutor.Tutor.GioiThieuVeMonGiaSu1</h4>
+                            }
 
-                        <i onclick="toggle2()" class="fa-solid fa-heart icon-heart" id="heart2"></i>
-                    </button>
-                    <a href="~/BookTutor/DetailTutor" class="card-btn">Xem Chi Tiết</a>
-                </div>
+                            @if (@tutor.Subject2 != null)
+                            {
+                                <p class="card-price"><b>@tutor.Subject2.TenMonGiaSu</b></p>
+                                <h4 class="head-desc">@tutor.Tutor.GioiThieuVeMonGiaSu2</h4>
+                            }
+                        </div>
+                        <div class="tutor-view">
+                            @{
+                                bool temp = true;
+                                var tutors = new CP25Team01Context().Giasuyeuthichs.Where(it => (it.GiasuId == @tutor.Tutor.Id)).ToList();
+                                foreach (var item in tutors)
+                                {
+                                    if (item.NguoidungId != @httpContextAccessor.HttpContext.Session.GetInt32("LoginId"))
+                                    {
+                                        temp = true;
+                                    }
+                                    else
+                                    {
+                                        temp = false;
+                                    }
+                                }
+                                if (temp == true)
+                                {
+                                    <button class="fav-tutor" type="submit" asp-action="AddToWishlish" asp-route-id="@tutor.Tutor.Id">
+                                        <i class="fa-solid fa-heart icon-heart" id="heart"></i>
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button style="color:red" class="fav-tutor" type="submit" asp-action="RemoveFromWishlish" asp-route-id="@tutor.Tutor.Id">
+                                        <i class="fa-solid fa-heart icon-heart" id="heart1"></i>
+                                    </button>
+                                }
+                            }
+                            <a asp-action="DetailTutor" asp-route-id="@tutor.Tutor.Id" class="card-btn">Xem Chi Tiết</a>
+                        </div>
+                    </div>
+
+                }
             </div>
         </div>
     </div>
-</div>
+
+</form>
 

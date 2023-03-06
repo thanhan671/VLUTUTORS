@@ -96,5 +96,14 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             }
             return RedirectToAction("Index");
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteSubject([FromForm] int subjectID)
+        {
+            Mongiasu monGiaSu = _context.Mongiasus.Where(p => p.IdmonGiaSu == subjectID).FirstOrDefault();
+            _context.Mongiasus.Remove(monGiaSu);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
     }
 }

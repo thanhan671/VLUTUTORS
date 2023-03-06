@@ -1,4 +1,5 @@
-﻿
+﻿@model VLUTUTORS.Models.BookTutorViewModel
+
 @{
     ViewData["Title"] = "Chi tiết gia sư";
     Layout = "~/Views/Shared/_otherPageLayout.cshtml";
@@ -6,28 +7,58 @@
 
 <section id="teachers-singel" class="pt-30 pb-120 gray-bg">
     <div class="container">
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="javascript:history.go(-1)">Tìm gia sư</a></li>
+                        <li class="breadcrumb-item active">Chi tiết gia sư @Model.Tutor.HoTen</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
         <div class="row justify-content-center">
             <div class="col-lg-4 col-md-8">
-                <div class="teachers-left mt-50">
+                <div class="teachers-left">
                     <div class="hero">
-                        <img src="~/images/teacher1.png" alt="Teachers" />
+                        <img src="~/@Model.Tutor.AnhDaiDien" alt="Teachers" />
                     </div>
+                    @{
+                        var totalRate = Model.Commnents.Sum(it => it.Comment.Diem);
+                        int totalStar = (Model.Commnents.Count > 0 ? totalRate / Model.Commnents.Count : 0);
+                        for (int i = 0; i < totalStar; ++i)
+                        {
+                            <span><i class="fa-solid fa-star"></i></span>
+                        }
+                        if (totalStar > 0)
+                        {
+                            <span class="ml-2 mt-1">@totalStar</span>
+                        }
+                    }
+
                     <div class="name">
-                        <h6>Mộng Trinh</h6>
-                        <span>Anh văn cơ bản</span>
+                        <h6>@Model.Tutor.HoTen</h6>
+
+                        @if (Model.Subject1 != null)
+                        {
+                            <div style="color:crimson">@Model.Subject1.TenMonGiaSu</div>
+                        }
+
+                        @if (Model.Subject2 != null)
+                        {
+                            <div style="color:crimson">@Model.Subject2.TenMonGiaSu</div>
+                        }
                     </div>
                     <div class="description">
                         <p>
-                            Tôi được đánh giá là một người vui tính và hiện đại. Tôi luôn
-                            tận tâm với công việc gia sư của mình, luôn mang đến cho người
-                            học những buổi học đầy vui vẻ và sáng tạo.
+                            @Model.Tutor.GioiThieu
                         </p>
                     </div>
                 </div>
                 <!-- teachers left -->
             </div>
             <div class="col-lg-8">
-                <div class="teachers-right mt-50">
+                <div class="teachers-right">
                     <ul class="nav nav-justified" id="myTab" role="tablist">
                         <li class="nav-item">
                             <a class="active"
@@ -62,39 +93,65 @@
                              role="tabpanel"
                              aria-labelledby="dashboard-tab">
                             <div class="dashboard-cont">
-                                <div class="singel-dashboard pt-40">
-                                    <h5>Về tôi</h5>
+                                <div class="singel-dashboard pt-30">
+                                    <h3>Đánh giá bản thân về việc gia sư</h3>
                                     <p>
-                                        Phong cách giảng dạy của tôi rất thân thiện và dễ gần.
-                                        Tôi rất vui vẻ, kiên nhẫn và thích làm cho các bài học
-                                        của tôi trở nên vui vẻ và hấp dẫn! Trong những năm qua,
-                                        tôi đã dạy kèm rất nhiều sinh viên để đạt được kết quả
-                                        mong muốn trong kỳ thi hoặc chỉ để cảm thấy tự tin hơn
-                                        trong các môn học mà họ đang gặp khó khăn. Tôi thường
-                                        xuyên sử dụng phương pháp dạy mới mẻ trong các bài dạy
-                                        của mình, ...
+                                        @Model.Tutor.DanhGiaVeViecGiaSu
                                     </p>
                                 </div>
                                 <!-- singel dashboard -->
-                                <div class="singel-dashboard pt-40">
-                                    <h5>Chứng chỉ</h5>
-                                    <p>
-                                        Tôi đạt được hai chứng chỉ là IELTS 6.5 và TOEIC 700
-                                    </p>
+                                <div class="singel-dashboard pt-30">
+                                    <h3>Chứng chỉ</h3>
+
+                                    @if (Model.Subject1 != null)
+                                    {
+                                        <div>
+                                            <div style="font-size:18px; color:blue"><b>Chứng chỉ môn: @Model.Subject1.TenMonGiaSu</b></div>
+                                            <p>
+                                                @Model.Tutor.TenChungChiHoacDiemMon1
+                                            </p>
+                                        </div>
+                                    }
+
+                                    @if (Model.Subject2 != null)
+                                    {
+                                        <div>
+                                            <div>
+                                                <div style="font-size:18px; color:blue"><b>Chứng chỉ môn: @Model.Subject2.TenMonGiaSu</b></div>
+                                                <p>
+                                                    @Model.Tutor.TenChungChiHoacDiemMon2
+                                                </p>
+                                            </div>
+                                        </div>
+                                    }
+                                    <!-- singel dashboard -->
+                                    <div class="singel-dashboard pt-30">
+                                        <h3>Môn tôi gia sư</h3>
+
+                                        @if (Model.Subject1 != null)
+                                        {
+                                            <div>
+                                                <div style="font-size:18px; color:blue"><b>Giới thiệu về môn: @Model.Subject1.TenMonGiaSu</b></div>
+                                                <p>
+                                                    @Model.Tutor.GioiThieuVeMonGiaSu1
+                                                </p>
+                                            </div>
+                                        }
+
+                                        @if (Model.Subject2 != null)
+                                        {
+                                            <div>
+                                                <div style="font-size:18px; color:blue"><b>Giới thiệu về môn: @Model.Subject2.TenMonGiaSu</b></div>
+                                                <p>
+                                                    @Model.Tutor.GioiThieuVeMonGiaSu2
+                                                </p>
+                                            </div>
+                                        }
+                                    </div>
+                                    <!-- singel dashboard -->
                                 </div>
-                                <!-- singel dashboard -->
-                                <div class="singel-dashboard pt-40">
-                                    <h5>Môn tôi gia sư</h5>
-                                    <p>
-                                        Tiếng Anh là một ngôn ngữ mà tôi rất yêu thích, từ việc
-                                        yêu thích nó mà tôi muốn truyền đạt tới các bạn sinh
-                                        viên niềm yêu thích đó. Đồng thời giúp các bạn cũng cố
-                                        thêm kiến thức và không còn xem Anh Văn là một nỗi sợ.
-                                    </p>
-                                </div>
-                                <!-- singel dashboard -->
+                                <!-- dashboard cont -->
                             </div>
-                            <!-- dashboard cont -->
                         </div>
                         <div class="tab-pane fade"
                              id="courses"
@@ -104,7 +161,7 @@
                                 Đăng ký lịch theo tuần
                             </h4>
                             <p class="text-center p-2">
-                                <i>Từ <b>16/01/2023</b> đến <b>22/01/2023</b></i>
+                                <i>Từ <b>24/02/2023</b> đến <b>02/03/2023</b></i>
                             </p>
                             <!--schedule -->
                             <table class="table table-schedule">
@@ -119,7 +176,7 @@
                                 <tbody class="table-body">
                                     <tr>
                                         <td scope="row">2</td>
-                                        <td>16/01/2023</td>
+                                        <td>27/02/2023</td>
                                         <td>
                                             <select name="table-select" id="">
                                                 <option value="">8h-9h</option>
@@ -133,7 +190,7 @@
                                     </tr>
                                     <tr>
                                         <td scope="row">3</td>
-                                        <td>17/01/2023</td>
+                                        <td>28/02/2023</td>
                                         <td>
                                             <select name="" id="">
                                                 <option value="">8h-9h</option>
@@ -147,7 +204,7 @@
                                     </tr>
                                     <tr>
                                         <td scope="row">4</td>
-                                        <td>18/01/2023</td>
+                                        <td>01/03/2023</td>
                                         <td>
                                             <select name="" id="">
                                                 <option value="">8h-9h</option>
@@ -161,7 +218,7 @@
                                     </tr>
                                     <tr>
                                         <td scope="row">5</td>
-                                        <td>19/01/2023</td>
+                                        <td>02/03/2023</td>
                                         <td>
                                             <select name="" id="">
                                                 <option value="">8h-9h</option>
@@ -175,7 +232,7 @@
                                     </tr>
                                     <tr>
                                         <td scope="row">6</td>
-                                        <td>20/01/2023</td>
+                                        <td>24/02/2023</td>
                                         <td>
                                             <select name="" id="">
                                                 <option value="">8h-9h</option>
@@ -189,7 +246,7 @@
                                     </tr>
                                     <tr>
                                         <td scope="row">7</td>
-                                        <td>21/01/2023</td>
+                                        <td>25/2/2023</td>
                                         <td>
                                             <select name="" id="">
                                                 <option value="">8h-9h</option>
@@ -203,7 +260,7 @@
                                     </tr>
                                     <tr>
                                         <td scope="row">CN</td>
-                                        <td>22/01/2023</td>
+                                        <td>26/02/2023</td>
                                         <td>
                                             <select name="" id="">
                                                 <option value="">8h-9h</option>
@@ -223,140 +280,66 @@
                              role="tabpanel"
                              aria-labelledby="reviews-tab">
                             <div class="reviews-cont">
-                                <div class="title">
-                                    <h6>Đánh giá của học viên</h6>
-                                </div>
-                                <ul>
-                                    <li>
-                                        <div class="singel-reviews">
-                                            <div class="reviews-author">
-                                                <div class="author-thum">
-                                                    <img src="~/images/review/r-1.jpg" alt="Reviews" />
-                                                </div>
-                                                <div class="author-name">
-                                                    <h6>Yến Ngân</h6>
-                                                    <span>09/08/2022</span>
-                                                </div>
-                                            </div>
-                                            <div class="reviews-description pt-20">
-                                                <p>
-                                                    Gia sư rất thân thiện và vui vẻ, học rất thích
-                                                </p>
-                                                <div class="rating">
-                                                    <ul>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- singel reviews -->
-                                    </li>
-                                    <li>
-                                        <div class="singel-reviews">
-                                            <div class="reviews-author">
-                                                <div class="author-thum">
-                                                    <img src="~/images/review/r-2.jpg" alt="Reviews" />
-                                                </div>
-                                                <div class="author-name">
-                                                    <h6>Quốc Duy</h6>
-                                                    <span>30/10/2022</span>
-                                                </div>
-                                            </div>
-                                            <div class="reviews-description pt-20">
-                                                <p>
-                                                    Bài giảng rất sinh động và dễ hiểu, cách dạy hiện
-                                                    đại, linh hoạt giúp mình tiếp thu khá tốt
-                                                </p>
-                                                <div class="rating">
-                                                    <ul>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- singel reviews -->
-                                    </li>
-                                </ul>
-                                <div class="title pt-15">
-                                    <h6>Hãy để lại đánh giá của bạn</h6>
-                                </div>
-                                <div class="reviews-form">
-                                    <form action="#">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-singel">
-                                                    <input type="text" placeholder="Họ" />
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-singel">
-                                                    <input type="text" placeholder="Tên" />
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-12">
-                                                <div class="form-singel">
-                                                    <div class="rate-wrapper">
-                                                        <div class="rate-label">Đánh giá của bạn:</div>
-                                                        <div class="rate">
-                                                            <div class="rate-item">
-                                                                <i class="fa fa-star"
-                                                                   aria-hidden="true"></i>
+                                @if (Model.Commnents.Count > 0)
+                                {
+                                    <div class="title">
+                                        <h6>Đánh giá của học viên</h6>
+                                    </div>
+                                    <ul>
+                                        @{
+                                            foreach (var comment in Model.Commnents)
+                                            {
+                                                <li>
+                                                    <div class="singel-reviews">
+                                                        <div class="reviews-author">
+                                                            <div class="author-thum">
+                                                                <img src="~/@comment.NguoiDanhGia.AnhDaiDien" alt="Reviews" />
                                                             </div>
-                                                            <div class="rate-item">
-                                                                <i class="fa fa-star"
-                                                                   aria-hidden="true"></i>
+                                                            <div class="author-name">
+                                                                <h6>@comment.NguoiDanhGia.HoTen</h6>
+                                                                <span>@comment.Comment.NgayTao.ToString("dd/MM/yyyy")</span>
                                                             </div>
-                                                            <div class="rate-item">
-                                                                <i class="fa fa-star"
-                                                                   aria-hidden="true"></i>
-                                                            </div>
-                                                            <div class="rate-item">
-                                                                <i class="fa fa-star"
-                                                                   aria-hidden="true"></i>
-                                                            </div>
-                                                            <div class="rate-item">
-                                                                <i class="fa fa-star"
-                                                                   aria-hidden="true"></i>
+                                                        </div>
+                                                        <div class="reviews-description pt-20">
+                                                            <p>
+                                                                @comment.Comment.Danhgia
+                                                            </p>
+                                                            <div class="rating">
+
+                                                                <ul>
+                                                                    @for (int i = 0; i < comment.Comment.Diem; ++i)
+                                                                    {
+                                                                        <li><i class="fa fa-star"></i></li>
+                                                                    }
+                                                                </ul>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-12">
-                                                <div class="form-singel">
-                                                    <textarea placeholder="Đánh giá"></textarea>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-12">
-                                                <div class="form-singel">
-                                                    <button type="button" class="main-btn">
-                                                        Gửi đánh giá
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- row -->
-                                    </form>
-                                </div>
+                                                    <!-- singel reviews -->
+                                                </li>
+                                            }
+                                        }
+                                    </ul>
+                                    <div class="title pt-15">
+                                        <h6>Hãy để lại đánh giá của bạn</h6>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <p>Chưa có đánh giá cho gia sư này</p>
+                                }
+
                             </div>
                             <!-- reviews cont -->
                         </div>
+                        <!-- tab content -->
                     </div>
-                    <!-- tab content -->
+                    <!-- teachers right -->
                 </div>
-                <!-- teachers right -->
             </div>
+            <!-- row -->
         </div>
-        <!-- row -->
+        <!-- container -->
     </div>
-    <!-- container -->
 </section>
 

@@ -252,6 +252,21 @@ namespace VLUTUTORS.Controllers
             if (HttpContext.Session.GetString("email") != null)
             {
                 email = HttpContext.Session.GetString("email");
+                var dbTaikhoannguoidung = db.Taikhoannguoidungs.AsNoTracking().SingleOrDefault(x => x.Email.ToLower() == email.ToLower());
+
+                if (dbTaikhoannguoidung != null)
+                {
+                    if (dbTaikhoannguoidung.MaXacThuc == int.Parse(verifyCode))
+                    {
+                        dbTaikhoannguoidung.XacThuc = true;
+                        db.Update(dbTaikhoannguoidung);
+                        await db.SaveChangesAsync();
+                    }
+                }
+                else
+                {
+                    return NotFound();
+                }
             }
             else
             {

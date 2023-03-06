@@ -21,7 +21,7 @@ namespace VLUTUTORS.Models
         public virtual DbSet<Caday> Cadays { get; set; }
         public virtual DbSet<Cahoc> Cahocs { get; set; }
         public virtual DbSet<Danhgiagiasu> Danhgiagiasus { get; set; }
-        public virtual DbSet<Giasuyeuthich> Giasuyeuthiches { get; set; }
+        public virtual DbSet<Giasuyeuthich> Giasuyeuthichs { get; set; }
         public virtual DbSet<Gioitinh> Gioitinhs { get; set; }
         public virtual DbSet<Khoa> Khoas { get; set; }
         public virtual DbSet<Khoadaotao> Khoadaotaos { get; set; }
@@ -33,6 +33,7 @@ namespace VLUTUTORS.Models
         public virtual DbSet<Quyen> Quyens { get; set; }
         public virtual DbSet<Taikhoanadmin> Taikhoanadmins { get; set; }
         public virtual DbSet<Taikhoannguoidung> Taikhoannguoidungs { get; set; }
+        public virtual DbSet<Tieuchidanhgia> Tieuchidanhgias { get; set; }
         public virtual DbSet<Trangthai> Trangthais { get; set; }
         public virtual DbSet<Tuvan> Tuvans { get; set; }
         public virtual DbSet<Xetduyet> Xetduyets { get; set; }
@@ -382,6 +383,15 @@ namespace VLUTUTORS.Models
                     .WithMany(p => p.Taikhoannguoidungs)
                     .HasForeignKey(d => d.IdxetDuyet)
                     .HasConstraintName("FK_TAIKHOANNGUOIDUNG_XETDUYET");
+            });
+
+            modelBuilder.Entity<Tieuchidanhgia>(entity =>
+            {
+                entity.HasKey(e => e.IdTieuChi);
+
+                entity.ToTable("TIEUCHIDANHGIA");
+
+                entity.Property(e => e.TieuChi).HasMaxLength(200);
             });
 
             modelBuilder.Entity<Trangthai>(entity =>

@@ -52,12 +52,12 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             {
                 listLink.Remove("");
             }
-            for(int i = 0; i < listLink.Count; i++)
+            for (int i = 0; i < listLink.Count; i++)
             {
                 var editLink = listLink[i].Replace(@"https://www.youtube.com/watch?v=", @"https://www.youtube.com/embed/");
                 listLink[i] = editLink;
-            } 
-                
+            }
+
             string linkVideo = JsonConvert.SerializeObject(listLink);
             string filePath = Path.Combine("Files");
 
@@ -66,6 +66,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 var checkKhoaDaoTao = _context.Khoadaotaos.AsNoTracking().SingleOrDefault(x => x.TenBaiHoc.ToLower() == khoadaotao.TenBaiHoc.ToLower());
                 if (checkKhoaDaoTao != null)
                 {
+                    TempData["message"] = "Bài học đã tồn tại, vui lòng kiểm tra lại";
                     return RedirectToAction("Index");
                 }
                 else
@@ -114,45 +115,75 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> EditLesson(int? id = -1)
+        public async Task<IActionResult> EditLessonAsync(int? id = -1)
         {
             if (id == null)
             {
                 return NotFound();
             }
+            List<Khoadaotao> lesson = _context.Khoadaotaos.ToList();
 
-            var khoaDaoTao = await _context.Khoadaotaos.FirstOrDefaultAsync(m => m.IdBaiHoc == id);
-            if (khoaDaoTao == null)
-                return NotFound();
-            return View(khoaDaoTao);
+            var baihoc = await _context.Khoadaotaos.FirstOrDefaultAsync(m => m.IdBaiHoc == id);
+
+            baihoc.TenBaiHoc = _context.Khoadaotaos.Where(l => l.IdBaiHoc == id).First().TenBaiHoc;
+
+            string videoListInJson = _context.Khoadaotaos.Where(l => l.IdBaiHoc == id).First().LinkVideo;
+
+            if (videoListInJson != null)
+            {
+                baihoc.courseLink = JsonConvert.DeserializeObject<List<string>>(videoListInJson);
+            }
+            else
+            {
+                baihoc.courseLink = null;
+            }
+
+            baihoc.TaiLieu = _context.Khoadaotaos.Where(l => l.IdBaiHoc == id).First().TaiLieu;
+
+            return View(baihoc);
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> EditLesson(int id, [Bind(include: "IdBaiHoc,TenBaiHoc,Link")] Khoadaotao khoadaotao)
-        //{
-        //    //if (id != khoadaotao.IdBaiHoc)
-        //    //{
-        //    //    return NotFound();
-        //    //}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditLesson(int id, [Bind(include: "IdBaiHoc,TenBaiHoc,TaiLieu,LinkVideo")] Khoadaotao khoadaotao, List<IFormFile> tepBaiGiang, IFormCollection link)
+        {
+            if (id != khoadaotao.IdBaiHoc)
+            {
+                return NotFound();
+            }
 
-        //    //if (ModelState.IsValid)
-        //    //{
-        //    //    try
-        //    //    {
-        //    //        string newLink = khoadaotao.Link.Replace(@"https://www.youtube.com/watch?v=", @"https://www.youtube.com/embed/");
-        //    //        khoadaotao.Link = newLink;
-        //    //        _context.Update(khoadaotao);
-        //    //        await _context.SaveChangesAsync();
-        //    //    }
-        //    //    catch (Exception ex)
-        //    //    {
-        //    //        return RedirectToAction(nameof(Index));
-        //    //    }
-        //    //    return RedirectToAction("Index");
-        //    //}
-        //    return View(khoadaotao);
-        //}
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var baihoc = await _context.Khoadaotaos.FirstOrDefaultAsync(m => m.IdBaiHoc == id);
+                    List<string> listLink = link["LinkVideo"].ToList();
+                    if (listLink.Contains(""))
+                    {
+                        listLink.Remove("");
+                    }
+                    for (int i = 0; i < listLink.Count; i++)
+                    {
+                        var editLink = listLink[i].Replace(@"https://www.youtube.com/watch?v=", @"https://www.youtube.com/embed/");
+                        listLink[i] = editLink;
+                    }
+                    
+                    string linkVideo = JsonConvert.SerializeObject(listLink);
+                    string filePath = Path.Combine("Files");
+                    baihoc.LinkVideo = linkVideo;
+                    baihoc.TaiLieu = tepBaiGiang.Count != 0 ? TutorServices.SaveUploadFiles(this._environment.WebRootPath, filePath, tepBaiGiang) : baihoc.TaiLieu;
+                    _context.Update(baihoc);
+                    await _context.SaveChangesAsync();
+                    TempData["message"] = "Cập nhật thành công!";
+                }
+                catch (Exception ex)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Index");
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -164,37 +195,13 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> AddLessonFile([Bind(include: "IdBaiHoc,TenBaiHoc,TaiLieu")] Khoadaotao khoadaotao, IFormFile tepBaiGiang)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var khoaDaoTao = _context.Khoadaotaos.AsNoTracking().SingleOrDefault(x => x.TenBaiHoc.ToLower() == khoadaotao.TenBaiHoc.ToLower());
-        //        if (khoaDaoTao != null)
-        //        {
-        //            return RedirectToAction("Index");
-        //        }
-        //        else
-        //        {
-        //            try
-        //            {
-        //                Console.WriteLine("tep bai giang: " + tepBaiGiang.FileName);
-        //                string Filepath = Path.Combine("Files");
-        //                TutorServices.UploadFile(tepBaiGiang);
-        //                //khoadaotao.TaiLieu = tepBaiGiang.Count != 0 ? TutorServices.SaveUploadImages(this._environment.WebRootPath, Filepath, tepBaiGiang) : khoadaotao.TaiLieu;
-        //                //_context.Add(khoadaotao);
-        //                //await _context.SaveChangesAsync();
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                return RedirectToAction(nameof(Index));
-        //            }
-        //            return RedirectToAction("Index");
-        //        }
-        //    }
-        //    return View(khoadaotao);
-        //}
+        public FileResult DownloadFile(string fileName)
+        {
+            string path = Path.Combine(this._environment.WebRootPath, "Files", fileName);
 
+            byte[] bytes = System.IO.File.ReadAllBytes(path);
+
+            return File(bytes, "application/octet-stream", fileName);
+        }
     }
 }
