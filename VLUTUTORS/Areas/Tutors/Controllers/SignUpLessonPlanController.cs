@@ -220,7 +220,7 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
 
             if (caDayByDate.Count == 0)
             {
-                return true;
+                return false;
             }
 
             TimeSpan startTime = new TimeSpan(startHour, startMinute, 0);
