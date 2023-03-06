@@ -96,6 +96,7 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
 
                 GetEndTime(lessonPlan, teachTime);
 
+                //hàm dưới trả ra false nhưng lên đây chạy xong dòng lệnh này thì nó trả về true
                 bool isOverLapse = CheckLessonHasRegister(lessonPlan.IdnguoiDay, lessonPlan.NgayDay, lessonPlan.GioBatDau, lessonPlan.PhutBatDau, lessonPlan.GioKetThuc, lessonPlan.PhutKetThuc);
                 if (isOverLapse)
                 {
