@@ -31,10 +31,10 @@ $(function () {
     var scroll = $(window).scrollTop();
     if (scroll < 245) {
       $(".navigation").removeClass("sticky");
-        $(".navigation-3 img").attr("src", "~/images/LogoNew.png");
+        $(".navigation-3 img").attr("src", "/CP25Team01/images/LogoNew.png");
     } else {
       $(".navigation").addClass("sticky");
-        $(".navigation-3 img").attr("src", "~/images/LogoNew.png");
+        $(".navigation-3 img").attr("src", "/CP25Team01/images/LogoNew.png");
     }
   });
 
