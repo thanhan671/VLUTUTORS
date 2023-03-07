@@ -3272,6 +3272,7 @@ fieldset:disabled a.btn {
     background-color: #343a40;
     border-color: #343a40;
     box-shadow: none;
+    margin-right: 5px;
 }
 
     .btn-dark:hover {
@@ -40183,6 +40184,7 @@ td.active:hover {
     background-color: #292d32;
     border-color: #4b545c;
     box-shadow: none;
+    margin-right: 5px;
 }
 
     .dark-mode .btn-dark:hover {

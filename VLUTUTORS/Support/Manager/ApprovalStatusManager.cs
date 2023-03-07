@@ -4,11 +4,10 @@
     {
         TRAINING = 1,
         WAITING = 2,
-        RETEST = 3,
-        INTERVIEW = 4,
-        NOTAPPROVED = 5,
-        APPROVED = 6,
-        NOTSEND = 7
+        INTERVIEW = 3,
+        NOTAPPROVED = 4,
+        APPROVED = 5,
+        NOTSEND = 6
     }
 
     public class ApprovalStatusManager

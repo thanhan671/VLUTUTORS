@@ -21,6 +21,7 @@
         <form method="post" enctype="multipart/form-data" asp-controller="Accounts" asp-action="EditLearnerAccounts">
             @Html.AntiForgeryToken()
             @Html.HiddenFor(m => m.Id)
+            @Html.HiddenFor(m => m.IdxetDuyet)
 
             <div class="row gutters-sm">
                 <div class="col-md-4 mb-3">
@@ -35,7 +36,7 @@
                                              alt="Admin"
                                              class="rounded-circle"
                                              width="200"
-                                             height="200"/>
+                                             height="200" />
                                     }
                                 }
                                 else

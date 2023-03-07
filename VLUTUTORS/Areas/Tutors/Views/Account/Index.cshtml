@@ -1,4 +1,5 @@
-﻿@model VLUTUTORS.Models.Taikhoannguoidung
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model VLUTUTORS.Models.Taikhoannguoidung
 @{
     ViewData["Title"] = "Chi tiết tài khoản";
     Layout = "~/Areas/Tutors/Views/Shared/_TutorsLayout.cshtml";
@@ -10,7 +11,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="/Tutors">Home</a></li>
+                    <li class="breadcrumb-item"><a href="~/Tutors">Home</a></li>
                     <li class="breadcrumb-item active">Thông Tin Tài Khoản</li>
                 </ol>
             </div>
@@ -24,6 +25,7 @@
             <div class="main-body">
                 <form method="post" enctype="multipart/form-data" asp-controller="Account" asp-action="Index">
                     @Html.AntiForgeryToken()
+                    @Html.HiddenFor(m => m.Id)
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     <div class="row gutters-sm">
                         <div class="col-md-4 mb-3 center-card">
@@ -79,7 +81,7 @@
                                             <h6 class="mb-0">Khoa</h6>
                                         </div>
                                         @Html.DropDownListFor(m => m.Idkhoa, Model.DepartmentItems, new { disabled = "disabled" })
-                                         <div class="message-error">
+                                        <div class="message-error">
                                             @Html.ValidationMessageFor(model => model.Idkhoa, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -134,9 +136,9 @@
                                         </div>
                                         @Html.TextAreaFor(m => m.GioiThieu, new { htmlAttributes = new { @class = "ip-form", @required = "required" } })
                                     </div>
-                                     <div class="message-error">
-                                                @Html.ValidationMessageFor(model => model.GioiThieu, "", new { @class = "text-danger" })
-                                         </div>
+                                    <div class="message-error">
+                                        @Html.ValidationMessageFor(model => model.GioiThieu, "", new { @class = "text-danger" })
+                                    </div>
                                     <hr />
                                     <div class="row-nowrap">
                                         <div class="col-sm-3">
@@ -146,9 +148,9 @@
                                         </div>
                                         @Html.TextAreaFor(m => m.DanhGiaVeViecGiaSu, new { htmlAttributes = new { @class = "ip-form", @required = "required" } })
                                     </div>
-                                     <div class="message-error">
-                                                @Html.ValidationMessageFor(model => model.DanhGiaVeViecGiaSu, "", new { @class = "text-danger" })
-                                        </div>
+                                    <div class="message-error">
+                                        @Html.ValidationMessageFor(model => model.DanhGiaVeViecGiaSu, "", new { @class = "text-danger" })
+                                    </div>
                                     <hr />
                                     <div class="row-nowrap">
                                         <h4>Môn gia sư thứ 1:</h4>
@@ -174,7 +176,7 @@
                                         </div>
                                         @foreach (var file in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.ChungChiMon1))
                                         {
-                                            <p style="padding-left:2.00em;">@Html.ActionLink(file + " ", "DownloadFile", new { fileName = file, id = 1})</p><br /> // id 1 representation for certificate 1   
+                                            <p style="padding-left:2.00em;">@Html.ActionLink(file + " ", "DownloadFile", new { fileName = file, id = 1 })</p><br />// id 1 representation for certificate 1
                                         }
                                     </div>
                                     <div class="row-nowrap">
@@ -219,7 +221,7 @@
                                         </div>
                                         @foreach (var file in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.ChungChiMon2))
                                         {
-                                               <p style="padding-left:2.00em;">@Html.ActionLink(file + "  ", "DownloadFile", new { fileName = file, id = 2 })</p> // id 2 representation for certificate 2
+                                            <p style="padding-left:2.00em;">@Html.ActionLink(file + "  ", "DownloadFile", new { fileName = file, id = 2 })</p>// id 2 representation for certificate 2
                                         }
                                     </div>
                                     <div class="row-nowrap">
