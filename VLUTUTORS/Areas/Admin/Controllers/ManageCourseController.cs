@@ -45,7 +45,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddLesson(IFormCollection link, [Bind(include: "IdBaiHoc,TenBaiHoc,TaiLieu,LinkVideo")] Khoadaotao khoadaotao, List<IFormFile> tepBaiGiang)
+        public async Task<ActionResult> AddLesson(IFormCollection link, [Bind(include: "TenBaiHoc,TaiLieu,LinkVideo")] Khoadaotao khoadaotao, List<IFormFile> tepBaiGiang)
         {
             List<string> listLink = link["LinkVideo"].ToList();
             if (listLink.Contains(""))
@@ -59,7 +59,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             }
 
             string linkVideo = JsonConvert.SerializeObject(listLink);
-            string filePath = Path.Combine("Files");
+            string filePath = Path.Combine("Files", khoadaotao.TenBaiHoc.Trim());
 
             if (ModelState.IsValid)
             {
@@ -169,7 +169,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                     }
                     
                     string linkVideo = JsonConvert.SerializeObject(listLink);
-                    string filePath = Path.Combine("Files");
+                    string filePath = Path.Combine("Files", khoadaotao.TenBaiHoc.Trim());
                     baihoc.LinkVideo = linkVideo;
                     baihoc.TaiLieu = tepBaiGiang.Count != 0 ? TutorServices.SaveUploadFiles(this._environment.WebRootPath, filePath, tepBaiGiang) : baihoc.TaiLieu;
                     _context.Update(baihoc);
@@ -190,6 +190,8 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         public IActionResult DeleteLesson([FromForm] int hdInput)
         {
             Khoadaotao khoadaotao = _context.Khoadaotaos.Where(p => p.IdBaiHoc == hdInput).FirstOrDefault();
+            string filePath = Path.Combine(this._environment.WebRootPath, "Files", khoadaotao.TenBaiHoc.Trim());
+            Directory.Delete(filePath, true);
             _context.Khoadaotaos.Remove(khoadaotao);
             _context.SaveChanges();
             return RedirectToAction("Index");

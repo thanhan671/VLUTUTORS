@@ -41,6 +41,7 @@
     <Folder Include="wwwroot\certificates\" />
     <Folder Include="wwwroot\certificates\1\" />
     <Folder Include="wwwroot\avatars\" />
+    <Folder Include="wwwroot\Files\" />
   </ItemGroup>
 
   <ItemGroup>
