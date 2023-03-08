@@ -162,17 +162,18 @@ namespace VLUTUTORS.Controllers
                     dbTaikhoannguoidung.NgaySinh = NgaySinh;
                     dbTaikhoannguoidung.Sdt = Sdt;
                     dbTaikhoannguoidung.AnhDaiDien = avatar.Count != 0 ? TutorServices.SaveAvatar(this._environment.WebRootPath, avatarPath, avatar) : dbTaikhoannguoidung.AnhDaiDien;
+
                     if (!string.IsNullOrEmpty(MatKhau))
                         dbTaikhoannguoidung.MatKhau = MatKhau;
                     TempData["message"] = "Cập nhật thành công!";
-                    db.Update(dbTaikhoannguoidung);
-                    await db.SaveChangesAsync();
+                    db.Entry(dbTaikhoannguoidung).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Details", new { id });
                 }
                 catch (Exception ex)
                 {
                     return RedirectToAction("Details", new { id });
                 }
-                return RedirectToAction("Details", new { id });
             }
 
             return RedirectToAction("Details", new { id });
@@ -220,7 +221,9 @@ namespace VLUTUTORS.Controllers
                         await db.SaveChangesAsync();
                         HttpContext.Session.SetString("email", Email);
                         return RedirectToAction("SendMail", "Accounts",
-                        new { toEmail = Email, mailBody = "Mã xác thực của bạn là " + numVerify + "<br/>Vui lòng xác thực để sử dụng các tính năng của trang web! " });
+                        new { toEmail = Email, mailBody = "Mã xác thực của bạn là " + numVerify + "<br/>Vui lòng xác thực để sử dụng các tính năng của trang web! Hoặc truy cập vào đường dẫn sau để xác thực:" +
+                        "https://cntttest.vanlanguni.edu.vn:18081/CP25Team01/Accounts/VerifyAccount"
+                        });
 
                     }
                     catch (Exception ex)
