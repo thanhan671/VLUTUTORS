@@ -84,7 +84,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                         else if (listLink.Count == 0 && tepBaiGiang.Count != 0)
                         {
                             khoadaotao.LinkVideo = null;
-                            khoadaotao.TaiLieu = tepBaiGiang.Count != 0 ? TutorServices.SaveUploadFiles(this._environment.WebRootPath, filePath, tepBaiGiang) : khoadaotao.TaiLieu;
+                            khoadaotao.TaiLieu = TutorServices.SaveUploadFiles(this._environment.WebRootPath, filePath, tepBaiGiang);
                             _context.Add(khoadaotao);
                             await _context.SaveChangesAsync();
                             TempData["message"] = "Thêm thành công!";
@@ -92,7 +92,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                         else if (listLink.Count != 0 && tepBaiGiang.Count != 0)
                         {
                             khoadaotao.LinkVideo = linkVideo;
-                            khoadaotao.TaiLieu = tepBaiGiang.Count != 0 ? TutorServices.SaveUploadFiles(this._environment.WebRootPath, filePath, tepBaiGiang) : khoadaotao.TaiLieu;
+                            khoadaotao.TaiLieu = TutorServices.SaveUploadFiles(this._environment.WebRootPath, filePath, tepBaiGiang);
                             _context.Add(khoadaotao);
                             await _context.SaveChangesAsync();
                             TempData["message"] = "Thêm thành công!";
