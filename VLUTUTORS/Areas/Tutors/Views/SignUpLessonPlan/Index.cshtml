@@ -111,6 +111,7 @@
                 <tr>
                     <th>Tên Môn Học</th>
                     <th>Ngày</th>
+                    <th hidden></th>
                     <th>Khung Giờ</th>
                     <th>Ca dạy</th>
                     @if (TempData["Message"] != null)
@@ -126,6 +127,7 @@
                     <tr>
                         <td>@lesson.tenMonDay</td>
                         <td>@lesson.NgayDay.ToString("dd/MM/yyyy")</td>
+                        <td hidden>@lesson.NgayDay.ToString("MM/dd/yyyy")</td>
                         <td>@lesson.GioBatDau:@lesson.PhutBatDau - @lesson.GioKetThuc:@lesson.PhutKetThuc</td>
                         <td>@lesson.tenLoaiCaDay phút</td>
                         <td class="project-actions text-right">
@@ -199,7 +201,7 @@
             console.log(minDate, maxDate);
             var min = minDate.val();
             var max = maxDate.val();
-            var date = new Date(data[1]);
+            var date = new Date(data[2]);
 
             if (
                 (min === null && max === null) ||

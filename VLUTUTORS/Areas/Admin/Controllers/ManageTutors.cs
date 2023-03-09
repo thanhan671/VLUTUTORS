@@ -64,9 +64,6 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                             Subject1 = subject.TenMonGiaSu,
                             ApprovedStatus = awaitApproveStatus.TenTrangThai
                         });
-
-
-
                 }
             }
 
