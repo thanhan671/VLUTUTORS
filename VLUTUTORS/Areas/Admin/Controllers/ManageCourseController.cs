@@ -197,9 +197,9 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-        public FileResult DownloadFile(string fileName)
+        public FileResult DownloadFile(string courseName, string fileName)
         {
-            string path = Path.Combine(this._environment.WebRootPath, "Files", fileName);
+            string path = Path.Combine(this._environment.WebRootPath, "Files", courseName, fileName);
 
             byte[] bytes = System.IO.File.ReadAllBytes(path);
 
