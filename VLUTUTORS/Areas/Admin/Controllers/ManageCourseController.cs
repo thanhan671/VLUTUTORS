@@ -115,7 +115,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> EditLessonAsync(int? id = -1)
+        public async Task<IActionResult> EditLesson(int? id = -1)
         {
             if (id == null)
             {
@@ -167,7 +167,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                         var editLink = listLink[i].Replace(@"https://www.youtube.com/watch?v=", @"https://www.youtube.com/embed/");
                         listLink[i] = editLink;
                     }
-                    
+
                     string linkVideo = JsonConvert.SerializeObject(listLink);
                     string filePath = Path.Combine("Files", khoadaotao.TenBaiHoc.Trim());
                     baihoc.LinkVideo = linkVideo;
