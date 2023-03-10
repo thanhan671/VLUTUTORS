@@ -161,22 +161,38 @@
                                 Đăng ký lịch theo tuần
                             </h4>
                             <p class="text-center p-2">
-                                <i>Từ <b>24/02/2023</b> đến <b>02/03/2023</b></i>
+                                <i></i>
                             </p>
                             <!--schedule -->
-                            <table class="table table-schedule">
+                            <div class="row" id="dropdown-filter">
+                                <div class="col d-flex mr-10">
+                                    <input type="text"
+                                           class="form-control-sm"
+                                           id="min"
+                                           name="min"
+                                           style="width: 150px" />
+                                    <label class="form-label ml-1" for="max">Đến</label>
+                                    <input type="text"
+                                           id="max"
+                                           name="max"
+                                           class="form-control-sm"
+                                           style="width: 150px" />
+                                </div>
+                            </div>
+                            <table id="myTable" class="mt-100">
                                 <thead>
-                                    <tr class="text-center table-header">
-                                        <th>Thứ</th>
+                                    <tr>
+                                        <th>Môn gia sư</th>
                                         <th>Ngày</th>
                                         <th>Giờ</th>
+                                        <th>Giá</th>
                                         <th>Đặt Lịch</th>
                                     </tr>
                                 </thead>
-                                <tbody class="table-body">
+                                <tbody>
                                     <tr>
-                                        <td scope="row">2</td>
-                                        <td>27/02/2023</td>
+                                        <td>Anh văn</td>
+                                        <td>16/01/2023</td>
                                         <td>
                                             <select name="table-select" id="">
                                                 <option value="">8h-9h</option>
@@ -184,92 +200,24 @@
                                                 <option value="">10h-11h</option>
                                             </select>
                                         </td>
+                                        <td>60,000 đ</td>
                                         <td>
-                                            <button class="main-btn table-btn">Đặt Lịch</button>
+                                            <button class="custom-btn btn-5">Đặt Lịch</button>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td scope="row">3</td>
-                                        <td>28/02/2023</td>
+                                        <td>Anh văn</td>
+                                        <td>16/01/2023</td>
                                         <td>
-                                            <select name="" id="">
+                                            <select name="table-select" id="">
                                                 <option value="">8h-9h</option>
                                                 <option value="">9h-10h</option>
                                                 <option value="">10h-11h</option>
                                             </select>
                                         </td>
+                                        <td>60,000 đ</td>
                                         <td>
-                                            <button class="main-btn table-btn">Đặt Lịch</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td scope="row">4</td>
-                                        <td>01/03/2023</td>
-                                        <td>
-                                            <select name="" id="">
-                                                <option value="">8h-9h</option>
-                                                <option value="">9h-10h</option>
-                                                <option value="">10h-11h</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <button class="main-btn table-btn">Đặt Lịch</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td scope="row">5</td>
-                                        <td>02/03/2023</td>
-                                        <td>
-                                            <select name="" id="">
-                                                <option value="">8h-9h</option>
-                                                <option value="">9h-10h</option>
-                                                <option value="">10h-11h</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <button class="main-btn table-btn">Đặt Lịch</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td scope="row">6</td>
-                                        <td>24/02/2023</td>
-                                        <td>
-                                            <select name="" id="">
-                                                <option value="">8h-9h</option>
-                                                <option value="">9h-10h</option>
-                                                <option value="">10h-11h</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <button class="main-btn table-btn">Đặt Lịch</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td scope="row">7</td>
-                                        <td>25/2/2023</td>
-                                        <td>
-                                            <select name="" id="">
-                                                <option value="">8h-9h</option>
-                                                <option value="">9h-10h</option>
-                                                <option value="">10h-11h</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <button class="main-btn table-btn">Đặt Lịch</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td scope="row">CN</td>
-                                        <td>26/02/2023</td>
-                                        <td>
-                                            <select name="" id="">
-                                                <option value="">8h-9h</option>
-                                                <option value="">9h-10h</option>
-                                                <option value="">10h-11h</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <button class="main-btn table-btn">Đặt Lịch</button>
+                                            <button class="custom-btn btn-5">Đặt Lịch</button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -342,4 +290,58 @@
         <!-- container -->
     </div>
 </section>
+@section scripts {
+    <script>
+        var minDate, maxDate;
 
+        // Custom filtering function which will search data in column four between two values
+        $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
+            var min = minDate.val();
+            var max = maxDate.val();
+            var date = new Date(data[2]);
+
+            if (
+                (min === null && max === null) ||
+                (min === null && date <= max) ||
+                (min <= date && max === null) ||
+                (min <= date && date <= max)
+            ) {
+                return true;
+            }
+            return false;
+        });
+
+        $(document).ready(function () {
+            // Create date inputs
+            minDate = new DateTime($('#min'), {
+                format: 'DD-MM-YYYY',
+            });
+            maxDate = new DateTime($('#max'), {
+                format: 'DD-MM-YYYY',
+            });
+
+            // DataTables initialisation
+            var table = $('#myTable').DataTable();
+
+            // Refilter the table
+            $('#min, #max').on('change', function () {
+                table.draw();
+            });
+        });
+        console.log(moment.lang('vi').format('L'));
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            $('#myTable_filter').prepend($('#dropdown-filter')).clone();
+            $('#filter-fade').remove();
+            $('#myTable_filter').css({
+                display: 'flex',
+                width: '100%',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+            });
+            $('#myTable_length').css({ display: 'none' });
+            $('.sorting:first').css({ width: '20%' });
+        });
+    </script>
+}
