@@ -177,17 +177,17 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 if (idxetDuyet == 3)
                 {
                     return RedirectToAction("SendMail", "ManageTuTors",
-                        new { toEmail = account.Email, mailBody = "Chúc mừng! Hồ sơ của bạn đã đủ điều kiện tham gia phỏng vấn, vui lòng theo dõi điện thoại để nhận lịch hẹn phỏng vấn!", mailSubject = "Thông báo kết quả xét duyệt hồ sơ" });
+                        new { toEmail = account.Email, mailBody = "Chúc mừng! Hồ sơ của bạn đã đủ điều kiện tham gia phỏng vấn, vui lòng theo dõi điện thoại để nhận lịch hẹn phỏng vấn!"});
                 }
                 else if (idxetDuyet == 4)
                 {
                     return RedirectToAction("SendMail", "ManageTuTors",
-                        new { toEmail = account.Email, mailBody = "Rất tiếc! Bạn đã không đạt được các tiêu chí để trở thành gia sư của Văn Lang, hẹn gặp lại bạn dịp khác!", mailSubject = "Thông báo kết quả xét duyệt hồ sơ" });
+                        new { toEmail = account.Email, mailBody = "Rất tiếc! Bạn đã không đạt được các tiêu chí để trở thành gia sư của Văn Lang, hẹn gặp lại bạn dịp khác!"});
                 }
                 else if (idxetDuyet == 5)
                 {
                     return RedirectToAction("SendMail", "ManageTuTors",
-                        new { toEmail = account.Email, mailBody = "Chúc mừng! Bạn đã chính thức trở thành gia sư của Văn Lang, bây giờ bạn có thể đăng nhập và sử dụng chức năng của gia sư!", mailSubject = "Thông báo kết quả xét duyệt hồ sơ" });
+                        new { toEmail = account.Email, mailBody = "Chúc mừng! Bạn đã chính thức trở thành gia sư của Văn Lang, bây giờ bạn có thể đăng nhập và sử dụng chức năng của gia sư!"});
                 }
             }
             return View(account);
@@ -274,7 +274,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             }
             return View(account);
         }
-        public IActionResult SendMail(string toEmail, string mailBody, string mailSubject)
+        public IActionResult SendMail(string toEmail, string mailBody)
         {
             string mailTitle = "Gia Sư Văn Lang";
             string fromMail = "giasuvanlang.thongtin@gmail.com";
@@ -282,8 +282,9 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
             //Email and content
             MailMessage message = new MailMessage(new MailAddress(fromMail, mailTitle), new MailAddress(toEmail));
-            message.Subject = mailSubject;
+            message.Subject = "[VLUTUTORS] Thông báo kết quả xét duyệt hồ sơ";
             message.Body = mailBody;
+            message.IsBodyHtml = true;
 
             //Server detail
             SmtpClient smtp = new SmtpClient();

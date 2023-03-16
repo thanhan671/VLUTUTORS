@@ -221,10 +221,7 @@ namespace VLUTUTORS.Controllers
                         await db.SaveChangesAsync();
                         HttpContext.Session.SetString("email", Email);
                         return RedirectToAction("SendMail", "Accounts",
-                        new { toEmail = Email, mailBody = "Mã xác thực của bạn là " + numVerify + "<br/>Vui lòng xác thực để sử dụng các tính năng của trang web! Hoặc truy cập vào đường dẫn sau để xác thực:" +
-                        "https://cntttest.vanlanguni.edu.vn:18081/CP25Team01/Accounts/VerifyAccount"
-                        });
-
+                        new { toEmail = Email, name = HoTen, verifyCode = numVerify});
                     }
                     catch (Exception ex)
                     {
@@ -371,16 +368,37 @@ namespace VLUTUTORS.Controllers
             return RedirectToAction("Login", "Accounts");
         }
 
-        public IActionResult SendMail(string toEmail, string mailBody)
+        public IActionResult SendMail(string toEmail, string name, int verifyCode)
         {
             string mailTitle = "Gia Sư Văn Lang";
             string fromMail = "giasuvanlang.thongtin@gmail.com";
-            string fromEmailPass = "wwxtjmqczzdgwqke";
+            string fromEmailPass = "vrzaiqmdiycujvas";
+            string bodyMail = "<!DOCTYPE html>" +
+                    "<html>" +
+                        "<body>" +
+                            "<p style = \"margin: 0%;\">" +
+                            "Xin chào, <b>" + name + "</b> !<br/>" +
+                            "Mã xác minh bạn cần dùng để xác thực email <b>" + toEmail + "</b> là:</p>" +
+
+                            "<p style = \"color: green;font-size: 40px; margin: 0 0 0 50px;\">"+ verifyCode + "</p>" +
+
+                            "<p style = \"margin: 0%;\" > Vui lòng xác thực để sử dụng các tính năng của trang web. Hoặc nhấn vào " +
+                            "<a href=\"https://cntttest.vanlanguni.edu.vn:18081/CP25Team01/Accounts/VerifyAccount\">đây</a> để xác thực:<br/>" +
+                            "Nếu bạn không yêu cầu mã này thì có thể ai đó đang sử dụng email <b>" + toEmail + "</b> để đăng ký tài khoản." +
+                            "<b style = \"color: red;\" > Không chuyển tiếp hoặc cung cấp mã này cho bất kỳ ai.</b><br/></p>" +
+
+                            "<b style = \"font-size: small;text-align: center; margin: 0%;\"> Bạn nhận được thông báo này vì địa chỉ email đang được sử dụng cho " +
+                            "tài khoản trên trang Gia Sư Văn Lang.Nếu thông tin này không chính xác," +
+                            "vui lòng bỏ qua và không trả lời lại mail này.Xin cảm ơn!</b><br/>" +
+                           " Trân trọng!<br/>" +
+                            "<b>Gia Sư Văn Lang</b>" +
+                        "</body>" +
+                    "</html>";
 
             //Email and content
             MailMessage message = new MailMessage(new MailAddress(fromMail, mailTitle), new MailAddress(toEmail));
             message.Subject = "Xác thực Email cho Gia sư Văn Lang";
-            message.Body = mailBody;
+            message.Body = bodyMail;
             message.IsBodyHtml = true;
 
             //Server detail
