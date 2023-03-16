@@ -20,7 +20,7 @@
                     </span>
                     <div class="form-group">
                         <label for="inputName">Tên loại tư vấn</label>
-                        @Html.TextBoxFor(item => item.TenLoaiTuVan, "", new { @class = "form-control"})
+                        <input asp-for="TenLoaiTuVan" type="text" id="TenLoaiTuVan" name="TenLoaiTuVan" class="form-control" data-error="Vui lòng điền đủ thông tin!" required />
                     </div>
                 </div>
                 <div class="modal-footer">
