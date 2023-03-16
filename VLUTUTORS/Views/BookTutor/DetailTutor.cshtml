@@ -158,11 +158,8 @@
                              role="tabpanel"
                              aria-labelledby="courses-tab">
                             <h4 class="pt-3 pl-3 pr-3 text-center">
-                                Đăng ký lịch theo tuần
+                                Lịch dạy của gia sư
                             </h4>
-                            <p class="text-center p-2">
-                                <i></i>
-                            </p>
                             <!--schedule -->
                             <div class="row" id="dropdown-filter">
                                 <div class="col d-flex mr-10">
@@ -183,6 +180,7 @@
                                 <thead>
                                     <tr>
                                         <th>Môn gia sư</th>
+                                        @*<th></th>*@
                                         <th>Ngày</th>
                                         <th>Giờ</th>
                                         <th>Giá</th>
@@ -192,7 +190,8 @@
                                 <tbody>
                                     <tr>
                                         <td>Anh văn</td>
-                                        <td>16/01/2023</td>
+                                        @*<td>04/27/2023</td>*@
+                                        <td>27/04/2023</td>
                                         <td>
                                             <select name="table-select" id="">
                                                 <option value="">8h-9h</option>
@@ -207,7 +206,8 @@
                                     </tr>
                                     <tr>
                                         <td>Anh văn</td>
-                                        <td>16/01/2023</td>
+                                        @*<td>03/19/2023</td>*@
+                                        <td>19/03/2023</td>
                                         <td>
                                             <select name="table-select" id="">
                                                 <option value="">8h-9h</option>
@@ -314,15 +314,15 @@
         $(document).ready(function () {
             // Create date inputs
             minDate = new DateTime($('#min'), {
-                format: 'DD-MM-YYYY',
+                format: 'DD/MM/YYYY',
             });
             maxDate = new DateTime($('#max'), {
-                format: 'DD-MM-YYYY',
+                format: 'DD/MM/YYYY',
             });
 
             // DataTables initialisation
             var table = $('#myTable').DataTable();
-
+            
             // Refilter the table
             $('#min, #max').on('change', function () {
                 table.draw();

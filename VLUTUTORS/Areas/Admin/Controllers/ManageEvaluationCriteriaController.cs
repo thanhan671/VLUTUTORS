@@ -101,6 +101,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             Tieuchidanhgia tieuChi = _context.Tieuchidanhgias.Where(p => p.IdTieuChi == criteriaID).FirstOrDefault();
             _context.Tieuchidanhgias.Remove(tieuChi);
             _context.SaveChanges();
+            TempData["message"] = "Xóa thành công!";
             return RedirectToAction("Index");
         }
     }

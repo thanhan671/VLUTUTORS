@@ -41,7 +41,7 @@
                                             <h6 class="mb-0">Loại tư vấn</h6>
                                         </div>
                                         @Html.TextBoxFor(item => item.TenLoaiTuVan, "", new { @class = "col-sm-9 text-secondary" })
-                                        @*@Html.ValidationMessageFor(m => m.TaiKhoan, "", new { @class = "text-danger" })*@
+                                        @Html.ValidationMessageFor(m => m.TenLoaiTuVan, "", new { @class = "text-danger" })
                                     </div>
                                     <hr />
                                     <div class="row">
@@ -60,12 +60,8 @@
     </form>
     <!-- /.content -->
 </div>
-<script>
-    function popup() {
-        alert('Cập nhật thành công!');
-    }
-    $('#myForm').on('submit', function (e) {
-        e.preventDefault(); // Now nothing will happen
-    });
-</script>
+@if (TempData["message"] != null)
+{
+    <script>alert('@TempData["message"]');</script>
+}
 

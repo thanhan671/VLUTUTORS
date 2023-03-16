@@ -33,13 +33,13 @@ namespace ManageConsultingType.Tests
             Assert.IsNotNull(result);
         }
         [TestMethod]
-        public async Task EditType()
+        public void EditType()
         {
             //Arrange
             ManageConsultingTypeController controller = new ManageConsultingTypeController();
 
             //Act
-            ViewResult result = await controller.EditType(0) as ViewResult;
+            ViewResult result = controller.EditType(0) as ViewResult;
 
             // Assert
             Assert.IsNotNull(result);

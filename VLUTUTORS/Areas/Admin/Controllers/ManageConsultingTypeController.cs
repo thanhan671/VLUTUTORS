@@ -29,7 +29,12 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddType([Bind("TenLoaiTuVan")] Loaituvan loaiTuVan)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
+            {
+                TempData["message"] = "Vui lòng điền thông tin!";
+                return RedirectToAction("Index");
+            }
+            else
             {
                 var tuVan = _context.Loaituvans.AsNoTracking().SingleOrDefault(x => x.TenLoaiTuVan.ToLower() == loaiTuVan.TenLoaiTuVan.ToLower());
                 if (tuVan != null)
@@ -41,6 +46,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 {
                     try
                     {
+                        TempData["message"] = "Thêm mới thành công!";
                         _context.Update(loaiTuVan);
                         await _context.SaveChangesAsync();
                     }
@@ -51,38 +57,23 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                     return RedirectToAction("Index");
                 }
             }
-            return View(loaiTuVan);
         }
 
-        public async Task<IActionResult> EditType(int id)
+        public IActionResult EditType(int id)
         {
-            var loaituvan = await _context.Loaituvans.FindAsync(id);
-
-            return View(loaituvan);
+            Loaituvan loaituvan = _context.Loaituvans.Where(p => p.IdLoaiTuVan == id).FirstOrDefault();
+            return PartialView("_ConsultingType", loaituvan);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditType(int id, [Bind("IdLoaiTuVan,TenLoaiTuVan")] Loaituvan loaituvan)
+        public IActionResult EditType(Loaituvan loaituvan)
         {
-            if (id != loaituvan.IdLoaiTuVan)
-            {
-                return NotFound();
-            }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(loaituvan);
-                    await _context.SaveChangesAsync();
-                }
-                catch (Exception ex)
-                {
-                    return RedirectToAction(nameof(Index));
-                }
-                return RedirectToAction("Index");
-            }
-            return View(loaituvan);
+            TempData["message"] = "Cập nhật thành công!";
+            _context.Loaituvans.Update(loaituvan);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -91,6 +82,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             Loaituvan loaiTuVan = _context.Loaituvans.Where(p => p.IdLoaiTuVan == consultingID).FirstOrDefault();
             _context.Loaituvans.Remove(loaiTuVan);
             _context.SaveChanges();
+            TempData["message"] = "Xóa thành công!";
             return RedirectToAction("Index");
         }
     }

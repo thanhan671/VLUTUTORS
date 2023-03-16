@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_otherPageLayout.cshtml";
 }
 
-<div class="container-table mt-20">
+<div class="container-table mt-20 pb-20">
     <h4>Lịch Sử Gia Sư</h4>
     <div class="row" id="dropdown-filter">
         <div class="col d-flex mr-10">
@@ -28,6 +28,7 @@
                 <th>Môn Học</th>
                 <th>Tên Gia Sư</th>
                 <th>Ngày Học</th>
+                <th hidden></th>
                 <th>Giá Tiền</th>
                 <th>Khung Giờ</th>
                 <th>Trạng Thái</th>
@@ -38,25 +39,28 @@
             <tr>
                 <td>Anh Văn Cơ Bản</td>
                 <td><a href="">Văn Đạt</a></td>
-                <td>09/11/2022</td>
+                <td>09/04/2023</td>
+                <td hidden>04/09/2023</td>
                 <td>70k VNĐ</td>
                 <td>7h - 8h</td>
                 <td class="done">Đã Học</td>
-                <td><button class="btn-danger">Xóa</button></td>
+                <td><button class="btn-warning">Đánh giá</button></td>
             </tr>
             <tr>
                 <td>Anh Văn Cơ Bản</td>
                 <td><a href="">Văn Đạt</a></td>
-                <td>09/11/2022</td>
+                <td>09/04/2023</td>
+                <td hidden>04/09/2023</td>
                 <td>70k VNĐ</td>
                 <td>7h - 8h</td>
                 <td class="cancel">Đã Huỷ</td>
-                <td><button class="btn-danger">Xóa</button></td>
+                <td></td>
             </tr>
             <tr>
                 <td>Anh Văn Cơ Bản</td>
                 <td><a href="">Văn Đạt</a></td>
-                <td>09/11/2022</td>
+                <td>09/04/2023</td>
+                <td hidden>04/09/2023</td>
                 <td>70k VNĐ</td>
                 <td>7h - 8h</td>
                 <td class="cms">Sắp Diễn Ra</td>
@@ -65,31 +69,25 @@
             <tr>
                 <td>Anh Văn Cơ Bản</td>
                 <td><a href="">Văn Đạt</a></td>
-                <td>09/11/2022</td>
+                <td>09/04/2023</td>
+                <td hidden>04/09/2023</td>
                 <td>70k VNĐ</td>
                 <td>7h - 8h</td>
                 <td class="done">Đã Học</td>
-                <td><button class="btn-danger">Xóa</button></td>
+                <td></td>
             </tr>
             <tr>
                 <td>Anh Văn Cơ Bản</td>
                 <td><a href="">Văn Đạt</a></td>
-                <td>09/11/2022</td>
+                <td>19/03/2023</td>
+                <td hidden>03/19/2023</td>
                 <td>70k VNĐ</td>
                 <td>7h - 8h</td>
-                <td class="cancel">Đã Huỷ</td>
-                <td><button class="btn-danger">Xóa</button></td>
+                <td class="cancel">Sắp Diễn Ra</td>
+                <td><button class="btn-success">Tham gia học</button></td>
             </tr>
         </tbody>
     </table>
-    <ul id="pagination">
-        <li><a class="" href="#">«</a></li>
-        <li><a class="active" href="#">1</a></li>
-        <li><a href="#">2</a></li>
-        <li><a href="#">3</a></li>
-        <li><a href="#">4</a></li>
-        <li><a href="#">»</a></li>
-    </ul>
 </div>
 @section scripts{
         <script>
@@ -99,7 +97,7 @@
       $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
         var min = minDate.val();
         var max = maxDate.val();
-        var date = new Date(data[2]);
+        var date = new Date(data[3]);
 
         if (
           (min === null && max === null) ||
@@ -115,10 +113,10 @@
       $(document).ready(function () {
         // Create date inputs
         minDate = new DateTime($('#min'), {
-          format: 'MMMM Do YYYY',
+            format: 'DD/MM/YYYY',
         });
         maxDate = new DateTime($('#max'), {
-          format: 'MMMM Do YYYY',
+            format: 'DD/MM/YYYY',
         });
 
         // DataTables initialisation
