@@ -127,7 +127,6 @@
                     <tr>
                         <td>@lesson.tenMonDay</td>
                         <td>@lesson.NgayDay.ToString("dd/MM/yyyy")</td>
-                        <td hidden>@lesson.NgayDay.ToString("MM/dd/yyyy")</td>
                         <td>@lesson.GioBatDau:@lesson.PhutBatDau - @lesson.GioKetThuc:@lesson.PhutKetThuc</td>
                         <td>@lesson.tenLoaiCaDay phút</td>
                         <td class="project-actions text-right">
@@ -198,10 +197,14 @@
 
         // Custom filtering function which will search data in column four between two values
         $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
-            console.log(minDate, maxDate);
-            var min = minDate.val();
-            var max = maxDate.val();
-            var date = new Date(data[2]);
+            let min = moment($('#min').val(), 'DD/MM/YYYY', true).isValid() ?
+                moment($('#min').val(), 'DD/MM/YYYY', true).unix() :
+                null;
+
+            let max = moment($('#max').val(), 'DD/MM/YYYY').isValid() ?
+                moment($('#max').val(), 'DD/MM/YYYY', true).unix() :
+                null;
+            var date = moment(data[1], 'DD/MM/YYYY', true).unix();
 
             if (
                 (min === null && max === null) ||
