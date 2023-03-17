@@ -217,7 +217,7 @@
                                         </td>
                                         <td>60,000 đ</td>
                                         <td>
-                                            <button class="custom-btn btn-5">Đặt Lịch</button>
+                                            <button class="custom-btn btn-5" data-toggle="modal" data-target="#exampleModal">Đặt Lịch</button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -289,11 +289,31 @@
         </div>
         <!-- container -->
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document" id="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Xác nhận đặt lịch</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Bạn có thật sự muốn đặt lịch môn <b>Anh Văn Cơ Bản</b> giá tiền <b>70,000</b>?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                    <button type="button" class="custom-btn btn-success-modal">Đồng ý</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 @section scripts {
     <script>
         var minDate, maxDate;
-
         // Custom filtering function which will search data in column four between two values
         $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
             var min = minDate.val();
@@ -342,6 +362,11 @@
             });
             $('#myTable_length').css({ display: 'none' });
             $('.sorting:first').css({ width: '20%' });
+            $('#modal-dialog').css({
+                position: 'relative',
+                top: '50%',
+                transform: 'translateY(-50%)',
+            })
         });
     </script>
 }

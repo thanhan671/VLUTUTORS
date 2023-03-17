@@ -22,6 +22,10 @@
           integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
           crossorigin="anonymous"
           referrerpolicy="no-referrer" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <link href="~/lib/toastr.min.css" rel="stylesheet" />
+    <script src="~/lib/toastr.min.js"></script>
+
 </head>
 <body>
 @*    <div>
@@ -29,7 +33,26 @@
             <i class="fa-sharp fa-solid fa-arrow-left"></i>
         </button>
     </div>*@
+    @if (TempData["Message"] != null)
+{
+    <script>
+            var messageType = '@TempData["MessageType"]';
+        var message = '@TempData["Message"]';
+        
+        // Display the message using Toastr library
+        if (messageType === "success") {
+            toastr.success(message);
+        } else if (messageType === "error") {
+            toastr.error(message);
+        } else if (messageType === "warning") {
+            toastr.warning(message);
+        } else if (messageType === "info") {
+            toastr.info(message);
+        }
+    </script>
+}
     <div class="container">
+        
         <div class="forms-container">
             <div class="signin-signup">
                 <form class="sign-in-form" method="post" enctype="multipart/form-data" asp-controller="Accounts" asp-action="Login">
@@ -102,15 +125,21 @@
         </div>
     </div>
     <script src="~/js/app.js"></script>
-    @if (ViewBag.Message != null)
-    {
-        <script type="text/javascript">
-            window.onload = function () {
-                alert("@ViewBag.Message");
-            };
-        </script>
+    <script>
+        $(function () {
+    // Check for a success message in TempData
+    var toastrSuccess = '@(TempData["toastr-success"])';
+    if (toastrSuccess) {
+        toastr.success(toastrSuccess);
     }
 
+    // Check for an error message in TempData
+    var toastrError = '@(TempData["toastr-error"])';
+    if (toastrError) {
+        toastr.error(toastrError);
+    }
+});
+    </script>
 </body>
 </html>
 
