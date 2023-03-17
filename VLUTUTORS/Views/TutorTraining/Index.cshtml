@@ -32,7 +32,7 @@
                             </div>
                             @foreach (var file in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.TaiLieu))
                             {
-                                <p style="padding-left:2.00em;">@Html.ActionLink(file + " ", "DownloadFile", new { courseName = Model.TenBaiHoc, fileName = file })</p>
+                                <p style="padding-left:2.00em;">@Html.ActionLink(file + "  ", "DownloadFile", new {courseName = Model.TenBaiHoc, fileName = file})</p>
                             }
                         </div>
                     }
