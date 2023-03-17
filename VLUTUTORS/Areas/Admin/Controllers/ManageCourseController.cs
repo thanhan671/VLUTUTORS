@@ -59,7 +59,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             }
 
             string linkVideo = JsonConvert.SerializeObject(listLink);
-            string filePath = Path.Combine("Files", khoadaotao.TenBaiHoc.Trim());
+            string filePath;
 
             if (ModelState.IsValid)
             {
@@ -84,18 +84,26 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                         else if (listLink.Count == 0 && tepBaiGiang.Count != 0)
                         {
                             khoadaotao.LinkVideo = null;
-                            khoadaotao.TaiLieu = TutorServices.SaveUploadFiles(this._environment.WebRootPath, filePath, tepBaiGiang);
+                            khoadaotao.TaiLieu = TutorServices.SaveFileNameToDb(tepBaiGiang);
                             _context.Add(khoadaotao);
                             await _context.SaveChangesAsync();
                             TempData["message"] = "Thêm thành công!";
+
+                            filePath = Path.Combine("Files", khoadaotao.IdBaiHoc.ToString());
+                            TutorServices.SaveFileToFolder(this._environment.WebRootPath, filePath, tepBaiGiang);
+                            Console.WriteLine("id: " + khoadaotao.IdBaiHoc.ToString());
                         }
                         else if (listLink.Count != 0 && tepBaiGiang.Count != 0)
                         {
                             khoadaotao.LinkVideo = linkVideo;
-                            khoadaotao.TaiLieu = TutorServices.SaveUploadFiles(this._environment.WebRootPath, filePath, tepBaiGiang);
+                            khoadaotao.TaiLieu = TutorServices.SaveFileNameToDb(tepBaiGiang);
                             _context.Add(khoadaotao);
                             await _context.SaveChangesAsync();
                             TempData["message"] = "Thêm thành công!";
+
+                            filePath = Path.Combine("Files", khoadaotao.IdBaiHoc.ToString());
+                            TutorServices.SaveFileToFolder(this._environment.WebRootPath, filePath, tepBaiGiang);
+                            Console.WriteLine("id: " + khoadaotao.IdBaiHoc.ToString());
                         }
                         else if (listLink.Count == 0 && tepBaiGiang.Count == 0)
                         {
@@ -106,6 +114,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                     {
                         return RedirectToAction(nameof(Index));
                     }
+                    
                     return RedirectToAction("Index");
 
                 }
@@ -169,7 +178,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                     }
 
                     string linkVideo = JsonConvert.SerializeObject(listLink);
-                    string filePath = Path.Combine("Files", khoadaotao.TenBaiHoc.Trim());
+                    string filePath = Path.Combine("Files", khoadaotao.IdBaiHoc.ToString());
                     baihoc.LinkVideo = linkVideo;
                     baihoc.TaiLieu = tepBaiGiang.Count != 0 ? TutorServices.SaveUploadFiles(this._environment.WebRootPath, filePath, tepBaiGiang) : baihoc.TaiLieu;
                     _context.Update(baihoc);
