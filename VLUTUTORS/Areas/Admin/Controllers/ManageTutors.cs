@@ -149,7 +149,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DetailTutor(int id, IFormCollection form)
+        public async Task<IActionResult> DetailTutor(int id, IFormCollection form, [FromForm] string reason)
         {
             var account = await _context.Taikhoannguoidungs.FindAsync(id);
             if (account == null)
@@ -165,6 +165,8 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
                     account.IdxetDuyet = idxetDuyet;
                     account.TrangThaiGiaSu = true;
+                    HttpContext.Session.SetString("Email", account.Email);
+                    HttpContext.Session.SetString("Name", account.HoTen);
 
                     _context.Update(account);
                     await _context.SaveChangesAsync();
@@ -177,17 +179,25 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 if (idxetDuyet == 3)
                 {
                     return RedirectToAction("SendMail", "ManageTuTors",
-                        new { toEmail = account.Email, mailBody = "Chúc mừng! Hồ sơ của bạn đã đủ điều kiện tham gia phỏng vấn, vui lòng theo dõi điện thoại để nhận lịch hẹn phỏng vấn!"});
+                        new { toEmail = account.Email, mailBody = "<b>Chúc mừng! Hồ sơ của bạn đã đủ điều kiện tham gia phỏng vấn, vui lòng theo dõi điện thoại để nhận lịch hẹn phỏng vấn từ chúng tôi!</b>" +
+                        "<p style = \"margin: 0%;\">Một lần nữa cảm ơn bạn đã quan tâm và mong muốn trở thành một thành viên của Gia Sư Văn Lang. Hẹn gặp bạn vào buổi phỏng vấn và chúc bạn sẽ có một buổi phỏng " +
+                        "vấn thật thành công!<br/>"});
                 }
                 else if (idxetDuyet == 4)
                 {
                     return RedirectToAction("SendMail", "ManageTuTors",
-                        new { toEmail = account.Email, mailBody = "Rất tiếc! Bạn đã không đạt được các tiêu chí để trở thành gia sư của Văn Lang, hẹn gặp lại bạn dịp khác!"});
+                        new { toEmail = account.Email, mailBody = "<b>Rất tiếc! Bạn đã không đạt được các tiêu chí để trở thành gia sư của Gia Sư Văn Lang với lý do từ chối là: <i>"+reason+ "</i></b>"+
+                        "<p style = \"margin: 0%;\">Một lần nữa cảm ơn bạn đã quan tâm và mong muốn trở thành một thành viên của Gia Sư Văn Lang. Hẹn gặp bạn vào một dịp khác và có cơ hội hợp tác cùng bạn.<br/>"
+                        });
                 }
                 else if (idxetDuyet == 5)
                 {
                     return RedirectToAction("SendMail", "ManageTuTors",
-                        new { toEmail = account.Email, mailBody = "Chúc mừng! Bạn đã chính thức trở thành gia sư của Văn Lang, bây giờ bạn có thể đăng nhập và sử dụng chức năng của gia sư!"});
+                        new { toEmail = account.Email, mailBody = "<b>Chúc mừng! Bạn đã đáp ứng đầy đủ các yêu cầu và chính thức trở thành gia sư của chúng tôi, chào mừng bạn đến với đại gia đình Gia Sư Văn Lang.</b><br/>" +
+                        "Bây giờ bạn có thể đăng nhập và sử dụng chức năng của gia sư!"+
+                        "<p style = \"margin: 0%;\">Một lần nữa cảm ơn bạn đã quan tâm và mong muốn trở thành một thành viên của Gia Sư Văn Lang. Chúc bạn sẽ có những trải nghiệm thật tốt trên Gia Sư Văn Lang với " +
+                        "vai trò là gia sư của chúng tôi!.<br/>"
+                        });
                 }
             }
             return View(account);
@@ -279,11 +289,29 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             string mailTitle = "Gia Sư Văn Lang";
             string fromMail = "giasuvanlang.thongtin@gmail.com";
             string fromEmailPass = "vrzaiqmdiycujvas";
+            string email = HttpContext.Session.GetString("Email");
+            string name = HttpContext.Session.GetString("Name");
+            string bodyMail = "<!DOCTYPE html>" +
+        "<html>" +
+            "<body>" +
+                "<p style = \"margin: 0%;\">" +
+                "Xin chào, <b>"+name+"</b><br/>" +
+                "Lời đầu tiên, Gia Sư Văn Lang xin cảm ơn bạn đã dành thời gian tìm hiểu và đăng ký trở thành gia sư trên nền tảng của chúng tôi. Qua email này chúng tôi muốn thông báo kết quả xét duyệt hồ sơ như sau:</p>" +
+
+                "<p style = \"margin: 0%;\">"+mailBody+"<br/>" +
+
+               " Trân trọng!<br/>" +
+                "<b>Gia Sư Văn Lang</b><br/>" +
+                "<b style = \"font-size: 10px;text-align: center; margin: 0%;\"> Bạn nhận được thông báo này vì địa chỉ email "+email+" đang được sử dụng cho " +
+                "tài khoản trên trang Gia Sư Văn Lang. Nếu thông tin này không chính xác," +
+                "vui lòng bỏ qua và không trả lời lại mail này.<br/>Xin cảm ơn!</b>" +
+            "</body>" +
+        "</html>";
 
             //Email and content
             MailMessage message = new MailMessage(new MailAddress(fromMail, mailTitle), new MailAddress(toEmail));
             message.Subject = "[VLUTUTORS] Thông báo kết quả xét duyệt hồ sơ";
-            message.Body = mailBody;
+            message.Body = bodyMail;
             message.IsBodyHtml = true;
 
             //Server detail

@@ -221,8 +221,11 @@
                 </form>
             </div>
         </div>
-        <!-- sign-up ends -->
     </div>
+    @if (TempData["message"] != null)
+    {
+        <script>alert('@TempData["message"]');</script>
+    }
 </body>
 </html>
 <script>

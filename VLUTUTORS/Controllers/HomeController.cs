@@ -107,7 +107,7 @@ namespace VLUTUTORS.Controllers
 
                 _db.Entry(taikhoannguoidung).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 _db.SaveChanges();
-
+                TempData["message"] = "Hồ sơ đã được gửi đến quản trị viên, để hoàn tất thủ tục bạn cần hoàn thành khóa đào tạo gia sư!";
                 return RedirectToAction("Index", "TutorTraining", new { courseName = "" });
             }
             taikhoannguoidung.DepartmentItems = new SelectList(_db.Khoas, "Idkhoa", "TenKhoa", taikhoannguoidung.Idkhoa);
