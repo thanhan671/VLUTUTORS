@@ -20,160 +20,160 @@
     </section>
 
     <!-- Main content -->
-    <form method="post" enctype="multipart/form-data" asp-controller="ManageContent" asp-action="Index" asp-route-id="1">
         <section class="content">
             <div class="container" style="margin-top: 20px; margin-bottom: 20px">
                 <div class="main-body">
-                    <div class="row gutters-sm">
-                        <div class="col">
-                            <div class="card mb-3">
-                                <div class="card-body">
-                                    <h3>Thông tin trang chủ</h3>
-                                    <hr />
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <h6 class="mb-0">Câu Slogan</h6>
+                    <form method="post" enctype="multipart/form-data" asp-controller="ManageContent" asp-action="Index" asp-route-id="1">
+                        @Html.AntiForgeryToken()
+                        <div class="row gutters-sm">
+                            <div class="col">
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <h3>Thông tin trang chủ</h3>
+                                        <hr />
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0">Câu Slogan</h6>
+                                            </div>
+                                            <input class="col-sm-9 text-secondary" name="Slogan" id="Slogan" type="text" value="@Model.Slogan">
+                                            @Html.ValidationMessageFor(m => m.Slogan, "", new { @class = "text-danger" })
                                         </div>
-                                        <input class="col-sm-9 text-secondary" name="Slogan" id="Slogan" type="text" value="@Model.Slogan">
-                                        @Html.ValidationMessageFor(m => m.Slogan, "", new { @class = "text-danger" })
-                                    </div>
-                                    <hr />
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <h6 class="mb-0">Đoạn giới thiệu ở chân trang</h6>
+                                        <hr />
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0">Đoạn giới thiệu ở chân trang</h6>
+                                            </div>
+                                            <textarea class="col-sm-9 text-secondary" name="GioiThieuChanTrang" id="GioiThieuChanTrang" cols="30" rows="10">@Model.GioiThieuChanTrang</textarea>
+                                            @Html.ValidationMessageFor(m => m.GioiThieuChanTrang, "", new { @class = "text-danger" })
                                         </div>
-                                        <textarea class="col-sm-9 text-secondary" name="GioiThieuChanTrang" id="GioiThieuChanTrang" cols="30" rows="10">@Model.GioiThieuChanTrang</textarea>
-                                        @Html.ValidationMessageFor(m => m.GioiThieuChanTrang, "", new { @class = "text-danger" })
-                                    </div>
-                                    <hr />
+                                        <hr />
 
-                                    <h3>Thông tin liên hệ</h3>
-                                    <hr />
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <h6 class="mb-0">Địa chỉ</h6>
+                                        <h3>Thông tin liên hệ</h3>
+                                        <hr />
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0">Địa chỉ</h6>
+                                            </div>
+                                            <input class="col-sm-9 text-secondary" name="DiaChi" id="DiaChi" type="text" value="@Model.DiaChi">
+                                            @Html.ValidationMessageFor(m => m.DiaChi, "", new { @class = "text-danger" })
                                         </div>
-                                        <input class="col-sm-9 text-secondary" name="DiaChi" id="DiaChi" type="text" value="@Model.DiaChi">
-                                        @Html.ValidationMessageFor(m => m.DiaChi, "", new { @class = "text-danger" })
-                                    </div>
-                                    <hr />
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <h6 class="mb-0">Số Điện Thoại</h6>
+                                        <hr />
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0">Số Điện Thoại</h6>
+                                            </div>
+                                            <input class="col-sm-9 text-secondary" name="Sdt" id="Sdt" type="text" value="@Model.Sdt">
+                                            @Html.ValidationMessageFor(m => m.Sdt, "", new { @class = "text-danger" })
                                         </div>
-                                        <input class="col-sm-9 text-secondary" name="Sdt" id="Sdt" type="text" value="@Model.Sdt">
-                                        @Html.ValidationMessageFor(m => m.Sdt, "", new { @class = "text-danger" })
-                                    </div>
-                                    <hr />
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <h6 class="mb-0">Email</h6>
+                                        <hr />
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0">Email</h6>
+                                            </div>
+                                            <input class="col-sm-9 text-secondary" name="Email" id="Email" type="text" value="@Model.Email">
+                                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                                         </div>
-                                        <input class="col-sm-9 text-secondary" name="Email" id="Email" type="text" value="@Model.Email">
-                                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-                                    </div>
-                                    <hr />
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <h6 class="mb-0">Facebook</h6>
+                                        <hr />
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0">Facebook</h6>
+                                            </div>
+                                            <input class="col-sm-9 text-secondary" name="Facebook" id="Facebook" type="text" value="@Model.Facebook">
+                                            @Html.ValidationMessageFor(m => m.Facebook, "", new { @class = "text-danger" })
                                         </div>
-                                        <input class="col-sm-9 text-secondary" name="Facebook" id="Facebook" type="text" value="@Model.Facebook">
-                                        @Html.ValidationMessageFor(m => m.Facebook, "", new { @class = "text-danger" })
-                                    </div>
-                                    <hr />
+                                        <hr />
 
-                                    <h3>Thông tin trang giới thiệu</h3>
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <h6 class="mb-0">Đoạn giới thiệu</h6>
+                                        <h3>Thông tin trang giới thiệu</h3>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0">Đoạn giới thiệu</h6>
+                                            </div>
+                                            <textarea class="col-sm-9 text-secondary" name="GioiThieu" id="GioiThieu" cols="30" rows="10">@Model.GioiThieu</textarea>
+                                            @Html.ValidationMessageFor(m => m.GioiThieu, "", new { @class = "text-danger" })
                                         </div>
-                                        <textarea class="col-sm-9 text-secondary" name="GioiThieu" id="GioiThieu" cols="30" rows="10">@Model.GioiThieu</textarea>
-                                        @Html.ValidationMessageFor(m => m.GioiThieu, "", new { @class = "text-danger" })
-                                    </div>
-                                    <hr />
+                                        <hr />
 
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <h6 class="mb-0">Ảnh trên trang</h6>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0">Ảnh trên trang</h6>
+                                            </div>
+                                            <img src="~/images/imagebg.jpg" width="100" height="100" />
+                                            <input class="col-sm-9 text-secondary"
+                                                   type="file"
+                                                   name="anhGt"
+                                                   multiple="multiple"
+                                                   accept=".jpg, .jpeg, .png" />
                                         </div>
-                                        <img src="~/images/imagebg.jpg" width="100" height="100" />
-                                        <input class="col-sm-9 text-secondary"
-                                               type="file"
-                                               name="anhGt"
-                                               id="anhGt"
-                                               placeholder="Ảnh"
-                                               multiple="multiple"
-                                               accept=".jpg, .jpeg, .png" />
-                                    </div>
-                                    <hr />
+                                        <hr />
 
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <h6 class="mb-0">Tiêu đề giới thiệu 1</h6>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0">Tiêu đề giới thiệu 1</h6>
+                                            </div>
+                                            <input class="col-sm-9 text-secondary" name="TieuDeGt1" id="TieuDeGt1" type="text" value="@Model.TieuDeGt1">
+                                            @Html.ValidationMessageFor(m => m.TieuDeGt1, "", new { @class = "text-danger" })
                                         </div>
-                                        <input class="col-sm-9 text-secondary" name="TieuDeGt1" id="TieuDeGt1" type="text" value="@Model.TieuDeGt1">
-                                        @Html.ValidationMessageFor(m => m.TieuDeGt1, "", new { @class = "text-danger" })
-                                    </div>
-                                    <hr />
+                                        <hr />
 
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <h6 class="mb-0">Đoạn giới thiệu 1</h6>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0">Đoạn giới thiệu 1</h6>
+                                            </div>
+                                            <textarea class="col-sm-9 text-secondary" name="GioiThieu1" id="GioiThieu1" cols="30" rows="10">@Model.GioiThieu1</textarea>
+                                            @Html.ValidationMessageFor(m => m.GioiThieu1, "", new { @class = "text-danger" })
                                         </div>
-                                        <textarea class="col-sm-9 text-secondary" name="GioiThieu1" id="GioiThieu1" cols="30" rows="10">@Model.GioiThieu1</textarea>
-                                        @Html.ValidationMessageFor(m => m.GioiThieu1, "", new { @class = "text-danger" })
-                                    </div>
-                                    <hr />
+                                        <hr />
 
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <h6 class="mb-0">Tiêu đề giới thiệu 2</h6>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0">Tiêu đề giới thiệu 2</h6>
+                                            </div>
+                                            <input class="col-sm-9 text-secondary" name="TieuDeGt2" id="TieuDeGt2" type="text" value="@Model.TieuDeGt2">
+                                            @Html.ValidationMessageFor(m => m.TieuDeGt2, "", new { @class = "text-danger" })
                                         </div>
-                                        <input class="col-sm-9 text-secondary" name="TieuDeGt2" id="TieuDeGt2" type="text" value="@Model.TieuDeGt2">
-                                        @Html.ValidationMessageFor(m => m.TieuDeGt2, "", new { @class = "text-danger" })
-                                    </div>
-                                    <hr />
+                                        <hr />
 
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <h6 class="mb-0">Đoạn giới thiệu 2</h6>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0">Đoạn giới thiệu 2</h6>
+                                            </div>
+                                            <textarea class="col-sm-9 text-secondary" name="GioiThieu2" id="GioiThieu2" cols="30" rows="10">@Model.GioiThieu2</textarea>
+                                            @Html.ValidationMessageFor(m => m.GioiThieu2, "", new { @class = "text-danger" })
                                         </div>
-                                        <textarea class="col-sm-9 text-secondary" name="GioiThieu2" id="GioiThieu2" cols="30" rows="10">@Model.GioiThieu2</textarea>
-                                        @Html.ValidationMessageFor(m => m.GioiThieu2, "", new { @class = "text-danger" })
-                                    </div>
-                                    <hr />
+                                        <hr />
 
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <h6 class="mb-0">Tiêu đề giới thiệu 3</h6>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0">Tiêu đề giới thiệu 3</h6>
+                                            </div>
+                                            <input class="col-sm-9 text-secondary" name="TieuDeGt3" id="TieuDeGt3" type="text" value="@Model.TieuDeGt3">
+                                            @Html.ValidationMessageFor(m => m.TieuDeGt3, "", new { @class = "text-danger" })
                                         </div>
-                                        <input class="col-sm-9 text-secondary" name="TieuDeGt3" id="TieuDeGt3" type="text" value="@Model.TieuDeGt3">
-                                        @Html.ValidationMessageFor(m => m.TieuDeGt3, "", new { @class = "text-danger" })
-                                    </div>
-                                    <hr />
+                                        <hr />
 
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <h6 class="mb-0">Đoạn giới thiệu 3</h6>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0">Đoạn giới thiệu 3</h6>
+                                            </div>
+                                            <textarea class="col-sm-9 text-secondary" name="GioiThieu3" id="GioiThieu3" cols="30" rows="10">@Model.GioiThieu3</textarea>
+                                            @Html.ValidationMessageFor(m => m.GioiThieu3, "", new { @class = "text-danger" })
                                         </div>
-                                        <textarea class="col-sm-9 text-secondary" name="GioiThieu3" id="GioiThieu3" cols="30" rows="10">@Model.GioiThieu3</textarea>
-                                        @Html.ValidationMessageFor(m => m.GioiThieu3, "", new { @class = "text-danger" })
-                                    </div>
-                                    <hr />
+                                        <hr />
 
-                                    <div class="row">
-                                        <div class="col-12 flex-right mb-4">
-                                            <input type="submit" value="Lưu" class="btn btn-success" onclick="popup()" />
+                                        <div class="row">
+                                            <div class="col-12 flex-right mb-4">
+                                                <input type="submit" value="Lưu" class="btn btn-success" onclick="popup()" />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </section>
-    </form>
+
     <!-- /.content -->
 </div>
 @if (TempData["message"] != null)

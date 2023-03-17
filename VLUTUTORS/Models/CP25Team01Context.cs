@@ -258,7 +258,6 @@ namespace VLUTUTORS.Models
                 entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.AnhGioiThieu)
-                    .IsRequired()
                     .HasMaxLength(500)
                     .IsUnicode(false);
 
