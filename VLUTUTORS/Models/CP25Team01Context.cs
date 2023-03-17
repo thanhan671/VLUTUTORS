@@ -97,7 +97,7 @@ namespace VLUTUTORS.Models
 
                 entity.Property(e => e.IdnguoiHoc).HasColumnName("IDNguoiHoc");
 
-                entity.Property(e => e.NgayDay).HasColumnType("datetime");
+                entity.Property(e => e.NgayDay).HasColumnType("date");
 
                 entity.HasOne(d => d.IdloaiCaDayNavigation)
                     .WithMany(p => p.Cadays)
@@ -257,6 +257,11 @@ namespace VLUTUTORS.Models
 
                 entity.Property(e => e.Id).HasColumnName("ID");
 
+                entity.Property(e => e.AnhGioiThieu)
+                    .IsRequired()
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.DiaChi).IsRequired();
 
                 entity.Property(e => e.Email)
@@ -267,6 +272,12 @@ namespace VLUTUTORS.Models
 
                 entity.Property(e => e.GioiThieu).IsRequired();
 
+                entity.Property(e => e.GioiThieu1).IsRequired();
+
+                entity.Property(e => e.GioiThieu2).IsRequired();
+
+                entity.Property(e => e.GioiThieu3).IsRequired();
+
                 entity.Property(e => e.GioiThieuChanTrang).IsRequired();
 
                 entity.Property(e => e.Sdt)
@@ -276,6 +287,21 @@ namespace VLUTUTORS.Models
                     .HasColumnName("SDT");
 
                 entity.Property(e => e.Slogan).IsRequired();
+
+                entity.Property(e => e.TieuDeGt1)
+                    .IsRequired()
+                    .HasMaxLength(300)
+                    .HasColumnName("TieuDeGT1");
+
+                entity.Property(e => e.TieuDeGt2)
+                    .IsRequired()
+                    .HasMaxLength(300)
+                    .HasColumnName("TieuDeGT2");
+
+                entity.Property(e => e.TieuDeGt3)
+                    .IsRequired()
+                    .HasMaxLength(300)
+                    .HasColumnName("TieuDeGT3");
             });
 
             modelBuilder.Entity<Quyen>(entity =>

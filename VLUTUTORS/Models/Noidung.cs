@@ -23,5 +23,19 @@ namespace VLUTUTORS.Models
         public string GioiThieu { get; set; }
         [Required(AllowEmptyStrings = false, ErrorMessage = "Vui lòng điền trường này!")]
         public string Slogan { get; set; }
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Vui lòng điền trường này!")]
+        public string AnhGioiThieu { get; set; }
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Vui lòng điền trường này!")]
+        public string TieuDeGt1 { get; set; }
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Vui lòng điền trường này!")]
+        public string GioiThieu1 { get; set; }
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Vui lòng điền trường này!")]
+        public string TieuDeGt2 { get; set; }
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Vui lòng điền trường này!")]
+        public string GioiThieu2 { get; set; }
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Vui lòng điền trường này!")]
+        public string TieuDeGt3 { get; set; }
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Vui lòng điền trường này!")]
+        public string GioiThieu3 { get; set; }
     }
 }
