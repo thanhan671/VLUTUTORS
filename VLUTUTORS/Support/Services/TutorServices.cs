@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using System.IO;
 using System.Data;
 using Newtonsoft.Json;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace VLUTUTORS.Support.Services
 {
@@ -45,6 +46,43 @@ namespace VLUTUTORS.Support.Services
                 filesName.Add(fileName);
             }
             namesJson = JsonConvert.SerializeObject(filesName);
+            return namesJson;
+        }
+
+        public static void SaveFileToFolder(string enviromentPath, string path, List<IFormFile> images) 
+        {
+            string fullPath = Path.Combine(enviromentPath, path);
+            if (!Directory.Exists(fullPath)) {
+                Console.WriteLine("directory not exists " + path);
+                Directory.CreateDirectory(fullPath);
+            }
+            else {
+                DirectoryInfo directoryInfo = new DirectoryInfo(fullPath);
+                foreach (FileInfo file in directoryInfo.GetFiles()) {
+                    file.Delete();
+                }
+            }
+
+            List<string> uploadedFiles = new List<string>();
+            foreach (IFormFile postedFile in images) {
+                string fileName = Path.GetFileName(postedFile.FileName);
+
+                using (FileStream stream = new FileStream(Path.Combine(enviromentPath, path, fileName), FileMode.Create)) {
+                    postedFile.CopyTo(stream);
+                    uploadedFiles.Add(fileName);
+                }
+            }
+        }
+
+        public static string SaveFileNameToDb(List<IFormFile> formFiles) 
+        {
+            List<string> filesName = new List<string>();
+            foreach (IFormFile postedFile in formFiles)
+            {
+                string fileName = Path.GetFileName(postedFile.FileName);
+                filesName.Add(fileName);
+            }
+            string namesJson = JsonConvert.SerializeObject(filesName);
             return namesJson;
         }
 

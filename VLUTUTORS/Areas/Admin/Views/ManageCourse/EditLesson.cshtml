@@ -51,7 +51,7 @@
                                                 <div class="col-sm-9">
                                                     @foreach (var file in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.TaiLieu))
                                                     {
-                                                        <div class="row" name="TaiLieu" id="TaiLieu">@Html.ActionLink(file + "  ", "DownloadFile", new {courseName = Model.TenBaiHoc, fileName = file })</div>
+                                                        <div class="row" name="TaiLieu" id="TaiLieu">@Html.ActionLink(file + "  ", "DownloadFile", new {courseName = Model.IdBaiHoc, fileName = file })</div>
                                                     }
                                                 </div>
                                             </div>

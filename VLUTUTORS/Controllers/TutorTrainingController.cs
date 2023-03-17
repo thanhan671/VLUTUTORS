@@ -60,10 +60,10 @@ namespace VLUTUTORS.Controllers
             }
 
             baihoc.TaiLieu = _db.Khoadaotaos.Where(l => l.TenBaiHoc == courseName).First().TaiLieu;
+            baihoc.IdBaiHoc = _db.Khoadaotaos.Where(l => l.TenBaiHoc == courseName).First().IdBaiHoc;
 
             var userInfo = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
             Taikhoannguoidung taikhoannguoidung = _db.Taikhoannguoidungs.Find(userInfo.Id);
-            //Console.WriteLine("diem bai kiem tra: " + taikhoannguoidung.DiemBaiTest);
             
             baihoc.currentScore = taikhoannguoidung.DiemBaiTest;
             Console.WriteLine("moi lam bai kiem tra index: " + justDoTest);
