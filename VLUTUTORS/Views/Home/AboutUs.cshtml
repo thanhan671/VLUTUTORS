@@ -23,10 +23,11 @@
             <!-- about cont -->
             <div class="col-lg-7">
                 <div class="about-image mt-50">
-                    @foreach (var file in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.AnhGioiThieu))
-                    {
-                        <img src="~/@file" alt="About" />
-                    }
+                    @*@foreach (var file in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.AnhGioiThieu))
+        {
+            <img src="~/@file" alt="About" />
+        }*@
+                    <img src="~/images/imagebg.jpg" alt="About" />
                 </div>
                 <!-- about imag -->
             </div>

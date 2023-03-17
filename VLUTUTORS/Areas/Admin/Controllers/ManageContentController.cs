@@ -31,17 +31,17 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index(int id, Noidung noiDung, List<IFormFile> imgAbout)
+        public IActionResult Index(int id, [Bind(include: "Id,GioiThieuChanTrang,DiaChi,Sdt,Email,Facebook,GioiThieu,Slogan,AnhGioiThieu,TieuDeGt1,GioiThieu1,TieuDeGt2,GioiThieu2,TieuDeGt3,GioiThieu3")] Noidung noiDung, List<IFormFile> anhGt)
         {
-            string imgPath = Path.Combine("images", "AboutUs");
+            string imgPath = Path.Combine("images", "about");
             if (ModelState.IsValid)
             {
                 try
                 {
-                    noiDung.AnhGioiThieu = imgAbout.Count != 0 ? TutorServices.SaveAvatar(this._environment.WebRootPath, imgPath, imgAbout) : noiDung.AnhGioiThieu;
+                    noiDung.AnhGioiThieu = anhGt.Count != 0 ? TutorServices.SaveAvatar(this._environment.WebRootPath, imgPath, anhGt) : noiDung.AnhGioiThieu;
                     TempData["message"] = "Cập nhật thành công!";
-                    _context.Update(noiDung);
-                    await _context.SaveChangesAsync();
+                    _context.Entry(noiDung).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                    _context.SaveChanges();
                 }
                 catch (Exception ex)
                 {
