@@ -278,7 +278,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         {
             string mailTitle = "Gia Sư Văn Lang";
             string fromMail = "giasuvanlang.thongtin@gmail.com";
-            string fromEmailPass = "wwxtjmqczzdgwqke";
+            string fromEmailPass = "vrzaiqmdiycujvas";
 
             //Email and content
             MailMessage message = new MailMessage(new MailAddress(fromMail, mailTitle), new MailAddress(toEmail));

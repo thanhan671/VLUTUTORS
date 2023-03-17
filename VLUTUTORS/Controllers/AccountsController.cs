@@ -320,7 +320,7 @@ namespace VLUTUTORS.Controllers
             sqlStringBuilder["Server"] = "tuleap.vanlanguni.edu.vn,18082";
             sqlStringBuilder["Database"] = "CP25Team01";
             sqlStringBuilder["UID"] = "CP25Team01";
-            sqlStringBuilder["PWD"] = "Cap25t01";
+            sqlStringBuilder["PWD"] = "VLUTUTORS01";
 
             var sqlStringConnection = sqlStringBuilder.ToString();
 
@@ -341,12 +341,32 @@ namespace VLUTUTORS.Controllers
 
             string mailTitle = "Gia Sư Văn Lang";
             string fromMail = "giasuvanlang.thongtin@gmail.com";
-            string fromEmailPass = "wwxtjmqczzdgwqke";
+            string fromEmailPass = "vrzaiqmdiycujvas";
+            string bodyMail = "<!DOCTYPE html>" +
+                    "<html>" +
+                        "<body>" +
+                            "<p style = \"margin: 0%;\">" +
+                            "Xin chào, <br/>" +
+                            "Mã xác minh bạn cần dùng để thay đổi mật khẩu cho email <b>" + Email + "</b> là:</p>" +
+
+                            "<p style = \"color: green;font-size: 40px; margin: 0 0 0 50px;\">" + newPass + "</p>" +
+
+                            "<p style = \"margin: 0%;\" > Vui lòng nhập mã xác thực để thay đổi mật khẩu<br/>" +
+                            "Nếu bạn không yêu cầu mã này thì có thể ai đó đang sử dụng email <b>" + Email + "</b> để thay đổi mật khẩu tài khoản." +
+                            "<b style = \"color: red;\" > Không chuyển tiếp hoặc cung cấp mã này cho bất kỳ ai.</b><br/></p>" +
+
+                            "<b style = \"font-size: small;text-align: center; margin: 0%;\"> Bạn nhận được thông báo này vì địa chỉ email đang được sử dụng cho " +
+                            "tài khoản trên trang Gia Sư Văn Lang.Nếu thông tin này không chính xác," +
+                            "vui lòng bỏ qua và không trả lời lại mail này.Xin cảm ơn!</b><br/>" +
+                           " Trân trọng!<br/>" +
+                            "<b>Gia Sư Văn Lang</b>" +
+                        "</body>" +
+                    "</html>";
 
             //Email and content
             MailMessage message = new MailMessage(new MailAddress(fromMail, mailTitle), new MailAddress(Email));
-            message.Subject = "Khôi phục mật khẩu";
-            message.Body = "<p>Mật khẩu mới của bạn là<p><br/> <b>" + newPass + "</b><br/><p>Vui lòng đăng nhập với mật khẩu mới để thay đổi mật khẩu!<p>";
+            message.Subject = "[VLUTUTORS] Khôi phục mật khẩu";
+            message.Body = bodyMail;
             message.IsBodyHtml = true;
 
             //Server detail
@@ -364,7 +384,37 @@ namespace VLUTUTORS.Controllers
             smtp.Credentials = credential;
 
             smtp.Send(message);
+            HttpContext.Session.SetString("loginEmail", Email);
 
+            return RedirectToAction("ChangesPass", "Accounts");
+        }
+
+        [HttpGet]
+        public IActionResult ChangesPass()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult ChangesPass(string newPass, string verifyCode)
+        {
+            string email = HttpContext.Session.GetString("loginEmail");
+            var checkAccount = db.Taikhoannguoidungs.AsNoTracking().SingleOrDefault(x => x.Email.ToLower() == email.ToLower());
+            if (checkAccount != null)
+            {
+                if(checkAccount.MatKhau == verifyCode)
+                {
+                    checkAccount.MatKhau = newPass;
+                    db.Update(checkAccount);
+                    db.SaveChangesAsync();
+                }
+                else
+                {
+                    TempData["message"] = "Mã xác minh không đúng!";
+                    return View();
+                }
+            }
+            TempData["message"] = "Thiết lập mật khẩu mới thành công!";
             return RedirectToAction("Login", "Accounts");
         }
 
@@ -397,7 +447,7 @@ namespace VLUTUTORS.Controllers
 
             //Email and content
             MailMessage message = new MailMessage(new MailAddress(fromMail, mailTitle), new MailAddress(toEmail));
-            message.Subject = "Xác thực Email cho Gia sư Văn Lang";
+            message.Subject = "[VLUTUTORS] Xác thực Email cho Gia sư Văn Lang";
             message.Body = bodyMail;
             message.IsBodyHtml = true;
 
