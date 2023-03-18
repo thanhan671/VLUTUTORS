@@ -59,6 +59,8 @@ namespace VLUTUTORS.Controllers
                 if (checkAccount == null)
                 {
                     ViewBag.Message = "Email chưa đúng, vui lòng kiểm tra lại";
+                    TempData["Message"] = "Sai tài khoản hoặc mật khẩu";
+                    TempData["MessageType"] = "error";
                     return View();
                 }
                 else
@@ -66,6 +68,8 @@ namespace VLUTUTORS.Controllers
                     if (checkAccount.XacThuc==false)
                     {
                         ViewBag.Message = "Vui lòng kiểm tra email để xác thực tài khoản!";
+                        TempData["Message"] = "Vui lòng kiểm tra email để xác thực tài khoản!";
+                        TempData["MessageType"] = "error";
                         return View();
                     }
                     else
@@ -82,6 +86,8 @@ namespace VLUTUTORS.Controllers
                                 return _loginSuccessCallback.Invoke(checkAccount);
                             }
                             ViewBag.Message = "Mật khẩu chưa đúng, vui lòng kiểm tra lại";
+                            TempData["Message"] = "Vui lòng kiểm tra email để xác thực tài khoản!";
+                            TempData["MessageType"] = "error";
                         }
                         else
                         {
