@@ -1,5 +1,5 @@
-﻿@model VLUTUTORS.Models.BookTutorViewModel
-
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model Tuple<VLUTUTORS.Models.BookTutorViewModel, IEnumerable<VLUTUTORS.Models.Caday>>
 @{
     ViewData["Title"] = "Chi tiết gia sư";
     Layout = "~/Views/Shared/_otherPageLayout.cshtml";
@@ -12,7 +12,7 @@
                 <div class="row">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="javascript:history.go(-1)">Tìm gia sư</a></li>
-                        <li class="breadcrumb-item active">Chi tiết gia sư @Model.Tutor.HoTen</li>
+                        <li class="breadcrumb-item active">Chi tiết gia sư @Model.Item1.Tutor.HoTen</li>
                     </ol>
                 </div>
             </div>
@@ -21,11 +21,11 @@
             <div class="col-lg-4 col-md-8">
                 <div class="teachers-left">
                     <div class="hero">
-                        <img src="~/@Model.Tutor.AnhDaiDien" alt="Teachers" />
+                        <img src="~/@Model.Item1.Tutor.AnhDaiDien" alt="Teachers" />
                     </div>
                     @{
-                        var totalRate = Model.Commnents.Sum(it => it.Comment.Diem);
-                        int totalStar = (Model.Commnents.Count > 0 ? totalRate / Model.Commnents.Count : 0);
+                        var totalRate = Model.Item1.Commnents.Sum(it => it.Comment.Diem);
+                        int totalStar = (Model.Item1.Commnents.Count > 0 ? totalRate / Model.Item1.Commnents.Count : 0);
                         for (int i = 0; i < totalStar; ++i)
                         {
                             <span><i class="fa-solid fa-star"></i></span>
@@ -37,21 +37,21 @@
                     }
 
                     <div class="name">
-                        <h6>@Model.Tutor.HoTen</h6>
+                        <h6>@Model.Item1.Tutor.HoTen</h6>
 
-                        @if (Model.Subject1 != null)
+                        @if (Model.Item1.Subject1 != null)
                         {
-                            <div style="color:crimson">@Model.Subject1.TenMonGiaSu</div>
+                            <div style="color:crimson">@Model.Item1.Subject1.TenMonGiaSu</div>
                         }
 
-                        @if (Model.Subject2 != null)
+                        @if (Model.Item1.Subject2 != null)
                         {
-                            <div style="color:crimson">@Model.Subject2.TenMonGiaSu</div>
+                            <div style="color:crimson">@Model.Item1.Subject2.TenMonGiaSu</div>
                         }
                     </div>
                     <div class="description">
                         <p>
-                            @Model.Tutor.GioiThieu
+                            @Model.Item1.Tutor.GioiThieu
                         </p>
                     </div>
                 </div>
@@ -96,30 +96,30 @@
                                 <div class="singel-dashboard pt-30">
                                     <h3>Đánh giá bản thân về việc gia sư</h3>
                                     <p>
-                                        @Model.Tutor.DanhGiaVeViecGiaSu
+                                        @Model.Item1.Tutor.DanhGiaVeViecGiaSu
                                     </p>
                                 </div>
                                 <!-- singel dashboard -->
                                 <div class="singel-dashboard pt-30">
                                     <h3>Chứng chỉ</h3>
 
-                                    @if (Model.Subject1 != null)
+                                    @if (Model.Item1.Subject1 != null)
                                     {
                                         <div>
-                                            <div style="font-size:18px; color:blue"><b>Chứng chỉ môn: @Model.Subject1.TenMonGiaSu</b></div>
+                                            <div style="font-size:18px; color:blue"><b>Chứng chỉ môn: @Model.Item1.Subject1.TenMonGiaSu</b></div>
                                             <p>
-                                                @Model.Tutor.TenChungChiHoacDiemMon1
+                                                @Model.Item1.Tutor.TenChungChiHoacDiemMon1
                                             </p>
                                         </div>
                                     }
 
-                                    @if (Model.Subject2 != null)
+                                    @if (Model.Item1.Subject2 != null)
                                     {
                                         <div>
                                             <div>
-                                                <div style="font-size:18px; color:blue"><b>Chứng chỉ môn: @Model.Subject2.TenMonGiaSu</b></div>
+                                                <div style="font-size:18px; color:blue"><b>Chứng chỉ môn: @Model.Item1.Subject2.TenMonGiaSu</b></div>
                                                 <p>
-                                                    @Model.Tutor.TenChungChiHoacDiemMon2
+                                                    @Model.Item1.Tutor.TenChungChiHoacDiemMon2
                                                 </p>
                                             </div>
                                         </div>
@@ -128,22 +128,22 @@
                                     <div class="singel-dashboard pt-30">
                                         <h3>Môn tôi gia sư</h3>
 
-                                        @if (Model.Subject1 != null)
+                                        @if (Model.Item1.Subject1 != null)
                                         {
                                             <div>
-                                                <div style="font-size:18px; color:blue"><b>Giới thiệu về môn: @Model.Subject1.TenMonGiaSu</b></div>
+                                                <div style="font-size:18px; color:blue"><b>Giới thiệu về môn: @Model.Item1.Subject1.TenMonGiaSu</b></div>
                                                 <p>
-                                                    @Model.Tutor.GioiThieuVeMonGiaSu1
+                                                    @Model.Item1.Tutor.GioiThieuVeMonGiaSu1
                                                 </p>
                                             </div>
                                         }
 
-                                        @if (Model.Subject2 != null)
+                                        @if (Model.Item1.Subject2 != null)
                                         {
                                             <div>
-                                                <div style="font-size:18px; color:blue"><b>Giới thiệu về môn: @Model.Subject2.TenMonGiaSu</b></div>
+                                                <div style="font-size:18px; color:blue"><b>Giới thiệu về môn: @Model.Item1.Subject2.TenMonGiaSu</b></div>
                                                 <p>
-                                                    @Model.Tutor.GioiThieuVeMonGiaSu2
+                                                    @Model.Item1.Tutor.GioiThieuVeMonGiaSu2
                                                 </p>
                                             </div>
                                         }
@@ -187,36 +187,21 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>Anh văn</td>
-                                        <td>27/04/2023</td>
-                                        <td>
-                                            <select name="table-select" id="">
-                                                <option value="">8h-9h</option>
-                                                <option value="">9h-10h</option>
-                                                <option value="">10h-11h</option>
-                                            </select>
-                                        </td>
-                                        <td>60,000 đ</td>
-                                        <td>
-                                            <button class="custom-btn btn-5">Đặt Lịch</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Anh văn</td>
-                                        <td>19/03/2023</td>
-                                        <td>
-                                            <select name="table-select" id="">
-                                                <option value="">8h-9h</option>
-                                                <option value="">9h-10h</option>
-                                                <option value="">10h-11h</option>
-                                            </select>
-                                        </td>
-                                        <td>60,000 đ</td>
-                                        <td>
-                                            <button class="custom-btn btn-5" data-toggle="modal" data-target="#exampleModal">Đặt Lịch</button>
-                                        </td>
-                                    </tr>
+                                    @foreach (var lesson in Model.Item2)
+                                    {
+                                        if (@lesson.NgayDay > DateTime.Now && @lesson.IdnguoiHoc == null)
+                                        {
+                                            <tr>
+                                                <td>@lesson.tenMonDay</td>
+                                                <td>@lesson.NgayDay.ToString("dd/MM/yyyy")</td>
+                                                <td>@lesson.GioBatDau:@lesson.PhutBatDau - @lesson.GioKetThuc:@lesson.PhutKetThuc</td>
+                                                <td>@lesson.giaCaDay.ToString("#,##0.###") đồng</td>
+                                                <td>
+                                                    <button class="custom-btn btn-5">Đặt Lịch</button>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
                                 </tbody>
                             </table>
                         </div>
@@ -225,14 +210,14 @@
                              role="tabpanel"
                              aria-labelledby="reviews-tab">
                             <div class="reviews-cont">
-                                @if (Model.Commnents.Count > 0)
+                                @if (Model.Item1.Commnents.Count > 0)
                                 {
                                     <div class="title">
                                         <h6>Đánh giá của học viên</h6>
                                     </div>
                                     <ul>
                                         @{
-                                            foreach (var comment in Model.Commnents)
+                                            foreach (var comment in Model.Item1.Commnents)
                                             {
                                                 <li>
                                                     <div class="singel-reviews">
@@ -298,7 +283,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    Xác nhận lại đặt lịch cho môn <b>Anh Văn Cơ Bản</b> vào lúc <b>9h-10h</b> ngày <b>19/03/2023</b><br/> Giá tiền <b>60,000</b>
+                    Xác nhận lại đặt lịch cho môn <b>Anh Văn Cơ Bản</b> vào lúc <b>9h-10h</b> ngày <b>19/03/2023</b><br /> Giá tiền <b>60,000</b>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
@@ -345,7 +330,7 @@
 
             // DataTables initialisation
             var table = $('#myTable').DataTable();
-            
+
             // Refilter the table
             $('#min, #max').on('change', function () {
                 table.draw();

@@ -28,6 +28,8 @@ namespace VLUTUTORS.Models
         public string tenMonDay { get; set; }
         [NotMapped]
         public string tenLoaiCaDay { get; set; }
+        [NotMapped]
+        public double giaCaDay { get; set; }
 
         [NotMapped]
         public SelectList subjectItems { get; set; }

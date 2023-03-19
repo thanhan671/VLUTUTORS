@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -213,10 +214,11 @@ namespace VLUTUTORS.Controllers
             return RedirectToAction("Index", "BookTutor");
         }
 
-        public async Task<IActionResult> DetailTutor(int id)
+        public IActionResult DetailTutor(int id)
         {
             var tutor = _db.Taikhoannguoidungs.FirstOrDefault(it => it.Id == id);
-            if(tutor == null)
+
+            if (tutor == null)
             {
                 return NotFound();
             }
@@ -253,7 +255,16 @@ namespace VLUTUTORS.Controllers
                 Subject2 = subject2,
                 Commnents = commentModel
             };
-            return View(model);
+
+            List<Caday> cadays = _db.Cadays.Where(ca => ca.IdnguoiDay.Equals(tutor.Id)).ToList();
+            foreach (var cadayItem in cadays)
+            {
+                cadayItem.tenMonDay = _db.Mongiasus.Find(cadayItem.IdmonDay).TenMonGiaSu.ToString();
+                cadayItem.giaCaDay = _db.Cahocs.Find(cadayItem.IdloaiCaDay).GiaTien;
+            }
+
+            Tuple<BookTutorViewModel, IEnumerable<Caday>> turple = new Tuple<BookTutorViewModel, IEnumerable<Caday>>(model, cadays.AsEnumerable()); 
+            return View(turple);
         }
 
         [HttpPost]
