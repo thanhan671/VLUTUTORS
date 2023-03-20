@@ -60199,3 +60199,62 @@ a.text-muted:hover {
 .wallet-function{
 
 }
+
+.switch {
+    position: relative;
+    left: -20px;
+}
+
+.switch input[type=checkbox] {
+    height: 0;
+    width: 0;
+    visibility: hidden;
+}
+
+.switch label {
+    cursor: pointer;
+    width: 56px;
+    height: 28px;
+    background: lightgray;
+    display: block;
+    border-radius: 100rem;
+    position: relative;
+}
+
+    .switch label:before {
+        content: attr(data-off);
+        position: absolute;
+        top: 1.4px;
+        right: 0;
+        font-size: 8.4px;
+        padding: 7px 7px;
+        color: white;
+    }
+
+.switch input:checked ~ label:before {
+    content: attr(data-on);
+    position: absolute;
+    left: 0;
+    font-size: 8.4px;
+    padding-left: 28px / 4;
+    color: white;
+}
+
+.switch label:after {
+    content: '';
+    position: absolute;
+    top: 1.4px;
+    left: 1.4px;
+    width: 25.2px;
+    height: 25.2px;
+    background: #fff;
+    border-radius: 50%;
+}
+
+.switch input:checked ~ label {
+    background: #ec6923;
+}
+
+    .switch input:checked ~ label:after {
+        transform: translateX(28px);
+    }
