@@ -143,7 +143,8 @@ namespace VLUTUTORS.Controllers
                 };
                 try
                 {
-                    TempData["message"] = "Gửi đăng ký tư vấn thành công!";
+                    TempData["Message"] = "Gửi đăng ký tư vấn thành công!";
+                    TempData["MessageType"] = "success";
                     _db.Add(tuVan);
                     await _db.SaveChangesAsync();
                 }
@@ -195,7 +196,8 @@ namespace VLUTUTORS.Controllers
                 return RedirectToAction("Contact", "Home");
 
             }
-            TempData["message"] = "Gửi phản hồi thành công!";
+            TempData["Message"] = "Gửi phản hồi thành công!";
+            TempData["MessageType"] = "success";
             return RedirectToAction("Contact", "Home");
         }
 

@@ -70,7 +70,8 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
                 Console.WriteLine("anh dai dien: " + taikhoannguoidung.AnhDaiDien);
                 _db.Entry(taikhoannguoidung).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 _db.SaveChanges();
-
+                TempData["Message"] = "Cập nhật thành công!";
+                TempData["MessageType"] = "success";
                 return RedirectToAction("Index", "Account");
             }
 

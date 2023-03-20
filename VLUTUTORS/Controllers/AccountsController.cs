@@ -58,7 +58,6 @@ namespace VLUTUTORS.Controllers
                 checkAccount = db.Taikhoannguoidungs.Where(acc => acc.Email.Equals(email.Trim())).FirstOrDefault();
                 if (checkAccount == null)
                 {
-                    ViewBag.Message = "Email chưa đúng, vui lòng kiểm tra lại";
                     TempData["Message"] = "Sai tài khoản hoặc mật khẩu";
                     TempData["MessageType"] = "error";
                     return View();
@@ -67,7 +66,6 @@ namespace VLUTUTORS.Controllers
                 {
                     if (checkAccount.XacThuc==false)
                     {
-                        ViewBag.Message = "Vui lòng kiểm tra email để xác thực tài khoản!";
                         TempData["Message"] = "Vui lòng kiểm tra email để xác thực tài khoản!";
                         TempData["MessageType"] = "error";
                         return View();
@@ -85,8 +83,7 @@ namespace VLUTUTORS.Controllers
                             {
                                 return _loginSuccessCallback.Invoke(checkAccount);
                             }
-                            ViewBag.Message = "Mật khẩu chưa đúng, vui lòng kiểm tra lại";
-                            TempData["Message"] = "Vui lòng kiểm tra email để xác thực tài khoản!";
+                            TempData["Message"] = "Mật khẩu chưa đúng, vui lòng kiểm tra lại!";
                             TempData["MessageType"] = "error";
                         }
                         else
@@ -171,7 +168,8 @@ namespace VLUTUTORS.Controllers
 
                     if (!string.IsNullOrEmpty(MatKhau))
                         dbTaikhoannguoidung.MatKhau = MatKhau;
-                    TempData["message"] = "Cập nhật thành công!";
+                    TempData["Message"] = "Cập nhật thành công!";
+                    TempData["MessageType"] = "success";
                     db.Entry(dbTaikhoannguoidung).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                     db.SaveChanges();
                     return RedirectToAction("Details", new { id });
@@ -237,11 +235,13 @@ namespace VLUTUTORS.Controllers
                 }
                 else
                 {
-                    ViewBag.Message = "Email đã được đăng ký, vui lòng kiểm tra lại";
+                    TempData["Message"] = "Email đã được đăng ký, vui lòng kiểm tra lại!";
+                    TempData["MessageType"] = "error";
                     return RedirectToAction("Login", "Accounts");
                 }
             }
-            ViewBag.Message = "Đăng ký tài khoản thành công!";
+            TempData["Message"] = "Đăng ký tài khoản thành công!";
+            TempData["MessageType"] = "success";
             return RedirectToAction("VerifyAccount", "Accounts");
         }
 
@@ -416,11 +416,13 @@ namespace VLUTUTORS.Controllers
                 }
                 else
                 {
-                    TempData["message"] = "Mã xác minh không đúng!";
+                    TempData["Message"] = "Mã xác minh không đúng!";
+                    TempData["MessageType"] = "error";
                     return View();
                 }
             }
-            TempData["message"] = "Thiết lập mật khẩu mới thành công!";
+            TempData["Message"] = "Thiết lập mật khẩu mới thành công!";
+            TempData["MessageType"] = "success";
             return RedirectToAction("Login", "Accounts");
         }
 
