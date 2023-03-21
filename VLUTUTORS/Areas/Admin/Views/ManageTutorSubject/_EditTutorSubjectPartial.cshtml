@@ -1,0 +1,37 @@
+﻿@model VLUTUTORS.Models.Mongiasu
+
+<div class="modal fade"
+     id="editModal-@Model.IdmonGiaSu"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <form method="post" asp-controller="ManageTutorSubject" asp-action="EditSubject">
+        <input type="hidden" asp-for="IdmonGiaSu" />
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        Chỉnh sửa môn gia sư
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    <span class="alert-danger">
+                    </span>
+                    <div class="form-group">
+                        <label for="inputName">Tên môn gia sư</label>
+                        <input asp-for="TenMonGiaSu" type="text" id="TenMonGiaSu" name="TenMonGiaSu" class="form-control" data-error="Vui lòng điền đủ thông tin!" required />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button"
+                            class="btn btn-secondary"
+                            data-dismiss="modal">
+                        Hủy
+                    </button>
+                    <button type="submit" class="btn btn-primary">Xác nhận</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

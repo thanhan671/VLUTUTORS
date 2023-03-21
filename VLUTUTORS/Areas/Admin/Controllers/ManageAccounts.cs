@@ -116,5 +116,16 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             }
             return View(taikhoanadmin);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteAccounts([FromForm] int accountID)
+        {
+            Taikhoanadmin taikhoanadmin = _context.Taikhoanadmins.Where(p => p.Id == accountID).FirstOrDefault();
+            _context.Taikhoanadmins.Remove(taikhoanadmin);
+            _context.SaveChanges();
+            TempData["Message"] = "Xóa thành công!";
+            TempData["MessageType"] = "success";
+            return RedirectToAction("Index");
+        }
     }
 }

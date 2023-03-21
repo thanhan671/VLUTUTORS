@@ -25,11 +25,11 @@
             <div class="card-header">
                 <h3 class="card-title">Danh sách quyền</h3>
                 <div class="card-tools">
-                    <a class="btn btn-primary btn-sm"
-                       href="~/Admin/ManageAdminRoles/AddRole">
-                        <i class="fas fa-plus"> </i>
+                    <button data-toggle="modal"
+                            data-target="#addModal"
+                            class="col-auto btn-success">
                         Thêm quyền
-                    </a>
+                    </button>
                 </div>
             </div>
             <div class="card-body p-0">
@@ -56,10 +56,15 @@
                                     </td>
                                     <td class="project-actions">
                                         <a class="btn btn-info btn-sm"
-                                           asp-action="EditRole" asp-controller="ManageAdminRoles" asp-route-id="@item.IdQuyen">
+                                           data-toggle="modal"
+                                           data-target="@("#editModal-"+item.IdQuyen)"
+                                           data-url="@Url.Action($"EditRole/{item.IdQuyen}")">
                                             <i class="fas fa-pen"> </i>
                                             Sửa
                                         </a>
+
+                                        @await Html.PartialAsync("_EditRolePartial", item)
+
                                         <a class="btn btn-danger btn-sm"
                                            data-toggle="modal"
                                            data-target="#deleteModal"
@@ -77,6 +82,42 @@
             </div>
             <!-- /.card-body -->
         </div>
+
+        <div class="modal fade"
+             id="addModal"
+             tabindex="-1"
+             role="dialog"
+             aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <form method="post" enctype="multipart/form-data" asp-controller="ManageAdminRoles" asp-action="AddRole">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">
+                                Thêm mới quyền
+                            </h5>
+                        </div>
+                        <div class="modal-body">
+                            <span class="alert-danger">
+                            </span>
+                            <div class="form-group">
+                                <label for="inputName">Tên quyền</label>
+                                <input type="text" id="TenQuyen" name="TenQuyen" class="form-control" data-error="Vui lòng điền đủ thông tin!" required />                            
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button"
+                                    class="btn btn-secondary"
+                                    data-dismiss="modal">
+                                Hủy
+                            </button>
+                            <button type="submit" class="btn btn-primary">Xác nhận</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
         <div class="modal fade"
              id="deleteModal"
              tabindex="-1"

@@ -75,28 +75,12 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditSubject(int id, [Bind(include: "IdmonGiaSu,TenMonGiaSu")] Mongiasu mongiasu)
+        public IActionResult EditSubject(Mongiasu mongiasu)
         {
-            if (id != mongiasu.IdmonGiaSu)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    TempData["Message"] = "Cập nhật thành công!";
-                    TempData["MessageType"] = "success";
-                    _context.Update(mongiasu);
-                    await _context.SaveChangesAsync();
-                }
-                catch (Exception ex)
-                {
-                    return RedirectToAction(nameof(Index));
-                }
-                return RedirectToAction("Index");
-            }
+            TempData["Message"] = "Cập nhật thành công!";
+            TempData["MessageType"] = "success";
+            _context.Mongiasus.Update(mongiasu);
+            _context.SaveChanges();
             return RedirectToAction("Index");
         }
         [HttpPost]

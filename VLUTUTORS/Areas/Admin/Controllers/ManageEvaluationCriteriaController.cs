@@ -73,28 +73,12 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditCriteria(int id, [Bind(include: "IdTieuChi,TieuChi")] Tieuchidanhgia tieuChiDanhGia)
+        public async Task<IActionResult> EditCriteria(Tieuchidanhgia tieuChiDanhGia)
         {
-            if (id != tieuChiDanhGia.IdTieuChi)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(tieuChiDanhGia);
-                    await _context.SaveChangesAsync();
-                    TempData["message"] = "Cập nhật thành công!";
-                    TempData["MessageType"] = "success";
-                }
-                catch (Exception ex)
-                {
-                    return RedirectToAction(nameof(Index));
-                }
-                return RedirectToAction("Index");
-            }
+            TempData["Message"] = "Cập nhật thành công!";
+            TempData["MessageType"] = "success";
+            _context.Tieuchidanhgias.Update(tieuChiDanhGia);
+            _context.SaveChanges();
             return RedirectToAction("Index");
         }
         [HttpPost]

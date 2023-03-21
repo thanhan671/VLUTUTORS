@@ -52,10 +52,15 @@
                                         @Html.DisplayFor(modeItem => item.TieuChi)
                                     </td>
                                     <td class="project-actions">
-                                        <a class="btn btn-info btn-sm" asp-action="EditCriteria" asp-controller="ManageEvaluationCriteria" asp-route-id="@item.IdTieuChi">
-                                            <i class="fas fa-pencil-alt"> </i>
+
+                                        <a class="btn btn-info btn-sm"
+                                           data-toggle="modal"
+                                           data-target="@("#editModal-"+item.IdTieuChi)"
+                                           data-url="@Url.Action($"EditCriteria/{item.IdTieuChi}")">
+                                            <i class="fas fa-pen"> </i>
                                             Sửa
                                         </a>
+                                        @await Html.PartialAsync("_EditEvaluationPartial", item)
                                         <a class="btn btn-danger btn-sm"
                                            data-toggle="modal"
                                            data-target="#exampleModal"

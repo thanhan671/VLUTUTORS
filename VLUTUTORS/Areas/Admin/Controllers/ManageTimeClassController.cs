@@ -73,28 +73,12 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditTimeClass(int id, [Bind(include: "IdCaHoc,LoaiCa,GiaTien")] Cahoc caHoc)
+        public IActionResult EditTimeClass(Cahoc caHoc)
         {
-            if (id != caHoc.IdCaHoc)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    TempData["Message"] = "Cập nhật thành công!";
-                    TempData["MessageType"] = "success";
-                    _context.Update(caHoc);
-                    await _context.SaveChangesAsync();
-                }
-                catch (Exception ex)
-                {
-                    return RedirectToAction(nameof(Index));
-                }
-                return RedirectToAction("Index");
-            }
+            TempData["Message"] = "Cập nhật thành công!";
+            TempData["MessageType"] = "success";
+            _context.Cahocs.Update(caHoc);
+            _context.SaveChanges();
             return RedirectToAction("Index");
         }
         [HttpPost]

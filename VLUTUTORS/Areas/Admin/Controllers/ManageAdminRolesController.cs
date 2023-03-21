@@ -67,29 +67,13 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditRole(int id, [Bind("IdQuyen,TenQuyen")] Quyen quyen)
+        public IActionResult EditRole(Quyen quyen)
         {
-            if (id != quyen.IdQuyen)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(quyen);
-                    await _context.SaveChangesAsync();
-                    TempData["Message"] = "Cập nhật thành công!";
-                    TempData["MessageType"] = "success";
-                }
-                catch (Exception ex)
-                {
-                    return RedirectToAction(nameof(Index));
-                }
-                return RedirectToAction("Index");
-            }
-            return View(quyen);
+            TempData["Message"] = "Cập nhật thành công!";
+            TempData["MessageType"] = "success";
+            _context.Quyens.Update(quyen);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
         }
         [HttpPost]
         [ValidateAntiForgeryToken]

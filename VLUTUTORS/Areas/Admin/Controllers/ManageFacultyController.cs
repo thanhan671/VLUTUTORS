@@ -73,28 +73,12 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditFaculty(int id, [Bind(include: "Idkhoa,TenKhoa")] Khoa khoa)
+        public IActionResult EditFaculty(Khoa khoa)
         {
-            if (id != khoa.Idkhoa)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(khoa);
-                    await _context.SaveChangesAsync();
-                    TempData["Message"] = "Cập nhật thành công!";
-                    TempData["MessageType"] = "success";
-                }
-                catch (Exception ex)
-                {
-                    return RedirectToAction(nameof(Index));
-                }
-                return RedirectToAction("Index");
-            }
+            TempData["Message"] = "Cập nhật thành công!";
+            TempData["MessageType"] = "success";
+            _context.Khoas.Update(khoa);
+            _context.SaveChanges();
             return RedirectToAction("Index");
         }
         [HttpPost]

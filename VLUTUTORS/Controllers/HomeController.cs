@@ -185,6 +185,8 @@ namespace VLUTUTORS.Controllers
                 {
                     _db.Add(lienHe);
                     await _db.SaveChangesAsync();
+                    TempData["Message"] = "Gửi phản hồi thành công!";
+                    TempData["MessageType"] = "success";
                 }
                 catch
                 {
@@ -196,8 +198,6 @@ namespace VLUTUTORS.Controllers
                 return RedirectToAction("Contact", "Home");
 
             }
-            TempData["Message"] = "Gửi phản hồi thành công!";
-            TempData["MessageType"] = "success";
             return RedirectToAction("Contact", "Home");
         }
 

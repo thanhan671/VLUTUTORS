@@ -1,0 +1,37 @@
+﻿@model VLUTUTORS.Models.Khoa
+
+<div class="modal fade"
+     id="editModal-@Model.Idkhoa"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <form method="post" asp-controller="ManageFaculty" asp-action="EditFaculty">
+        <input type="hidden" asp-for="Idkhoa" />
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        Chỉnh sửa khoa
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    <span class="alert-danger">
+                    </span>
+                    <div class="form-group">
+                        <label for="inputName">Tên khoa</label>
+                        <input asp-for="TenKhoa" type="text" id="TenKhoa" name="TenKhoa" class="form-control" data-error="Vui lòng điền đủ thông tin!" required />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button"
+                            class="btn btn-secondary"
+                            data-dismiss="modal">
+                        Hủy
+                    </button>
+                    <button type="submit" class="btn btn-primary">Xác nhận</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

@@ -38,7 +38,7 @@
                             <th style="width: 20%">Username</th>
                             <th style="width: 20%">Mật Khẩu</th>
                             <th style="width: 20%">Quyền</th>
-                            <th style="width: 20%"></th>
+                            <th style="width: 20%">Chức năng</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -60,11 +60,18 @@
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Quyen)
                                     </td>
-                                    <td class="project-actions text-right">
+                                    <td class="project-actions">
                                         <a class="btn btn-info btn-sm"
                                            asp-action="EditAccounts" asp-controller="ManageAccounts" asp-route-id="@item.Id">
                                             <i class="fas fa-pen"> </i>
                                             Sửa
+                                        </a>
+                                        <a class="btn btn-danger btn-sm"
+                                           data-toggle="modal"
+                                           data-target="#exampleModal"
+                                           onclick="document.getElementById('accountID').value = @item.Id">
+                                            <i class="fas fa-trash"> </i>
+                                            Xoá
                                         </a>
                                     </td>
                                 </tr>
@@ -77,6 +84,31 @@
         </div>
         <!-- /.card -->
     </section>
+    <div class="modal fade"
+         id="exampleModal"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <form asp-action="DeleteAccounts" method="post" asp-controller="ManageAccounts">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <h5>Bạn muốn xóa tài khoản này?</h5>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-default" type="button" data-dismiss="modal">
+                            Hủy
+                        </button>
+                        <button class="btn btn-primary" type="submit">
+                            Đồng ý
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" id="accountID" name="accountID" />
+        </form>
+    </div>
     <!-- /.content -->
 </div>
 @if (TempData["Message"] != null)
