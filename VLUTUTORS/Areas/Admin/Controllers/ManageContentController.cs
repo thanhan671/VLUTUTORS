@@ -46,11 +46,10 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                     noiDung.AnhGioiThieu = anhGt.Count != 0 ? TutorServices.SaveAvatar(this._environment.WebRootPath, imgPath, anhGt) : noiDung.AnhGioiThieu;
-                    TempData["message"] = "Cập nhật thành công!";
-                    Console.WriteLine("anh dai dien: " + noiDung.AnhGioiThieu);
                     _context.Entry(noiDung).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                     _context.SaveChanges();
-
+                    TempData["message"] = "Cập nhật thành công!";
+                    TempData["MessageType"] = "success";
                 return RedirectToAction("Index");
             }
             return View(noiDung);

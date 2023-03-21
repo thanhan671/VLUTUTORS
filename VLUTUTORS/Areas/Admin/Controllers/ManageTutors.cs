@@ -171,6 +171,8 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                     _context.Update(account);
                     await _context.SaveChangesAsync();
 
+                    TempData["Message"] = "Cập nhật thành công!";
+                    TempData["MessageType"] = "success";
                 }
                 catch (Exception ex)
                 {
@@ -275,6 +277,9 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
                     _context.Update(account);
                     await _context.SaveChangesAsync();
+
+                    TempData["Message"] = "Cập nhật thành công!";
+                    TempData["MessageType"] = "success";
                 }
                 catch (Exception ex)
                 {

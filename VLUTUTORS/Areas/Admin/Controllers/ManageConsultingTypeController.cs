@@ -31,7 +31,8 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
-                TempData["message"] = "Vui lòng điền thông tin!";
+                TempData["Message"] = "Vui lòng điền thông tin!";
+                TempData["MessageType"] = "error";
                 return RedirectToAction("Index");
             }
             else
@@ -39,16 +40,18 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 var tuVan = _context.Loaituvans.AsNoTracking().SingleOrDefault(x => x.TenLoaiTuVan.ToLower() == loaiTuVan.TenLoaiTuVan.ToLower());
                 if (tuVan != null)
                 {
-                    TempData["message"] = "Loại tư vấn đã tồn tại, vui lòng kiểm tra lại";
+                    TempData["Message"] = "Loại tư vấn đã tồn tại, vui lòng kiểm tra lại";
+                    TempData["MessageType"] = "error";
                     return RedirectToAction("Index");
                 }
                 else
                 {
                     try
                     {
-                        TempData["message"] = "Thêm mới thành công!";
                         _context.Update(loaiTuVan);
                         await _context.SaveChangesAsync();
+                        TempData["Message"] = "Thêm mới thành công!";
+                        TempData["MessageType"] = "success";
                     }
                     catch (Exception ex)
                     {
@@ -69,7 +72,8 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         public IActionResult EditType(Loaituvan loaituvan)
         {
 
-            TempData["message"] = "Cập nhật thành công!";
+            TempData["Message"] = "Cập nhật thành công!";
+            TempData["MessageType"] = "success";
             _context.Loaituvans.Update(loaituvan);
             _context.SaveChanges();
             return RedirectToAction("Index");
@@ -82,7 +86,8 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             Loaituvan loaiTuVan = _context.Loaituvans.Where(p => p.IdLoaiTuVan == consultingID).FirstOrDefault();
             _context.Loaituvans.Remove(loaiTuVan);
             _context.SaveChanges();
-            TempData["message"] = "Xóa thành công!";
+            TempData["Message"] = "Xóa thành công!";
+            TempData["MessageType"] = "success";
             return RedirectToAction("Index");
         }
     }

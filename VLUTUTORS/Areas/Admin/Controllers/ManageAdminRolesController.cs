@@ -35,17 +35,20 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 var Quyen = _context.Quyens.AsNoTracking().SingleOrDefault(x => x.TenQuyen.ToLower() == quyen.TenQuyen.ToLower());
                 if (Quyen != null)
                 {
-                    TempData["message"] = "Quyền đã tồn tại, vui lòng kiểm tra lại";
+                    TempData["Message"] = "Quyền đã tồn tại, vui lòng kiểm tra lại!";
+                    TempData["MessageType"] = "error";
                     return RedirectToAction("Index");
                 }
                 else
                 {
                     try
                 {
-                    TempData["message"] = "Thêm mới thành công!";
+                    
                     _context.Update(quyen);
                     await _context.SaveChangesAsync();
-                }
+                    TempData["Message"] = "Thêm mới thành công!";
+                    TempData["MessageType"] = "success";
+                    }
                 catch (Exception ex)
                 {
                     return RedirectToAction(nameof(Index));
@@ -75,9 +78,10 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             {
                 try
                 {
-                    TempData["message"] = "Cập nhật thành công!";
                     _context.Update(quyen);
                     await _context.SaveChangesAsync();
+                    TempData["Message"] = "Cập nhật thành công!";
+                    TempData["MessageType"] = "success";
                 }
                 catch (Exception ex)
                 {
@@ -94,6 +98,8 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             Quyen quyen = _context.Quyens.Where(p => p.IdQuyen == roleID).FirstOrDefault();
             _context.Quyens.Remove(quyen);
             _context.SaveChanges();
+            TempData["Message"] = "Xóa thành công!";
+            TempData["MessageType"] = "success";
             return RedirectToAction("Index");
         }
     }

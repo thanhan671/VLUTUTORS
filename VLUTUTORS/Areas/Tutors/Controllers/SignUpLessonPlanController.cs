@@ -100,6 +100,7 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
                 if (isOverLapse)
                 {
                     TempData["Message"] = "Thời gian bị trùng với ca dạy khác";
+                    TempData["MessageType"] = "error";
                     return RedirectToAction("Index", "SignUpLessonPlan");
                 }
 
@@ -111,6 +112,8 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             {
                 await _db.AddRangeAsync(lessonPlans);
                 await _db.SaveChangesAsync();
+                TempData["Message"] = "Đăng ký ca dạy thành công!";
+                TempData["MessageType"] = "success";
             }
 
             return RedirectToAction("Index", "SignUpLessonPlan");
@@ -184,6 +187,7 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             if (isOverLapse)
             {
                 TempData["Message"] = "Thời gian bị trùng với ca dạy khác";
+                TempData["MessageType"] = "error";
                 return RedirectToAction("EditLessonPlan", "SignUpLessonPlan", new { lessonPlanId = caday.Id});
             }
 
@@ -192,6 +196,8 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
                 _db.ChangeTracker.Clear();
                 _db.Update(caday);
                 await _db.SaveChangesAsync();
+                TempData["Message"] = "Cập nhật ca dạy thành công!";
+                TempData["MessageType"] = "success";
             }
 
             return RedirectToAction("Index", "SignUpLessonPlan");
@@ -204,6 +210,8 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             Caday caDay = _db.Cadays.Where(p => p.Id == lessonPlanId).FirstOrDefault();
             _db.Cadays.Remove(caDay);
             await _db.SaveChangesAsync();
+            TempData["Message"] = "Xóa ca dạy thành công!";
+            TempData["MessageType"] = "success";
 
             return RedirectToAction("Index", "SignUpLessonPlan");
         }

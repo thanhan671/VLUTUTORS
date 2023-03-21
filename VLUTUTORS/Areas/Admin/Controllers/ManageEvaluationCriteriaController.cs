@@ -35,16 +35,18 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 var checkTieuChi = _context.Tieuchidanhgias.AsNoTracking().SingleOrDefault(x => x.TieuChi.ToLower() == tieuChiDanhGia.TieuChi.ToLower());
                 if (checkTieuChi != null)
                 {
-                    TempData["message"] = "Tiêu chí này đã tồn tại!";
+                    TempData["Message"] = "Tiêu chí này đã tồn tại!";
+                    TempData["MessageType"] = "error";
                     return RedirectToAction("AddCriteria");
                 }
                 else
                 {
                     try
                     {
-                        TempData["message"] = "Thêm mới thành công!";
                         _context.Add(tieuChiDanhGia);
                         await _context.SaveChangesAsync();
+                        TempData["Message"] = "Thêm mới thành công!";
+                        TempData["MessageType"] = "success";
                     }
                     catch (Exception ex)
                     {
@@ -82,9 +84,10 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             {
                 try
                 {
-                    TempData["message"] = "Cập nhật thành công!";
                     _context.Update(tieuChiDanhGia);
                     await _context.SaveChangesAsync();
+                    TempData["message"] = "Cập nhật thành công!";
+                    TempData["MessageType"] = "success";
                 }
                 catch (Exception ex)
                 {
@@ -101,7 +104,8 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             Tieuchidanhgia tieuChi = _context.Tieuchidanhgias.Where(p => p.IdTieuChi == criteriaID).FirstOrDefault();
             _context.Tieuchidanhgias.Remove(tieuChi);
             _context.SaveChanges();
-            TempData["message"] = "Xóa thành công!";
+            TempData["Message"] = "Xóa thành công!";
+            TempData["MessageType"] = "success";
             return RedirectToAction("Index");
         }
     }

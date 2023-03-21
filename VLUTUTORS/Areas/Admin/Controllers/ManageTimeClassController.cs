@@ -35,14 +35,16 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 var checkCa = _context.Cahocs.AsNoTracking().SingleOrDefault(x => x.LoaiCa.ToString().ToLower() == caHoc.LoaiCa.ToString().ToLower());
                 if (checkCa != null)
                 {
-                    TempData["message"] = "Ca học này đã tồn tại!";
+                    TempData["Message"] = "Ca học này đã tồn tại!";
+                    TempData["MessageType"] = "error";
                     return RedirectToAction("AddTimeClass");
                 }
                 else
                 {
                     try
                     {
-                        TempData["message"] = "Thêm mới thành công!";
+                        TempData["Message"] = "Thêm mới thành công!";
+                        TempData["MessageType"] = "success";
                         _context.Add(caHoc);
                         await _context.SaveChangesAsync();
                     }
@@ -82,7 +84,8 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             {
                 try
                 {
-                    TempData["message"] = "Cập nhật thành công!";
+                    TempData["Message"] = "Cập nhật thành công!";
+                    TempData["MessageType"] = "success";
                     _context.Update(caHoc);
                     await _context.SaveChangesAsync();
                 }
@@ -101,6 +104,8 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             Cahoc caHoc = _context.Cahocs.Where(p => p.IdCaHoc == timeClassID).FirstOrDefault();
             _context.Cahocs.Remove(caHoc);
             _context.SaveChanges();
+            TempData["Message"] = "Xóa thành công!";
+            TempData["MessageType"] = "success";
             return RedirectToAction("Index");
         }
     }

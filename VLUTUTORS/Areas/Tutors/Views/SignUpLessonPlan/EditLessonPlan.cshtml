@@ -75,9 +75,6 @@
                                         </div>
                                     </div>
                                     <hr />
-                                    @if (TempData["Message"] != null)
-                                    {
-                                        <div class="alert alert-danger">@TempData["Message"]</div>}
                                     <div class="row">
                                         <div class="col-12 flex-right mb-4">
                                             <a href='javascript:history.go(-1)' class="btn btn-secondary mr-3">Quay Lại</a>
@@ -92,7 +89,48 @@
             </div>
         </section>
     </form>
+    @if (TempData["Message"] != null)
+    {
+        <script>
+            var messageType = '@TempData["MessageType"]';
+        var message = '@TempData["Message"]';
 
+        // Display the message using Toastr library
+        if (messageType === "success") {
+            toastr.success(message);
+        } else if (messageType === "error") {
+            toastr.error(message);
+        } else if (messageType === "warning") {
+            toastr.warning(message);
+        } else if (messageType === "info") {
+            toastr.info(message);
+        }
+        </script>
+    }
+    @if (ViewBag.Message != null)
+    {
+        <script type="text/javascript">
+            window.onload = function () {
+                alert("@ViewBag.Message");
+            };
+        </script>
+    }
+    <script src="~/js/app.js"></script>
+    <script>
+        $(function () {
+    // Check for a success message in TempData
+    var toastrSuccess = '@(TempData["toastr-success"])';
+    if (toastrSuccess) {
+        toastr.success(toastrSuccess);
+    }
+
+    // Check for an error message in TempData
+    var toastrError = '@(TempData["toastr-error"])';
+    if (toastrError) {
+        toastr.error(toastrError);
+    }
+});
+    </script>
     <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
