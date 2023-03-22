@@ -33,7 +33,7 @@ namespace VLUTUTORS.Models
         public virtual DbSet<Quyen> Quyens { get; set; }
         public virtual DbSet<Taikhoanadmin> Taikhoanadmins { get; set; }
         public virtual DbSet<Taikhoannguoidung> Taikhoannguoidungs { get; set; }
-        public virtual DbSet<Tieuchidanhgia> Tieuchidanhgia { get; set; }
+        public virtual DbSet<Tieuchidanhgia> Tieuchidanhgias { get; set; }
         public virtual DbSet<Trangthai> Trangthais { get; set; }
         public virtual DbSet<Tuvan> Tuvans { get; set; }
         public virtual DbSet<Xetduyet> Xetduyets { get; set; }

@@ -8,6 +8,7 @@
      aria-hidden="true">
     <form method="post" asp-controller="ManageEvaluationCriteria" asp-action="EditCriteria">
         <input type="hidden" asp-for="IdTieuChi" />
+        <input type="hidden" asp-for="DanhCho" />
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -21,6 +22,10 @@
                     <div class="form-group">
                         <label for="inputName">Tên tiêu chí</label>
                         <input asp-for="TieuChi" type="text" id="TieuChi" name="TieuChi" class="form-control" data-error="Vui lòng điền đủ thông tin!" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="inputName">Dành cho</label>
+                        <input asp-for="DanhCho" type="text" id="DanhCho" name="DanhCho" class="form-control" readonly />
                     </div>
                 </div>
                 <div class="modal-footer">
