@@ -11,5 +11,7 @@ namespace VLUTUTORS.Models
         public int IdTieuChi { get; set; }
         [Required(AllowEmptyStrings = false, ErrorMessage = "Vui lòng điền trường này!")]
         public string TieuChi { get; set; }
+
+        public string DanhCho { get; set; }
     }
 }

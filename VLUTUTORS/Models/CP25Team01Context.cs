@@ -33,7 +33,7 @@ namespace VLUTUTORS.Models
         public virtual DbSet<Quyen> Quyens { get; set; }
         public virtual DbSet<Taikhoanadmin> Taikhoanadmins { get; set; }
         public virtual DbSet<Taikhoannguoidung> Taikhoannguoidungs { get; set; }
-        public virtual DbSet<Tieuchidanhgia> Tieuchidanhgias { get; set; }
+        public virtual DbSet<Tieuchidanhgia> Tieuchidanhgia { get; set; }
         public virtual DbSet<Trangthai> Trangthais { get; set; }
         public virtual DbSet<Tuvan> Tuvans { get; set; }
         public virtual DbSet<Xetduyet> Xetduyets { get; set; }
@@ -416,7 +416,11 @@ namespace VLUTUTORS.Models
 
                 entity.ToTable("TIEUCHIDANHGIA");
 
-                entity.Property(e => e.TieuChi).HasMaxLength(200);
+                entity.Property(e => e.IdTieuChi).ValueGeneratedNever();
+
+                entity.Property(e => e.DanhCho).HasMaxLength(50);
+
+                entity.Property(e => e.TieuChi).HasMaxLength(100);
             });
 
             modelBuilder.Entity<Trangthai>(entity =>
