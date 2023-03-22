@@ -1,0 +1,68 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gia Sư Văn Lang | Đánh giá gia sư</title>
+    <!--====== Favicon Icon ======-->
+    <link rel="shortcut icon" href="~/images/LogoVL.png" type="image/png" />
+    <link href="~/css/rating.css" rel="stylesheet" />
+</head>
+<body>
+    <main>
+        <form>
+            <h1>Đánh giá</h1>
+            <p>Đánh giá gia sư sau buổi học!</p>
+
+            <div class="rating">
+                <input type="radio" name="rating" id="rating-1" value="1" />
+                <input type="radio" name="rating" id="rating-2" value="2" />
+                <input type="radio" name="rating" id="rating-3" value="3" />
+                <input type="radio" name="rating" id="rating-4" value="4" />
+                <input type="radio" name="rating" id="rating-5" value="5" />
+
+                <div class="rating__box">
+                    <label for="rating-1" class="rating__star">&starf;</label>
+                    <label for="rating-2" class="rating__star">&starf;</label>
+                    <label for="rating-3" class="rating__star">&starf;</label>
+                    <label for="rating-4" class="rating__star">&starf;</label>
+                    <label for="rating-5" class="rating__star">&starf;</label>
+                </div>
+            </div>
+            <div class="boxed">
+                <input type="radio" id="good" name="skills" />
+                <label for="good" class="rcm__btn">Nhiệt tình</label>
+                <input type="radio" id="ok" name="skills" />
+                <label for="ok" class="rcm__btn">Dễ hiểu</label>
+                <input type="radio" id="nice" name="skills" />
+                <label for="nice" class="rcm__btn">Dạy hay</label>
+                <input type="radio" id="onTime" name="skills" />
+                <label for="onTime" class="rcm__btn">Gia sư đúng giờ</label>
+                <input type="radio" id="great" name="skills" />
+                <label for="great" class="rcm__btn">Tuyệt vời</label>
+                <input type="radio" id="kind" name="skills" />
+                <label for="kind" class="rcm__btn">Thân thiện</label>
+            </div>
+
+            <div class="textarea-group">
+                <label>
+                    <span>Nhận xét: </span>
+                    <textarea id="comment-rating"
+                              placeholder="Nhận xét của bạn về gia sư..."
+                              name="feedback"></textarea>
+                </label>
+            </div>
+
+            <div class="action-group">
+                <input type="button" value="Đánh giá" />
+            </div>
+        </form>
+    </main>
+</body>
+</html>

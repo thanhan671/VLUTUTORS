@@ -8,5 +8,9 @@ namespace VLUTUTORS.Controllers
         {
             return View();
         }
+        public IActionResult RatingTutor()
+        {
+            return View();
+        }
     }
 }

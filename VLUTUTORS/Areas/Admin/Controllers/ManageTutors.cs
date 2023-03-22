@@ -55,8 +55,12 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                         awaitApproveStatus = new Xetduyet();
 
                     var subject = monGiaSus.FirstOrDefault(it => it.IdmonGiaSu == account.IdmonGiaSu1);
+                    var subject2 = monGiaSus.FirstOrDefault(it => it.IdmonGiaSu == account.IdmonGiaSu2);
                     if (subject == null)
+                    {
                         subject = new Mongiasu();
+                    }
+                        
 
                         awaitTutors.Add(new TutorViewModel()
                         {
@@ -77,15 +81,31 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                     if (account.IdxetDuyet == approvedStatus.IdxetDuyet)
                     {
                         var subject = monGiaSus.FirstOrDefault(it => it.IdmonGiaSu == account.IdmonGiaSu1);
-                        if (subject == null)
-                            subject = new Mongiasu();
-
+                        var subject2 = monGiaSus.FirstOrDefault(it => it.IdmonGiaSu == account.IdmonGiaSu2);
+                        if (subject != null && subject2 ==null)
+                        {
                             approvedTutors.Add(new TutorViewModel()
                             {
                                 Tutor = account,
                                 Subject1 = subject.TenMonGiaSu,
                                 ApprovedStatus = approvedStatus.TenTrangThai
                             });
+                        }
+                        else if (subject != null && subject2 != null)
+                        {
+                            approvedTutors.Add(new TutorViewModel()
+                            {
+                                Tutor = account,
+                                Subject1 = subject.TenMonGiaSu,
+                                Subject2 = subject2.TenMonGiaSu,
+                                ApprovedStatus = approvedStatus.TenTrangThai
+                            });
+                        }
+                        else
+                        {
+                            subject = new Mongiasu();
+                            subject2 = new Mongiasu();
+                        }
                     }
                 }
             }

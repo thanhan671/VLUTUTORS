@@ -27,7 +27,15 @@
                             <td>
                                 <a>@Html.DisplayFor(modelItem => item.Tutor.HoTen)</a>
                             </td>
-                            <td>@Html.DisplayFor(modelItem => item.Subject1)</td>
+                            @{if (item.Subject2 != null)
+                                {
+                                    <td>@Html.DisplayFor(modelItem => item.Subject1) - @Html.DisplayFor(modelItem => item.Subject2)</td>
+                                }
+                                else
+                                {
+                                    <td>@Html.DisplayFor(modelItem => item.Subject1)</td>
+                                }
+                            }
                             <td>@Html.DisplayFor(modelItem => item.Tutor.Email)</td>
                             @{
                                 if (item.Tutor.TrangThaiGiaSu == true)
