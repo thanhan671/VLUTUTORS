@@ -21,43 +21,6 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult AddCriteria()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddCriteria([Bind(include: "TieuChi")] Tieuchidanhgia tieuChiDanhGia)
-        {
-            if (ModelState.IsValid)
-            {
-                var checkTieuChi = _context.Tieuchidanhgias.AsNoTracking().SingleOrDefault(x => x.TieuChi.ToLower() == tieuChiDanhGia.TieuChi.ToLower());
-                if (checkTieuChi != null)
-                {
-                    TempData["Message"] = "Tiêu chí này đã tồn tại!";
-                    TempData["MessageType"] = "error";
-                    return RedirectToAction("AddCriteria");
-                }
-                else
-                {
-                    try
-                    {
-                        _context.Add(tieuChiDanhGia);
-                        await _context.SaveChangesAsync();
-                        TempData["Message"] = "Thêm mới thành công!";
-                        TempData["MessageType"] = "success";
-                    }
-                    catch (Exception ex)
-                    {
-                        return RedirectToAction(nameof(Index));
-                    }
-                    return RedirectToAction("Index");
-                }
-            }
-            return View(tieuChiDanhGia);
-        }
-        [HttpGet]
         public async Task<IActionResult> EditCriteria(int? id = -1)
         {
             if (id == null)
@@ -73,23 +36,12 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditCriteria(Tieuchidanhgia tieuChiDanhGia)
+        public IActionResult EditCriteria(Tieuchidanhgia tieuChiDanhGia)
         {
             TempData["Message"] = "Cập nhật thành công!";
             TempData["MessageType"] = "success";
             _context.Tieuchidanhgias.Update(tieuChiDanhGia);
             _context.SaveChanges();
-            return RedirectToAction("Index");
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult DeleteCriteria([FromForm] int criteriaID)
-        {
-            Tieuchidanhgia tieuChi = _context.Tieuchidanhgias.Where(p => p.IdTieuChi == criteriaID).FirstOrDefault();
-            _context.Tieuchidanhgias.Remove(tieuChi);
-            _context.SaveChanges();
-            TempData["Message"] = "Xóa thành công!";
-            TempData["MessageType"] = "success";
             return RedirectToAction("Index");
         }
     }

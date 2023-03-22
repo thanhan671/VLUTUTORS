@@ -24,11 +24,6 @@
         <div class="card">
             <div class="card-header">
                 <div class="card-tools">
-                    <button data-toggle="modal"
-                            data-target="#addModal"
-                            class="col-auto btn-success">
-                        Thêm tiêu chí
-                    </button>
                 </div>
             </div>
             <div class="card-body p-0">
@@ -61,13 +56,7 @@
                                             Sửa
                                         </a>
                                         @await Html.PartialAsync("_EditEvaluationPartial", item)
-                                        <a class="btn btn-danger btn-sm"
-                                           data-toggle="modal"
-                                           data-target="#exampleModal"
-                                           onclick="document.getElementById('criteriaID').value = @item.IdTieuChi">
-                                            <i class="fas fa-trash"> </i>
-                                            Xoá
-                                        </a>
+
                                     </td>
                                 </tr>
                             }
@@ -142,10 +131,10 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                            <div class="form-group">
-                                <label for="inputName">Tiêu chí</label>
-                                <input type="text" id="TieuChi" name="TieuChi" class="form-control" />
-                            </div>
+                        <div class="form-group">
+                            <label for="inputName">Tiêu chí</label>
+                            <input type="text" id="TieuChi" name="TieuChi" class="form-control" />
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button"

@@ -29,25 +29,6 @@ namespace ManageEvaluationCriteria.Tests
         }
 
         [TestMethod()]
-        public void AddCriteriaTest_Get()
-        {
-            //Arrange
-            ManageEvaluationCriteriaController controller = new ManageEvaluationCriteriaController();
-
-            //Act
-            ViewResult result = controller.AddCriteria() as ViewResult;
-
-            // Assert
-            Assert.IsNotNull(result);
-        }
-
-        [TestMethod()]
-        public void AddCriteriaTest_Post()
-        {
-
-        }
-
-        [TestMethod()]
         public async Task EditCriteriaTest_Get()
         {
             //Arrange
@@ -62,12 +43,6 @@ namespace ManageEvaluationCriteria.Tests
 
         [TestMethod()]
         public void EditCriteriaTest_Post()
-        {
-
-        }
-
-        [TestMethod()]
-        public void DeleteCriteriaTest()
         {
 
         }
