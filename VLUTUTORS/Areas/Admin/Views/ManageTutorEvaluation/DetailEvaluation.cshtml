@@ -1,0 +1,79 @@
+﻿
+@{
+    ViewData["Title"] = "DetailEvaluation";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2 justify-content-center text-center text-uppercase">
+                <div class="col-sm-6">
+                    <h1>Chi tiết đánh giá gia sư</h1>
+                </div>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <!-- Default box -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-tools">
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-striped projects" id="myTable">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Tên Học Viên</th>
+                            <th>Số Điểm</th>
+                            <th>Nội Dung</th>
+                            <th>Chức năng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Ngô Thanh Tiến</td>
+                            <td>4</td>
+                            <td>Dễ Hiểu, Đúng Giờ, Thân Thiện</td>
+                            <td class="project-actions">
+                                <a class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash"> </i>
+                                    Xoá
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Nguyễn Văn Khánh</td>
+                            <td>5</td>
+                            <td>Gia sư đúng giờ, bài giảng hay</td>
+                            <td class="project-actions">
+                                <a class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash"> </i>
+                                    Xoá
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </section>
+</div>
+
+

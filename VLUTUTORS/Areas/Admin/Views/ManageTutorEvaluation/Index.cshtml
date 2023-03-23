@@ -1,0 +1,70 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2 justify-content-center text-center text-uppercase">
+                <div class="col-sm-6">
+                    <h1>Quản lý đánh giá gia sư</h1>
+                </div>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <!-- Default box -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-tools">
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-striped projects" id="myTable">
+                    <thead>
+                        <tr>
+                            <th style="width: 1%">#</th>
+                            <th style="width: 20%">Tên Gia Sư</th>
+                            <th style="width: 20%">Điểm Tổng</th>
+                            <th style="width: 20%">Chức năng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Nguyễn Thanh An</td>
+                            <td>4,5</td>
+                            <td class="project-actions">
+                                <a class="btn btn-info btn-sm"
+                                   asp-action="DetailEvaluation" asp-controller="ManageTutorEvaluation">
+                                    <i class="fas fa-eye"> </i>
+                                    Xem chi tiết
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Nguyễn Văn Khánh</td>
+                            <td>4,5</td>
+                            <td class="project-actions">
+                                <a class="btn btn-info btn-sm"
+                                   asp-action="DetailEvaluation" asp-controller="ManageTutorEvaluation">
+                                    <i class="fas fa-eye"> </i>
+                                    Xem chi tiết
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </section>
+</div>

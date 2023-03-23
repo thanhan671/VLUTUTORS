@@ -114,6 +114,12 @@
                             <p>Quản lý gia sư</p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="~/Admin/ManageTutorEvaluation" class="nav-link">
+                            <i class="fa-sharp fa-solid fa-check"></i>
+                            <p>Quản lý đánh giá gia sư</p>
+                        </a>
+                    </li>
                 }
                 @if (@httpContextAccessor.HttpContext.Session.GetInt32("IdQuyen") == 3)
                 {
