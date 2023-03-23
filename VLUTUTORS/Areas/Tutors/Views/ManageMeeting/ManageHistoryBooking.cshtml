@@ -1,0 +1,126 @@
+﻿
+@{
+    ViewData["Title"] = "ManageHistoryBooking";
+    Layout = "~/Areas/Tutors/Views/Shared/_TutorsLayout.cshtml";
+}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Quản lý lịch sử gia sư</h1>
+                </div>
+                <div class="col-sm-6"></div>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <!-- Default box -->
+        <div class="row " id="dropdown-filter">
+            <div class="col d-flex">
+                <label class="form-label" for="min">Ngày bắt đầu:</label>
+                <input type="text"
+                       class="form-control-sm"
+                       id="min"
+                       name="min"
+                       style="width: 150px" />
+                <label class="form-label ml-3" for="max">Ngày kết thúc:</label>
+                <input type="text"
+                       id="max"
+                       name="max"
+                       class="form-control-sm"
+                       style="width: 150px" />
+            </div>
+        </div>
+        <table id="myTable">
+            <thead>
+                <tr>
+                    <th>Tên Môn Học</th>
+                    <th>Tên Người Học</th>
+                    <th>Ngày</th>
+                    <th>Khung Giờ</th>
+                    <th>Giá Tiền</th>
+                    <th>Trạng Thái</th>
+                    <th>Đánh giá</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Anh Văn Cơ Bản</td>
+                    <td>Nguyễn Thanh An</td>
+                    <td>12</td>
+                    <td>7h - 8h</td>
+                    <td>70.000 VNĐ</td>
+                    <td class="text-success">Hoàn thành</td>
+                    <td></td>
+
+                </tr>
+
+                <tr>
+                    <td>Anh Văn Cơ Bản</td>
+                    <td>Nguyễn Thanh An</td>
+                    <td>12</td>
+                    <td>7h - 8h</td>
+                    <td>70.000 VNĐ</td>
+                    <td class="text-success">Hoàn thành</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- /.card -->
+    </section>
+    <!-- /.content -->
+</div>
+@section scripts {
+    <script>
+        var minDate, maxDate;
+
+        // Custom filtering function which will search data in column four between two values
+        $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
+            console.log(minDate, maxDate);
+            var min = minDate.val();
+            var max = maxDate.val();
+            var date = new Date(data[1]);
+
+            if (
+                (min === null && max === null) ||
+                (min === null && date <= max) ||
+                (min <= date && max === null) ||
+                (min <= date && date <= max)
+            ) {
+                return true;
+            }
+            return false;
+        });
+
+        $(document).ready(function () {
+            // Create date inputs
+            minDate = new DateTime($('#min'), {
+                format: 'MMMM Do YYYY',
+            });
+            maxDate = new DateTime($('#max'), {
+                format: 'MMMM Do YYYY',
+            });
+
+            // DataTables initialisation
+            var table = $('#myTable').DataTable();
+
+            // Refilter the table
+            $('#min, #max').on('change', function () {
+                table.draw();
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            $('#myTable_filter').prepend($('#dropdown-filter')).clone();
+            $('#filter-fade').remove();
+        })
+    </script>
+}
