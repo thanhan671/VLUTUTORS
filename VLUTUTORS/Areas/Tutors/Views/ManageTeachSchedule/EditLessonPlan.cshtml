@@ -2,7 +2,7 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @model VLUTUTORS.Models.Caday
 @{
-    ViewData["Title"] = "EditLessonPlan";
+    ViewData["Title"] = "Chỉnh sửa ca dạy";
     Layout = "~/Areas/Tutors/Views/Shared/_TutorsLayout.cshtml";
 }
 
@@ -24,7 +24,7 @@
     </section>
 
     <!-- Main content -->
-    <form method="post" enctype="multipart/form-data" asp-controller="SignUpLessonPlan" asp-action="EditLessonPlan">
+    <form method="post" enctype="multipart/form-data" asp-controller="ManageTeachSchedule" asp-action="EditLessonPlan">
         <input type="hidden" asp-for="Id" />
         <input type="hidden" asp-for="IdnguoiDay" />
         <section class="content">

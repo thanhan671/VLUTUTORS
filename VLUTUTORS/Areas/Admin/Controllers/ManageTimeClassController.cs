@@ -92,6 +92,13 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             TempData["MessageType"] = "success";
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult UpdatePrice()
+        {
+            return View();
+        }
     }
 }
 

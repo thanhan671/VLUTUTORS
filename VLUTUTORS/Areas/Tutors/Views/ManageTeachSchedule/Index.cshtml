@@ -1,7 +1,7 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @model Tuple<VLUTUTORS.Models.Caday, IEnumerable<VLUTUTORS.Models.Caday>>
 @{
-    ViewData["Title"] = "Đăng ký ca dạy";
+    ViewData["Title"] = "Quản lý lịch dạy";
     Layout = "~/Areas/Tutors/Views/Shared/_TutorsLayout.cshtml";
 }
 <!-- Content Wrapper. Contains page content -->
@@ -28,7 +28,7 @@
          role="dialog"
          aria-labelledby="exampleModalLabel"
          aria-hidden="true">
-        <form asp-action="AddLessonPlan" asp-controller="SignUpLessonPlan" method="post">
+        <form asp-action="AddLessonPlan" asp-controller="ManageTeachSchedule" method="post">
             @Html.HiddenFor(m => m.Item1.IdnguoiDay)
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -113,6 +113,7 @@
                     <th>Ngày</th>
                     <th>Khung Giờ</th>
                     <th>Ca dạy</th>
+                    <th>Tình trạng</th>
                     <th class="th-action"></th>
                 </tr>
             </thead>
@@ -126,9 +127,19 @@
                             <td>@lesson.NgayDay.ToString("dd/MM/yyyy")</td>
                             <td>@lesson.GioBatDau:@lesson.PhutBatDau - @lesson.GioKetThuc:@lesson.PhutKetThuc</td>
                             <td>@lesson.tenLoaiCaDay phút</td>
-                            <td class="project-actions text-right">
+                            @{
+                                if (lesson.IdnguoiHoc == null)
+                                {
+                                    <td>Chưa được đặt</td>
+                                }
+                                else
+                                {
+                                    <td>Đã được đặt</td>
+                                }
+                            }
+                            <td class="project-actions">
 
-                                <a class="btn btn-info btn-sm" href="@Url.Action("EditLessonPlan", "SignUpLessonPlan", new { lessonPlanId = @lesson.Id })">
+                                <a class="btn btn-info btn-sm" href="@Url.Action("EditLessonPlan", "ManageTeachSchedule", new { lessonPlanId = @lesson.Id })">
                                     <i class="fas fa-pencil-alt"> </i>
                                     Sửa
                                 </a>
@@ -137,7 +148,7 @@
                                    data-target="#deleteModal"
                                    onclick="document.getElementById('lessonPlanId').value = @lesson.Id">
                                     <i class="fas fa-pencil-alt"> </i>
-                                    Xóa
+                                    Hủy
                                 </a>
                             </td>
                         </tr>
@@ -156,7 +167,7 @@
      role="dialog"
      aria-labelledby="deleteModalLabel"
      aria-hidden="true">
-    <form asp-action="DeleteLessonPlan" method="post" asp-controller="SignUpLessonPlan">
+    <form asp-action="DeleteLessonPlan" method="post" asp-controller="ManageTeachSchedule">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-body">

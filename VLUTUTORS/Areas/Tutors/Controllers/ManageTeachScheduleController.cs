@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 namespace VLUTUTORS.Areas.Tutors.Controllers
 {
     [Area("Tutors")]
-    public class SignUpLessonPlanController : Controller
+    public class ManageTeachScheduleController : Controller
     {
         private CP25Team01Context _db = new CP25Team01Context();
         private LessonPlan _lessonPlan = new LessonPlan();

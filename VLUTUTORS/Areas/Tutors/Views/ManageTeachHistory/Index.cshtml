@@ -46,28 +46,28 @@
                     <th>Khung Giờ</th>
                     <th>Giá Tiền</th>
                     <th>Trạng Thái</th>
-                    <th>Đánh giá</th>
+                    <th class="text-center">Đánh giá của người học</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>Anh Văn Cơ Bản</td>
                     <td>Nguyễn Thanh An</td>
-                    <td>12</td>
+                    <td>18/03/2023</td>
                     <td>7h - 8h</td>
                     <td>70.000 VNĐ</td>
                     <td class="text-success">Hoàn thành</td>
-                    <td></td>
+                    <td class="text-center"><button class="btn-success">Xem đánh giá</button></td>
 
                 </tr>
 
                 <tr>
                     <td>Anh Văn Cơ Bản</td>
                     <td>Nguyễn Thanh An</td>
-                    <td>12</td>
+                    <td>20/03/2023</td>
                     <td>7h - 8h</td>
                     <td>70.000 VNĐ</td>
-                    <td class="text-success">Hoàn thành</td>
+                    <td class="text-danger">Đã hủy</td>
                     <td></td>
                 </tr>
             </tbody>
@@ -86,7 +86,7 @@
             console.log(minDate, maxDate);
             var min = minDate.val();
             var max = maxDate.val();
-            var date = new Date(data[1]);
+            var date = new Date(data[2]);
 
             if (
                 (min === null && max === null) ||
