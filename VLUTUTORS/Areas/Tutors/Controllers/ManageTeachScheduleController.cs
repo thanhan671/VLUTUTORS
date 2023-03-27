@@ -101,7 +101,7 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
                 {
                     TempData["Message"] = "Thời gian bị trùng với ca dạy khác";
                     TempData["MessageType"] = "error";
-                    return RedirectToAction("Index", "SignUpLessonPlan");
+                    return RedirectToAction("Index", "ManageTeachSchedule");
                 }
 
                 lessonPlans.Add(lessonPlan);
@@ -116,7 +116,7 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
                 TempData["MessageType"] = "success";
             }
 
-            return RedirectToAction("Index", "SignUpLessonPlan");
+            return RedirectToAction("Index", "ManageTeachSchedule");
         }
 
         private void GetEndTime(Caday caDay, int teachTime)
@@ -188,7 +188,7 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             {
                 TempData["Message"] = "Thời gian bị trùng với ca dạy khác";
                 TempData["MessageType"] = "error";
-                return RedirectToAction("EditLessonPlan", "SignUpLessonPlan", new { lessonPlanId = caday.Id});
+                return RedirectToAction("EditLessonPlan", "ManageTeachSchedule", new { lessonPlanId = caday.Id});
             }
 
             if (ModelState.IsValid)
@@ -200,7 +200,7 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
                 TempData["MessageType"] = "success";
             }
 
-            return RedirectToAction("Index", "SignUpLessonPlan");
+            return RedirectToAction("Index", "ManageTeachSchedule");
         }
 
         public async Task<IActionResult> DeleteLessonPlan(int lessonPlanId)
@@ -213,7 +213,7 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             TempData["Message"] = "Xóa ca dạy thành công!";
             TempData["MessageType"] = "success";
 
-            return RedirectToAction("Index", "SignUpLessonPlan");
+            return RedirectToAction("Index", "ManageTeachSchedule");
         }
 
         private bool CheckLessonHasRegister(int tutorId, DateTime regisDate, int startHour, int startMinute, int endHour, int endMinute, int editStartHour = 0, int editStartMinute = 0)
