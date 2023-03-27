@@ -111,32 +111,17 @@
                             }
                         </div>
                         <div class="tutor-view">
-                            @{
-                                bool temp = true;
-                                var tutors = new CP25Team01Context().Giasuyeuthichs.Where(it => (it.GiasuId == @tutor.Tutor.Id)).ToList();
-                                foreach (var item in tutors)
-                                {
-                                    if (item.NguoidungId != @httpContextAccessor.HttpContext.Session.GetInt32("LoginId"))
-                                    {
-                                        temp = true;
-                                    }
-                                    else
-                                    {
-                                        temp = false;
-                                    }
-                                }
-                                if (temp == true)
-                                {
-                                    <button class="fav-tutor" type="submit" asp-action="AddToWishlish" asp-route-id="@tutor.Tutor.Id">
-                                        <i class="fa-solid fa-heart icon-heart" id="heart"></i>
-                                    </button>
-                                }
-                                else
-                                {
-                                    <button style="color:red" class="fav-tutor" type="submit" asp-action="RemoveFromWishlish" asp-route-id="@tutor.Tutor.Id">
-                                        <i class="fa-solid fa-heart icon-heart" id="heart1"></i>
-                                    </button>
-                                }
+                            @if (!@tutor.IsInWishlish)
+                            {
+                                <button class="fav-tutor" type="submit" asp-action="AddToWishlish" asp-route-id="@tutor.Tutor.Id">
+                                    <i class="fa-solid fa-heart icon-heart" id="heart"></i>
+                                </button>
+                            }
+                            else
+                            {
+                                <button style="color:red" class="fav-tutor" type="submit" asp-action="RemoveFromWishlish" asp-route-id="@tutor.Tutor.Id">
+                                    <i class="fa-solid fa-heart icon-heart" id="heart1"></i>
+                                </button>
                             }
                             <a asp-action="DetailTutor" asp-route-id="@tutor.Tutor.Id" class="card-btn">Xem Chi Tiết</a>
                         </div>
@@ -146,6 +131,47 @@
             </div>
         </div>
     </div>
+    @if (TempData["Message"] != null)
+    {
+        <script>
+            var messageType = '@TempData["MessageType"]';
+        var message = '@TempData["Message"]';
 
+        // Display the message using Toastr library
+        if (messageType === "success") {
+            toastr.success(message);
+        } else if (messageType === "error") {
+            toastr.error(message);
+        } else if (messageType === "warning") {
+            toastr.warning(message);
+        } else if (messageType === "info") {
+            toastr.info(message);
+        }
+        </script>
+    }
+    @if (ViewBag.Message != null)
+    {
+        <script type="text/javascript">
+            window.onload = function () {
+                alert("@ViewBag.Message");
+            };
+        </script>
+    }
+    <script src="~/js/app.js"></script>
+    <script>
+        $(function () {
+    // Check for a success message in TempData
+    var toastrSuccess = '@(TempData["toastr-success"])';
+    if (toastrSuccess) {
+        toastr.success(toastrSuccess);
+    }
+
+    // Check for an error message in TempData
+    var toastrError = '@(TempData["toastr-error"])';
+    if (toastrError) {
+        toastr.error(toastrError);
+    }
+});
+    </script>
 </form>
 

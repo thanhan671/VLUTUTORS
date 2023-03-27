@@ -14,7 +14,7 @@ namespace VLUTUTORS.Controllers
     public class BookTutorController : Controller
     {
         private CP25Team01Context _db = new CP25Team01Context();
-        public async Task<IActionResult> Index(string? keyword = "", int? subjectId = -1, string nameFilter="")
+        public async Task<IActionResult> Index(string? keyword = "", int? subjectId = -1, string nameFilter = "")
         {
             ViewData["Keyword"] = keyword;
             ViewData["SubjectId"] = subjectId;
@@ -31,25 +31,37 @@ namespace VLUTUTORS.Controllers
                 if (nameFilter == "favourite")
                 {
                     var favoriteTutors = _db.Giasuyeuthichs.Where(it => (it.NguoidungId == currentUserId)).ToList();
-                    foreach(var tutor in tutors)
+                    var isInWishlish = false;
+                    foreach (var giasu in tutors)
                     {
-                        foreach(var user in favoriteTutors)
+                        foreach (var user in favoriteTutors)
                         {
-                            if (tutor.Id != currentUserId)
+                            if (giasu.Id != currentUserId)
                             {
-                                if (tutor.Id == user.GiasuId)
+                                if (giasu.Id == user.GiasuId)
                                 {
-                                    string avatar = tutor.AnhDaiDien;
+                                    string avatar = giasu.AnhDaiDien;
                                     if (!string.IsNullOrEmpty(avatar))
                                         avatar = avatar.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
-                                    tutor.AnhDaiDien = avatar;
+                                    giasu.AnhDaiDien = avatar;
 
-                                    var subject1 = subjects.FirstOrDefault(it => it.IdmonGiaSu == tutor.IdmonGiaSu1);
-                                    var subject2 = subjects.FirstOrDefault(it => it.IdmonGiaSu == tutor.IdmonGiaSu2);
-                                    var isInWishlish = wishlish.Where(it => it.GiasuId == tutor.Id);
+                                    var subject1 = subjects.FirstOrDefault(it => it.IdmonGiaSu == giasu.IdmonGiaSu1);
+                                    var subject2 = subjects.FirstOrDefault(it => it.IdmonGiaSu == giasu.IdmonGiaSu2);
+                                    foreach (var like in wishlish)
+                                    {
+                                        if (like.GiasuId == giasu.Id)
+                                        {
+                                            isInWishlish = true;
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            isInWishlish = false;
+                                        }
+                                    }
 
                                     var commentModel = new List<CommentViewModel>();
-                                    var danhGiaGiaSu = _db.Danhgiagiasus.Where(it => it.GiasuId == tutor.Id).ToList();
+                                    var danhGiaGiaSu = _db.Danhgiagiasus.Where(it => it.GiasuId == giasu.Id).ToList();
                                     foreach (var danhGia in danhGiaGiaSu)
                                     {
                                         var nguoiDanhGia = _db.Taikhoannguoidungs.Find(danhGia.NguoidungId);
@@ -65,10 +77,10 @@ namespace VLUTUTORS.Controllers
                                     }
                                     models.Add(new BookTutorViewModel
                                     {
-                                        Tutor = tutor,
+                                        Tutor = giasu,
                                         Subject1 = subject1,
                                         Subject2 = subject2,
-                                        IsInWishlish = (isInWishlish != null),
+                                        IsInWishlish = isInWishlish,
                                         Commnents = commentModel
                                     });
                                 }
@@ -81,25 +93,37 @@ namespace VLUTUTORS.Controllers
                     tutors = tutors.Where(it => it.IdmonGiaSu1 == subjectId || it.IdmonGiaSu2 == subjectId).ToList();
                     var favoriteTutors = _db.Giasuyeuthichs.Where(it => (it.NguoidungId == currentUserId)).ToList();
                     ViewData["NameFilter"] = nameFilter;
-                    foreach (var tutor in tutors)
+                    var isInWishlish = false;
+                    foreach (var giasu in tutors)
                     {
-                        if (tutor.Id != currentUserId)
+                        if (giasu.Id != currentUserId)
                         {
                             foreach (var user in favoriteTutors)
                             {
-                                if (tutor.Id == user.GiasuId)
+                                if (giasu.Id == user.GiasuId)
                                 {
-                                    string avatar = tutor.AnhDaiDien;
+                                    string avatar = giasu.AnhDaiDien;
                                     if (!string.IsNullOrEmpty(avatar))
                                         avatar = avatar.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
-                                    tutor.AnhDaiDien = avatar;
+                                    giasu.AnhDaiDien = avatar;
 
-                                    var subject1 = subjects.FirstOrDefault(it => it.IdmonGiaSu == tutor.IdmonGiaSu1);
-                                    var subject2 = subjects.FirstOrDefault(it => it.IdmonGiaSu == tutor.IdmonGiaSu2);
-                                    var isInWishlish = wishlish.Where(it => it.GiasuId == tutor.Id);
+                                    var subject1 = subjects.FirstOrDefault(it => it.IdmonGiaSu == giasu.IdmonGiaSu1);
+                                    var subject2 = subjects.FirstOrDefault(it => it.IdmonGiaSu == giasu.IdmonGiaSu2);
+                                    foreach (var like in wishlish)
+                                    {
+                                        if (like.GiasuId == giasu.Id)
+                                        {
+                                            isInWishlish = true;
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            isInWishlish = false;
+                                        }
+                                    }
 
                                     var commentModel = new List<CommentViewModel>();
-                                    var danhGiaGiaSu = _db.Danhgiagiasus.Where(it => it.GiasuId == tutor.Id).ToList();
+                                    var danhGiaGiaSu = _db.Danhgiagiasus.Where(it => it.GiasuId == giasu.Id).ToList();
                                     foreach (var danhGia in danhGiaGiaSu)
                                     {
                                         var nguoiDanhGia = _db.Taikhoannguoidungs.Find(danhGia.NguoidungId);
@@ -115,10 +139,10 @@ namespace VLUTUTORS.Controllers
                                     }
                                     models.Add(new BookTutorViewModel
                                     {
-                                        Tutor = tutor,
+                                        Tutor = giasu,
                                         Subject1 = subject1,
                                         Subject2 = subject2,
-                                        IsInWishlish = (isInWishlish != null),
+                                        IsInWishlish = isInWishlish,
                                         Commnents = commentModel
                                     });
                                 }
@@ -130,26 +154,43 @@ namespace VLUTUTORS.Controllers
                 else
                 {
                     if (!string.IsNullOrEmpty(keyword))
+                    {
                         tutors = tutors.Where(it => it.HoTen.Contains(keyword)).ToList();
+                    }
 
                     if (subjectId > 0)
-                        tutors = tutors.Where(it => it.IdmonGiaSu1 == subjectId || it.IdmonGiaSu2 == subjectId).ToList();
-
-                    foreach (var tutor in tutors)
                     {
-                        if (tutor.Id != currentUserId)
+                        tutors = tutors.Where(it => it.IdmonGiaSu1 == subjectId || it.IdmonGiaSu2 == subjectId).ToList();
+                    }
+
+                    var isInWishlish = false;
+
+                    foreach (var giasu in tutors)
+                    {
+                        if (giasu.Id != currentUserId)
                         {
-                            string avatar = tutor.AnhDaiDien;
+                            string avatar = giasu.AnhDaiDien;
                             if (!string.IsNullOrEmpty(avatar))
                                 avatar = avatar.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
-                            tutor.AnhDaiDien = avatar;
+                            giasu.AnhDaiDien = avatar;
 
-                            var subject1 = subjects.FirstOrDefault(it => it.IdmonGiaSu == tutor.IdmonGiaSu1);
-                            var subject2 = subjects.FirstOrDefault(it => it.IdmonGiaSu == tutor.IdmonGiaSu2);
-                            var isInWishlish = wishlish.Where(it => it.GiasuId == tutor.Id);
+                            var subject1 = subjects.FirstOrDefault(it => it.IdmonGiaSu == giasu.IdmonGiaSu1);
+                            var subject2 = subjects.FirstOrDefault(it => it.IdmonGiaSu == giasu.IdmonGiaSu2);
+                            foreach (var like in wishlish)
+                            {
+                                if (like.GiasuId == giasu.Id)
+                                {
+                                    isInWishlish = true;
+                                    break;
+                                }
+                                else
+                                {
+                                    isInWishlish = false;
+                                }
+                            }
 
                             var commentModel = new List<CommentViewModel>();
-                            var danhGiaGiaSu = _db.Danhgiagiasus.Where(it => it.GiasuId == tutor.Id).ToList();
+                            var danhGiaGiaSu = _db.Danhgiagiasus.Where(it => it.GiasuId == giasu.Id).ToList();
                             foreach (var danhGia in danhGiaGiaSu)
                             {
                                 var nguoiDanhGia = _db.Taikhoannguoidungs.Find(danhGia.NguoidungId);
@@ -165,15 +206,15 @@ namespace VLUTUTORS.Controllers
                             }
                             models.Add(new BookTutorViewModel
                             {
-                                Tutor = tutor,
+                                Tutor = giasu,
                                 Subject1 = subject1,
                                 Subject2 = subject2,
-                                IsInWishlish = (isInWishlish != null),
+                                IsInWishlish = isInWishlish,
                                 Commnents = commentModel
                             });
                         }
                     }
-                }               
+                }
             }
             ViewBag.Subjects = subjects;
             return View(models);
@@ -184,15 +225,26 @@ namespace VLUTUTORS.Controllers
         public async Task<IActionResult> AddToWishlish(int id)
         {
             var currentUserId = HttpContext.Session.GetInt32("LoginId");
-            if(currentUserId > 0 && id > 0)
+            if (currentUserId != null)
             {
-                var giaSuYeuThich = new Giasuyeuthich
+                if (currentUserId > 0 && id > 0)
                 {
-                    GiasuId = id,
-                    NguoidungId = currentUserId.Value
-                };
-                _db.Add(giaSuYeuThich);
-                await _db.SaveChangesAsync();
+                    var giaSuYeuThich = new Giasuyeuthich
+                    {
+                        GiasuId = id,
+                        NguoidungId = currentUserId.Value
+                    };
+                    _db.Add(giaSuYeuThich);
+                    await _db.SaveChangesAsync();
+                    TempData["Message"] = "Thêm gia sư yêu thích thành công!";
+                    TempData["MessageType"] = "success";
+                }
+
+                else
+                {
+                    TempData["Message"] = "Vui lòng đăng nhập để thêm gia sư yêu thích!";
+                    TempData["MessageType"] = "error";
+                }
             }
             return RedirectToAction("Index", "BookTutor");
         }
@@ -209,6 +261,8 @@ namespace VLUTUTORS.Controllers
                 {
                     _db.Remove(giaSuYeuThich);
                     await _db.SaveChangesAsync();
+                    TempData["Message"] = "Bỏ yêu thích thành công!";
+                    TempData["MessageType"] = "success";
                 }
             }
             return RedirectToAction("Index", "BookTutor");
@@ -263,7 +317,7 @@ namespace VLUTUTORS.Controllers
                 cadayItem.giaCaDay = _db.Cahocs.Find(cadayItem.IdloaiCaDay).GiaTien;
             }
 
-            Tuple<BookTutorViewModel, IEnumerable<Caday>> turple = new Tuple<BookTutorViewModel, IEnumerable<Caday>>(model, cadays.AsEnumerable()); 
+            Tuple<BookTutorViewModel, IEnumerable<Caday>> turple = new Tuple<BookTutorViewModel, IEnumerable<Caday>>(model, cadays.AsEnumerable());
             return View(turple);
         }
 
