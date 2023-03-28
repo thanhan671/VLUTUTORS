@@ -239,12 +239,11 @@ namespace VLUTUTORS.Controllers
                     TempData["Message"] = "Thêm gia sư yêu thích thành công!";
                     TempData["MessageType"] = "success";
                 }
-
-                else
-                {
-                    TempData["Message"] = "Vui lòng đăng nhập để thêm gia sư yêu thích!";
-                    TempData["MessageType"] = "error";
-                }
+            }
+            else
+            {
+                TempData["Message"] = "Vui lòng đăng nhập để thêm gia sư yêu thích!";
+                TempData["MessageType"] = "error";
             }
             return RedirectToAction("Index", "BookTutor");
         }

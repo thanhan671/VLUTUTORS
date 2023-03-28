@@ -137,20 +137,44 @@
                                     <td>Đã được đặt</td>
                                 }
                             }
-                            <td class="project-actions">
-
-                                <a class="btn btn-info btn-sm" href="@Url.Action("EditLessonPlan", "ManageTeachSchedule", new { lessonPlanId = @lesson.Id })">
-                                    <i class="fas fa-pencil-alt"> </i>
-                                    Sửa
-                                </a>
-                                <a class="btn btn-danger btn-sm"
-                                   data-toggle="modal"
-                                   data-target="#deleteModal"
-                                   onclick="document.getElementById('lessonPlanId').value = @lesson.Id">
-                                    <i class="fas fa-pencil-alt"> </i>
-                                    Hủy
-                                </a>
-                            </td>
+                            @{
+                                if (lesson.IdnguoiHoc == null)
+                                {
+                                    <td class="project-actions">
+                                        <a class="btn btn-info btn-sm" href="@Url.Action("EditLessonPlan", "ManageTeachSchedule", new { lessonPlanId = @lesson.Id })">
+                                            <i class="fas fa-pencil-alt"> </i>
+                                            Sửa
+                                        </a>
+                                        <a class="btn btn-danger btn-sm"
+                                           data-toggle="modal"
+                                           data-target="#deleteModal"
+                                           onclick="document.getElementById('lessonPlanId').value = @lesson.Id">
+                                            <i class="fas fa-pencil-alt"> </i>
+                                            Hủy
+                                        </a>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td class="project-actions">
+                                        <a class="btn btn-success btn-sm" href="#">
+                                            <i class="fas fa-camera"> </i>
+                                            Tham gia dạy
+                                        </a>
+                                        <a class="btn btn-info btn-sm" href="@Url.Action("EditLessonPlan", "ManageTeachSchedule", new { lessonPlanId = @lesson.Id })">
+                                            <i class="fas fa-pencil-alt"> </i>
+                                            Sửa
+                                        </a>
+                                        <a class="btn btn-danger btn-sm"
+                                           data-toggle="modal"
+                                           data-target="#deleteModal"
+                                           onclick="document.getElementById('lessonPlanId').value = @lesson.Id">
+                                            <i class="fas fa-pencil-alt"> </i>
+                                            Hủy
+                                        </a>
+                                    </td>
+                                }
+                            }
                         </tr>
                     }
                 }
