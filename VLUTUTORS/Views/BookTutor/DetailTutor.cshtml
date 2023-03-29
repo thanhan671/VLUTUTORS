@@ -197,7 +197,11 @@
                                                 <td>@lesson.GioBatDau:@lesson.PhutBatDau - @lesson.GioKetThuc:@lesson.PhutKetThuc</td>
                                                 <td>@lesson.giaCaDay.ToString("#,##0.###") đồng</td>
                                                 <td>
-                                                    <button class="custom-btn btn-5">Đặt Lịch</button>
+                                                    <button data-toggle="modal"
+                                                            data-target="#exampleModal"
+                                                            class="custom-btn btn-5">
+                                                        Đặt Lịch
+                                                    </button>
                                                 </td>
                                             </tr>
                                         }
@@ -292,6 +296,7 @@
             </div>
         </div>
     </div>
+
 </section>
 @section scripts {
     <script>
