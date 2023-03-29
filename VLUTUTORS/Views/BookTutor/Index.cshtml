@@ -70,15 +70,15 @@
                     </select>
                 </div>
             </div>
-            <button class="main-btn" style="float: right;margin: 5px;" type="submit" asp-action="Index">Tìm kiếm</button>
+            <button class="main-btn" style="float: right;margin-right: 10px;margin-top: 5px;" type="submit" asp-action="Index">Tìm kiếm</button>
         </section>
-        <div class="right-search">
-            <div class="card-tutor-container">
+        <div class="">
+            <div class="col d-flex flex-column align-items-center ">
                 <hr>
                 @foreach (var tutor in Model)
                 {
-                    <div class="search-card ml-10 mt-30 mb-20">
-                        <div class="tutor-avt pt-50">
+                    <div class="search-card col-10 ml-10 mt-30 mb-20">
+                        <div class="tutor-avt">
                             <img src="~/@tutor.Tutor.AnhDaiDien"
                                  width="150" />
                         </div>
@@ -101,13 +101,13 @@
                             @if (@tutor.Subject1 != null)
                             {
                                 <p class="card-price"><b>@tutor.Subject1.TenMonGiaSu</b></p>
-                                <h4 class="head-desc">@tutor.Tutor.GioiThieuVeMonGiaSu1</h4>
+                                <p class="head-desc">@tutor.Tutor.GioiThieuVeMonGiaSu1</p>
                             }
 
                             @if (@tutor.Subject2 != null)
                             {
                                 <p class="card-price"><b>@tutor.Subject2.TenMonGiaSu</b></p>
-                                <h4 class="head-desc">@tutor.Tutor.GioiThieuVeMonGiaSu2</h4>
+                                <p class="head-desc">@tutor.Tutor.GioiThieuVeMonGiaSu2</p>
                             }
                         </div>
                         <div class="tutor-view">
