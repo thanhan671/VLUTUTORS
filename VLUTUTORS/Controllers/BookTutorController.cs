@@ -8,6 +8,7 @@ using System.Linq;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using VLUTUTORS.Models;
+using ZoomNet;
 
 namespace VLUTUTORS.Controllers
 {
@@ -345,6 +346,21 @@ namespace VLUTUTORS.Controllers
         public async Task<IActionResult> HistoryBooking()
         {
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> LessonRegis([FromForm] int lessonId) 
+        {
+            //JwtConnectionInfo connectionInfo = new JwtConnectionInfo("T36rQ7CfQ9WJW4P7xjEUrw", "3Gc2fpEuacuNUk2cErLdHrPTRahrqdzSfRpf");
+            //ZoomClient zoomClient = new ZoomClient(connectionInfo);
+            Caday caday = _db.Cadays.FirstOrDefault(c => c.Id.Equals(lessonId));
+            //var hostMail = _db.Taikhoannguoidungs.Where(acc => acc.Id.Equals(caday.IdnguoiDay)).FirstOrDefault().Email;
+            //int lessonDuration = _db.Cahocs.Where(l => l.IdCaHoc.Equals(caday.IdloaiCaDay)).FirstOrDefault().LoaiCa;
+            //var result = await zoomClient.Meetings.CreateScheduledMeetingAsync(hostMail, "Gia Su Van Lang Meeting", "Meeting for VanLang tutor", caday.NgayDay, lessonDuration);
+            Console.WriteLine("return meeting url");
+            //caday.Link
+
+            return RedirectToAction("Index", "BookTutor");
         }
     }
 }
