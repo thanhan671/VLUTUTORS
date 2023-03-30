@@ -189,7 +189,7 @@
                                 <tbody>
                                     @foreach (var lesson in Model.Item2)
                                     {
-                                        if (@lesson.NgayDay > DateTime.Now && @lesson.IdnguoiHoc == null)
+                                        if (@lesson.NgayDay >= DateTime.Today && @lesson.IdnguoiHoc == null)
                                         {
                                             <tr>
                                                 <td>@lesson.tenMonDay</td>

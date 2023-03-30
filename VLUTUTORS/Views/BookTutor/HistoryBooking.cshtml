@@ -1,4 +1,5 @@
-﻿
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model IEnumerable<VLUTUTORS.Models.Caday>
 @{
     ViewData["Title"] = "Lịch Học";
     Layout = "~/Views/Shared/_otherPageLayout.cshtml";
@@ -28,92 +29,92 @@
                 <th>Môn Học</th>
                 <th>Tên Gia Sư</th>
                 <th>Ngày Học</th>
-                <th>Giá Tiền</th>
                 <th>Khung Giờ</th>
+                <th>Giá Tiền</th>
                 <th>Trạng Thái</th>
-                <th></th> 
+                <th></th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>Anh Văn Cơ Bản</td>
-                <td><a href="">Văn Đạt</a></td>
-                <td>24/03/2023</td>
-                <td>70.000 VNĐ</td>
-                <td>7h - 8h</td>
-                <td class="cms">Sắp Diễn Ra</td>
-                <td><button class="btn btn-success btn-sm" style="width:90px">Tham gia</button><button class="btn btn-danger btn-sm" style="margin-top: 5px; width: 90px">Hủy lịch</button></td>
-            </tr>
-            <tr>
-                <td>Tinh Học Văn Phòng</td>
-                <td><a href="">Văn Hùng</a></td>
-                <td>25/03/2023</td>
-                <td>70.000 VNĐ</td>
-                <td>7h - 8h</td>
-                <td class="cms">Sắp Diễn Ra</td>
-                <td><button class="btn btn-success btn-sm" style="width:90px">Tham gia</button><button class="btn btn-danger btn-sm" style="margin-top: 5px; width: 90px">Hủy lịch</button></td>
-            </tr>
-            <tr>
-                <td>Toán Cao Cấp</td>
-                <td><a href="">Văn Khánh</a></td>
-                <td>28/03/2023</td>
-                <td>70.000 VNĐ</td>
-                <td>15h - 16h</td>
-                <td class="done">Đặt thành công</td>
-                <td><button class="btn btn-danger btn-sm" style="width:90px">Hủy lịch</button></td>
-            </tr>
+            @foreach (var lesson in Model)
+            {
+                <tr>
+                    <td>@lesson.tenMonDay</td>
+                    <td>@lesson.tenNguoiDay</td>
+                    <td>@lesson.NgayDay.ToString("dd/MM/yyyy")</td>
+                    <td>@lesson.GioBatDau:@lesson.PhutBatDau - @lesson.GioKetThuc:@lesson.PhutKetThuc</td>
+                    <td>@lesson.giaCaDay.ToString("#,##0.###") đồng</td>
+
+                    @{
+                        if (lesson.NgayDay == DateTime.Today && lesson.PhutBatDau != 0 && lesson.GioBatDau == DateTime.Now.Hour && lesson.PhutBatDau - DateTime.Now.Minute == 30)
+                        {
+                            <td class="cms">Sắp Diễn Ra</td>
+                        }
+                        else if (lesson.NgayDay == DateTime.Today && lesson.PhutBatDau == 0 && lesson.GioBatDau-DateTime.Now.Hour == 1 && lesson.PhutBatDau - DateTime.Now.Minute == 30)
+                        {
+                            <td class="cms">Sắp Diễn Ra</td>
+                        }
+                        else
+                        {
+                            <td class="cms">Đã đặt lịch</td>
+                        }
+                    }
+
+                    <td><button class="btn btn-success btn-sm" style="width:90px">Tham gia</button><button class="btn btn-danger btn-sm" style="margin-top: 5px; width: 90px">Hủy lịch</button></td>
+                </tr>
+            }
         </tbody>
     </table>
 </div>
 @section scripts{
-        <script>
-      var minDate, maxDate;
+    <script>
+        var minDate, maxDate;
 
-      // Custom filtering function which will search data in column four between two values
-      $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
-          let min = moment($('#min').val(), 'DD/MM/YYYY', true).isValid() ?
-              moment($('#min').val(), 'DD/MM/YYYY', true).unix() :
-              null;
+        // Custom filtering function which will search data in column four between two values
+        $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
+            let min = moment($('#min').val(), 'DD/MM/YYYY', true).isValid() ?
+                moment($('#min').val(), 'DD/MM/YYYY', true).unix() :
+                null;
 
-          let max = moment($('#max').val(), 'DD/MM/YYYY').isValid() ?
-              moment($('#max').val(), 'DD/MM/YYYY', true).unix() :
-              null;
-          var date = moment(data[2], 'DD/MM/YYYY', true).unix();
+            let max = moment($('#max').val(), 'DD/MM/YYYY').isValid() ?
+                moment($('#max').val(), 'DD/MM/YYYY', true).unix() :
+                null;
+            var date = moment(data[2], 'DD/MM/YYYY', true).unix();
 
-        if (
-          (min === null && max === null) ||
-          (min === null && date <= max) ||
-          (min <= date && max === null) ||
-          (min <= date && date <= max)
-        ) {
-          return true;
-        }
-        return false;
-      });
-
-      $(document).ready(function () {
-        // Create date inputs
-        minDate = new DateTime($('#min'), {
-            format: 'DD/MM/YYYY',
-        });
-        maxDate = new DateTime($('#max'), {
-            format: 'DD/MM/YYYY',
+            if (
+                (min === null && max === null) ||
+                (min === null && date <= max) ||
+                (min <= date && max === null) ||
+                (min <= date && date <= max)
+            ) {
+                return true;
+            }
+            return false;
         });
 
-        // DataTables initialisation
-        var table = $('#myTable').DataTable();
+        $(document).ready(function () {
+            // Create date inputs
+            minDate = new DateTime($('#min'), {
+                format: 'DD/MM/YYYY',
+            });
+            maxDate = new DateTime($('#max'), {
+                format: 'DD/MM/YYYY',
+            });
 
-        // Refilter the table
-        $('#min, #max').on('change', function () {
-          table.draw();
+            // DataTables initialisation
+            var table = $('#myTable').DataTable();
+
+            // Refilter the table
+            $('#min, #max').on('change', function () {
+                table.draw();
+            });
         });
-      });
     </script>
     <script type="text/javascript">
-      $(function () {
-        $('#myTable_filter').prepend($('#dropdown-filter')).clone();
-        $('#filter-fade').remove();
-        $('#myTable_filter').css({ display: 'flex' });
-      });
+        $(function () {
+            $('#myTable_filter').prepend($('#dropdown-filter')).clone();
+            $('#filter-fade').remove();
+            $('#myTable_filter').css({ display: 'flex' });
+        });
     </script>
 }

@@ -342,9 +342,18 @@ namespace VLUTUTORS.Controllers
             return RedirectToAction("Index", "BookTutor");
         }
 
-        public async Task<IActionResult> HistoryBooking()
+
+        public IActionResult HistoryBooking(int id)
         {
-            return View();
+
+            List<Caday> cadays = _db.Cadays.Where(ca => ca.IdnguoiHoc.Equals(id)).ToList();
+            foreach (var cadayItem in cadays)
+            {
+                cadayItem.tenMonDay = _db.Mongiasus.Find(cadayItem.IdmonDay).TenMonGiaSu.ToString();
+                cadayItem.giaCaDay = _db.Cahocs.Find(cadayItem.IdloaiCaDay).GiaTien;
+            }
+
+            return View(cadays);
         }
     }
 }
