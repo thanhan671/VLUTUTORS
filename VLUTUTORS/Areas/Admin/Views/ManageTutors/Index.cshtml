@@ -26,6 +26,13 @@
 
         <!-- /.card -->
     </section>
+    @if (TempData["messageCheck"] != null)
+    {
+        <script>
+            alert('@TempData["messageCheck"]');
+            window.location.href = "https://zoom.us/account/user#/";
+        </script>
+    }
     @if (TempData["Message"] != null)
     {
         <script>

@@ -203,14 +203,14 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                     return RedirectToAction("SendMail", "ManageTuTors",
                         new { toEmail = account.Email, mailBody = "<b>Chúc mừng! Hồ sơ của bạn đã đủ điều kiện tham gia phỏng vấn, vui lòng theo dõi điện thoại để nhận lịch hẹn phỏng vấn từ chúng tôi!</b>" +
                         "<p style = \"margin: 0%;\">Một lần nữa cảm ơn bạn đã quan tâm và mong muốn trở thành một thành viên của Gia Sư Văn Lang. Hẹn gặp bạn vào buổi phỏng vấn và chúc bạn sẽ có một buổi phỏng " +
-                        "vấn thật thành công!<br/>"});
+                        "vấn thật thành công!<br/>",checkStatus=false});
                 }
                 else if (idxetDuyet == 4)
                 {
                     return RedirectToAction("SendMail", "ManageTuTors",
                         new { toEmail = account.Email, mailBody = "<b>Rất tiếc! Bạn đã không đạt được các tiêu chí để trở thành gia sư của Gia Sư Văn Lang với lý do từ chối là: <i>"+reason+ "</i></b>"+
                         "<p style = \"margin: 0%;\">Một lần nữa cảm ơn bạn đã quan tâm và mong muốn trở thành một thành viên của Gia Sư Văn Lang. Hẹn gặp bạn vào một dịp khác và có cơ hội hợp tác cùng bạn.<br/>"
-                        });
+                        ,checkStatus=false});
                 }
                 else if (idxetDuyet == 5)
                 {
@@ -219,7 +219,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                         "Bây giờ bạn có thể đăng nhập và sử dụng chức năng của gia sư!"+
                         "<p style = \"margin: 0%;\">Một lần nữa cảm ơn bạn đã quan tâm và mong muốn trở thành một thành viên của Gia Sư Văn Lang. Chúc bạn sẽ có những trải nghiệm thật tốt trên Gia Sư Văn Lang với " +
                         "vai trò là gia sư của chúng tôi!.<br/>"
-                        });
+                        ,checkStatus=true});
                 }
             }
             return View(account);
@@ -309,7 +309,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             }
             return View(account);
         }
-        public IActionResult SendMail(string toEmail, string mailBody)
+        public IActionResult SendMail(string toEmail, string mailBody, bool checkStatus)
         {
             string mailTitle = "Gia Sư Văn Lang";
             string fromMail = "giasuvanlang.thongtin@gmail.com";
@@ -355,6 +355,14 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
             smtp.Send(message);
 
+            if (checkStatus == true)
+            {
+                TempData["messageCheck"] = "Để cấp quyền cho gia sư, vui lòng thêm email gia sư vào quản lý ZOOM!";
+            }
+            else
+            {
+                TempData["messageCheck"] = null;
+            }
 
             return RedirectToAction("Index", "ManageTutors");
         }
