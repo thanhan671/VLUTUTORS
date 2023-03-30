@@ -361,25 +361,24 @@ namespace VLUTUTORS.Controllers
         [HttpPost]
         public async Task<IActionResult> LessonRegis([FromForm] int lessonId) 
         {
-            //JwtConnectionInfo connectionInfo = new JwtConnectionInfo("T36rQ7CfQ9WJW4P7xjEUrw", "3Gc2fpEuacuNUk2cErLdHrPTRahrqdzSfRpf");
-            //ZoomClient zoomClient = new ZoomClient(connectionInfo);
+            JwtConnectionInfo connectionInfo = new JwtConnectionInfo("T36rQ7CfQ9WJW4P7xjEUrw", "3Gc2fpEuacuNUk2cErLdHrPTRahrqdzSfRpf");
+            ZoomClient zoomClient = new ZoomClient(connectionInfo);
 
-            //Caday caday = _db.Cadays.FirstOrDefault(c => c.Id.Equals(lessonId));
+            Caday caday = _db.Cadays.FirstOrDefault(c => c.Id.Equals(lessonId));
 
-            //var hostMail = _db.Taikhoannguoidungs.Where(acc => acc.Id.Equals(caday.IdnguoiDay)).FirstOrDefault().Email;
-            //int lessonDuration = _db.Cahocs.Where(l => l.IdCaHoc.Equals(caday.IdloaiCaDay)).FirstOrDefault().LoaiCa;
-            //var result = await zoomClient.Meetings.CreateScheduledMeetingAsync(hostMail, "Gia Su Van Lang Meeting", "Meeting for VanLang tutor", caday.NgayDay, lessonDuration);
+            var hostMail = _db.Taikhoannguoidungs.Where(acc => acc.Id.Equals(caday.IdnguoiDay)).FirstOrDefault().Email;
+            int lessonDuration = _db.Cahocs.Where(l => l.IdCaHoc.Equals(caday.IdloaiCaDay)).FirstOrDefault().LoaiCa;
+            var result = await zoomClient.Meetings.CreateScheduledMeetingAsync(hostMail, "Gia Su Van Lang Meeting", "Meeting for VanLang tutor", caday.NgayDay, lessonDuration);
             Console.WriteLine("return meeting url" + lessonId);
-            //caday.Link = result;
+            caday.Link = result.JoinUrl;
 
-            //try {
-            //    _db.Update(caday);
-            //    await _db.SaveChangesAsync();
-            //}
-            //catch(Exception ex) 
-            //{
-            //    Console.WriteLine(ex.ToString());   
-            //}
+            try {
+                _db.Update(caday);
+                await _db.SaveChangesAsync();
+            }
+            catch (Exception ex) {
+                Console.WriteLine(ex.ToString());
+            }
 
             return RedirectToAction("Index", "BookTutor");
         }
