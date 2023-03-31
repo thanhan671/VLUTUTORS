@@ -160,7 +160,7 @@
                                     if (lesson.NgayDay == DateTime.Today && lesson.PhutBatDau != 0 && lesson.GioBatDau == DateTime.Now.Hour && Math.Abs(lesson.PhutBatDau - DateTime.Now.Minute) <= 15)
                                     {
                                         <td class="project-actions">
-                                            <a class="btn btn-success btn-sm" href="@lesson.Link" style="margin-bottom:5px; width:120px">
+                                            <a class="btn btn-success btn-sm" href="@lesson.Link" style="margin-bottom:5px; width:120px" target="_blank">
                                                 <i class="fas fa-chalkboard-teacher"> </i>
                                                 Tham gia dạy
                                             </a>
@@ -177,7 +177,7 @@
                                     else if (lesson.NgayDay == DateTime.Today && (lesson.PhutBatDau == 0 || (0 < lesson.PhutBatDau) && (lesson.PhutBatDau < 15)) && lesson.GioBatDau - DateTime.Now.Hour == 1 && Math.Abs(lesson.PhutBatDau - DateTime.Now.Minute) >= 45)
                                     {
                                         <td class="project-actions">
-                                            <a class="btn btn-success btn-sm" href="@lesson.Link" style="margin-bottom:5px; width:120px;">
+                                            <a class="btn btn-success btn-sm" href="@lesson.Link" style="margin-bottom:5px; width:120px;" target="_blank">
                                                 <i class="fas fa-chalkboard-teacher"> </i>
                                                 Tham gia dạy
                                             </a>
