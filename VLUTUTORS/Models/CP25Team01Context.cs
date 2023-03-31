@@ -30,6 +30,7 @@ namespace VLUTUTORS.Models
         public virtual DbSet<Mongiasu> Mongiasus { get; set; }
         public virtual DbSet<Nganhang> Nganhangs { get; set; }
         public virtual DbSet<Noidung> Noidungs { get; set; }
+        public virtual DbSet<Phiday> Phidays { get; set; }
         public virtual DbSet<Quyen> Quyens { get; set; }
         public virtual DbSet<Taikhoanadmin> Taikhoanadmins { get; set; }
         public virtual DbSet<Taikhoannguoidung> Taikhoannguoidungs { get; set; }
@@ -96,6 +97,10 @@ namespace VLUTUTORS.Models
                 entity.Property(e => e.IdnguoiDay).HasColumnName("IDNguoiDay");
 
                 entity.Property(e => e.IdnguoiHoc).HasColumnName("IDNguoiHoc");
+
+                entity.Property(e => e.Link)
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.NgayDay).HasColumnType("date");
 
@@ -301,6 +306,12 @@ namespace VLUTUTORS.Models
                     .IsRequired()
                     .HasMaxLength(300)
                     .HasColumnName("TieuDeGT3");
+            });
+
+            modelBuilder.Entity<Phiday>(entity => {
+                entity.ToTable("PHIDAY");
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
             });
 
             modelBuilder.Entity<Quyen>(entity =>

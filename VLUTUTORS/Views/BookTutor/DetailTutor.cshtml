@@ -197,10 +197,11 @@
                                                 <td>@lesson.GioBatDau:@lesson.PhutBatDau - @lesson.GioKetThuc:@lesson.PhutKetThuc</td>
                                                 <td>@lesson.giaCaDay.ToString("#,##0.###") đồng</td>
                                                 <td>
+                                                    @*<button class="custom-btn btn-5">Đặt Lịch</button>*@
                                                     <button data-toggle="modal"
                                                             data-target="#exampleModal"
-                                                            class="custom-btn btn-5"
-                                                            >
+                                                            onclick="document.getElementById('lessonID').value = @lesson.Id"
+                                                            class="custom-btn btn-5">
                                                         Đặt Lịch
                                                     </button>
                                                 </td>
@@ -278,6 +279,7 @@
     </div>
 
     <!-- Modal -->
+    <form asp-action="LessonRegis" asp-controller="BookTutor" id ="form" method="post">
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document" id="modal-dialog">
             <div class="modal-content">
@@ -290,15 +292,15 @@
                 <div class="modal-body">
                     <b>Xác nhận đặt lịch học cho ca học này!</b>
                 </div>
+                    <input type="hidden" id="lessonID" name="lessonID"/>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                    <button type="button" class="custom-btn btn-success-modal">Đồng ý</button>
+                    <button type="submit" class="custom-btn btn-success-modal">Đồng ý</button>
                 </div>
             </div>
         </div>
     </div>
-
-</section>
+    </form>
 @section scripts {
     <script>
         var minDate, maxDate;
