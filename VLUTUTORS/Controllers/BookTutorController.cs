@@ -361,6 +361,10 @@ namespace VLUTUTORS.Controllers
         [HttpPost]
         public async Task<IActionResult> LessonRegis([FromForm] int lessonId) 
         {
+            if (HttpContext.Session.GetInt32("LoginId") == null)
+            {
+                return RedirectToAction("Login", "Accounts");
+            }
             JwtConnectionInfo connectionInfo = new JwtConnectionInfo("9wPjAoQIQsSEzltlIl_vQw", "84zfXjpKoHTUS2Tqjnfswk7pyezmMsbYRxvf");
             ZoomClient zoomClient = new ZoomClient(connectionInfo);
 
@@ -375,6 +379,8 @@ namespace VLUTUTORS.Controllers
             try {
                 _db.Update(caday);
                 await _db.SaveChangesAsync();
+                TempData["Message"] = "Đặt lịch thành công!";
+                TempData["MessageType"] = "success";
             }
             catch (Exception ex) {
                 Console.WriteLine(ex.ToString());

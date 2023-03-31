@@ -120,7 +120,26 @@
             <tbody>
                 @foreach (var lesson in Model.Item2)
                 {
-                    if (@lesson.NgayDay >= DateTime.Today)
+                    string lessonTime, typeTime;
+                    if (lesson.GioBatDau <= 12)
+                    {
+                        typeTime = "AM";
+                    }
+                    else
+                    {
+                        typeTime = "PM";
+                    }
+                    if (lesson.PhutBatDau == 0)
+                    {
+                        lessonTime = lesson.NgayDay.ToString("dd/MM/yyyy") + " " + lesson.GioBatDau + ":00 " + typeTime;
+                    }
+                    else
+                    {
+                        lessonTime = lesson.NgayDay.ToString("dd/MM/yyyy") + " " + lesson.GioBatDau + ":" + lesson.PhutBatDau + " " + typeTime;
+                    }
+
+                    DateTime checkTime = DateTime.Parse(lessonTime);
+                    if (checkTime >= DateTime.Now)
                     {
                         <tr>
                             <td>@lesson.tenMonDay</td>
