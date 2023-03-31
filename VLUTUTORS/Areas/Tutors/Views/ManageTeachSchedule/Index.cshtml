@@ -134,18 +134,19 @@
                                 }
                                 else
                                 {
-                                    <td>Đã được đặt</td>
+                                    <td style="color:green">Đã được đặt</td>
                                 }
                             }
                             @{
                                 if (lesson.IdnguoiHoc == null)
                                 {
                                     <td class="project-actions">
-                                        <a class="btn btn-info btn-sm" href="@Url.Action("EditLessonPlan", "ManageTeachSchedule", new { lessonPlanId = @lesson.Id })">
+                                        <a class="btn btn-info btn-sm" style="margin-bottom:5px; width:120px" href="@Url.Action("EditLessonPlan", "ManageTeachSchedule", new { lessonPlanId = @lesson.Id })">
                                             <i class="fas fa-pencil-alt"> </i>
                                             Sửa
                                         </a>
                                         <a class="btn btn-danger btn-sm"
+                                           style="width:120px;"
                                            data-toggle="modal"
                                            data-target="#deleteModal"
                                            onclick="document.getElementById('lessonPlanId').value = @lesson.Id">
@@ -156,19 +157,53 @@
                                 }
                                 else
                                 {
-                                    <td class="project-actions">
-                                        <a class="btn btn-success btn-sm" href="#">
-                                            <i class="fas fa-chalkboard-teacher"> </i>
-                                            Tham gia dạy
-                                        </a>
-                                        <a class="btn btn-danger btn-sm"
-                                           data-toggle="modal"
-                                           data-target="#deleteModal"
-                                           onclick="document.getElementById('lessonPlanId').value = @lesson.Id">
-                                            <i class="fas fa-pencil-alt"> </i>
-                                            Hủy
-                                        </a>
-                                    </td>
+                                    if (lesson.NgayDay == DateTime.Today && lesson.PhutBatDau != 0 && lesson.GioBatDau == DateTime.Now.Hour && Math.Abs(lesson.PhutBatDau - DateTime.Now.Minute) <= 15)
+                                    {
+                                        <td class="project-actions">
+                                            <a class="btn btn-success btn-sm" href="@lesson.Link" style="margin-bottom:5px; width:120px">
+                                                <i class="fas fa-chalkboard-teacher"> </i>
+                                                Tham gia dạy
+                                            </a>
+                                            <a class="btn btn-danger btn-sm"
+                                               style="width:120px;"
+                                               data-toggle="modal"
+                                               data-target="#deleteModal"
+                                               onclick="document.getElementById('lessonPlanId').value = @lesson.Id">
+                                                <i class="fas fa-pencil-alt"> </i>
+                                                Hủy
+                                            </a>
+                                        </td>
+                                    }
+                                    else if (lesson.NgayDay == DateTime.Today && (lesson.PhutBatDau == 0 || (0 < lesson.PhutBatDau) && (lesson.PhutBatDau < 15)) && lesson.GioBatDau - DateTime.Now.Hour == 1 && Math.Abs(lesson.PhutBatDau - DateTime.Now.Minute) >= 45)
+                                    {
+                                        <td class="project-actions">
+                                            <a class="btn btn-success btn-sm" href="@lesson.Link" style="margin-bottom:5px; width:120px;">
+                                                <i class="fas fa-chalkboard-teacher"> </i>
+                                                Tham gia dạy
+                                            </a>
+                                            <a class="btn btn-danger btn-sm"
+                                               style="width:120px;"
+                                               data-toggle="modal"
+                                               data-target="#deleteModal"
+                                               onclick="document.getElementById('lessonPlanId').value = @lesson.Id">
+                                                <i class="fas fa-pencil-alt"> </i>
+                                                Hủy
+                                            </a>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td class="project-actions">
+                                            <a class="btn btn-danger btn-sm"
+                                               style="width:120px;"
+                                               data-toggle="modal"
+                                               data-target="#deleteModal"
+                                               onclick="document.getElementById('lessonPlanId').value = @lesson.Id">
+                                                <i class="fas fa-pencil-alt"> </i>
+                                                Hủy
+                                            </a>
+                                        </td>
+                                    }
                                 }
                             }
                         </tr>

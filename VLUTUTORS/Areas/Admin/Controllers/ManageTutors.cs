@@ -216,6 +216,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 {
                     return RedirectToAction("SendMail", "ManageTuTors",
                         new { toEmail = account.Email, mailBody = "<b>Chúc mừng! Bạn đã đáp ứng đầy đủ các yêu cầu và chính thức trở thành gia sư của chúng tôi, chào mừng bạn đến với đại gia đình Gia Sư Văn Lang.</b><br/>" +
+                        "<b style=\"color: red;\">Vui lòng kiểm tra email để xác nhận quyền tạo buổi học trên ZOOM!</b>" +
                         "Bây giờ bạn có thể đăng nhập và sử dụng chức năng của gia sư!"+
                         "<p style = \"margin: 0%;\">Một lần nữa cảm ơn bạn đã quan tâm và mong muốn trở thành một thành viên của Gia Sư Văn Lang. Chúc bạn sẽ có những trải nghiệm thật tốt trên Gia Sư Văn Lang với " +
                         "vai trò là gia sư của chúng tôi!.<br/>"
@@ -357,7 +358,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
             if (checkStatus == true)
             {
-                TempData["messageCheck"] = "Để cấp quyền cho gia sư, vui lòng thêm email gia sư vào quản lý ZOOM!";
+                TempData["messageCheck"] = "Để cấp quyền cho gia sư, vui lòng thêm email gia sư vào phần quản lý ZOOM!";
             }
             else
             {

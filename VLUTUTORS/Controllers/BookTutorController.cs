@@ -361,16 +361,16 @@ namespace VLUTUTORS.Controllers
         [HttpPost]
         public async Task<IActionResult> LessonRegis([FromForm] int lessonId) 
         {
-            JwtConnectionInfo connectionInfo = new JwtConnectionInfo("T36rQ7CfQ9WJW4P7xjEUrw", "3Gc2fpEuacuNUk2cErLdHrPTRahrqdzSfRpf");
+            JwtConnectionInfo connectionInfo = new JwtConnectionInfo("9wPjAoQIQsSEzltlIl_vQw", "84zfXjpKoHTUS2Tqjnfswk7pyezmMsbYRxvf");
             ZoomClient zoomClient = new ZoomClient(connectionInfo);
 
             Caday caday = _db.Cadays.FirstOrDefault(c => c.Id.Equals(lessonId));
 
             var hostMail = _db.Taikhoannguoidungs.Where(acc => acc.Id.Equals(caday.IdnguoiDay)).FirstOrDefault().Email;
             int lessonDuration = _db.Cahocs.Where(l => l.IdCaHoc.Equals(caday.IdloaiCaDay)).FirstOrDefault().LoaiCa;
-            var result = await zoomClient.Meetings.CreateScheduledMeetingAsync(hostMail, "Gia Su Van Lang Meeting", "Meeting for VanLang tutor", caday.NgayDay, lessonDuration);
-            Console.WriteLine("return meeting url" + lessonId);
+            var result = await zoomClient.Meetings.CreateScheduledMeetingAsync(hostMail, "Buổi dạy và học gia sư Văn Lang", "Buổi dạy và học gia sư Văn Lang", caday.NgayDay, lessonDuration);
             caday.Link = result.JoinUrl;
+            caday.IdnguoiHoc = HttpContext.Session.GetInt32("LoginId");
 
             try {
                 _db.Update(caday);

@@ -46,21 +46,22 @@
                     <td>@lesson.giaCaDay.ToString("#,##0.###") đồng</td>
 
                     @{
-                        if (lesson.NgayDay == DateTime.Today && lesson.PhutBatDau != 0 && lesson.GioBatDau == DateTime.Now.Hour && Math.Abs(lesson.PhutBatDau - DateTime.Now.Minute) <= 30)
+                        if (lesson.NgayDay == DateTime.Today && lesson.PhutBatDau != 0 && lesson.GioBatDau == DateTime.Now.Hour && Math.Abs(lesson.PhutBatDau - DateTime.Now.Minute) <= 15)
                         {
                             <td class="done">Sắp Diễn Ra</td>
+                            <td><a class="btn btn-success btn-sm" style="width:90px" href="@lesson.Link">Tham gia</a><button class="btn btn-danger btn-sm" style="margin-top: 5px; width: 90px">Hủy lịch</button></td>
                         }
-                        else if (lesson.NgayDay == DateTime.Today && lesson.PhutBatDau == 0 && lesson.GioBatDau-DateTime.Now.Hour == 1 && Math.Abs(lesson.PhutBatDau - DateTime.Now.Minute) >= 30)
+                        else if (lesson.NgayDay == DateTime.Today && (lesson.PhutBatDau == 0 || (0 < lesson.PhutBatDau) && (lesson.PhutBatDau < 15)) && lesson.GioBatDau - DateTime.Now.Hour == 1 && Math.Abs(lesson.PhutBatDau - DateTime.Now.Minute) >= 45)
                         {
                             <td class="done">Sắp Diễn Ra</td>
+                            <td><a class="btn btn-success btn-sm" style="width:90px" href="@lesson.Link">Tham gia</a><button class="btn btn-danger btn-sm" style="margin-top: 5px; width: 90px">Hủy lịch</button></td>
                         }
                         else
                         {
                             <td class="cms">Đã đặt lịch</td>
+                            <td><a class="btn btn-danger btn-sm" style="margin-top: 5px; width: 90px; color:white;">Hủy lịch</a></td>
                         }
                     }
-
-                    <td><button class="btn btn-success btn-sm" style="width:90px">Tham gia</button><button class="btn btn-danger btn-sm" style="margin-top: 5px; width: 90px">Hủy lịch</button></td>
                 </tr>
             }
         </tbody>
