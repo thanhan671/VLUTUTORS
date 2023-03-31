@@ -46,13 +46,13 @@
                     <td>@lesson.giaCaDay.ToString("#,##0.###") đồng</td>
 
                     @{
-                        if (lesson.NgayDay == DateTime.Today && lesson.PhutBatDau != 0 && lesson.GioBatDau == DateTime.Now.Hour && lesson.PhutBatDau - DateTime.Now.Minute == 30)
+                        if (lesson.NgayDay == DateTime.Today && lesson.PhutBatDau != 0 && lesson.GioBatDau == DateTime.Now.Hour && Math.Abs(lesson.PhutBatDau - DateTime.Now.Minute) <= 30)
                         {
-                            <td class="cms">Sắp Diễn Ra</td>
+                            <td class="done">Sắp Diễn Ra</td>
                         }
-                        else if (lesson.NgayDay == DateTime.Today && lesson.PhutBatDau == 0 && lesson.GioBatDau-DateTime.Now.Hour == 1 && lesson.PhutBatDau - DateTime.Now.Minute == 30)
+                        else if (lesson.NgayDay == DateTime.Today && lesson.PhutBatDau == 0 && lesson.GioBatDau-DateTime.Now.Hour == 1 && Math.Abs(lesson.PhutBatDau - DateTime.Now.Minute) >= 30)
                         {
-                            <td class="cms">Sắp Diễn Ra</td>
+                            <td class="done">Sắp Diễn Ra</td>
                         }
                         else
                         {
