@@ -17,7 +17,9 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         public async Task<IActionResult> Index()
         {
             var caHoc = await _context.Cahocs.ToListAsync();
-            return View(caHoc);
+            var phiDay = _context.Phidays.FirstOrDefault(m => m.Id == 1);
+            Tuple<IEnumerable<Cahoc>, Phiday> turple = new Tuple<IEnumerable<Cahoc>, Phiday>(caHoc.AsEnumerable(), phiDay);
+            return View(turple);
         }
 
         [HttpGet]
@@ -95,8 +97,10 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult UpdatePrice()
+        public IActionResult UpdatePrice(Phiday phiday)
         {
+            _context.Phidays.Update(phiday);
+            _context.SaveChanges();
             return View();
         }
     }

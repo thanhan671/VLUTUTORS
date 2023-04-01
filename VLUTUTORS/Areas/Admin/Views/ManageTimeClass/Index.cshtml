@@ -1,4 +1,4 @@
-﻿@model IEnumerable<VLUTUTORS.Models.Cahoc>
+﻿@model Tuple<IEnumerable<VLUTUTORS.Models.Cahoc>, VLUTUTORS.Models.Phiday>
 @{
     ViewData["Title"] = "Quản lý ca học";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
@@ -23,17 +23,19 @@
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">Danh sách ca học</h3>
-                <form method="post" asp-controller="ManageTimeClass" asp-action="UpdatePrice">
+                <form method="post" enctype="multipart/form-data" asp-controller="ManageTimeClass" asp-action="UpdatePrice">
+                    <input type="hidden" asp-for="Item2.Id" />
                     <div class="card-tools d-flex align-items-center justify-content-end mb-2">
                         <p class="mb-0"> Chiết khấu (%): </p>
-                        <input type="text" class="mr-5 i-half" style="width: 8%" id="ChietKhau"/>
+                        <input type="number" class="mr-5 i-half" style="width: 8%" id="ChietKhau" name="ChietKhau" value="@Model.Item2.ChietKhau" />
                         <div class="switch d-flex align-items-center">
                             <p class="mb-0">Miễn Phí:&emsp;</p>
-                            <input type="checkbox" id="switch" name="switch" class="switch" />
-                            <label data-on="ON" data-off="OFF" for="switch" class="mb-0"></label>
+                            <input id="HocFree" type="checkbox" value="true" name="HocFree" class="switch"/>
+                            <input type="hidden" value="false" name="HocFree" />
+                            <label data-on="ON" data-off="OFF" for="HocFree" class="mb-0"></label>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-sm mr-3">
-                            Lưu
+                        <button type="submit" class="btn btn-primary btn-sm mr-2" style="width:100px;">
+                            Cập nhật
                         </button>
                     </div>
                 </form>
@@ -58,7 +60,7 @@
                     <tbody>
                         @{
                             var index = 0;
-                            foreach (var item in Model)
+                            foreach (var item in Model.Item1)
                             {
                                 index++;
                                 <tr>
