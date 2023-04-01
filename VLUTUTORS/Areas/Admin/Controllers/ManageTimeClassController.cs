@@ -101,7 +101,9 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         {
             _context.Phidays.Update(phiday);
             _context.SaveChanges();
-            return View();
+            TempData["Message"] = "Cập nhật thành công!";
+            TempData["MessageType"] = "success";
+            return RedirectToAction("Index");
         }
     }
 }
