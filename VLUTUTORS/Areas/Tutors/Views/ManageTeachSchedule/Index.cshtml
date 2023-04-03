@@ -106,7 +106,7 @@
             </div>
         </div>
         <!-- Default box -->
-        <table id="myTable">
+        <table class="table table-striped table-bordered post-list-table" id="myTable">
             <thead>
                 <tr>
                     <th>Tên Môn Học</th>
@@ -311,6 +311,12 @@
 
             // DataTables initialisation
             var table = $('#myTable').DataTable();
+
+            $('#myTable').DataTable({
+                "columnDefs": [
+                    { "orderable": false, "targets": 2 }
+                ]
+            });
 
             // Refilter the table
             $('#min, #max').on('change', function () {
