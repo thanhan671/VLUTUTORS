@@ -38,8 +38,12 @@ namespace VLUTUTORS.Controllers
                 Console.WriteLine("login id: " + HttpContext.Session.GetInt32("LoginId"));
             }
 
+            Tuvan tuVan = new Tuvan();
+
             var loaiTuVan = new SelectList(_db.Loaituvans.ToList(), "IdLoaiTuVan", "TenLoaiTuVan");
             ViewData["loaiTuVan"] = loaiTuVan;
+            tuVan.LoaiTuVan = new SelectList(_db.Loaituvans.ToList(), "IdLoaiTuVan", "TenLoaiTuVan", tuVan.IdLoaiTuVan);
+
 
             int giaSu = 0;
             int hocVien = 0;
@@ -62,7 +66,7 @@ namespace VLUTUTORS.Controllers
             ViewData["giaSu"] = giaSu;
             ViewData["hocVien"] = hocVien;
 
-            return View();
+            return View(tuVan);
         }
 
         [HttpGet]
@@ -127,22 +131,19 @@ namespace VLUTUTORS.Controllers
 
         //Send consulting register
 
+        [HttpGet]
+        public IActionResult SendConsulting()
+        {
+            Tuvan tuVan = new Tuvan();
+            return View(tuVan);
+        }
+
         [HttpPost]
-        public async Task<IActionResult> SendConsulting(string HoTen, string Email, string SDT, string NoiDung, int LoaiTuVan)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SendConsulting(Tuvan tuVan)
         {
             if (ModelState.IsValid)
             {
-                try
-                {
-                    Tuvan tuVan = new Tuvan
-                    {
-                        HoVaTen = HoTen,
-                        Email = Email,
-                        Sdt = SDT,
-                        NoiDungTuVan = NoiDung,
-                        IdtrangThai = 1,
-                        IdLoaiTuVan = LoaiTuVan
-                    };
                     try
                     {
                         TempData["Message"] = "Gửi đăng ký tư vấn thành công!";
@@ -154,17 +155,12 @@ namespace VLUTUTORS.Controllers
                     {
                         return RedirectToAction("Index", "Home");
                     }
-                }
-                catch
-                {
-                    return RedirectToAction("Index", "Home");
-
-                }
             }
             else
             {
                 TempData["Message"] = "Vui lòng điền đúng và đủ thông tin!";
                 TempData["MessageType"] = "error";
+                return RedirectToAction("Index", "Home");
             }
 
             return RedirectToAction("Index", "Home");
@@ -177,6 +173,7 @@ namespace VLUTUTORS.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Contact(Lienhe lienHe)
         {
             if (ModelState.IsValid)
@@ -198,6 +195,7 @@ namespace VLUTUTORS.Controllers
             {
                 TempData["Message"] = "Vui lòng điền đúng và đủ thông tin!";
                 TempData["MessageType"] = "error";
+                return View(lienHe);
             }
 
             return RedirectToAction("Contact", "Home");

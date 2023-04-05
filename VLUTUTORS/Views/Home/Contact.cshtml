@@ -1,7 +1,9 @@
 ﻿@using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor httpContextAccessor
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model VLUTUTORS.Models.Lienhe;
 @using VLUTUTORS.Models;
+
 @{
     ViewData["Title"] = "Liên Hệ";
     Layout = "~/Views/Shared/_otherPageLayout.cshtml";
@@ -18,9 +20,7 @@
                     </div>
                     <!-- section title -->
                     <div class="main-form">
-                        <form id="contact-form"
-                              method="post"
-                              data-toggle="validator" enctype="multipart/form-data" asp-controller="Home" asp-action="Contact">
+                        <form  method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="Contact">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="singel-form form-group">
@@ -33,7 +33,7 @@
                                                        value="@httpContextAccessor.HttpContext.Session.GetString("loginName")"
                                                        data-error="Vui lòng điền đủ thông tin."
                                                        required="required" />
-                                                <div class="help-block with-errors"></div>
+                                                <span asp-validation-for="HoVaTen" class="help-block with-errors" style="color:red"></span>
                                             }
                                             else
                                             {
@@ -43,7 +43,7 @@
                                                        placeholder="Tên của bạn"
                                                        data-error="Vui lòng điền đủ thông tin."
                                                        required="required" />
-                                                <div class="help-block with-errors"></div>
+                                                <span asp-validation-for="HoVaTen" class="help-block with-errors" style="color:red"></span>
                                             }
                                         }
                                     </div>
@@ -60,7 +60,7 @@
                                                        value="@httpContextAccessor.HttpContext.Session.GetString("loginEmail")"
                                                        data-error="Vui lòng điền đủ thông tin."
                                                        required="required" />
-                                                <div class="help-block with-errors"></div>
+                                                <span asp-validation-for="Email" class="help-block with-errors" style="color:red"></span>
                                             }
                                             else
                                             {
@@ -70,7 +70,7 @@
                                                        placeholder="Email"
                                                        data-error="Vui lòng nhập địa chỉ email hợp lệ. Định dạng email chính xác là example@gmail.com."
                                                        required="required" />
-                                                <div class="help-block with-errors"></div>
+                                                <span asp-validation-for="Email" class="help-block with-errors" style="color:red"></span>
                                             }
                                         }
                                     </div>
@@ -84,7 +84,7 @@
                                                placeholder="Môn học"
                                                data-error="Vui lòng điền đủ thông tin."
                                                required="required" />
-                                        <div class="help-block with-errors"></div>
+                                        <span asp-validation-for="MonHoc" class="help-block with-errors" style="color:red"></span>
                                     </div>
                                     <!-- singel form -->
                                 </div>
@@ -96,7 +96,7 @@
                                                placeholder="Điện thoại"
                                                data-error="Vui lòng điền đủ thông tin."
                                                required="required" />
-                                        <div class="help-block with-errors"></div>
+                                        <span asp-validation-for="Sdt" class="help-block with-errors" style="color:red"></span>
                                     </div>
                                     <!-- singel form -->
                                 </div>
@@ -107,7 +107,7 @@
                                                   placeholder="Vấn đề bạn gặp phải"
                                                   data-error="Vui lòng điền đủ thông tin."
                                                   required="required"></textarea>
-                                        <div class="help-block with-errors"></div>
+                                        <span asp-validation-for="NoiDung" class="help-block with-errors" style="color:red"></span>
                                     </div>
                                     <!-- singel form -->
                                 </div>
@@ -196,12 +196,10 @@
         <!-- row -->
     </div>
     <!-- container -->
-
-</section>
-@section scripts{
-    @if (TempData["Message"] != null)
-    {
-        <script>
+    @section scripts{
+        @if (TempData["Message"] != null)
+        {
+            <script>
             var messageType = '@TempData["MessageType"]';
         var message = '@TempData["Message"]';
 
@@ -215,18 +213,18 @@
         } else if (messageType === "info") {
             toastr.info(message);
         }
-        </script>
-    }
-    @if (ViewBag.Message != null)
-    {
-        <script type="text/javascript">
+            </script>
+        }
+        @if (ViewBag.Message != null)
+        {
+            <script type="text/javascript">
             window.onload = function () {
                 alert("@ViewBag.Message");
             };
-        </script>
-    }
-    <script src="~/js/app.js"></script>
-    <script>
+            </script>
+        }
+        <script src="~/js/app.js"></script>
+        <script>
         $(function () {
     // Check for a success message in TempData
     var toastrSuccess = '@(TempData["toastr-success"])';
@@ -240,6 +238,8 @@
         toastr.error(toastrError);
     }
 });
-    </script>
-}
+        </script>
+    }
+</section>
+
 
