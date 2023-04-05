@@ -45,13 +45,13 @@ namespace VLUTUTORS.Controllers
             int hocVien = 0;
             var taiKhoans = await _db.Taikhoannguoidungs.ToListAsync();
 
-            foreach(var taiKhoan in taiKhoans)
+            foreach (var taiKhoan in taiKhoans)
             {
                 if (taiKhoan.IdxetDuyet == 6)
                 {
                     hocVien++;
                 }
-                if(taiKhoan.IdxetDuyet == 5)
+                if (taiKhoan.IdxetDuyet == 5)
                 {
                     giaSu++;
                 }
@@ -90,7 +90,7 @@ namespace VLUTUTORS.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult RegisterAsTutor([Bind(include: "Id, HoTen, Email, MatKhau, IdgioiTinh, Sdt, NgaySinh, Idkhoa, AnhDaiDien, TrangThaiTaiKhoan, SoTaiKhoan, IdnganHang, GioiThieu, DanhGiaVeViecGiaSu, DiemTrungBinh, IdmonGiaSu1, TenChungChiHoacDiemMon1, ChungChiMon1, GioiThieuVeMonGiaSu1, IdmonGiaSu2, TenChungChiHoacDiemMon2, ChungChiMon2, GioiThieuVeMonGiaSu2, MaXacThuc, XacThuc")]Taikhoannguoidung taikhoannguoidung, List<IFormFile> avatar, List<IFormFile> certificates1, List<IFormFile> certificates2)
+        public IActionResult RegisterAsTutor([Bind(include: "Id, HoTen, Email, MatKhau, IdgioiTinh, Sdt, NgaySinh, Idkhoa, AnhDaiDien, TrangThaiTaiKhoan, SoTaiKhoan, IdnganHang, GioiThieu, DanhGiaVeViecGiaSu, DiemTrungBinh, IdmonGiaSu1, TenChungChiHoacDiemMon1, ChungChiMon1, GioiThieuVeMonGiaSu1, IdmonGiaSu2, TenChungChiHoacDiemMon2, ChungChiMon2, GioiThieuVeMonGiaSu2, MaXacThuc, XacThuc")] Taikhoannguoidung taikhoannguoidung, List<IFormFile> avatar, List<IFormFile> certificates1, List<IFormFile> certificates2)
         {
             string certificates1Path = Path.Combine("certificates", taikhoannguoidung.Id.ToString(), "cer1");
             string certificates2Path = Path.Combine("certificates", taikhoannguoidung.Id.ToString(), "cer2");
@@ -130,74 +130,76 @@ namespace VLUTUTORS.Controllers
         [HttpPost]
         public async Task<IActionResult> SendConsulting(string HoTen, string Email, string SDT, string NoiDung, int LoaiTuVan)
         {
-            try
+            if (ModelState.IsValid)
             {
-                Tuvan tuVan = new Tuvan
-                {
-                    HoVaTen = HoTen,
-                    Email = Email,
-                    Sdt = SDT,
-                    NoiDungTuVan = NoiDung,
-                    IdtrangThai = 1,
-                    IdLoaiTuVan= LoaiTuVan
-                };
                 try
                 {
-                    TempData["Message"] = "Gửi đăng ký tư vấn thành công!";
-                    TempData["MessageType"] = "success";
-                    _db.Add(tuVan);
-                    await _db.SaveChangesAsync();
+                    Tuvan tuVan = new Tuvan
+                    {
+                        HoVaTen = HoTen,
+                        Email = Email,
+                        Sdt = SDT,
+                        NoiDungTuVan = NoiDung,
+                        IdtrangThai = 1,
+                        IdLoaiTuVan = LoaiTuVan
+                    };
+                    try
+                    {
+                        TempData["Message"] = "Gửi đăng ký tư vấn thành công!";
+                        TempData["MessageType"] = "success";
+                        _db.Add(tuVan);
+                        await _db.SaveChangesAsync();
+                    }
+                    catch
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
                 catch
                 {
                     return RedirectToAction("Index", "Home");
+
                 }
             }
-            catch
+            else
             {
-                return RedirectToAction("Index", "Home");
-
+                TempData["Message"] = "Vui lòng điền đúng và đủ thông tin!";
+                TempData["MessageType"] = "error";
             }
+
             return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
-        public async Task<IActionResult> Contact()
+        public IActionResult Contact()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Contact(string Ten, string Email, string Mon, string SDT, string NoiDung)
+        public async Task<IActionResult> Contact(Lienhe lienHe)
         {
-            try
+            if (ModelState.IsValid)
             {
-                Lienhe lienHe = new Lienhe
-                {
-                    HoVaTen = Ten,
-                    Email = Email,
-                    MonHoc = Mon,
-                    Sdt = SDT,
-                    NoiDung = NoiDung,
-                    IdtrangThai = 1
-                };
                 try
                 {
+                    TempData["Message"] = "Gửi đăng ký tư vấn thành công!";
+                    TempData["MessageType"] = "success";
                     _db.Add(lienHe);
                     await _db.SaveChangesAsync();
-                    TempData["Message"] = "Gửi phản hồi thành công!";
-                    TempData["MessageType"] = "success";
                 }
                 catch
                 {
                     return RedirectToAction("Contact", "Home");
                 }
-            }
-            catch
-            {
-                return RedirectToAction("Contact", "Home");
 
             }
+            else
+            {
+                TempData["Message"] = "Vui lòng điền đúng và đủ thông tin!";
+                TempData["MessageType"] = "error";
+            }
+
             return RedirectToAction("Contact", "Home");
         }
 

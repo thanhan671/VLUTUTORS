@@ -13,6 +13,8 @@ namespace VLUTUTORS.Models
         public int IdlienHe { get; set; }
         [Required(AllowEmptyStrings = false, ErrorMessage = "Vui lòng điền trường này!")]
         public string HoVaTen { get; set; }
+
+        [EmailAddress(ErrorMessage = "Vui lòng nhập địa chỉ email hợp lệ. Định dạng email chính xác là example@gmail.com.")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Vui lòng điền trường này!")]
         public string Email { get; set; }
         [Required(AllowEmptyStrings = false, ErrorMessage = "Vui lòng điền trường này!")]

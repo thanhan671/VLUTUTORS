@@ -228,13 +228,13 @@
                                 @{
                                     if (@httpContextAccessor.HttpContext.Session.GetString("loginEmail") != null)
                                     {
-                                        <input type="text" name="Email" value="@httpContextAccessor.HttpContext.Session.GetString("loginEmail")" data-error="Vui lòng không để trống!." required="required" />
+                                        <input type="email" name="Email" value="@httpContextAccessor.HttpContext.Session.GetString("loginEmail")" data-error="Vui lòng nhập địa chỉ email hợp lệ. Định dạng email chính xác là example@gmail.com." required="required" />
                                         <div class="help-block with-errors"></div>
                                     }
                                     else
                                     {
-                                        <input type="text" name="Email" placeholder="Email của bạn" data-error="Vui lòng không để trống!." required="required" />
-                                        <div class="help-block with-errors"></div>
+                                        <input type="email" id="txtEmail" name="Email" placeholder="Email của bạn" data-error="Vui lòng nhập địa chỉ email hợp lệ. Định dạng email chính xác là example@gmail.com." required="required" />
+                                        <div class="help-block with-errors" id="lblError "></div>
                                     }
                                 }
                             </div>
@@ -263,10 +263,6 @@
         </div>
         <!-- row -->
     </div>
-    @if (TempData["message"] != null)
-    {
-        <script>alert('@TempData["message"]');</script>
-    }
     @if (TempData["Message"] != null)
     {
         <script>
@@ -309,6 +305,7 @@
     }
 });
     </script>
+
     <!-- container -->
 </section>
 <!--====== CULTING PART ENDS ======-->
