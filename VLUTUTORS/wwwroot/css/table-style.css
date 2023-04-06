@@ -100,7 +100,7 @@ table .cms {
   border-color: #007bff;
   box-shadow: none;
 }
-@media screen and (max-width: 600px) {
+/*@media screen and (max-width: 600px) {
   table {
     border: 0;
   }
@@ -111,13 +111,13 @@ table .cms {
 
   table thead {
     border: none;
-    clip: rect(0 0 0 0);
-    height: 1px;
-    margin: -1px;
+    clip: rect(0 0 0 0);*/
+/*    height: 1px;*/
+    /*margin: -1px;
     overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px;
+    padding: 0;*/
+/*    position: absolute;*/
+    /*width: 1px;
   }
 
   table tr {
@@ -133,12 +133,12 @@ table .cms {
     text-align: right;
   }
 
-  table td::before {
+  table td::before {*/
     /*
     * aria-label has no advantage, it won't be read inside a table
     content: attr(aria-label);
     */
-    content: attr(data-label);
+    /*content: attr(data-label);
     float: left;
     font-weight: bold;
     text-transform: uppercase;
@@ -147,4 +147,7 @@ table .cms {
   table td:last-child {
     border-bottom: 0;
   }
-}
+  tbody tr{
+      display: flex;
+  }
+}*/

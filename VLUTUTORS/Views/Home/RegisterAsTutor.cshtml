@@ -12,6 +12,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="~/css/form_style.css" />
+    <link rel="stylesheet" href="~/css/responsive.css"/>
     <link rel="shortcut icon" href="~/images/favicon2.png" type="image/png" />
     <title>VLU TUTORS - Trở Thành Gia Sư</title>
     <script src="~/js/app.js"></script>
@@ -44,15 +45,14 @@
                 <span>Trở thành gia sư chỉ với 1 bước</span>
             </p>
             <div class="container-sign-up">
-                <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="RegisterAsTutor">
+                <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="RegisterAsTutor" class="form-regis__tutor sign-up__form">
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     @Html.HiddenFor(m => m.Id)
                     @Html.HiddenFor(m => m.MatKhau)
-                    <div class="container--tt">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="row">
+
+                            <div class="col-12 d-flex">
+                                
                                     <div class="col-4">
                                         <p><b class="lb-form-title">Thông Tin Cá Nhân</b></p>
                                         <div class="form__input">
@@ -209,10 +209,9 @@
                                             <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                                         </div>
                                     </div>
-                                </div>
+                                
                             </div>
-                        </div>
-                    </div>
+
                     <p class="form__terms text-center">
                         Bằng cách nhấp vào nút đăng ký, bạn đồng ý với
                         <span>Điều khoản và Dịch vụ</span> của chúng tôi
