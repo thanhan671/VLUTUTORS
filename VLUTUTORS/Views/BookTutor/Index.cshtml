@@ -69,8 +69,9 @@
                         }
                     </select>
                 </div>
+                <button class="main-btn" style="height:40px; margin-left:10px;line-height: 0px;" type="submit" asp-action="Index">Tìm kiếm</button>
             </div>
-            <button class="main-btn" style="float: right;margin: 5px;" type="submit" asp-action="Index">Tìm kiếm</button>
+
         </section>
         <div class="right-search">
             <div class="card-tutor-container">
@@ -83,7 +84,7 @@
                                  width="150" />
                         </div>
                         <div class="tutor-desc">
-                            <h3 class="tutor-name">@tutor.Tutor.HoTen <span class="active-status"></span></h3>
+                            <h3 class="tutor-name">@tutor.Tutor.HoTen</h3>
                             <div class="tutor-rating">
                                 @{
                                     var totalRate = tutor.Commnents.Sum(it => it.Comment.Diem);
@@ -100,14 +101,14 @@
                             </div>
                             @if (@tutor.Subject1 != null)
                             {
-                                <p class="card-price"><b>@tutor.Subject1.TenMonGiaSu</b></p>
-                                <h4 class="head-desc">@tutor.Tutor.GioiThieuVeMonGiaSu1</h4>
+                                <h4 class="card-price"><b>@tutor.Subject1.TenMonGiaSu</b></h4>
+                                <p style="font-weight:500;" class="head-desc">@tutor.Tutor.GioiThieuVeMonGiaSu1</p>
                             }
 
                             @if (@tutor.Subject2 != null)
                             {
-                                <p class="card-price"><b>@tutor.Subject2.TenMonGiaSu</b></p>
-                                <h4 class="head-desc">@tutor.Tutor.GioiThieuVeMonGiaSu2</h4>
+                                <h4 class="card-price"><b>@tutor.Subject2.TenMonGiaSu</b></h4>
+                                <p style="font-weight:500;" class="head-desc">@tutor.Tutor.GioiThieuVeMonGiaSu2</p>
                             }
                         </div>
                         <div class="tutor-view">

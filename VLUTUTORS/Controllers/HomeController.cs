@@ -42,7 +42,6 @@ namespace VLUTUTORS.Controllers
 
             var loaiTuVan = new SelectList(_db.Loaituvans.ToList(), "IdLoaiTuVan", "TenLoaiTuVan");
             ViewData["loaiTuVan"] = loaiTuVan;
-            tuVan.LoaiTuVan = new SelectList(_db.Loaituvans.ToList(), "IdLoaiTuVan", "TenLoaiTuVan", tuVan.IdLoaiTuVan);
 
 
             int giaSu = 0;
@@ -66,7 +65,7 @@ namespace VLUTUTORS.Controllers
             ViewData["giaSu"] = giaSu;
             ViewData["hocVien"] = hocVien;
 
-            return View(tuVan);
+            return View();
         }
 
         [HttpGet]
@@ -130,13 +129,6 @@ namespace VLUTUTORS.Controllers
         }
 
         //Send consulting register
-
-        [HttpGet]
-        public IActionResult SendConsulting()
-        {
-            Tuvan tuVan = new Tuvan();
-            return View(tuVan);
-        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]

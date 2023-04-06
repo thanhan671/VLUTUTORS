@@ -211,8 +211,6 @@
                     </div>
                     <div class="main-form">
                         <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="SendConsulting">
-                            @Html.AntiForgeryToken()
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                             <div class="singel-form">
                                 @{
                                     if (@httpContextAccessor.HttpContext.Session.GetString("loginName") != null)
@@ -222,7 +220,7 @@
                                     }
                                     else
                                     {
-                                        <input type="text" asp-for="HoVaTen" placeholder="Họ và tên" data-error="Vui lòng không để trống!." required="required" />
+                                        <input type="text" asp-for="HoVaTen" placeholder="Họ và tên (Giới hạn từ 5-25 ký tự)" data-error="Vui lòng không để trống!." required="required" />
                                         <span asp-validation-for="HoVaTen" class="help-block with-errors" style="color:red"></span>
                                     }
                                 }
@@ -236,7 +234,7 @@
                                     }
                                     else
                                     {
-                                        <input type="email" asp-for="Email" placeholder="Email của bạn" data-error="Vui lòng nhập địa chỉ email hợp lệ. Định dạng email chính xác là example@gmail.com." required="required" />
+                                        <input type="email" asp-for="Email" placeholder="Email của bạn (Giới hạn từ 18-64 ký tự)" data-error="Vui lòng nhập địa chỉ email hợp lệ. Định dạng email chính xác là example@gmail.com." required="required" />
                                         <span asp-validation-for="Email" class="help-block with-errors" style="color:red"></span>
                                     }
                                 }
@@ -246,12 +244,11 @@
                                 <span asp-validation-for="Sdt" class="help-block with-errors" style="color:red"></span>
                             </div>
                             <div class="singel-form">
-                                @*@Html.DropDownList("LoaiTuVan", (IEnumerable<SelectListItem>)ViewData["loaiTuVan"], "Loại Tư Vấn", new { @class = "nice-select mb-4", @required = "required", @style = "height: 60px; border: 1px solid #a1a1a1; color: #8a8a8a;" })*@
                                 @Html.DropDownListFor(m => m.IdLoaiTuVan, (IEnumerable<SelectListItem>)ViewData["loaiTuVan"], "Chọn loại tư vấn", new { @class = "nice-select mb-4", @required = "required", @style = "height: 60px; border: 1px solid #a1a1a1; color: #8a8a8a;" })
                                 <span asp-validation-for="IdLoaiTuVan" class="help-block with-errors" style="color:red"></span>
                             </div>
                             <div class="singel-form">
-                                <input type="text" asp-for="NoiDungTuVan" placeholder="Nội dung cần tư vấn" data-error="Vui lòng không để trống!." required="required" />
+                                <input type="text" asp-for="NoiDungTuVan" placeholder="Nội dung cần tư vấn (Giới hạn từ 50-1000 ký tự)" data-error="Vui lòng không để trống!." required="required" />
                                 <span asp-validation-for="NoiDungTuVan" class="help-block with-errors" style="color:red"></span>
                             </div>
                             <input type="hidden" asp-for="IdtrangThai" value="1" />

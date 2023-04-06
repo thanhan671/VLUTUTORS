@@ -69,9 +69,9 @@
                                         <li><a asp-controller="HistoryOfLearning" asp-action="Index" asp-route-id="@httpContextAccessor.HttpContext.Session.GetInt32("LoginId")">Lịch Sử Học</a></li>
                                         <li>
                                             <a href=""
-                                               data-toggle="modal"
-                                               data-target="#logoutModal"
-                                               id="logout">Đăng Xuất</a>
+                                           data-toggle="modal"
+                                           data-target="#logoutModal"
+                                           id="logout">Đăng Xuất</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -122,17 +122,15 @@
             </div>
         </div>
     </div>
-    @section scripts{
-        <script>
-            const getNavItem = document.querySelectorAll('.nav-item');
-            getNavItem.forEach(item => {
-                const link = item.querySelector('.nav-link');
-                if (link.href === window.location.href) {
-                    link.classList.add('active')
-                }
-            })
-        </script>
-    }
-    </header>
+    <script>
+        const getNavItem = document.querySelectorAll('.nav-item');
+        getNavItem.forEach(item => {
+            const link = item.querySelector('.nav-link');
+            if (link.href === window.location.href) {
+                link.classList.add('active')
+            }
+        })
+    </script>
+</header>
 
 <!--====== HEADER PART ENDS ======-->
