@@ -8,6 +8,7 @@ using System.Linq;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using VLUTUTORS.Models;
+using ZoomNet;
 
 namespace VLUTUTORS.Controllers
 {
@@ -342,9 +343,50 @@ namespace VLUTUTORS.Controllers
             return RedirectToAction("Index", "BookTutor");
         }
 
-        public async Task<IActionResult> HistoryBooking()
+
+        public IActionResult HistoryBooking(int id)
         {
-            return View();
+
+            List<Caday> cadays = _db.Cadays.Where(ca => ca.IdnguoiHoc.Equals(id)).ToList();
+            foreach (var cadayItem in cadays)
+            {
+                cadayItem.tenNguoiDay = _db.Taikhoannguoidungs.Find(cadayItem.IdnguoiDay).HoTen.ToString();
+                cadayItem.tenMonDay = _db.Mongiasus.Find(cadayItem.IdmonDay).TenMonGiaSu.ToString();
+                cadayItem.giaCaDay = _db.Cahocs.Find(cadayItem.IdloaiCaDay).GiaTien;
+            }
+
+            return View(cadays);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> LessonRegis([FromForm] int lessonId) 
+        {
+            if (HttpContext.Session.GetInt32("LoginId") == null)
+            {
+                return RedirectToAction("Login", "Accounts");
+            }
+            JwtConnectionInfo connectionInfo = new JwtConnectionInfo("9wPjAoQIQsSEzltlIl_vQw", "84zfXjpKoHTUS2Tqjnfswk7pyezmMsbYRxvf");
+            ZoomClient zoomClient = new ZoomClient(connectionInfo);
+
+            Caday caday = _db.Cadays.FirstOrDefault(c => c.Id.Equals(lessonId));
+
+            var hostMail = _db.Taikhoannguoidungs.Where(acc => acc.Id.Equals(caday.IdnguoiDay)).FirstOrDefault().Email;
+            int lessonDuration = _db.Cahocs.Where(l => l.IdCaHoc.Equals(caday.IdloaiCaDay)).FirstOrDefault().LoaiCa;
+            var result = await zoomClient.Meetings.CreateScheduledMeetingAsync(hostMail, "Buổi dạy và học gia sư Văn Lang", "Buổi dạy và học gia sư Văn Lang", caday.NgayDay, lessonDuration);
+            caday.Link = result.JoinUrl;
+            caday.IdnguoiHoc = HttpContext.Session.GetInt32("LoginId");
+
+            try {
+                _db.Update(caday);
+                await _db.SaveChangesAsync();
+                TempData["Message"] = "Đặt lịch thành công!";
+                TempData["MessageType"] = "success";
+            }
+            catch (Exception ex) {
+                Console.WriteLine(ex.ToString());
+            }
+
+            return RedirectToAction("Index", "BookTutor");
         }
     }
 }

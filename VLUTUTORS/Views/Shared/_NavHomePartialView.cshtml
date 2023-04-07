@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor httpContextAccessor
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-@model VLUTUTORS.Models.Noidung
+
 
 <header id="header-part">
     <div class="navigation navigation-2 navigation-3 nav-nob">
@@ -71,8 +71,8 @@
                                         </a>
                                         <ul class="sub-menu">
                                             <li><a asp-controller="Accounts" asp-action="Details" asp-route-id="@httpContextAccessor.HttpContext.Session.GetInt32("LoginId")">Tài Khoản</a></li>
-                                            <li><a asp-controller="BookTutor" asp-action="HistoryBooking">Lịch Học</a></li>
-                                            <li><a asp-controller="HistoryOfLearning" asp-action="Index">Lịch Sử Học</a></li>
+                                            <li><a asp-controller="BookTutor" asp-action="HistoryBooking" asp-route-id="@httpContextAccessor.HttpContext.Session.GetInt32("LoginId")">Lịch Học</a></li>
+                                            <li><a asp-controller="HistoryOfLearning" asp-action="Index" asp-route-id="@httpContextAccessor.HttpContext.Session.GetInt32("LoginId")">Lịch Sử Học</a></li>
                                             <li>
                                                 <a href=""
                                                    data-toggle="modal"

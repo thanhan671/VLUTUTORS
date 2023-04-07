@@ -2769,11 +2769,21 @@ i.active,
         background-color: #fff;
     }
 
-        .category-form .main-form .singel-form {
+/*        .category-form .main-form .singel-form {
             margin-top: 20px;
-        }
+        }*/
 
             .category-form .main-form .singel-form input {
+                width: 100%;
+                height: 60px;
+                padding: 0 30px;
+                font-size: 15px;
+                color: #8a8a8a;
+                border: 1px solid #a1a1a1;
+                border-radius: 5px;
+            }
+
+            .category-form .main-form .singel-form select {
                 width: 100%;
                 height: 60px;
                 padding: 0 30px;
@@ -3251,7 +3261,6 @@ i.active,
 
     .about-singel-items span {
         font-size: 60px;
-        color: #dbdbdb;
         font-family: 'Montserrat', sans-serif;
         font-weight: 400;
         line-height: 46px;
@@ -3262,6 +3271,7 @@ i.active,
         color: #000;
         font-size: 24px;
         padding-bottom: 25px;
+        height: 80px;
     }
 
 /*=====================================================
@@ -4862,6 +4872,7 @@ p.form-message.error {
     background-color: #fff;
     padding: 20px;
     border-radius: 5px;
+    height: 597.6px;
 }
 
     .contact-address ul li {

@@ -69,6 +69,7 @@
                         }
                     </select>
                 </div>
+                <button class="main-btn" style="height:40px; margin-left:10px;line-height: 0px;" type="submit" asp-action="Index">Tìm kiếm</button>
             </div>
             <button class="main-btn" style="float: right;margin-right: 10px;margin-top: 5px;" type="submit" asp-action="Index">Tìm kiếm</button>
         </section>
@@ -83,7 +84,7 @@
                                  width="150" />
                         </div>
                         <div class="tutor-desc">
-                            <h3 class="tutor-name">@tutor.Tutor.HoTen <span class="active-status"></span></h3>
+                            <h3 class="tutor-name">@tutor.Tutor.HoTen</h3>
                             <div class="tutor-rating">
                                 @{
                                     var totalRate = tutor.Commnents.Sum(it => it.Comment.Diem);
@@ -131,9 +132,10 @@
             </div>
         </div>
     </div>
-    @if (TempData["Message"] != null)
-    {
-        <script>
+    @section scripts {
+        @if (TempData["Message"] != null)
+        {
+            <script>
             var messageType = '@TempData["MessageType"]';
         var message = '@TempData["Message"]';
 
@@ -147,18 +149,18 @@
         } else if (messageType === "info") {
             toastr.info(message);
         }
-        </script>
-    }
-    @if (ViewBag.Message != null)
-    {
-        <script type="text/javascript">
+            </script>
+        }
+        @if (ViewBag.Message != null)
+        {
+            <script type="text/javascript">
             window.onload = function () {
                 alert("@ViewBag.Message");
             };
-        </script>
-    }
-    <script src="~/js/app.js"></script>
-    <script>
+            </script>
+        }
+        <script src="~/js/app.js"></script>
+        <script>
         $(function () {
     // Check for a success message in TempData
     var toastrSuccess = '@(TempData["toastr-success"])';
@@ -172,6 +174,7 @@
         toastr.error(toastrError);
     }
 });
-    </script>
+        </script>
+    }
 </form>
 

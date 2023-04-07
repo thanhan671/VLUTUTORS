@@ -5,6 +5,8 @@
 
 
 <header id="header-part">
+    <!-- header logo support -->
+
     <div class="navigation">
         <div class="container">
             <div class="row">
@@ -74,9 +76,9 @@
                                         <li><a asp-controller="HistoryOfLearning" asp-action="Index">Lịch Sử Học</a></li>
                                         <li>
                                             <a href=""
-                                               data-toggle="modal"
-                                               data-target="#logoutModal"
-                                               id="logout">Đăng Xuất</a>
+                                           data-toggle="modal"
+                                           data-target="#logoutModal"
+                                           id="logout">Đăng Xuất</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -134,7 +136,8 @@
             if (link.href === window.location.href) {
                 link.classList.add('active')
             }
-        })</script>
+        })
+    </script>
 </header>
 
 <!--====== HEADER PART ENDS ======-->
