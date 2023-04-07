@@ -17,8 +17,8 @@
 /* Normal desktop :992px. */
 @media (min-width: 992px) and (max-width: 1199.98px) {
 	.logo {
-		text-align: center;
-		width: 200px;
+	/*	text-align: center;*/
+		width: 17%;
 	}
 .navigation .navbar .navbar-nav li {
 	margin-right: 35px;
@@ -972,7 +972,7 @@
 	left: 80%;
 }
 .logo {
-	text-align: center;
+	width: 30%;
 }
 
 .header-contact ul li {
