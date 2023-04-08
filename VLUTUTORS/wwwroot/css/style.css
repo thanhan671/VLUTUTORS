@@ -2767,7 +2767,7 @@ i.active,
             .category-form .main-form .singel-form input {
                 width: 100%;
                 height: 60px;
-                padding: 0 30px;
+                padding: 0 5px;
                 font-size: 15px;
                 color: #8a8a8a;
                 border: 1px solid #a1a1a1;
@@ -2777,7 +2777,7 @@ i.active,
             .category-form .main-form .singel-form select {
                 width: 100%;
                 height: 60px;
-                padding: 0 30px;
+                padding: 0 5px;
                 font-size: 15px;
                 color: #8a8a8a;
                 border: 1px solid #a1a1a1;

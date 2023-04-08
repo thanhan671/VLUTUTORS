@@ -31,6 +31,8 @@ namespace VLUTUTORS.Models
         [Required(ErrorMessage = "Vui lòng chọn trường này")]
         [Range(1, Int32.MaxValue, ErrorMessage = "Vui lòng chọn trường này")]
         public int? IdgioiTinh { get; set; }
+
+        [StringLength(maximumLength: 11, MinimumLength = 10, ErrorMessage = "Giới hạn từ 10-11 ký tự")]
         public string Sdt { get; set; }
         public DateTime? NgaySinh { get; set; }
 
@@ -39,20 +41,28 @@ namespace VLUTUTORS.Models
         public int? Idkhoa { get; set; }
         public string AnhDaiDien { get; set; }
         public bool? TrangThaiTaiKhoan { get; set; }
+
+        [StringLength(maximumLength: 16, MinimumLength = 9, ErrorMessage = "Giới hạn từ 9-16 ký tự")]
         public string SoTaiKhoan { get; set; }
         public int? IdnganHang { get; set; }
 
         //[RegularExpression("^([a-zA-Z0-9 .,:'-]+)$", ErrorMessage = "Không nhập ký tự đặc biệt")]
+        [StringLength(maximumLength: 1000, MinimumLength = 150, ErrorMessage = "Giới hạn từ 150-1000 ký tự")]
         public string GioiThieu { get; set; }
 
         //[RegularExpression("^([a-zA-Z0-9 .,:'-]+)$", ErrorMessage = "Không nhập ký tự đặc biệt")]
+        [StringLength(maximumLength: 1000, MinimumLength = 150, ErrorMessage = "Giới hạn từ 150-1000 ký tự")]
         public string DanhGiaVeViecGiaSu { get; set; }
         public double? DiemTrungBinh { get; set; }
         public int? IdmonGiaSu1 { get; set; }
         public string ChungChiMon1 { get; set; }
+
+        [StringLength(maximumLength: 1000, MinimumLength = 150, ErrorMessage = "Giới hạn từ 150-1000 ký tự")]
         public string GioiThieuVeMonGiaSu1 { get; set; }
         public int? IdmonGiaSu2 { get; set; }
         public string ChungChiMon2 { get; set; }
+
+        [StringLength(maximumLength: 1000, MinimumLength = 150, ErrorMessage = "Giới hạn từ 150-1000 ký tự")]
         public string GioiThieuVeMonGiaSu2 { get; set; }
         public int? IdxetDuyet { get; set; }
         public string TenChungChiHoacDiemMon1 { get; set; }

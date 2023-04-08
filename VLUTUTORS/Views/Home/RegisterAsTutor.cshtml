@@ -59,10 +59,12 @@
                                             <label class="lb-form">Họ Tên</label>
                                             @Html.TextBoxFor(m => m.HoTen, new { @readonly = true })
                                         </div>
+                                        <span asp-validation-for="HoTen" class="help-block with-errors" style="color:red"></span>
                                         <div class="form__input">
                                             <label class="lb-form">Email</label>
                                             @Html.TextBoxFor(m => m.Email, new { @readonly = true })
                                         </div>
+                                        <span asp-validation-for="Email" class="help-block with-errors" style="color:red"></span>
                                         <div class="form__input">
                                             <label class="lb-form" for="name">Khoa</label>
                                             @Html.DropDownListFor(m => m.Idkhoa, Model.DepartmentItems, "Chọn khoa", new { @class = "form__select" })
@@ -97,12 +99,16 @@
                                             <span class="warning-icon">!</span>
                                             <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                                         </div>
+                                        <span asp-validation-for="Sdt" class="help-block with-errors" style="color:red"></span>
+
                                         <div class="form__input">
                                             <label class="lb-form">Số tài khoản</label>
                                             <input type="text" name="SoTaiKhoan" placeholder="Số tài khoản" required />
                                             <span class="warning-icon">!</span>
                                             <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                                         </div>
+                                        <span asp-validation-for="SoTaiKhoan" class="help-block with-errors" style="color:red"></span>
+
                                         <div class="form__input">
                                             <label class="lb-form" for="name">Tên ngân hàng/Ví điện tử</label>
                                             @Html.DropDownListFor(m => m.IdnganHang, Model.BankItems, "Chọn ngân hàng", new { @class = "form__select" })
@@ -130,18 +136,16 @@
                                             <span class="warning-icon">!</span>
                                             <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                                         </div>
-                                        <div class="message-error">
-                                            @Html.ValidationMessageFor(model => model.GioiThieu, "", new { @class = "text-danger" })
-                                        </div>
+                                        <span asp-validation-for="GioiThieu" class="help-block with-errors" style="color:red"></span>
+
                                         <div class="form__input">
                                             <label class="lb-form">Đánh giá về việc gia sư</label>
                                             <textarea type="text" name="DanhGiaVeViecGiaSu" placeholder="Đánh giá của bản thân về việc gia sư" required></textarea>
                                             <span class="warning-icon">!</span>
                                             <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                                         </div>
-                                        <div class="message-error">
-                                            @Html.ValidationMessageFor(model => model.DanhGiaVeViecGiaSu, "", new { @class = "text-danger" })
-                                        </div>
+                                        <span asp-validation-for="DanhGiaVeViecGiaSu" class="help-block with-errors" style="color:red"></span>
+
                                     </div>
 
                                     <div class="col-4">
@@ -175,6 +179,8 @@
                                             <span class="warning-icon">!</span>
                                             <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                                         </div>
+                                        <span asp-validation-for="GioiThieuVeMonGiaSu1" class="help-block with-errors" style="color:red"></span>
+
                                     </div>
                                     <div class="col-4">
                                         <p><b class="lb-form-title">Thông Tin Môn Gia Sư 2 (nếu có)</b></p>
@@ -208,6 +214,8 @@
                                             <span class="warning-icon">!</span>
                                             <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                                         </div>
+                                        <span asp-validation-for="GioiThieuVeMonGiaSu2" class="help-block with-errors" style="color:red"></span>
+
                                     </div>
                                 </div>
                             </div>
