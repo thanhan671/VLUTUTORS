@@ -86,7 +86,7 @@ form {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    padding: 1rem 5rem;
+    padding: 0rem 5rem;
     transition: all 0.2s 0.7s;
     overflow: hidden;
     grid-column: 1 / 2;
@@ -138,7 +138,6 @@ form {
         font-weight: 600;
         font-size: 1.1rem;
         border-radius: 30px;
-        padding: 10px;
         color: #333;
     }
 
@@ -522,8 +521,6 @@ form {
     left: 50%;
     transform: translateX(-50%);
     margin-bottom: 20px;
-    background-color: white;
-    border-radius: 0.8rem;
 }
 
 .form__input .form__select {
@@ -554,7 +551,7 @@ form {
     width: auto;
     cursor: pointer;
     margin-bottom: 1.3rem;
-    width: 100%;
+     width: 100%; 
 }
 
     .form__input .form__select select {
@@ -564,16 +561,6 @@ form {
         font-weight: 600;
         color: #07294d;
     }
-
-.form__input .lb-form {
-    font-weight: 600;
-    color: #07294d;
-}
-
-.col-4 .lb-form-title {
-    font-weight: 900;
-    color: #07294d;
-}
 
 .sign-up__desc {
     width: 650px;
@@ -626,9 +613,9 @@ form {
     top: -13px;
     left: 14px;
     display: block;
+    background-color: #fff;
     margin: 3px 3px;
     font-weight: 600;
-    color: #07294d;
 }
 
 .form__input.warning span {
@@ -692,7 +679,6 @@ form {
 
     .form-radio .lb-radio {
         font-weight: 600;
-        color: #07294d;
     }
 
 .form__input textarea:focus {
@@ -726,16 +712,9 @@ form {
     margin-bottom: 0.75em;
     font-size: 0.8rem;
     text-align: center;
-    color: gray;
 }
 
     .form__terms span {
         font-weight: 700;
         color: deeppink;
     }
-
-/*.back {
-    position: absolute;
-    z-index: 999;
-}
-*/

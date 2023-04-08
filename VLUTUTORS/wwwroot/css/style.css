@@ -272,14 +272,14 @@ select.form-search {
         }
 
 .controls {
-    display: flex;
+/*    display: flex;*/
     justify-content: center;
 }
 
 .control {
     position: relative;
     float: left;
-    width: 25%;
+    width: 33.33333%;
     padding: 0 10px;
 }
 
@@ -886,7 +886,8 @@ select.form-search {
 /*===== Header top =====*/
 
 .logo {
-    width: 100%;
+    width: 20%;
+    margin-right: 20px;
 }
 
 .header-top {
@@ -1029,9 +1030,9 @@ select.form-search {
     padding: 0;
 }
 
-    .navigation .navbar .navbar-nav {
+/*    .navigation .navbar .navbar-nav {
         width: 850px;
-    }
+    }*/
 
         .navigation .navbar .navbar-nav li {
             margin-right: 40px;
@@ -1352,28 +1353,30 @@ i.active,
     justify-content: center;
 }
 
-.search-container .search-price {
-    margin: 20px 10px;
-}
 
 .search-container .search-card {
-    width: 1112px;
-    height: 300px;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     border-radius: 20px;
     background: #fff;
     border: 1px solid #ccc;
 }
 
     .search-container .search-card .tutor-avt img {
-        width: 130px;
-        height: 130px;
+        border-radius: 20px;
+        height: 150px;
+        min-width: 150px;
+        padding: 10px;
+    }
+
+    .search-container .search-card .tutor-avt {
+        display: flex;
+        align-items: flex-start;
     }
 
     .search-container .search-card .tutor-desc {
-        width: 730px;
-        height: 200px;
+        width: 1000px;
+        /* height: 200px; */
         padding: 20px;
         font-size: 16px;
     }
@@ -1392,7 +1395,9 @@ i.active,
 
 .tutor-rating {
     display: flex;
+    width: 74px;
     align-items: center;
+    overflow: hidden;
 }
 
     .tutor-rating i {
@@ -1405,7 +1410,11 @@ i.active,
 }
 
 .search-container .search-card .tutor-desc .head-desc {
-    font-size: 20px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* number of lines to show */
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
 }
 
 .search-container .search-card .tutor-desc .desc {

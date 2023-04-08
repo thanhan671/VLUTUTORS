@@ -244,8 +244,8 @@
                                 <span asp-validation-for="Sdt" class="help-block with-errors" style="color:red"></span>
                             </div>
                             <div class="singel-form">
-                                @Html.DropDownListFor(m => m.IdLoaiTuVan, (IEnumerable<SelectListItem>)ViewData["loaiTuVan"], "Chọn loại tư vấn", new { @class = "nice-select mb-4", @required = "required", @style = "height: 60px; border: 1px solid #a1a1a1; color: #8a8a8a;" })
-                                <span asp-validation-for="IdLoaiTuVan" class="help-block with-errors" style="color:red"></span>
+                                @Html.DropDownList("LoaiTuVan", (IEnumerable<SelectListItem>)ViewData["loaiTuVan"], "Loại Tư Vấn", new { @class = "nice-select mb-4", @required = "required", @style = "height: 60px; border: 1px solid #a1a1a1;" })
+                                <div class="help-block with-errors"></div>
                             </div>
                             <div class="singel-form">
                                 <input type="text" asp-for="NoiDungTuVan" placeholder="Nội dung cần tư vấn (Từ 50-1000 ký tự)" data-error="Vui lòng không để trống!." required="required" />

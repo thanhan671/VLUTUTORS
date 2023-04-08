@@ -218,7 +218,7 @@ table.dataTable {
     width: 100%;
     margin: 0 auto;
     clear: both;
-    border-collapse: separate;
+    border-collapse: collapse;
     border-spacing: 0;
 }
 

@@ -59,7 +59,7 @@
             </div>
             <div class="col-lg-8">
                 <div class="teachers-right">
-                    <ul class="nav nav-justified" id="myTab" role="tablist">
+                    <ul class="nav nav-justified" id="myTab" role="tablist" style="    font-family: 'Montserrat';">
                         <li class="nav-item">
                             <a class="active"
                                id="dashboard-tab"
@@ -94,19 +94,19 @@
                              aria-labelledby="dashboard-tab">
                             <div class="dashboard-cont">
                                 <div class="singel-dashboard pt-30">
-                                    <h3>Đánh giá bản thân về việc gia sư</h3>
+                                    <h4 class="font-weight-bold">Đánh giá bản thân về việc gia sư</h4>
                                     <p>
                                         @Model.Item1.Tutor.DanhGiaVeViecGiaSu
                                     </p>
                                 </div>
                                 <!-- singel dashboard -->
                                 <div class="singel-dashboard pt-30">
-                                    <h3>Chứng chỉ</h3>
+                                    <h4 class="font-weight-bold">Chứng chỉ</h3>
 
                                     @if (Model.Item1.Subject1 != null)
                                     {
                                         <div>
-                                            <div style="font-size:18px; color:blue"><b>Chứng chỉ môn: @Model.Item1.Subject1.TenMonGiaSu</b></div>
+                                            <div style="font-size:16px; color:blue"><b>Chứng chỉ môn: @Model.Item1.Subject1.TenMonGiaSu</b></div>
                                             <p>
                                                 @Model.Item1.Tutor.TenChungChiHoacDiemMon1
                                             </p>
@@ -117,7 +117,7 @@
                                     {
                                         <div>
                                             <div>
-                                                <div style="font-size:18px; color:blue"><b>Chứng chỉ môn: @Model.Item1.Subject2.TenMonGiaSu</b></div>
+                                                <div style="font-size:16px; color:blue"><b>Chứng chỉ môn: @Model.Item1.Subject2.TenMonGiaSu</b></div>
                                                 <p>
                                                     @Model.Item1.Tutor.TenChungChiHoacDiemMon2
                                                 </p>
@@ -126,12 +126,12 @@
                                     }
                                     <!-- singel dashboard -->
                                     <div class="singel-dashboard pt-30">
-                                        <h3>Môn tôi gia sư</h3>
+                                            <h4 class="font-weight-bold">Môn tôi gia sư</h4>
 
                                         @if (Model.Item1.Subject1 != null)
                                         {
                                             <div>
-                                                <div style="font-size:18px; color:blue"><b>Giới thiệu về môn: @Model.Item1.Subject1.TenMonGiaSu</b></div>
+                                                <div style="font-size:16px; color:blue"><b>Giới thiệu về môn: @Model.Item1.Subject1.TenMonGiaSu</b></div>
                                                 <p>
                                                     @Model.Item1.Tutor.GioiThieuVeMonGiaSu1
                                                 </p>
@@ -250,7 +250,7 @@
                                                 <li>
                                                     <div class="singel-reviews">
                                                         <div class="reviews-author">
-                                                            <div class="author-thum">
+                                                            <div class="author-thum" style="width: 70px">
                                                                 <img src="~/@comment.NguoiDanhGia.AnhDaiDien" alt="Reviews" />
                                                             </div>
                                                             <div class="author-name">
@@ -377,6 +377,7 @@
                     width: '100%',
                     justifyContent: 'space-between',
                     alignItems: 'center',
+                    flexWrap: 'wrap'
                 });
                 $('#myTable_length').css({ display: 'none' });
                 $('.sorting:first').css({ width: '20%' });

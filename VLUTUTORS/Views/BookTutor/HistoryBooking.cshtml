@@ -8,7 +8,7 @@
 <div class="container-table mt-20 pb-20">
     <h3 style="text-align:center; margin-bottom:10px">Lịch Học</h3>
     <div class="row" id="dropdown-filter">
-        <div class="col d-flex mr-10">
+        <div class="col d-flex mr-10 flex-wrap">
             <label class="form-label" for="min">Ngày bắt đầu:</label>
             <input type="text"
                    class="form-control-sm"
@@ -112,10 +112,11 @@
         });
     </script>
     <script type="text/javascript">
-        $(function () {
-            $('#myTable_filter').prepend($('#dropdown-filter')).clone();
-            $('#filter-fade').remove();
-            $('#myTable_filter').css({ display: 'flex' });
-        });
+      $(function () {
+        $('#myTable_filter').prepend($('#dropdown-filter')).clone();
+        $('#filter-fade').remove();
+        $('#myTable_filter').css({ display: 'flex' });
+            $('#myTable').css({width: 'auto'});
+      });
     </script>
 }
