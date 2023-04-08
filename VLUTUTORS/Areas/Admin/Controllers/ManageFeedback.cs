@@ -62,6 +62,8 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 {
                     _context.Update(lienHe);
                     await _context.SaveChangesAsync();
+                    TempData["Message"] = "Cập nhật thành công!";
+                    TempData["MessageType"] = "success";
                 }
                 catch (Exception ex)
                 {

@@ -1,4 +1,5 @@
-﻿
+﻿@model IEnumerable<VLUTUTORS.Models.Tieuchidanhgia>
+
 @{
     ViewData["Title"] = "Quản lý tiêu chí đánh giá";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
@@ -22,13 +23,7 @@
         <!-- Default box -->
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Danh sách tiêu chí</h3>
                 <div class="card-tools">
-                    <button data-toggle="modal"
-                            data-target="#addcriteria"
-                            class="col-auto btn-success">
-                        Thêm tiêu chí
-                    </button>
                 </div>
             </div>
             <div class="card-body p-0">
@@ -37,84 +32,125 @@
                         <tr>
                             <th style="width: 20%">STT</th>
                             <th style="width: 20%">Tên tiêu chí</th>
+                            <th style="width: 20%">Dành cho</th>
                             <th style="width: 15%">Chức năng</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @*@{
+                        @{
                             var index = 0;
                             foreach (var item in Model)
                             {
-                                index++;*@
-                        <tr>
-                            <td>@*@index*@ 1 </td>
-                            <td>
-                                @*@Html.DisplayFor(modeItem => item.TenMonGiaSu)*@ Thân thiện
-                            </td>
-                            <td class="project-actions">
-                                <a class="btn btn-info btn-sm" asp-action="EditCriteria" asp-controller="ManageEvaluationCriteria" >
-                                    <i class="fas fa-pencil-alt"> </i>
-                                    Sửa
-                                </a>
-                                <a class="btn btn-danger btn-sm"
-                                   data-toggle="modal"
-                                   data-target="#exampleModal"
-                                   onclick="document.getElementById('hdInput').value = @*@item.IdBaiHoc*@">
-                                    <i class="fas fa-trash"> </i>
-                                    Xoá
-                                </a>
-                            </td>
-                        </tr>
-                        @*}
-                            }*@
+                                index++;
+                                <tr>
+                                    <td>@index</td>
+                                    <td>
+                                        @Html.DisplayFor(modeItem => item.TieuChi)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modeItem => item.DanhCho)
+                                    </td>
+                                    <td class="project-actions">
+
+                                        <a class="btn btn-info btn-sm"
+                                           data-toggle="modal"
+                                           data-target="@("#editModal-"+item.IdTieuChi)"
+                                           data-url="@Url.Action($"EditCriteria/{item.IdTieuChi}")">
+                                            <i class="fas fa-pen"> </i>
+                                            Sửa
+                                        </a>
+                                        @await Html.PartialAsync("_EditEvaluationPartial", item)
+
+                                    </td>
+                                </tr>
+                            }
+                        }
                     </tbody>
                 </table>
             </div>
             <!-- /.card-body -->
         </div>
-        @if (TempData["message"] != null)
+        @if (TempData["Message"] != null)
         {
-            <script>alert('@TempData["message"]');</script>
+            <script>
+            var messageType = '@TempData["MessageType"]';
+        var message = '@TempData["Message"]';
+
+        // Display the message using Toastr library
+        if (messageType === "success") {
+            toastr.success(message);
+        } else if (messageType === "error") {
+            toastr.error(message);
+        } else if (messageType === "warning") {
+            toastr.warning(message);
+        } else if (messageType === "info") {
+            toastr.info(message);
         }
+            </script>
+        }
+        @if (ViewBag.Message != null)
+        {
+            <script type="text/javascript">
+            window.onload = function () {
+                alert("@ViewBag.Message");
+            };
+            </script>
+        }
+        <script src="~/js/app.js"></script>
+        <script>
+        $(function () {
+    // Check for a success message in TempData
+    var toastrSuccess = '@(TempData["toastr-success"])';
+    if (toastrSuccess) {
+        toastr.success(toastrSuccess);
+    }
+
+    // Check for an error message in TempData
+    var toastrError = '@(TempData["toastr-error"])';
+    if (toastrError) {
+        toastr.error(toastrError);
+    }
+});
+        </script>
         <!-- /.card -->
     </section>
     <div class="modal fade"
-         id="addcriteria"
+         id="addModal"
          tabindex="-1"
          role="dialog"
          aria-labelledby="exampleModalLabel"
          aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">
-                        Thêm tiêu chí
-                    </h5>
-                    <button type="button"
-                            class="close text-right"
-                            data-dismiss="modal"
-                            aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form>
+        <form asp-action="AddCriteria" asp-controller="ManageEvaluationCriteria" method="post">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">
+                            Thêm tiêu chí
+                        </h5>
+                        <button type="button"
+                                class="close text-right"
+                                data-dismiss="modal"
+                                aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
                         <div class="form-group">
-                            <label for="inputName">Tên tiêu chí</label>
-                            <input type="text" id="" class="form-control" />
+                            <label for="inputName">Tiêu chí</label>
+                            <input type="text" id="TieuChi" name="TieuChi" class="form-control" />
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button"
-                            class="btn btn-secondary"
-                            data-dismiss="modal">
-                        Hủy
-                    </button>
-                    <button type="submit" class="btn btn-primary">Xác nhận</button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button"
+                                class="btn btn-secondary"
+                                data-dismiss="modal">
+                            Hủy
+                        </button>
+                        <button type="submit" class="btn btn-primary">Xác nhận</button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
     <div class="modal fade"
          id="exampleModal"
@@ -138,7 +174,7 @@
                     </div>
                 </div>
             </div>
-            <input type="hidden" id="hdInput" name="hdInput" />
+            <input type="hidden" id="criteriaID" name="criteriaID" />
         </form>
     </div>
 

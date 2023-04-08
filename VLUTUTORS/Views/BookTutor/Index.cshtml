@@ -56,49 +56,35 @@
                     </div>
                     <select class="control-field sort-field form-search" name="nameFilter">
                         @{
-                            if (ViewData["NameFilter"] != null)
+                            if (ViewData["NameFilter"] != null && ViewData["NameFilter"].Equals("favourite"))
                             {
-                                <option value="" selected="selected">Lọc Theo</option>
-                                <option value="1">Gia sư yêu thích</option>
-                                <option value="2">Đang hoạt động</option>
+                                <option value="">Lọc Theo</option>
+                                <option value="favourite" selected="selected">Gia sư yêu thích</option>
                             }
                             else
                             {
-                                <option value="">Lọc Theo</option>
-                                <option value="1" selected="selected">Gia sư yêu thích</option>
-                                <option value="2">Đang hoạt động</option>
+                                <option value="" selected="selected">Lọc Theo</option>
+                                <option value="favourite">Gia sư yêu thích</option>
                             }
                         }
                     </select>
                 </div>
-                <div class="control filter">
-                    <div class="control-icon">
-                        <i class="material-icons">&#xE871;</i>
-                    </div>
-                    <div class="select-arrow">
-                        <i class="material-icons">&#xE313;</i>
-                    </div>
-                    <select class="control-field layout-field form-search">
-                        <option value="left-top" selected>Ca học</option>
-                        <option value="">45 phút</option>
-                        <option value="">60 phút</option>
-                    </select>
-                </div>
+                
             </div>
-            <button class="main-btn" style="float: right;margin: 5px;" type="submit" asp-action="Index">Search</button>
+            <button class="main-btn" style="float: right;margin-right: 10px;margin-top: 5px;" type="submit" asp-action="Index">Tìm kiếm</button>
         </section>
-        <div class="right-search">
-            <div class="card-tutor-container">
+        <div class="">
+            <div class="col d-flex flex-column align-items-center ">
                 <hr>
                 @foreach (var tutor in Model)
                 {
-                    <div class="search-card ml-10 mt-30 mb-20">
-                        <div class="tutor-avt pt-50">
+                    <div class="search-card col-10 ml-10 mt-30 mb-20">
+                        <div class="tutor-avt">
                             <img src="~/@tutor.Tutor.AnhDaiDien"
                                  width="150" />
                         </div>
                         <div class="tutor-desc">
-                            <h3 class="tutor-name">@tutor.Tutor.HoTen <span class="active-status"></span></h3>
+                            <h3 class="tutor-name">@tutor.Tutor.HoTen</h3>
                             <div class="tutor-rating">
                                 @{
                                     var totalRate = tutor.Commnents.Sum(it => it.Comment.Diem);
@@ -116,42 +102,27 @@
                             @if (@tutor.Subject1 != null)
                             {
                                 <p class="card-price"><b>@tutor.Subject1.TenMonGiaSu</b></p>
-                                <h4 class="head-desc">@tutor.Tutor.GioiThieuVeMonGiaSu1</h4>
+                                <p class="head-desc">@tutor.Tutor.GioiThieuVeMonGiaSu1</p>
                             }
 
                             @if (@tutor.Subject2 != null)
                             {
                                 <p class="card-price"><b>@tutor.Subject2.TenMonGiaSu</b></p>
-                                <h4 class="head-desc">@tutor.Tutor.GioiThieuVeMonGiaSu2</h4>
+                                <p class="head-desc">@tutor.Tutor.GioiThieuVeMonGiaSu2</p>
                             }
                         </div>
                         <div class="tutor-view">
-                            @{
-                                bool temp = true;
-                                var tutors = new CP25Team01Context().Giasuyeuthichs.Where(it => (it.GiasuId == @tutor.Tutor.Id)).ToList();
-                                foreach (var item in tutors)
-                                {
-                                    if (item.NguoidungId != @httpContextAccessor.HttpContext.Session.GetInt32("LoginId"))
-                                    {
-                                        temp = true;
-                                    }
-                                    else
-                                    {
-                                        temp = false;
-                                    }
-                                }
-                                if (temp == true)
-                                {
-                                    <button class="fav-tutor" type="submit" asp-action="AddToWishlish" asp-route-id="@tutor.Tutor.Id">
-                                        <i class="fa-solid fa-heart icon-heart" id="heart"></i>
-                                    </button>
-                                }
-                                else
-                                {
-                                    <button style="color:red" class="fav-tutor" type="submit" asp-action="RemoveFromWishlish" asp-route-id="@tutor.Tutor.Id">
-                                        <i class="fa-solid fa-heart icon-heart" id="heart1"></i>
-                                    </button>
-                                }
+                            @if (!@tutor.IsInWishlish)
+                            {
+                                <button class="fav-tutor" type="submit" asp-action="AddToWishlish" asp-route-id="@tutor.Tutor.Id">
+                                    <i class="fa-solid fa-heart icon-heart" id="heart"></i>
+                                </button>
+                            }
+                            else
+                            {
+                                <button style="color:red" class="fav-tutor" type="submit" asp-action="RemoveFromWishlish" asp-route-id="@tutor.Tutor.Id">
+                                    <i class="fa-solid fa-heart icon-heart" id="heart1"></i>
+                                </button>
                             }
                             <a asp-action="DetailTutor" asp-route-id="@tutor.Tutor.Id" class="card-btn">Xem Chi Tiết</a>
                         </div>
@@ -161,6 +132,49 @@
             </div>
         </div>
     </div>
+    @section scripts {
+        @if (TempData["Message"] != null)
+        {
+            <script>
+            var messageType = '@TempData["MessageType"]';
+        var message = '@TempData["Message"]';
 
+        // Display the message using Toastr library
+        if (messageType === "success") {
+            toastr.success(message);
+        } else if (messageType === "error") {
+            toastr.error(message);
+        } else if (messageType === "warning") {
+            toastr.warning(message);
+        } else if (messageType === "info") {
+            toastr.info(message);
+        }
+            </script>
+        }
+        @if (ViewBag.Message != null)
+        {
+            <script type="text/javascript">
+            window.onload = function () {
+                alert("@ViewBag.Message");
+            };
+            </script>
+        }
+        <script src="~/js/app.js"></script>
+        <script>
+        $(function () {
+    // Check for a success message in TempData
+    var toastrSuccess = '@(TempData["toastr-success"])';
+    if (toastrSuccess) {
+        toastr.success(toastrSuccess);
+    }
+
+    // Check for an error message in TempData
+    var toastrError = '@(TempData["toastr-error"])';
+    if (toastrError) {
+        toastr.error(toastrError);
+    }
+});
+        </script>
+    }
 </form>
 

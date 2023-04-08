@@ -12,7 +12,7 @@
             <div class="row">
                 <div class="col-lg-10 col-md-10 col-sm-9 col-8">
                     <nav class="navbar navbar-expand-lg">
-                        <button class="navbar-toggler"
+@*                        <button class="navbar-toggler"
                                 type="button"
                                 data-toggle="collapse"
                                 data-target="#navbarSupportedContent"
@@ -22,21 +22,38 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
+                        </button>*@
+
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
                         </button>
-                        <div class="collapse navbar-collapse sub-menu-bar"
-                             id="navbarSupportedContent">
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav mr-auto">
                                 <li class="nav-item">
                                     <a class="nav-link" asp-action="Index" asp-controller="Home">Trang Chủ</a>
                                 </li>
+                                @{
+                                    if (@httpContextAccessor.HttpContext.Session.GetInt32("IdGiaSu") == 5)
+                                    {
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="~/Tutors">Đến Trang Gia Sư</a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="nav-item">
+                                            <a href="~/Home/RegisterAsTutor">Trở Thành Gia Sư</a>
+                                        </li>
+                                    }
+                                }
+
                                 <li class="nav-item">
                                     <a class="nav-link" asp-action="Index" asp-controller="BookTutor">Tìm Gia Sư</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="~/Home/AboutUs">Về Chúng Tôi</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-controller="BookTutor" asp-action="HistoryBooking">Lịch Sử Đặt Lịch</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="~/Home/Contact">Liên Hệ</a>
@@ -52,13 +69,16 @@
                             @if (@httpContextAccessor.HttpContext.Session.GetString("LoginId") != null)
                             {
                                 <li class="nav-item">
-                                    <a asp-controller="Accounts" asp-action="Details" asp-route-id="@httpContextAccessor.HttpContext.Session.GetInt32("LoginId")"><i class="fa-solid fa-user-tie active"></i></a>
+                                    <a ><i class="fa-solid fa-user-tie active"></i></a>
                                     <ul class="sub-menu">
+                                        <li><a asp-controller="Accounts" asp-action="Details" asp-route-id="@httpContextAccessor.HttpContext.Session.GetInt32("LoginId")">Tài khoản</a></li>
+                                        <li><a asp-controller="BookTutor" asp-action="HistoryBooking">Lịch Học</a></li>
+                                        <li><a asp-controller="HistoryOfLearning" asp-action="Index">Lịch Sử Học</a></li>
                                         <li>
                                             <a href=""
-                                               data-toggle="modal"
-                                               data-target="#logoutModal"
-                                               id="logout">Đăng Xuất</a>
+                                           data-toggle="modal"
+                                           data-target="#logoutModal"
+                                           id="logout">Đăng Xuất</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -116,7 +136,8 @@
             if (link.href === window.location.href) {
                 link.classList.add('active')
             }
-        })</script>
+        })
+    </script>
 </header>
 
 <!--====== HEADER PART ENDS ======-->

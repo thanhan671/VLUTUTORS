@@ -1,6 +1,9 @@
 ﻿@using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor httpContextAccessor
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model VLUTUTORS.Models.Lienhe;
 @using VLUTUTORS.Models;
+
 @{
     ViewData["Title"] = "Liên Hệ";
     Layout = "~/Views/Shared/_otherPageLayout.cshtml";
@@ -17,30 +20,30 @@
                     </div>
                     <!-- section title -->
                     <div class="main-form">
-                        <form id="contact-form"
-                              method="post"
-                              data-toggle="validator" enctype="multipart/form-data" asp-controller="Home" asp-action="Contact">
+                        <form  method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="Contact">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="singel-form form-group">
                                         @{
                                             if (@httpContextAccessor.HttpContext.Session.GetString("loginName") != null)
                                             {
-                                                <input name="Ten"
+                                                <input name="HoVaTen"
+                                                       id="HoVaTen"
                                                        type="text"
                                                        value="@httpContextAccessor.HttpContext.Session.GetString("loginName")"
                                                        data-error="Vui lòng điền đủ thông tin."
                                                        required="required" />
-                                                <div class="help-block with-errors"></div>
+                                                <span asp-validation-for="HoVaTen" class="help-block with-errors" style="color:red"></span>
                                             }
                                             else
                                             {
-                                                <input name="Ten"
+                                                <input name="HoVaTen"
+                                                       id="HoVaTen"
                                                        type="text"
                                                        placeholder="Tên của bạn"
                                                        data-error="Vui lòng điền đủ thông tin."
                                                        required="required" />
-                                                <div class="help-block with-errors"></div>
+                                                <span asp-validation-for="HoVaTen" class="help-block with-errors" style="color:red"></span>
                                             }
                                         }
                                     </div>
@@ -52,20 +55,22 @@
                                             if (@httpContextAccessor.HttpContext.Session.GetString("loginEmail") != null)
                                             {
                                                 <input name="Email"
+                                                       id="Email"
                                                        type="email"
                                                        value="@httpContextAccessor.HttpContext.Session.GetString("loginEmail")"
                                                        data-error="Vui lòng điền đủ thông tin."
                                                        required="required" />
-                                                <div class="help-block with-errors"></div>
+                                                <span asp-validation-for="Email" class="help-block with-errors" style="color:red"></span>
                                             }
                                             else
                                             {
                                                 <input name="Email"
+                                                       id="Email"
                                                        type="email"
                                                        placeholder="Email"
-                                                       data-error="Vui lòng điền đủ thông tin."
+                                                       data-error="Vui lòng nhập địa chỉ email hợp lệ. Định dạng email chính xác là example@gmail.com."
                                                        required="required" />
-                                                <div class="help-block with-errors"></div>
+                                                <span asp-validation-for="Email" class="help-block with-errors" style="color:red"></span>
                                             }
                                         }
                                     </div>
@@ -73,36 +78,40 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="singel-form form-group">
-                                        <input name="Mon"
+                                        <input name="MonHoc"
+                                               id="MonHoc"
                                                type="text"
                                                placeholder="Môn học"
                                                data-error="Vui lòng điền đủ thông tin."
                                                required="required" />
-                                        <div class="help-block with-errors"></div>
+                                        <span asp-validation-for="MonHoc" class="help-block with-errors" style="color:red"></span>
                                     </div>
                                     <!-- singel form -->
                                 </div>
                                 <div class="col-md-6">
                                     <div class="singel-form form-group">
-                                        <input name="SDT"
-                                               type="text"
+                                        <input name="Sdt"
+                                               id="Sdt"
+                                               type="number"
                                                placeholder="Điện thoại"
                                                data-error="Vui lòng điền đủ thông tin."
                                                required="required" />
-                                        <div class="help-block with-errors"></div>
+                                        <span asp-validation-for="Sdt" class="help-block with-errors" style="color:red"></span>
                                     </div>
                                     <!-- singel form -->
                                 </div>
                                 <div class="col-md-12">
                                     <div class="singel-form form-group">
                                         <textarea name="NoiDung"
+                                                  id="NoiDung"
                                                   placeholder="Vấn đề bạn gặp phải"
                                                   data-error="Vui lòng điền đủ thông tin."
                                                   required="required"></textarea>
-                                        <div class="help-block with-errors"></div>
+                                        <span asp-validation-for="NoiDung" class="help-block with-errors" style="color:red"></span>
                                     </div>
                                     <!-- singel form -->
                                 </div>
+                                <input type="hidden" name="IdtrangThai" id="IdtrangThai" value="1" />
                                 <div class="col-md-12">
                                     <div class="singel-form">
                                         <button type="submit" class="main-btn">Gửi liên hệ</button>
@@ -186,10 +195,51 @@
         </div>
         <!-- row -->
     </div>
-    @if (TempData["message"] != null)
-    {
-        <script>alert('@TempData["message"]')</script>
-    }
     <!-- container -->
+    @section scripts{
+        @if (TempData["Message"] != null)
+        {
+            <script>
+            var messageType = '@TempData["MessageType"]';
+        var message = '@TempData["Message"]';
+
+        // Display the message using Toastr library
+        if (messageType === "success") {
+            toastr.success(message);
+        } else if (messageType === "error") {
+            toastr.error(message);
+        } else if (messageType === "warning") {
+            toastr.warning(message);
+        } else if (messageType === "info") {
+            toastr.info(message);
+        }
+            </script>
+        }
+        @if (ViewBag.Message != null)
+        {
+            <script type="text/javascript">
+            window.onload = function () {
+                alert("@ViewBag.Message");
+            };
+            </script>
+        }
+        <script src="~/js/app.js"></script>
+        <script>
+        $(function () {
+    // Check for a success message in TempData
+    var toastrSuccess = '@(TempData["toastr-success"])';
+    if (toastrSuccess) {
+        toastr.success(toastrSuccess);
+    }
+
+    // Check for an error message in TempData
+    var toastrError = '@(TempData["toastr-error"])';
+    if (toastrError) {
+        toastr.error(toastrError);
+    }
+});
+        </script>
+    }
 </section>
+
 

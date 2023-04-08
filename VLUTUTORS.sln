@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.4.33103.184
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.33027.164
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VLUTUTORS", "VLUTUTORS\VLUTUTORS.csproj", "{D6A9F2FB-0D2D-45B4-A5E4-E8C8996D83E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VLUTUTORS.Tests", "VLUTUTORS.Tests\VLUTUTORS.Tests.csproj", "{DCA4C117-BEAE-4154-8B71-C385715DC25D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VLUTUTORSTests", "VLUTUTORSTests\VLUTUTORSTests.csproj", "{5DDCD520-8F67-4C90-8295-D8E1B49786F8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{D6A9F2FB-0D2D-45B4-A5E4-E8C8996D83E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6A9F2FB-0D2D-45B4-A5E4-E8C8996D83E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6A9F2FB-0D2D-45B4-A5E4-E8C8996D83E5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DCA4C117-BEAE-4154-8B71-C385715DC25D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DCA4C117-BEAE-4154-8B71-C385715DC25D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DCA4C117-BEAE-4154-8B71-C385715DC25D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DCA4C117-BEAE-4154-8B71-C385715DC25D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DDCD520-8F67-4C90-8295-D8E1B49786F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DDCD520-8F67-4C90-8295-D8E1B49786F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DDCD520-8F67-4C90-8295-D8E1B49786F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DDCD520-8F67-4C90-8295-D8E1B49786F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

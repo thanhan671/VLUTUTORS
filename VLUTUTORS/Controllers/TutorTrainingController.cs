@@ -60,10 +60,10 @@ namespace VLUTUTORS.Controllers
             }
 
             baihoc.TaiLieu = _db.Khoadaotaos.Where(l => l.TenBaiHoc == courseName).First().TaiLieu;
+            baihoc.IdBaiHoc = _db.Khoadaotaos.Where(l => l.TenBaiHoc == courseName).First().IdBaiHoc;
 
             var userInfo = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
             Taikhoannguoidung taikhoannguoidung = _db.Taikhoannguoidungs.Find(userInfo.Id);
-            //Console.WriteLine("diem bai kiem tra: " + taikhoannguoidung.DiemBaiTest);
             
             baihoc.currentScore = taikhoannguoidung.DiemBaiTest;
             Console.WriteLine("moi lam bai kiem tra index: " + justDoTest);
@@ -75,11 +75,11 @@ namespace VLUTUTORS.Controllers
             return View(baihoc);
         }
 
-        public FileResult DownloadFile(string fileName)
+        public FileResult DownloadFile(string courseName ,string fileName)
         {
             //string courseFilePath = id == 1 ? Path.Combine("certificates", tutorId.ToString(), "cer1") : Path.Combine("certificates", tutorId.ToString(), "cer2");
 
-            string path = Path.Combine(this._environment.WebRootPath, "Files", fileName);
+            string path = Path.Combine(this._environment.WebRootPath, "Files", courseName, fileName);
 
             byte[] bytes = System.IO.File.ReadAllBytes(path);
 

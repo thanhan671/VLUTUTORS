@@ -7,14 +7,14 @@
 }
 <section id="about-page" class="pt-10 pb-20">
     <div class="container">
+        <div style="text-align:center; font-size:60px;"><b>VỀ CHÚNG TÔI</b></div>
         <div class="row">
             <div class="col-lg-5">
                 <div class="section-title mt-50">
-                    <h5>Về chúng tôi</h5>
                     <h2>Chào Mừng Đến Với VLU TUTORS</h2>
                 </div>
                 <!-- section title -->
-                <div class="about-cont">
+                <div>
                     <p>
                         @noiDung.GioiThieu
                     </p>
@@ -23,7 +23,10 @@
             <!-- about cont -->
             <div class="col-lg-7">
                 <div class="about-image mt-50">
-                    <img src="~/images/about/imageabout.jpg" alt="About" />
+                    @foreach (var file in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(noiDung.AnhGioiThieu))
+                    {
+                        <img src="~/@file" alt="About" />
+                    }
                 </div>
                 <!-- about imag -->
             </div>
@@ -34,11 +37,9 @@
                 <div class="col-lg-4 col-md-6 col-sm-10">
                     <div class="about-singel-items mt-30">
                         <span>01</span>
-                        <h4>ĐÁNH GIÁ CHẤT LƯỢNG KHÁCH QUAN</h4>
-                        <p>
-                            Chúng tôi hiểu rằng "chất lượng dạy học luôn phải đặt lên hàng đầu" bên cạnh chi phí phải chăng.
-                            Vì vậy chúng tôi đã tạo ra nền tảng cho phép học viên được đánh giá chất lượng dạy & học.
-                            Những thông tin này là vô cùng hữu ích cho những người học tiếp theo.
+                        <h4>@noiDung.TieuDeGt1</h4>
+                        <p style="margin-bottom:10px;">
+                            @noiDung.GioiThieu1
                         </p>
                     </div>
                     <!-- about singel -->
@@ -46,11 +47,9 @@
                 <div class="col-lg-4 col-md-6 col-sm-10">
                     <div class="about-singel-items mt-30">
                         <span>02</span>
-                        <h4>KẾT NỐI DẠY VÀ HỌC</h4>
-                        <p>
-                            Hướng đi của chúng tôi đó là "Kết nối nhu cầu học tập của người học tới những gia sư uy tín đã qua xét duyệt".
-                            Việc này có ý nghĩa to lớn trong việc tiết kiệm chi phí thời gian tìm kiếm cũng như tạo ra một nền
-                            tảng đánh giá chất lượng khách quan bởi cộng đồng.
+                        <h4>@noiDung.TieuDeGt2</h4>
+                        <p style="margin-bottom:10px;">
+                            @noiDung.GioiThieu2
                         </p>
                     </div>
                     <!-- about singel -->
@@ -58,11 +57,9 @@
                 <div class="col-lg-4 col-md-6 col-sm-10">
                     <div class="about-singel-items mt-30">
                         <span>03</span>
-                        <h4>NHANH, ĐƠN GIẢN, TIẾT KIỆM</h4>
+                        <h4>@noiDung.TieuDeGt3</h4>
                         <p>
-                            Sử dụng thành tựu công nghệ thời đại 4.0, chúng tôi tạo ra nền tảng mà người học và người dạy được
-                            "kết nối trực tiếp" rất nhanh và chính xác theo đúng những nhu cầu học đã đăng lên.
-                            Đặc biệt, chúng tôi mang đến cho người học một mức giá hợp lý nhất.
+                            @noiDung.GioiThieu3
                         </p>
                     </div>
                     <!-- about singel -->

@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using VLUTUTORS.Models;
 using VLUTUTORS.Support.Manager;
 using VLUTUTORS.Support.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace VLUTUTORS.Areas.Tutors.Controllers
 {
@@ -58,17 +59,20 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             string certificates2Path = Path.Combine("certificates", taikhoannguoidung.Id.ToString(), "cer2");
             string avatarPath = Path.Combine("avatars", taikhoannguoidung.Id.ToString());
 
-            taikhoannguoidung.TrangThaiTaiKhoan = true;
-            taikhoannguoidung.ChungChiMon1 = certificates1.Count != 0 ? TutorServices.SaveUploadFiles(this._environment.WebRootPath, certificates1Path, certificates1) : taikhoannguoidung.ChungChiMon1;
-            taikhoannguoidung.ChungChiMon2 = certificates2.Count != 0 ? TutorServices.SaveUploadFiles(this._environment.WebRootPath, certificates2Path, certificates2) : taikhoannguoidung.ChungChiMon2;
-            taikhoannguoidung.AnhDaiDien = avatar.Count != 0 ? TutorServices.SaveAvatar(this._environment.WebRootPath, avatarPath, avatar) : taikhoannguoidung.AnhDaiDien;
-            taikhoannguoidung.IdxetDuyet = (int)ApprovalStatus.TRAINING;
-
             if (ModelState.IsValid)
             {
+                taikhoannguoidung.TrangThaiTaiKhoan = true;
+                taikhoannguoidung.ChungChiMon1 = certificates1.Count != 0 ? TutorServices.SaveUploadFiles(this._environment.WebRootPath, certificates1Path, certificates1) : taikhoannguoidung.ChungChiMon1;
+                taikhoannguoidung.ChungChiMon2 = certificates2.Count != 0 ? TutorServices.SaveUploadFiles(this._environment.WebRootPath, certificates2Path, certificates2) : taikhoannguoidung.ChungChiMon2;
+                taikhoannguoidung.AnhDaiDien = avatar.Count != 0 ? TutorServices.SaveAvatar(this._environment.WebRootPath, avatarPath, avatar) : taikhoannguoidung.AnhDaiDien;
+                taikhoannguoidung.IdxetDuyet = (int)ApprovalStatus.APPROVED;
+
                 Console.WriteLine("anh dai dien: " + taikhoannguoidung.AnhDaiDien);
                 _db.Entry(taikhoannguoidung).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 _db.SaveChanges();
+                TempData["Message"] = "Cập nhật thành công!";
+                TempData["MessageType"] = "success";
+                return RedirectToAction("Index", "Account");
             }
 
             taikhoannguoidung.AnhDaiDien = taikhoannguoidung.AnhDaiDien;
@@ -85,7 +89,7 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
         {
             var userInfo = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
             string certificatesPath = id == 1 ? Path.Combine("certificates", userInfo.Id.ToString(), "cer1") : Path.Combine("certificates", userInfo.Id.ToString(), "cer2");
-            
+
             string path = Path.Combine(this._environment.WebRootPath, certificatesPath, fileName);
 
             byte[] bytes = System.IO.File.ReadAllBytes(path);

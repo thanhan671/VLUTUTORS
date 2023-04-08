@@ -25,11 +25,11 @@
             <div class="card-header">
                 <h3 class="card-title">Danh sách quyền</h3>
                 <div class="card-tools">
-                    <a class="btn btn-primary btn-sm"
-                       href="~/Admin/ManageAdminRoles/AddRole">
-                        <i class="fas fa-plus"> </i>
+                    <button data-toggle="modal"
+                            data-target="#addModal"
+                            class="col-auto btn-success">
                         Thêm quyền
-                    </a>
+                    </button>
                 </div>
             </div>
             <div class="card-body p-0">
@@ -56,11 +56,24 @@
                                     </td>
                                     <td class="project-actions">
                                         <a class="btn btn-info btn-sm"
-                                           asp-action="EditRole" asp-controller="ManageAdminRoles" asp-route-id="@item.IdQuyen">
+                                           data-toggle="modal"
+                                           data-target="@("#editModal-"+item.IdQuyen)"
+                                           data-url="@Url.Action($"EditRole/{item.IdQuyen}")">
                                             <i class="fas fa-pen"> </i>
                                             Sửa
                                         </a>
+
+                                        @await Html.PartialAsync("_EditRolePartial", item)
+
+                                        <a class="btn btn-danger btn-sm"
+                                           data-toggle="modal"
+                                           data-target="#deleteModal"
+                                           onclick="document.getElementById('roleID').value = @item.IdQuyen">
+                                            <i class="fas fa-pencil-alt"> </i>
+                                            Xóa
+                                        </a>
                                     </td>
+
                                 </tr>
                             }
                         }
@@ -69,10 +82,109 @@
             </div>
             <!-- /.card-body -->
         </div>
-        @if (TempData["message"] != null)
+
+        <div class="modal fade"
+             id="addModal"
+             tabindex="-1"
+             role="dialog"
+             aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <form method="post" enctype="multipart/form-data" asp-controller="ManageAdminRoles" asp-action="AddRole">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">
+                                Thêm mới quyền
+                            </h5>
+                        </div>
+                        <div class="modal-body">
+                            <span class="alert-danger">
+                            </span>
+                            <div class="form-group">
+                                <label for="inputName">Tên quyền</label>
+                                <input type="text" id="TenQuyen" name="TenQuyen" class="form-control" data-error="Vui lòng điền đủ thông tin!" required />                            
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button"
+                                    class="btn btn-secondary"
+                                    data-dismiss="modal">
+                                Hủy
+                            </button>
+                            <button type="submit" class="btn btn-primary">Xác nhận</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="modal fade"
+             id="deleteModal"
+             tabindex="-1"
+             role="dialog"
+             aria-labelledby="deleteModalLabel"
+             aria-hidden="true">
+            <form asp-action="DeleteRole" method="post" asp-controller="ManageAdminRoles">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <h5>Bạn muốn loại tư vấn này dạy này?</h5>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-default" type="button" data-dismiss="modal">
+                                Hủy
+                            </button>
+                            <button class="btn btn-primary" type="submit">
+                                Đồng ý
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" id="roleID" name="roleID" />
+            </form>
+        </div>
+        @if (TempData["Message"] != null)
         {
-            <script>alert('@TempData["message"]');</script>
+            <script>
+            var messageType = '@TempData["MessageType"]';
+        var message = '@TempData["Message"]';
+
+        // Display the message using Toastr library
+        if (messageType === "success") {
+            toastr.success(message);
+        } else if (messageType === "error") {
+            toastr.error(message);
+        } else if (messageType === "warning") {
+            toastr.warning(message);
+        } else if (messageType === "info") {
+            toastr.info(message);
         }
+            </script>
+        }
+        @if (ViewBag.Message != null)
+        {
+            <script type="text/javascript">
+            window.onload = function () {
+                alert("@ViewBag.Message");
+            };
+            </script>
+        }
+        <script src="~/js/app.js"></script>
+        <script>
+        $(function () {
+    // Check for a success message in TempData
+    var toastrSuccess = '@(TempData["toastr-success"])';
+    if (toastrSuccess) {
+        toastr.success(toastrSuccess);
+    }
+
+    // Check for an error message in TempData
+    var toastrError = '@(TempData["toastr-error"])';
+    if (toastrError) {
+        toastr.error(toastrError);
+    }
+});
+        </script>
         <!-- /.card -->
     </section>
     <!-- /.content -->

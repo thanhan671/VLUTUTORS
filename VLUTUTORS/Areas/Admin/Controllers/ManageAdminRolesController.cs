@@ -35,17 +35,20 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 var Quyen = _context.Quyens.AsNoTracking().SingleOrDefault(x => x.TenQuyen.ToLower() == quyen.TenQuyen.ToLower());
                 if (Quyen != null)
                 {
-                    TempData["message"] = "Quyền đã tồn tại, vui lòng kiểm tra lại";
+                    TempData["Message"] = "Quyền đã tồn tại, vui lòng kiểm tra lại!";
+                    TempData["MessageType"] = "error";
                     return RedirectToAction("Index");
                 }
                 else
                 {
                     try
                 {
-                    TempData["message"] = "Thêm mới thành công!";
-                    _context.Update(quyen);
+                    
+                    _context.Add(quyen);
                     await _context.SaveChangesAsync();
-                }
+                    TempData["Message"] = "Thêm mới thành công!";
+                    TempData["MessageType"] = "success";
+                    }
                 catch (Exception ex)
                 {
                     return RedirectToAction(nameof(Index));
@@ -64,28 +67,24 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditRole(int id, [Bind("IdQuyen,TenQuyen")] Quyen quyen)
+        public IActionResult EditRole(Quyen quyen)
         {
-            if (id != quyen.IdQuyen)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    TempData["message"] = "Cập nhật thành công!";
-                    _context.Update(quyen);
-                    await _context.SaveChangesAsync();
-                }
-                catch (Exception ex)
-                {
-                    return RedirectToAction(nameof(Index));
-                }
-                return RedirectToAction("Index");
-            }
-            return View(quyen);
+            TempData["Message"] = "Cập nhật thành công!";
+            TempData["MessageType"] = "success";
+            _context.Quyens.Update(quyen);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteRole([FromForm] int roleID)
+        {
+            Quyen quyen = _context.Quyens.Where(p => p.IdQuyen == roleID).FirstOrDefault();
+            _context.Quyens.Remove(quyen);
+            _context.SaveChanges();
+            TempData["Message"] = "Xóa thành công!";
+            TempData["MessageType"] = "success";
+            return RedirectToAction("Index");
         }
     }
 }

@@ -272,13 +272,14 @@ select.form-search {
         }
 
 .controls {
-    margin: 30px 0px;
+/*    display: flex;*/
+    justify-content: center;
 }
 
 .control {
     position: relative;
     float: left;
-    width: 25%;
+    width: 33.33333%;
     padding: 0 10px;
 }
 
@@ -329,7 +330,7 @@ select.form-search {
 }
 /* cmcmcmcm */
 .bg_cover {
-
+    background-image: url(../images/background.jpg);
     background-position: center center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -885,7 +886,8 @@ select.form-search {
 /*===== Header top =====*/
 
 .logo {
-    width: 100%;
+    width: 20%;
+    margin-right: 20px;
 }
 
 .header-top {
@@ -1028,9 +1030,9 @@ select.form-search {
     padding: 0;
 }
 
-    .navigation .navbar .navbar-nav {
+/*    .navigation .navbar .navbar-nav {
         width: 850px;
-    }
+    }*/
 
         .navigation .navbar .navbar-nav li {
             margin-right: 40px;
@@ -1351,28 +1353,30 @@ i.active,
     justify-content: center;
 }
 
-.search-container .search-price {
-    margin: 20px 10px;
-}
 
 .search-container .search-card {
-    width: 1112px;
-    height: 300px;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     border-radius: 20px;
     background: #fff;
     border: 1px solid #ccc;
 }
 
     .search-container .search-card .tutor-avt img {
-        width: 130px;
-        height: 130px;
+        border-radius: 20px;
+        height: 150px;
+        min-width: 150px;
+        padding: 10px;
+    }
+
+    .search-container .search-card .tutor-avt {
+        display: flex;
+        align-items: flex-start;
     }
 
     .search-container .search-card .tutor-desc {
-        width: 730px;
-        height: 200px;
+        width: 1000px;
+        /* height: 200px; */
         padding: 20px;
         font-size: 16px;
     }
@@ -1391,7 +1395,9 @@ i.active,
 
 .tutor-rating {
     display: flex;
+    width: 74px;
     align-items: center;
+    overflow: hidden;
 }
 
     .tutor-rating i {
@@ -1404,7 +1410,11 @@ i.active,
 }
 
 .search-container .search-card .tutor-desc .head-desc {
-    font-size: 20px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* number of lines to show */
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
 }
 
 .search-container .search-card .tutor-desc .desc {
@@ -2759,14 +2769,24 @@ i.active,
         background-color: #fff;
     }
 
-        .category-form .main-form .singel-form {
+/*        .category-form .main-form .singel-form {
             margin-top: 20px;
-        }
+        }*/
 
             .category-form .main-form .singel-form input {
                 width: 100%;
                 height: 60px;
-                padding: 0 30px;
+                padding: 0 5px;
+                font-size: 15px;
+                color: #8a8a8a;
+                border: 1px solid #a1a1a1;
+                border-radius: 5px;
+            }
+
+            .category-form .main-form .singel-form select {
+                width: 100%;
+                height: 60px;
+                padding: 0 5px;
                 font-size: 15px;
                 color: #8a8a8a;
                 border: 1px solid #a1a1a1;
@@ -3241,7 +3261,6 @@ i.active,
 
     .about-singel-items span {
         font-size: 60px;
-        color: #dbdbdb;
         font-family: 'Montserrat', sans-serif;
         font-weight: 400;
         line-height: 46px;
@@ -3252,6 +3271,7 @@ i.active,
         color: #000;
         font-size: 24px;
         padding-bottom: 25px;
+        height: 80px;
     }
 
 /*=====================================================
@@ -4852,6 +4872,7 @@ p.form-message.error {
     background-color: #fff;
     padding: 20px;
     border-radius: 5px;
+    height: 597.6px;
 }
 
     .contact-address ul li {
@@ -5269,4 +5290,101 @@ p.form-message.error {
 }
     .navbar-right i {
         color: #07294d;
+    }
+.custom-btn {
+    width: 8.125rem;
+    height: 2.5rem;
+    color: #fff;
+    border-radius: 5px;
+    padding: 0.625em 1.5em;
+    font-family: inherit;
+    font-weight: 700;
+    background: transparent;
+    cursor: pointer;
+    // transition: all 3000ms ease;
+    position: relative;
+    display: inline-block;
+    // box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, .5), // 7px 7px 20px 0px rgba(0, 0, 0, .1), // 4px 4px 5px 0px rgba(0, 0, 0, .1);
+    // outline: none;
+    border: none;
+}
+.btn-5 {
+    width: 100%;
+    height: 40px;
+    line-height: 42px;
+    padding: 0;
+    border: none;
+    background: #ec6923;
+    background: #ec6923;
+}
+
+    .btn-5:hover {
+        color: #ec6923;
+        background: transparent;
+        box-shadow: none;
+    }
+
+    .btn-5:before,
+    .btn-5:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 2px;
+        width: 0;
+        background: #ec6923;
+        box-shadow: -1px -1px 5px 0px #fff, 7px 7px 20px 0px #0003, 4px 4px 5px 0px #0002;
+        transition: 400ms ease all;
+    }
+
+    .btn-5:after {
+        right: inherit;
+        top: inherit;
+        left: 0;
+        bottom: 0;
+    }
+
+    .btn-5:hover:before,
+    .btn-5:hover:after {
+        width: 100%;
+        transition: 800ms ease all;
+    }
+.btn-success-modal {
+    height: 40px;
+    line-height: 42px;
+    padding: 0;
+    border: none;
+    background: #ec6923;
+    background: #ec6923;
+}
+    .btn-success-modal:hover {
+        color: #ec6923;
+        background: transparent;
+        box-shadow: none;
+    }
+
+    .btn-success-modal:before,
+    .btn-success-modal:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 2px;
+        width: 0;
+        background: #ec6923;
+        box-shadow: -1px -1px 5px 0px #fff, 7px 7px 20px 0px #0003, 4px 4px 5px 0px #0002;
+        transition: 400ms ease all;
+    }
+
+    .btn-success-modal:after {
+        right: inherit;
+        top: inherit;
+        left: 0;
+        bottom: 0;
+    }
+
+    .btn-success-modal:hover:before,
+    .btn-success-modal:hover:after {
+        width: 100%;
+        transition: 800ms ease all;
     }

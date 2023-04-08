@@ -39,7 +39,8 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 var checkQues = _context.Baikiemtras.AsNoTracking().SingleOrDefault(x => x.CauHoi.ToLower() == baikiemtra.CauHoi.ToLower());
                 if (checkQues != null)
                 {
-                    TempData["message"] = "Câu hỏi này đã tồn tại!";
+                    TempData["Message"] = "Câu hỏi này đã tồn tại!";
+                    TempData["MessageType"] = "error";
                     return RedirectToAction("AddQuestion");
                 }
                 else
@@ -48,6 +49,8 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                     {
                         _context.Add(baikiemtra);
                         await _context.SaveChangesAsync();
+                        TempData["Message"] = "Thêm thành công!";
+                        TempData["MessageType"] = "success";
                     }
                     catch (Exception ex)
                     {
@@ -87,6 +90,8 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 {
                     _context.Update(baikiemtra);
                     await _context.SaveChangesAsync();
+                    TempData["Message"] = "Cập nhật thành công!";
+                    TempData["MessageType"] = "success";
                 }
                 catch (Exception ex)
                 {
@@ -102,6 +107,8 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             Baikiemtra baiKiemTra = _context.Baikiemtras.Where(p => p.IdCauHoi == hdInput).FirstOrDefault();
             _context.Baikiemtras.Remove(baiKiemTra);
             _context.SaveChanges();
+            TempData["Message"] = "Xóa thành công!";
+            TempData["MessageType"] = "success";
             return RedirectToAction("Index");
         }
     }

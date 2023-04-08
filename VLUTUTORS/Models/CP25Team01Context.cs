@@ -18,7 +18,10 @@ namespace VLUTUTORS.Models
         }
 
         public virtual DbSet<Baikiemtra> Baikiemtras { get; set; }
+        public virtual DbSet<Caday> Cadays { get; set; }
         public virtual DbSet<Cahoc> Cahocs { get; set; }
+        public virtual DbSet<Danhgiagiasu> Danhgiagiasus { get; set; }
+        public virtual DbSet<Giasuyeuthich> Giasuyeuthichs { get; set; }
         public virtual DbSet<Gioitinh> Gioitinhs { get; set; }
         public virtual DbSet<Khoa> Khoas { get; set; }
         public virtual DbSet<Khoadaotao> Khoadaotaos { get; set; }
@@ -27,14 +30,14 @@ namespace VLUTUTORS.Models
         public virtual DbSet<Mongiasu> Mongiasus { get; set; }
         public virtual DbSet<Nganhang> Nganhangs { get; set; }
         public virtual DbSet<Noidung> Noidungs { get; set; }
+        public virtual DbSet<Phiday> Phidays { get; set; }
         public virtual DbSet<Quyen> Quyens { get; set; }
         public virtual DbSet<Taikhoanadmin> Taikhoanadmins { get; set; }
         public virtual DbSet<Taikhoannguoidung> Taikhoannguoidungs { get; set; }
+        public virtual DbSet<Tieuchidanhgia> Tieuchidanhgias { get; set; }
         public virtual DbSet<Trangthai> Trangthais { get; set; }
         public virtual DbSet<Tuvan> Tuvans { get; set; }
         public virtual DbSet<Xetduyet> Xetduyets { get; set; }
-        public virtual DbSet<Giasuyeuthich> Giasuyeuthichs { get; set; }
-        public virtual DbSet<Danhgiagiasu> Danhgiagiasus { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -81,11 +84,66 @@ namespace VLUTUTORS.Models
                     .HasMaxLength(500);
             });
 
+            modelBuilder.Entity<Caday>(entity =>
+            {
+                entity.ToTable("CADAY");
+
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.IdloaiCaDay).HasColumnName("IDLoaiCaDay");
+
+                entity.Property(e => e.IdmonDay).HasColumnName("IDMonDay");
+
+                entity.Property(e => e.IdnguoiDay).HasColumnName("IDNguoiDay");
+
+                entity.Property(e => e.IdnguoiHoc).HasColumnName("IDNguoiHoc");
+
+                entity.Property(e => e.Link)
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.NgayDay).HasColumnType("date");
+
+                entity.HasOne(d => d.IdloaiCaDayNavigation)
+                    .WithMany(p => p.Cadays)
+                    .HasForeignKey(d => d.IdloaiCaDay)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CADAY_CAHOC");
+
+                entity.HasOne(d => d.IdmonDayNavigation)
+                    .WithMany(p => p.Cadays)
+                    .HasForeignKey(d => d.IdmonDay)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CADAY_MONGIASU");
+
+                entity.HasOne(d => d.IdnguoiDayNavigation)
+                    .WithMany(p => p.Cadays)
+                    .HasForeignKey(d => d.IdnguoiDay)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CADAY_TAIKHOANNGUOIDUNG");
+            });
+
             modelBuilder.Entity<Cahoc>(entity =>
             {
                 entity.HasKey(e => e.IdCaHoc);
 
                 entity.ToTable("CAHOC");
+            });
+
+            modelBuilder.Entity<Danhgiagiasu>(entity =>
+            {
+                entity.ToTable("DANHGIAGIASU");
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.NgayTao).HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<Giasuyeuthich>(entity =>
+            {
+                entity.HasKey(e => new { e.GiasuId, e.NguoidungId });
+
+                entity.ToTable("GIASUYEUTHICH");
             });
 
             modelBuilder.Entity<Gioitinh>(entity =>
@@ -120,10 +178,6 @@ namespace VLUTUTORS.Models
                 entity.HasKey(e => e.IdBaiHoc);
 
                 entity.ToTable("KHOADAOTAO");
-
-                entity.Property(e => e.LinkVideo).IsUnicode(false);
-
-                entity.Property(e => e.TaiLieu).IsUnicode(false);
 
                 entity.Property(e => e.TenBaiHoc)
                     .IsRequired()
@@ -208,6 +262,10 @@ namespace VLUTUTORS.Models
 
                 entity.Property(e => e.Id).HasColumnName("ID");
 
+                entity.Property(e => e.AnhGioiThieu)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.DiaChi).IsRequired();
 
                 entity.Property(e => e.Email)
@@ -218,6 +276,12 @@ namespace VLUTUTORS.Models
 
                 entity.Property(e => e.GioiThieu).IsRequired();
 
+                entity.Property(e => e.GioiThieu1).IsRequired();
+
+                entity.Property(e => e.GioiThieu2).IsRequired();
+
+                entity.Property(e => e.GioiThieu3).IsRequired();
+
                 entity.Property(e => e.GioiThieuChanTrang).IsRequired();
 
                 entity.Property(e => e.Sdt)
@@ -227,6 +291,27 @@ namespace VLUTUTORS.Models
                     .HasColumnName("SDT");
 
                 entity.Property(e => e.Slogan).IsRequired();
+
+                entity.Property(e => e.TieuDeGt1)
+                    .IsRequired()
+                    .HasMaxLength(300)
+                    .HasColumnName("TieuDeGT1");
+
+                entity.Property(e => e.TieuDeGt2)
+                    .IsRequired()
+                    .HasMaxLength(300)
+                    .HasColumnName("TieuDeGT2");
+
+                entity.Property(e => e.TieuDeGt3)
+                    .IsRequired()
+                    .HasMaxLength(300)
+                    .HasColumnName("TieuDeGT3");
+            });
+
+            modelBuilder.Entity<Phiday>(entity => {
+                entity.ToTable("PHIDAY");
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
             });
 
             modelBuilder.Entity<Quyen>(entity =>
@@ -336,6 +421,19 @@ namespace VLUTUTORS.Models
                     .HasConstraintName("FK_TAIKHOANNGUOIDUNG_XETDUYET");
             });
 
+            modelBuilder.Entity<Tieuchidanhgia>(entity =>
+            {
+                entity.HasKey(e => e.IdTieuChi);
+
+                entity.ToTable("TIEUCHIDANHGIA");
+
+                entity.Property(e => e.IdTieuChi).ValueGeneratedNever();
+
+                entity.Property(e => e.DanhCho).HasMaxLength(50);
+
+                entity.Property(e => e.TieuChi).HasMaxLength(100);
+            });
+
             modelBuilder.Entity<Trangthai>(entity =>
             {
                 entity.HasKey(e => e.IdtrangThai)
@@ -398,20 +496,6 @@ namespace VLUTUTORS.Models
                     .HasColumnName("IDXetDuyet");
 
                 entity.Property(e => e.TenTrangThai).HasMaxLength(50);
-            });
-            
-            modelBuilder.Entity<Giasuyeuthich>(entity =>
-            {
-                entity.HasKey(e => e.GiasuId);
-
-                entity.ToTable("GIASUYEUTHICH");
-            });
-            
-            modelBuilder.Entity<Danhgiagiasu>(entity =>
-            {
-                entity.HasKey(e => e.Id);
-
-                entity.ToTable("DANHGIAGIASU");
             });
 
             OnModelCreatingPartial(modelBuilder);

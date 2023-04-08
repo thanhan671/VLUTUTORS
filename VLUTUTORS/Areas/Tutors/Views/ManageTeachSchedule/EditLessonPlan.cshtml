@@ -1,0 +1,136 @@
+﻿@using Microsoft.AspNetCore.Http
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model VLUTUTORS.Models.Caday
+@{
+    ViewData["Title"] = "Chỉnh sửa ca dạy";
+    Layout = "~/Areas/Tutors/Views/Shared/_TutorsLayout.cshtml";
+}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="~/Tutors">Trang chủ</a></li>
+                    <li class="breadcrumb-item"><a href="~/Tutors/SignUpLessonPlan">Quản lý lịch dạy</a></li>
+                    <li class="breadcrumb-item active">Chỉnh sửa lịch dạy</li>
+                </ol>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <form method="post" enctype="multipart/form-data" asp-controller="ManageTeachSchedule" asp-action="EditLessonPlan">
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="IdnguoiDay" />
+        <section class="content">
+            <div class="container" style="margin-top: 20px; margin-bottom: 20px">
+                <div class="main-body">
+                    <div class="row gutters-sm">
+                        <div class="col">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h3>Chỉnh sửa lịch dạy</h3>
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Tên môn gia sư</h6>
+                                        </div>
+                                        @Html.DropDownListFor(m => m.IdmonDay, Model.subjectItems, new { @class = "form__select" })
+                                        <span asp-validation-for="IdmonDay" class="warning"></span>
+                                    </div>
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Loại ca dạy</h6>
+                                        </div>
+                                        @Html.DropDownListFor(m => m.IdloaiCaDay, Model.teachTimeItems, new { @class = "form__select" })
+                                        Phút
+                                        <span asp-validation-for="IdloaiCaDay" class="warning"></span>
+                                    </div>
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Ngày dạy</h6>
+                                        </div>
+                                        <input type="date" id="inputName" name="inputDate" class="form-control" value="@Model.NgayDay.ToString("yyyy-MM-dd")" />
+                                    </div>
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Khung giờ</h6>
+                                        </div>
+                                        <div id="divCont">
+                                            <div class="input-flex">
+                                                <input type="time"
+                                                       id="inputDate"
+                                                       name="inputHour"
+                                                       class="form-control form-date"
+                                                       value="@Model.GioBatDau.ToString("D2"):@Model.PhutBatDau.ToString("D2")" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-12 flex-right mb-4">
+                                            <a href='javascript:history.go(-1)' class="btn btn-secondary mr-3">Quay Lại</a>
+                                            <input type="submit" value="Lưu" class="btn btn-success" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </form>
+    @if (TempData["Message"] != null)
+    {
+        <script>
+            var messageType = '@TempData["MessageType"]';
+        var message = '@TempData["Message"]';
+
+        // Display the message using Toastr library
+        if (messageType === "success") {
+            toastr.success(message);
+        } else if (messageType === "error") {
+            toastr.error(message);
+        } else if (messageType === "warning") {
+            toastr.warning(message);
+        } else if (messageType === "info") {
+            toastr.info(message);
+        }
+        </script>
+    }
+    @if (ViewBag.Message != null)
+    {
+        <script type="text/javascript">
+            window.onload = function () {
+                alert("@ViewBag.Message");
+            };
+        </script>
+    }
+    <script src="~/js/app.js"></script>
+    <script>
+        $(function () {
+    // Check for a success message in TempData
+    var toastrSuccess = '@(TempData["toastr-success"])';
+    if (toastrSuccess) {
+        toastr.success(toastrSuccess);
+    }
+
+    // Check for an error message in TempData
+    var toastrError = '@(TempData["toastr-error"])';
+    if (toastrError) {
+        toastr.error(toastrError);
+    }
+});
+    </script>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->

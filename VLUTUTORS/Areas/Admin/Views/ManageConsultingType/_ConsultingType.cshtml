@@ -1,0 +1,37 @@
+﻿@model VLUTUTORS.Models.Loaituvan;
+
+<div class="modal fade"
+     id="editModal-@Model.IdLoaiTuVan"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <form asp-action="EditType" asp-controller="ManageConsultingType" method="post">
+        <input type="hidden" asp-for="IdLoaiTuVan" />
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        Sửa loại tư vấn
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    <span class="alert-danger">
+                    </span>
+                    <div class="form-group">
+                        <label for="inputName">Tên loại tư vấn</label>
+                        <input asp-for="TenLoaiTuVan" type="text" id="TenLoaiTuVan" name="TenLoaiTuVan" class="form-control" data-error="Vui lòng điền đủ thông tin!" required />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button"
+                            class="btn btn-secondary"
+                            data-dismiss="modal">
+                        Hủy
+                    </button>
+                    <button type="submit" class="btn btn-primary">Xác nhận</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

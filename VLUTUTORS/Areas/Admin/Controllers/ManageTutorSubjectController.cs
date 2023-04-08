@@ -37,14 +37,16 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 var mon = _context.Mongiasus.AsNoTracking().SingleOrDefault(x => x.TenMonGiaSu.ToLower() == mongiasu.TenMonGiaSu.ToLower());
                 if (mon != null)
                 {
-                    TempData["message"] = "Môn gia sư đã tồn tại!";
+                    TempData["Message"] = "Môn gia sư đã tồn tại!";
+                    TempData["MessageType"] = "error";
                     return RedirectToAction("AddSubject");
                 }
                 else
                 {
                     try
                     {
-                        TempData["message"] = "Thêm mới thành công!";
+                        TempData["Message"] = "Thêm mới thành công!";
+                        TempData["MessageType"] = "success";
                         _context.Add(mongiasu);
                         await _context.SaveChangesAsync();
                     }
@@ -73,27 +75,23 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditSubject(int id, [Bind(include: "IdmonGiaSu,TenMonGiaSu")] Mongiasu mongiasu)
+        public IActionResult EditSubject(Mongiasu mongiasu)
         {
-            if (id != mongiasu.IdmonGiaSu)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    TempData["message"] = "Cập nhật thành công!";
-                    _context.Update(mongiasu);
-                    await _context.SaveChangesAsync();
-                }
-                catch (Exception ex)
-                {
-                    return RedirectToAction(nameof(Index));
-                }
-                return RedirectToAction("Index");
-            }
+            TempData["Message"] = "Cập nhật thành công!";
+            TempData["MessageType"] = "success";
+            _context.Mongiasus.Update(mongiasu);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteSubject([FromForm] int subjectID)
+        {
+            Mongiasu monGiaSu = _context.Mongiasus.Where(p => p.IdmonGiaSu == subjectID).FirstOrDefault();
+            _context.Mongiasus.Remove(monGiaSu);
+            _context.SaveChanges();
+            TempData["Message"] = "Xóa thành công!";
+            TempData["MessageType"] = "success";
             return RedirectToAction("Index");
         }
     }

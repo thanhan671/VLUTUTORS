@@ -16,14 +16,6 @@ namespace VLUTUTORS.Models
         public string TaiLieu { get; set; }
         public string LinkVideo { get; set; }
 
-        public Khoadaotao(int IdBaiHoc, string TenBaiHoc, string Link, string TaiLieu)
-        {
-            this.IdBaiHoc = IdBaiHoc;
-            this.TenBaiHoc = TenBaiHoc;
-            this.LinkVideo = Link;
-            this.TaiLieu = TaiLieu;
-        }
-
         public Khoadaotao()
         {
         }

@@ -1,4 +1,9 @@
-﻿namespace VLUTUTORS.Models
+﻿using System;
+using System.Collections.Generic;
+
+#nullable disable
+
+namespace VLUTUTORS.Models
 {
     public class Giasuyeuthich
     {

@@ -1,0 +1,42 @@
+﻿@model VLUTUTORS.Models.Tieuchidanhgia
+
+<div class="modal fade"
+     id="editModal-@Model.IdTieuChi"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <form method="post" asp-controller="ManageEvaluationCriteria" asp-action="EditCriteria">
+        <input type="hidden" asp-for="IdTieuChi" />
+        <input type="hidden" asp-for="DanhCho" />
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        Chỉnh sửa tiêu chí
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    <span class="alert-danger">
+                    </span>
+                    <div class="form-group">
+                        <label for="inputName">Tên tiêu chí</label>
+                        <input asp-for="TieuChi" type="text" id="TieuChi" name="TieuChi" class="form-control" data-error="Vui lòng điền đủ thông tin!" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="inputName">Dành cho</label>
+                        <input asp-for="DanhCho" type="text" id="DanhCho" name="DanhCho" class="form-control" readonly />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button"
+                            class="btn btn-secondary"
+                            data-dismiss="modal">
+                        Hủy
+                    </button>
+                    <button type="submit" class="btn btn-primary">Xác nhận</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

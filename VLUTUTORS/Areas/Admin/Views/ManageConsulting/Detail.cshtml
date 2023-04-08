@@ -94,12 +94,8 @@
     </form>
     <!-- /.content -->
 </div>
-<script>
-    function popup() {
-        alert('Cập nhật trạng thái thành công!');
-    }
-    $('#myForm').on('submit', function (e) {
-        e.preventDefault(); // Now nothing will happen
-    });
-</script>
+@if (TempData["message"] != null)
+{
+    <script>alert('@TempData["message"]');</script>
+}
 

@@ -62,6 +62,8 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             {
                 try
                 {
+                    TempData["Message"] = "Cập nhật thành công!";
+                    TempData["MessageType"] = "success";
                     _context.Update(tuVan);
                     await _context.SaveChangesAsync();
                 }

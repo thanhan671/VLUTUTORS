@@ -35,16 +35,18 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 var checkKhoa = _context.Khoas.AsNoTracking().SingleOrDefault(x => x.TenKhoa.ToLower() == khoa.TenKhoa.ToLower());
                 if (checkKhoa != null)
                 {
-                    TempData["message"] = "Khoa này đã tồn tại!";
+                    TempData["Message"] = "Khoa này đã tồn tại!";
+                    TempData["MessageType"] = "error";
                     return RedirectToAction("AddFaculty");
                 }
                 else
                 {
                     try
                     {
-                        TempData["message"] = "Thêm mới thành công!";
                         _context.Add(khoa);
                         await _context.SaveChangesAsync();
+                        TempData["Message"] = "Thêm mới thành công!";
+                        TempData["MessageType"] = "success";
                     }
                     catch (Exception ex)
                     {
@@ -71,27 +73,23 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditFaculty(int id, [Bind(include: "Idkhoa,TenKhoa")] Khoa khoa)
+        public IActionResult EditFaculty(Khoa khoa)
         {
-            if (id != khoa.Idkhoa)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    TempData["message"] = "Cập nhật thành công!";
-                    _context.Update(khoa);
-                    await _context.SaveChangesAsync();
-                }
-                catch (Exception ex)
-                {
-                    return RedirectToAction(nameof(Index));
-                }
-                return RedirectToAction("Index");
-            }
+            TempData["Message"] = "Cập nhật thành công!";
+            TempData["MessageType"] = "success";
+            _context.Khoas.Update(khoa);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteFaculty([FromForm] int facultyID)
+        {
+            Khoa khoa = _context.Khoas.Where(p => p.Idkhoa == facultyID).FirstOrDefault();
+            _context.Khoas.Remove(khoa);
+            _context.SaveChanges();
+            TempData["Message"] = "Xóa thành công!";
+            TempData["MessageType"] = "success";
             return RedirectToAction("Index");
         }
     }

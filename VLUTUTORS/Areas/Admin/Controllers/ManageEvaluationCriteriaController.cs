@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using VLUTUTORS.Models;
 
 namespace VLUTUTORS.Areas.Admin.Controllers
 {
@@ -11,17 +13,36 @@ namespace VLUTUTORS.Areas.Admin.Controllers
     [Authorize(Roles = "Quản trị viên hệ thống")]
     public class ManageEvaluationCriteriaController : Controller
     {
-        public IActionResult Index()
+        private readonly CP25Team01Context _context = new CP25Team01Context();
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var tieuChi = await _context.Tieuchidanhgias.ToListAsync();
+            return View(tieuChi);
         }
-        public IActionResult AddCriteria()
+
+        [HttpGet]
+        public async Task<IActionResult> EditCriteria(int? id = -1)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var checkTieuChi = await _context.Tieuchidanhgias.FirstOrDefaultAsync(m => m.IdTieuChi == id);
+            if (checkTieuChi == null)
+                return NotFound();
+            return View(checkTieuChi);
         }
-        public IActionResult EditCriteria()
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditCriteria(Tieuchidanhgia tieuChiDanhGia)
         {
-            return View();
+            TempData["Message"] = "Cập nhật thành công!";
+            TempData["MessageType"] = "success";
+            _context.Tieuchidanhgias.Update(tieuChiDanhGia);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }

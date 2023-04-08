@@ -49,16 +49,19 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 var taiKhoan = _context.Taikhoanadmins.AsNoTracking().SingleOrDefault(x => x.TaiKhoan.ToLower() == taikhoanadmin.TaiKhoan.ToLower());
                 if(taiKhoan != null)
                 {
-                    TempData["message"] = "Tài khoản đã tồn tại, vui lòng kiểm tra lại";
+                    TempData["Message"] = "Tài khoản đã tồn tại, vui lòng kiểm tra lại";
+                    TempData["MessageType"] = "error";
                     return RedirectToAction("Index");
                 }
                 else
                 {
                     try
                     {
-                        TempData["message"] = "Thêm mới tài khoản thành công!";
+
                         _context.Add(taikhoanadmin);
-                        await _context.SaveChangesAsync();
+                        await _context.SaveChangesAsync();                        
+                        TempData["Message"] = "Thêm mới tài khoản thành công!";
+                        TempData["MessageType"] = "success";
                     }
                     catch (Exception ex)
                     {
@@ -102,6 +105,8 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 {
                     _context.Update(taikhoanadmin);
                     await _context.SaveChangesAsync();
+                    TempData["Message"] = "Cập nhật thành công!";
+                    TempData["MessageType"] = "success";
                 }
                 catch (Exception ex)
                 {
@@ -110,6 +115,17 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
             return View(taikhoanadmin);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteAccounts([FromForm] int accountID)
+        {
+            Taikhoanadmin taikhoanadmin = _context.Taikhoanadmins.Where(p => p.Id == accountID).FirstOrDefault();
+            _context.Taikhoanadmins.Remove(taikhoanadmin);
+            _context.SaveChanges();
+            TempData["Message"] = "Xóa thành công!";
+            TempData["MessageType"] = "success";
+            return RedirectToAction("Index");
         }
     }
 }

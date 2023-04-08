@@ -3,7 +3,11 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
-
+	
+	<PropertyGroup>
+		<AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
+	</PropertyGroup>
+	
   <ItemGroup>
     <Compile Remove="CourseFiles\**" />
     <Content Remove="CourseFiles\**" />
@@ -33,15 +37,17 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="QuickMailer" Version="1.0.0.1" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
+    <PackageReference Include="toastr" Version="2.1.1" />
+    <PackageReference Include="ZoomNet" Version="0.59.1" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Tutors\Data\" />
-    <Folder Include="Areas\Tutors\Models\" />
     <Folder Include="wwwroot\certificates\" />
     <Folder Include="wwwroot\certificates\1\" />
     <Folder Include="wwwroot\avatars\" />
+    <Folder Include="wwwroot\Files\" />
   </ItemGroup>
 
   <ItemGroup>

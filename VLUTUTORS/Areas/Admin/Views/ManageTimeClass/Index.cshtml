@@ -1,4 +1,4 @@
-﻿@model IEnumerable<VLUTUTORS.Models.Cahoc>
+﻿@model Tuple<IEnumerable<VLUTUTORS.Models.Cahoc>, VLUTUTORS.Models.Phiday>
 @{
     ViewData["Title"] = "Quản lý ca học";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
@@ -23,15 +23,31 @@
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">Danh sách ca học</h3>
-                <div class="card-tools">
-                    <a class="btn btn-primary btn-sm"
-                       asp-action="AddTimeClass" asp-controller="ManageTimeClass">
-                        <i class="fas fa-plus"> </i>
-                        Thêm ca học mới
-                    </a>
-                </div>
+                <form method="post" enctype="multipart/form-data" asp-controller="ManageTimeClass" asp-action="UpdatePrice" asp-route-id="1">
+                    <input type="hidden" asp-for="Item2.Id" />
+                    <div class="card-tools d-flex align-items-center justify-content-end mb-2">
+                        <p class="mb-0"> Chiết khấu (%): </p>
+                        <input type="number" class="mr-5 i-half" style="width: 8%" id="ChietKhau" name="ChietKhau" value="@Model.Item2.ChietKhau" />
+                        <div class="switch d-flex align-items-center">
+                            <p class="mb-0">Miễn Phí:&emsp;</p>
+                            <input id="HocFree" type="checkbox" value="true" name="HocFree" class="switch"/>
+                            <input type="hidden" value="false" name="HocFree" />
+                            <label data-on="ON" data-off="OFF" for="HocFree" class="mb-0"></label>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-sm mr-2" style="width:100px;">
+                            Cập nhật
+                        </button>
+                    </div>
+                </form>
             </div>
-            <div class="card-body p-0">
+            <div class="d-flex justify-content-end mr-3" style="margin-top:10px">
+                <button data-toggle="modal"
+                        data-target="#addModal"
+                        class="col-auto btn-success">
+                    Thêm ca học mới
+                </button>
+            </div>
+            <div class="card-body p-2">
                 <table class="table table-striped projects" id="myTable">
                     <thead>
                         <tr>
@@ -44,7 +60,7 @@
                     <tbody>
                         @{
                             var index = 0;
-                            foreach (var item in Model)
+                            foreach (var item in Model.Item1)
                             {
                                 index++;
                                 <tr>
@@ -56,9 +72,22 @@
                                         @item.GiaTien.ToString("#,##0.###") đồng
                                     </td>
                                     <td class="project-actions">
-                                        <a class="btn btn-info btn-sm" asp-action="EditTimeClass" asp-controller="ManageTimeClass" asp-route-id="@item.IdCaHoc">
-                                            <i class="fas fa-pencil-alt"> </i>
+                                        <a class="btn btn-info btn-sm"
+                                           data-toggle="modal"
+                                           data-target="@("#editModal-"+item.IdCaHoc)"
+                                           data-url="@Url.Action($"EditTimeClass/{item.IdCaHoc}")">
+                                            <i class="fas fa-pen"> </i>
                                             Sửa
+                                        </a>
+
+                                        @await Html.PartialAsync("_EditTimeClassPartial", item)
+
+                                        <a class="btn btn-danger btn-sm"
+                                           data-toggle="modal"
+                                           data-target="#deleteModal"
+                                           onclick="document.getElementById('timeClassID').value = @item.IdCaHoc">
+                                            <i class="fas fa-pencil-alt"> </i>
+                                            Xóa
                                         </a>
                                     </td>
                                 </tr>
@@ -69,13 +98,114 @@
             </div>
             <!-- /.card-body -->
         </div>
+        <div class="modal fade"
+             id="addModal"
+             tabindex="-1"
+             role="dialog"
+             aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <form method="post" asp-controller="ManageTimeClass" asp-action="AddTimeClass">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">
+                                Thêm mới ca học
+                            </h5>
+                        </div>
+                        <div class="modal-body">
+                            <span class="alert-danger">
+                            </span>
+                            <div class="form-group">
+                                <label for="inputName">Loại ca(phút)</label>
+                                <input type="text" id="LoaiCa" name="LoaiCa" class="form-control" data-error="Vui lòng điền đủ thông tin!" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="inputName">Giá tiền</label>
+                                <input type="number" id="GiaTien" name="GiaTien" class="form-control" data-error="Vui lòng điền đủ thông tin!" required />
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button"
+                                    class="btn btn-secondary"
+                                    data-dismiss="modal">
+                                Hủy
+                            </button>
+                            <button type="submit" class="btn btn-primary">Xác nhận</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
 
+        <div class="modal fade"
+             id="deleteModal"
+             tabindex="-1"
+             role="dialog"
+             aria-labelledby="deleteModalLabel"
+             aria-hidden="true">
+            <form asp-action="DeleteTimeClass" method="post" asp-controller="ManageTimeClass">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <h5>Bạn muốn xóa loại ca học này?</h5>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-default" type="button" data-dismiss="modal">
+                                Hủy
+                            </button>
+                            <button class="btn btn-primary" type="submit">
+                                Đồng ý
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" id="timeClassID" name="timeClassID" />
+            </form>
+        </div>
         <!-- /.card -->
     </section>
     <!-- /.content -->
-    @if (TempData["message"] != null)
+    @if (TempData["Message"] != null)
     {
-        <script>alert('@TempData["message"]');</script>
+        <script>
+            var messageType = '@TempData["MessageType"]';
+        var message = '@TempData["Message"]';
+
+        // Display the message using Toastr library
+        if (messageType === "success") {
+            toastr.success(message);
+        } else if (messageType === "error") {
+            toastr.error(message);
+        } else if (messageType === "warning") {
+            toastr.warning(message);
+        } else if (messageType === "info") {
+            toastr.info(message);
+        }
+        </script>
     }
+    @if (ViewBag.Message != null)
+    {
+        <script type="text/javascript">
+            window.onload = function () {
+                alert("@ViewBag.Message");
+            };
+        </script>
+    }
+    <script src="~/js/app.js"></script>
+    <script>
+        $(function () {
+    // Check for a success message in TempData
+    var toastrSuccess = '@(TempData["toastr-success"])';
+    if (toastrSuccess) {
+        toastr.success(toastrSuccess);
+    }
+
+    // Check for an error message in TempData
+    var toastrError = '@(TempData["toastr-error"])';
+    if (toastrError) {
+        toastr.error(toastrError);
+    }
+});
+    </script>
 </div>
 

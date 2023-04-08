@@ -17,7 +17,9 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         public async Task<IActionResult> Index()
         {
             var caHoc = await _context.Cahocs.ToListAsync();
-            return View(caHoc);
+            var phiDay = _context.Phidays.FirstOrDefault(m => m.Id == 1);
+            Tuple<IEnumerable<Cahoc>, Phiday> turple = new Tuple<IEnumerable<Cahoc>, Phiday>(caHoc.AsEnumerable(), phiDay);
+            return View(turple);
         }
 
         [HttpGet]
@@ -35,14 +37,16 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 var checkCa = _context.Cahocs.AsNoTracking().SingleOrDefault(x => x.LoaiCa.ToString().ToLower() == caHoc.LoaiCa.ToString().ToLower());
                 if (checkCa != null)
                 {
-                    TempData["message"] = "Ca học này đã tồn tại!";
+                    TempData["Message"] = "Ca học này đã tồn tại!";
+                    TempData["MessageType"] = "error";
                     return RedirectToAction("AddTimeClass");
                 }
                 else
                 {
                     try
                     {
-                        TempData["message"] = "Thêm mới thành công!";
+                        TempData["Message"] = "Thêm mới thành công!";
+                        TempData["MessageType"] = "success";
                         _context.Add(caHoc);
                         await _context.SaveChangesAsync();
                     }
@@ -71,27 +75,34 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditTimeClass(int id, [Bind(include: "IdCaHoc,LoaiCa,GiaTien")] Cahoc caHoc)
+        public IActionResult EditTimeClass(Cahoc caHoc)
         {
-            if (id != caHoc.IdCaHoc)
-            {
-                return NotFound();
-            }
+            TempData["Message"] = "Cập nhật thành công!";
+            TempData["MessageType"] = "success";
+            _context.Cahocs.Update(caHoc);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteTimeClass([FromForm] int timeClassID)
+        {
+            Cahoc caHoc = _context.Cahocs.Where(p => p.IdCaHoc == timeClassID).FirstOrDefault();
+            _context.Cahocs.Remove(caHoc);
+            _context.SaveChanges();
+            TempData["Message"] = "Xóa thành công!";
+            TempData["MessageType"] = "success";
+            return RedirectToAction("Index");
+        }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    TempData["message"] = "Cập nhật thành công!";
-                    _context.Update(caHoc);
-                    await _context.SaveChangesAsync();
-                }
-                catch (Exception ex)
-                {
-                    return RedirectToAction(nameof(Index));
-                }
-                return RedirectToAction("Index");
-            }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult UpdatePrice(Phiday phiday)
+        {
+            _context.Phidays.Update(phiday);
+            _context.SaveChanges();
+            TempData["Message"] = "Cập nhật thành công!";
+            TempData["MessageType"] = "success";
             return RedirectToAction("Index");
         }
     }
