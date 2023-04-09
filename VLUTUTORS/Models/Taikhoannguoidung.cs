@@ -34,7 +34,7 @@ namespace VLUTUTORS.Models
 
         [StringLength(maximumLength: 11, MinimumLength = 10, ErrorMessage = "Giới hạn từ 10-11 ký tự")]
         public string Sdt { get; set; }
-        public DateTime? NgaySinh { get; set; }
+        public DateTime NgaySinh { get; set; }
 
         [Required(ErrorMessage = "Vui lòng chọn trường này")]
         [Range(1, Int32.MaxValue, ErrorMessage = "Vui lòng chọn trường này")]

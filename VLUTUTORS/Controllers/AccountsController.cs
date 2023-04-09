@@ -64,7 +64,7 @@ namespace VLUTUTORS.Controllers
                 }
                 else
                 {
-                    if (checkAccount.XacThuc==false)
+                    if (checkAccount.XacThuc == false)
                     {
                         TempData["Message"] = "Vui lòng kiểm tra email để xác thực tài khoản!";
                         TempData["MessageType"] = "error";
@@ -157,31 +157,67 @@ namespace VLUTUTORS.Controllers
             {
                 return NotFound();
             }
-            if (ModelState.IsValid)
+            if (Sdt.Length < 10 || Sdt.Length >= 11)
             {
-                try
+                TempData["errorMessage"] = "Số điện thoại phải đủ 10 số!";
+            }
+            else
+            {
+                if (ModelState.IsValid)
                 {
-                    dbTaikhoannguoidung.IdgioiTinh = IdgioiTinh;
-                    dbTaikhoannguoidung.NgaySinh = NgaySinh;
-                    dbTaikhoannguoidung.Sdt = Sdt;
-                    dbTaikhoannguoidung.AnhDaiDien = avatar.Count != 0 ? TutorServices.SaveAvatar(this._environment.WebRootPath, avatarPath, avatar) : dbTaikhoannguoidung.AnhDaiDien;
+                    if (MatKhau == null && ReMatKhau==null)
+                    {
+                        try
+                        {
+                            dbTaikhoannguoidung.IdgioiTinh = IdgioiTinh;
+                            dbTaikhoannguoidung.NgaySinh = NgaySinh;
+                            dbTaikhoannguoidung.Sdt = Sdt;
+                            dbTaikhoannguoidung.AnhDaiDien = avatar.Count != 0 ? TutorServices.SaveAvatar(this._environment.WebRootPath, avatarPath, avatar) : dbTaikhoannguoidung.AnhDaiDien;
 
-                    if (!string.IsNullOrEmpty(MatKhau))
-                        dbTaikhoannguoidung.MatKhau = MatKhau;
-                    TempData["Message"] = "Cập nhật thành công!";
-                    TempData["MessageType"] = "success";
-                    db.Entry(dbTaikhoannguoidung).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                    db.SaveChanges();
-                    return RedirectToAction("Details", new { id });
+                            TempData["Message"] = "Cập nhật thành công!";
+                            TempData["MessageType"] = "success";
+                            db.Entry(dbTaikhoannguoidung).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                            db.SaveChanges();
+                            return RedirectToAction("Details", new { id });
+                        }
+                        catch (Exception ex)
+                        {
+                            return RedirectToAction("Details", new { id });
+                        }
+                    }
+                    else if (MatKhau != null && ReMatKhau == MatKhau && MatKhau.Length >=6)
+                    {
+                        try
+                        {
+                            dbTaikhoannguoidung.IdgioiTinh = IdgioiTinh;
+                            dbTaikhoannguoidung.NgaySinh = NgaySinh;
+                            dbTaikhoannguoidung.Sdt = Sdt;
+                            dbTaikhoannguoidung.AnhDaiDien = avatar.Count != 0 ? TutorServices.SaveAvatar(this._environment.WebRootPath, avatarPath, avatar) : dbTaikhoannguoidung.AnhDaiDien;
+                            dbTaikhoannguoidung.MatKhau = MatKhau;
+
+                            TempData["Message"] = "Cập nhật thành công!";
+                            TempData["MessageType"] = "success";
+                            db.Entry(dbTaikhoannguoidung).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                            db.SaveChanges();
+                            return RedirectToAction("Details", new { id });
+                        }
+                        catch (Exception ex)
+                        {
+                            return RedirectToAction("Details", new { id });
+                        }
+                    }
+                    else
+                    {
+                        TempData["errorMessage"] = "Mật khẩu phải đủ từ 6 ký tự và Xác nhận mật khẩu phải trùng khớp với Mật khẩu!";
+                    }
+
                 }
-                catch (Exception ex)
+                else
                 {
-                    return RedirectToAction("Details", new { id });
+                    return RedirectToAction("EditLearnerAccounts", new { id });
                 }
             }
-
-            return RedirectToAction("Details", new { id });
-
+            return RedirectToAction("EditLearnerAccounts", new { id });
         }
         public IActionResult Logout()
         {
@@ -225,7 +261,7 @@ namespace VLUTUTORS.Controllers
                         await db.SaveChangesAsync();
                         HttpContext.Session.SetString("email", Email);
                         return RedirectToAction("SendMail", "Accounts",
-                        new { toEmail = Email, name = HoTen, verifyCode = numVerify});
+                        new { toEmail = Email, name = HoTen, verifyCode = numVerify });
                     }
                     catch (Exception ex)
                     {
@@ -408,7 +444,7 @@ namespace VLUTUTORS.Controllers
             var checkAccount = db.Taikhoannguoidungs.AsNoTracking().SingleOrDefault(x => x.Email.ToLower() == email.ToLower());
             if (checkAccount != null)
             {
-                if(checkAccount.MatKhau == verifyCode)
+                if (checkAccount.MatKhau == verifyCode)
                 {
                     checkAccount.MatKhau = newPass;
                     db.Update(checkAccount);
@@ -438,7 +474,7 @@ namespace VLUTUTORS.Controllers
                             "Xin chào, <b>" + name + "</b> !<br/>" +
                             "Mã xác minh bạn cần dùng để xác thực email <b>" + toEmail + "</b> là:</p>" +
 
-                            "<p style = \"color: green;font-size: 40px; margin: 0 0 0 50px;\">"+ verifyCode + "</p>" +
+                            "<p style = \"color: green;font-size: 40px; margin: 0 0 0 50px;\">" + verifyCode + "</p>" +
 
                             "<p style = \"margin: 0%;\" > Vui lòng xác thực để sử dụng các tính năng của trang web. Hoặc nhấn vào " +
                             "<a href=\"https://cntttest.vanlanguni.edu.vn:18081/CP25Team01/Accounts/VerifyAccount\">đây</a> để xác thực:<br/>" +

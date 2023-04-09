@@ -38,27 +38,12 @@ namespace VLUTUTORS.Controllers
                 Console.WriteLine("login id: " + HttpContext.Session.GetInt32("LoginId"));
             }
 
-            Tuvan tuVan = new Tuvan();
 
             var loaiTuVan = new SelectList(_db.Loaituvans.ToList(), "IdLoaiTuVan", "TenLoaiTuVan");
             ViewData["loaiTuVan"] = loaiTuVan;
 
-
-            int giaSu = 0;
-            int hocVien = 0;
-            var taiKhoans = await _db.Taikhoannguoidungs.ToListAsync();
-
-            foreach (var taiKhoan in taiKhoans)
-            {
-                if (taiKhoan.IdxetDuyet == 6)
-                {
-                    hocVien++;
-                }
-                if (taiKhoan.IdxetDuyet == 5)
-                {
-                    giaSu++;
-                }
-            }
+            var hocVien = _db.Taikhoannguoidungs.Count(m=>m.IdxetDuyet==6);
+            var giaSu = _db.Taikhoannguoidungs.Count(m => m.IdxetDuyet == 5);
 
             var monGiaSu = await _db.Mongiasus.ToListAsync();
             ViewData["monGiaSu"] = monGiaSu.Count();
