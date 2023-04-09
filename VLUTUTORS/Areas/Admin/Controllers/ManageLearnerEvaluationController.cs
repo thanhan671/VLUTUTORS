@@ -45,7 +45,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             const int KHONG_XET_DUYET = 5;
             List<GetAllLearnerEvaluationResponse> result = new();
 
-            List<Taikhoannguoidung> nguoiHocs = await _db.Taikhoannguoidungs.Where(x => x.IdxetDuyet == KHONG_XET_DUYET)?.Skip((request.PageNumber - 1) * request.PageSize)?.Take(request.PageSize)?.ToListAsync();
+            List<Taikhoannguoidung> nguoiHocs = await _db.Taikhoannguoidungs.Where(x => x.IdxetDuyet == KHONG_XET_DUYET)?.Skip((request.PageIndex - 1) * request.PageSize)?.Take(request.PageSize)?.ToListAsync();
 
             var query = from danhGiaNguoiHoc in await _db.Danhgianguoihocs.ToListAsync()
                         join caDay in await _db.Cadays.Where(x => x.TrangThai == true && x.NgayDay.Date <= DateTime.Now.Date).ToListAsync()
@@ -133,7 +133,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 query = query.Where(x => x.TenGiaSu.ToLower().Contains(request.Search));
             }
 
-            result = await query?.Skip((request.PageNumber - 1) * request.PageSize)?.Take(request.PageSize)?.ToListAsync();
+            result = await query?.Skip((request.PageIndex - 1) * request.PageSize)?.Take(request.PageSize)?.ToListAsync();
 
             if (result is not null)
             {

@@ -232,7 +232,7 @@ namespace VLUTUTORS.Controllers
                 query = query.Where(x => x.TenMonGiaSu.ToLower().Contains(request.Search) || x.TenGiaSu.ToLower().Contains(request.Search) || x.IdCaDay.ToString().Contains(request.Search));
             }
 
-            query = query?.Skip((request.PageNumber - 1) * request.PageSize) // Bỏ qua số lượng sản phẩm của các trang trước                                                                  
+            query = query?.Skip((request.PageIndex - 1) * request.PageSize) // Bỏ qua số lượng sản phẩm của các trang trước                                                                  
                 ?.Take(request.PageSize); // Lấy số lượng sản phẩm của trang hiện tại
 
             return await query.ToListAsync();

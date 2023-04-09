@@ -18,8 +18,13 @@
         <!-- /.container-fluid -->
     </section>
 
+
+
+   
+
     <!-- Main content -->
     <section class="content">
+
         <!-- Default box -->
         <div class="row " id="dropdown-filter">
             <div class="col d-flex">
@@ -36,6 +41,8 @@
                        class="form-control-sm"
                        style="width: 150px" />
             </div>
+
+
         </div>
         <table id="myTable">
             <thead>
@@ -75,11 +82,35 @@
                 </tr>
             </tbody>
         </table>
-
+            @await Component.InvokeAsync("Pager", Model)
         <!-- /.card -->
     </section>
     <!-- /.content -->
+                <div>
+     <form method="get" asp-controller="ManageTeachHistory" asp-action="Index" style="position:absolute">
+         <label for="Search">Name</label>
+        <input type="text" name="Search" /> 
+
+        <label style="padding-right:5px">
+                                    &nbsp;
+                                    Từ ngày:
+                                   
+                                </label>
+                                 <input type="date" class="form-control input-sm" id="start-date"  name="FromDate" />
+                                <label>
+                                    &nbsp;
+                                    Đến ngày:
+                                    
+                                </label>
+                                <input type="date" class="form-control input-sm" id="end-date"  onchange="this.form.submit()" name="ToDate" />
+
+        <button class="btn" type="submit" style="height: 45px; width: 48px; color: black; border: none; padding: 12px; margin-left: -51px; "><i style="position: absolute; margin-top: -7px; margin-left: -7px;" class="fas fa-search"></i></button>
+    </form>
+            </div>
 </div>
+
+
+
 @section scripts {
     <script>
         var minDate, maxDate;

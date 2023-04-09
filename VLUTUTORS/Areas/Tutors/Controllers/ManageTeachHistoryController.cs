@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using VLUTUTORS.Areas.Tutors.Requests.ManagerTeachHistorys;
 using VLUTUTORS.Areas.Tutors.Responses.ManagerTeachHistorys;
+using VLUTUTORS.Common;
 using VLUTUTORS.Models;
 using VLUTUTORS.Responses;
 using VLUTUTORS.Responses.ManageTeachHistorys;
@@ -26,7 +27,16 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
         public async Task<IActionResult> Index(GetAllManagerTeachHistoryRequest request)
         {
             IReadOnlyCollection<GetAllTeachHistoryResponse> result = await GetAllTeachHistoryByFilter(request);
-            return View(result);
+
+            PagedResult<GetAllTeachHistoryResponse> pagedResult = new()
+            {
+                TotalRecords = result.Count,
+                PageIndex = request.PageIndex,
+                PageSize = request.PageSize,
+                Items = result
+            };
+
+            return View(pagedResult);
         }
 
         /// <summary>
@@ -185,7 +195,7 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
                 query = query.Where(x => x.TenMonGiaSu.ToLower().Contains(request.Search) || x.TenNguoiHoc.ToLower().Contains(request.Search) || x.IdCaDay.ToString().Contains(request.Search));
             }
 
-            query = query?.Skip((request.PageNumber - 1) * request.PageSize) // Bỏ qua số lượng sản phẩm của các trang trước                                                                  
+            query = query?.Skip((request.PageIndex - 1) * request.PageSize) // Bỏ qua số lượng sản phẩm của các trang trước                                                                  
                 ?.Take(request.PageSize); // Lấy số lượng sản phẩm của trang hiện tại
 
             return await query.ToListAsync();

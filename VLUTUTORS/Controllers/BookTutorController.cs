@@ -8,6 +8,7 @@ using System.Linq;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using VLUTUTORS.Models;
+using VLUTUTORS.Responses.BookTutors;
 using ZoomNet;
 
 namespace VLUTUTORS.Controllers
@@ -268,8 +269,9 @@ namespace VLUTUTORS.Controllers
             return RedirectToAction("Index", "BookTutor");
         }
 
-        public IActionResult DetailTutor(int id)
+        public async Task<IActionResult> DetailTutor(int id)
         {
+
             var tutor = _db.Taikhoannguoidungs.FirstOrDefault(it => it.Id == id);
 
             if (tutor == null)
@@ -393,6 +395,61 @@ namespace VLUTUTORS.Controllers
             }
 
             return RedirectToAction("Index", "BookTutor");
+        }
+
+        /// <summary>
+        /// Đánh gia tiêu chí đã được đánh giá gia sư của người học.
+        /// </summary>
+        /// <param name="idGiaSu">Int</param>
+        /// <returns>IReadOnlyCollection -> GetAllEvaluationCriteriaTutorResponse</returns>
+        public async Task<IReadOnlyCollection<GetAllEvaluationCriteriaTutorResponse>> GetAllEvaluationCriteriaTutor(int idGiaSu)
+        {
+            const string TIEU_CHI_DANH_GIA_GIA_SU = "Gia sư";
+            List<GetAllEvaluationCriteriaTutorResponse> result = new();
+            if (idGiaSu is 0)
+            {
+                return result;
+            }
+
+            List<string> danhGias = await (from danhGiaGiaSu in _db.Danhgiagiasus
+                                           join caDay in _db.Cadays.Where(x => x.TrangThai == true && x.NgayDay.Date <= DateTime.Now.Date)
+                                           on danhGiaGiaSu.IdCaDay equals caDay.Id
+                                           where caDay.IdnguoiDay == idGiaSu
+                                           select danhGiaGiaSu.TieuChi).ToListAsync();
+
+            if (danhGias is null)
+            {
+                return result;
+            }
+
+            List<int> tieuChiIds = new();
+            List<Tieuchidanhgia> tieuChiDanhGias = await _db.Tieuchidanhgias.Where(x => x.DanhCho == TIEU_CHI_DANH_GIA_GIA_SU).ToListAsync();
+            danhGias.ForEach(tieuChi =>
+            {
+                if (!string.IsNullOrEmpty(tieuChi))
+                {
+                    var tieuChiDanhGia = tieuChi?.Split(";").Select(tieuChiId => int.TryParse(tieuChiId, out int output) ? output : 0);
+                    if (tieuChiDanhGia is not null)
+                    {
+                        tieuChiIds.AddRange(tieuChiDanhGias.Where(x => tieuChiDanhGia.Contains(x.IdTieuChi)).Select(x => x.IdTieuChi).ToList());
+                    }
+                }
+            });
+
+            foreach (var tieuChi in tieuChiDanhGias)
+            {
+                var tongDanhGia = tieuChiIds.LongCount(tieuchi => tieuchi == tieuChi.IdTieuChi);
+
+                GetAllEvaluationCriteriaTutorResponse model = new()
+                {
+                    IdTieuChi = tieuChi.IdTieuChi,
+                    TenTieuChi = tieuChi.TieuChi,
+                    TongDiem = tongDanhGia
+                };
+
+                result.Add(model);
+            }
+            return result;
         }
     }
 }
