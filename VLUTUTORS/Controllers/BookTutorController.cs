@@ -287,16 +287,22 @@ namespace VLUTUTORS.Controllers
             var subject2 = subjects.FirstOrDefault(it => it.IdmonGiaSu == tutor.IdmonGiaSu2);
 
             var commentModel = new List<CommentViewModel>();
-            var danhGiaGiaSu = _db.Danhgiagiasus.Where(it => it.GiasuId == tutor.Id).ToList();
-            foreach (var danhGia in danhGiaGiaSu)
+            //var danhGiaGiaSu = _db.Danhgiagiasus.Where(it => it.GiasuId == tutor.Id).ToList();
+
+            var giaSus = (from danhGiaGiaSu in _db.Danhgiagiasus
+                                join caday in _db.Cadays on danhGiaGiaSu.IdCaDay equals caday.Id
+                                where caday.IdnguoiDay == tutor.Id
+                                select new { caday.IdnguoiHoc  , danhGiaGiaSu }).ToList();
+
+            foreach (var danhGia in giaSus)
             {
-                var nguoiDanhGia = _db.Taikhoannguoidungs.Find(danhGia.NguoidungId);
+                var nguoiDanhGia = _db.Taikhoannguoidungs.Find(danhGia.IdnguoiHoc);
                 if (nguoiDanhGia != null)
                 {
                     nguoiDanhGia.AnhDaiDien = nguoiDanhGia.AnhDaiDien.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
                     commentModel.Add(new CommentViewModel
                     {
-                        Comment = danhGia,
+                        Comment = danhGia.danhGiaGiaSu,
                         NguoiDanhGia = nguoiDanhGia
                     });
                 }
@@ -332,7 +338,7 @@ namespace VLUTUTORS.Controllers
                 {
                     GiasuId = id,
                     Diem = diem,
-                    Danhgia = danhGia,
+                    DanhGia = danhGia,
                     NguoidungId = currentUserId.Value,
                     NgayTao = DateTime.Now
                 };
