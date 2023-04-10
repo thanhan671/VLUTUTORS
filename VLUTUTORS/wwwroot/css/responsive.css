@@ -488,6 +488,14 @@
 		flex-direction: row;
 		justify-content: space-between;
 	}
+	.container-bat .hero{
+		display: none;
+	}
+	.container-sign-up{
+		width: 100%;
+		padding: 20px;
+	}
+	
 }
 
  
@@ -914,7 +922,17 @@
 		flex: 0 0 100%;
 		max-width: 100%;
 	}
+	.container-bat .hero {
+		display: none;
+	}
 
+	.container-sign-up, .container-bat .sign-up .sign-up__desc {
+		width: 100%;
+		padding: 20px;
+	}
+/*	.container-bat .sign-up .sign-up__desc{
+		width: 100%;
+	}*/
 }
 /* Large Mobile :480px. */
 @media only screen and  (max-width: 575.98px) {

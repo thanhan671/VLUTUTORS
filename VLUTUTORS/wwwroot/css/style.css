@@ -2531,7 +2531,12 @@ i.active,
 /*=====================================================
     13. FOOTER css 
 ======================================================*/
-
+/*#footer-part {
+    clear: both;
+    position: relative;
+    height: 200px;
+    margin-top: -200px;
+}*/
 .footer-top {
     background-color: #07294d;
 }
