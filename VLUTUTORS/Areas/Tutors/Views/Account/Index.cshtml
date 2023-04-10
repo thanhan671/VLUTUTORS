@@ -92,11 +92,7 @@
                                             <h6 class="mb-0">Ngày sinh</h6>
                                         </div>
 
-                                        <input class="ip-form" name="NgaySinh"
-                                               id="NgaySinh"
-                                               type="date"
-                                               value="@Model.NgaySinh.ToString("yyyy-MM-dd")"
-                                               readonly="readonly" />
+                                        @Html.TextBoxFor(m => m.NgaySinh, "{0:dd/MM/yyyy}", new { @readonly = true })
                                     </div>
                                     <hr />
                                     <div class="row-nowrap">

@@ -87,12 +87,8 @@
                                 <div class="col-sm-3 p-0 mt-1">
                                     <h6 class="mb-0">Ngày sinh</h6>
                                 </div>
-                                <input class="profile-input" name="NgaySinh"
-                                       id="NgaySinh"
-                                       type="date"
-                                       value="@Model.NgaySinh.ToString("yyyy-MM-dd")"
-                                       data-error="Vui lòng điền đủ thông tin."
-                                       required="required" />
+                                @Html.TextBoxFor(model => model.NgaySinh, "{0:dd/MM/yyyy}", new { @class = "profile-input", @id="NgaySinh",@name="NgaySinh" })
+
                             </div>
                             <hr />
                             <div class="row-profile">
