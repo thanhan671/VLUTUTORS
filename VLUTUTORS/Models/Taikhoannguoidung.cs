@@ -46,11 +46,11 @@ namespace VLUTUTORS.Models
         public string SoTaiKhoan { get; set; }
         public int? IdnganHang { get; set; }
 
-        //[RegularExpression("^([a-zA-Z0-9 .,:'-]+)$", ErrorMessage = "Không nhập ký tự đặc biệt")]
+
         [StringLength(maximumLength: 1000, MinimumLength = 150, ErrorMessage = "Giới hạn từ 150-1000 ký tự")]
         public string GioiThieu { get; set; }
 
-        //[RegularExpression("^([a-zA-Z0-9 .,:'-]+)$", ErrorMessage = "Không nhập ký tự đặc biệt")]
+
         [StringLength(maximumLength: 1000, MinimumLength = 150, ErrorMessage = "Giới hạn từ 150-1000 ký tự")]
         public string DanhGiaVeViecGiaSu { get; set; }
         public double? DiemTrungBinh { get; set; }

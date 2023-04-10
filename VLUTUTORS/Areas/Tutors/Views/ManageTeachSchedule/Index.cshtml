@@ -47,12 +47,12 @@
                         <form>
                             <div class="form-group">
                                 <label for="inputName">Tên môn gia sư</label>
-                                @Html.DropDownListFor(m => m.Item1.IdmonDay, Model.Item1.subjectItems, new { @class = "form__select" })
+                                @Html.DropDownListFor(m => m.Item1.IdmonDay, Model.Item1.subjectItems, new { @class = "form__select", @required= true, @id="IdmonDay", @name="IdmonDay" })
                                 <span asp-validation-for="Item1.IdmonDay" class="warning"></span>
                             </div>
                             <div>
                                 <label for="select-shifts">Loại ca dạy</label>
-                                @Html.DropDownListFor(m => m.Item1.IdloaiCaDay, Model.Item1.teachTimeItems, new { @class = "form__select" })
+                                @Html.DropDownListFor(m => m.Item1.IdloaiCaDay, Model.Item1.teachTimeItems, new { @class = "form__select", @required= true, @id="IdloaiCaDay", @name="IdloaiCaDay" })
                                 <span asp-validation-for="Item1.IdloaiCaDay" class="warning"></span>
                             </div>
 

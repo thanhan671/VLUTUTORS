@@ -65,7 +65,7 @@
                             </div>
                             <div class="form__input">
                                 <label class="lb-form" for="name">Khoa</label>
-                                @Html.DropDownListFor(m => m.Idkhoa, Model.DepartmentItems, "Chọn khoa", new { @class = "form__select", @id="Idkhoa" })
+                                @Html.DropDownListFor(m => m.Idkhoa, Model.DepartmentItems, "Chọn khoa", new { @class = "form__select", @id="Idkhoa",@name="Idkhoa", @required= true })
                             </div>
                             <div class="message-error">
                                 <span asp-validation-for="Idkhoa" class="help-block with-errors" style="color:red"></span>
@@ -96,7 +96,13 @@
                             </div>
                             <div class="form__input">
                                 <label class="lb-form">Số điện thoại</label>
-                                <input type="text" id="Sdt" name="Sdt" placeholder="Số điện thoại" required />
+                                <input class="ip-form" name="Sdt"
+                                       id="Sdt"
+                                       type="tel"
+                                       value="@Model.Sdt"
+                                       placeholder="Điện thoại"
+                                       data-error="Vui lòng điền đủ thông tin."
+                                       required="required" />
                                 <span class="warning-icon">!</span>
                                 <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                             </div>
@@ -106,8 +112,14 @@
 
                             <div class="form__input">
                                 <label class="lb-form">Số tài khoản</label>
-                                <input type="text" id="SoTaiKhoan" name="SoTaiKhoan" placeholder="Số tài khoản" required />
-                                <span class="warning-icon">!</span>
+                                <input class="ip-form" name="SoTaiKhoan"
+                                       id="SoTaiKhoan"
+                                       type="text"
+                                       value="@Model.SoTaiKhoan"
+                                       placeholder="Số tài khoản"
+                                       data-error="Vui lòng điền đủ thông tin."
+                                       required="required" />                             
+                                       <span class="warning-icon">!</span>
                                 <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                             </div>
                             <div class="message-error">
@@ -116,13 +128,21 @@
 
                             <div class="form__input">
                                 <label class="lb-form" for="name">Tên ngân hàng/Ví điện tử</label>
-                                @Html.DropDownListFor(m => m.IdnganHang, Model.BankItems, "Chọn ngân hàng", new { @class = "form__select" })
+                                @Html.DropDownListFor(m => m.IdnganHang, Model.BankItems, "Chọn ngân hàng", new { @class = "form__select", @required= true, @id="IdnganHang", @name="IdnganHang" })
                             </div>
                             <div class="form__input">
                                 <label class="lb-form">Điểm trung bình tích lũy</label>
-                                <input type="text" name="DiemTrungBinh" placeholder="Điểm trung bình" required />
-                                <span class="warning-icon">!</span>
+                                <input class="ip-form" name="DiemTrungBinh"
+                                       id="DiemTrungBinh"
+                                       type="text"
+                                       value="@Model.DiemTrungBinh"
+                                       placeholder="Điểm trung bình tích lũy"
+                                       data-error="Vui lòng điền đủ thông tin."
+                                       required="required" />                              <span class="warning-icon">!</span>
                                 <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                            </div>
+                            <div class="message-error">
+                                <span asp-validation-for="DiemTrungBinh" class="help-block with-errors" style="color:red"></span>
                             </div>
                             <div class="form__input">
                                 <label for="form__label" class="form__label">Ảnh đại diện</label>
@@ -138,7 +158,7 @@
                             </div>
                             <div class="form__input">
                                 <label class="lb-form">Giới thiệu bản thân</label>
-                                <textarea type="text" id="GioiThieu" name="GioiThieu" placeholder="Giới thiệu về bản thân" required></textarea>
+                                <textarea class = "ip-form" type="text" id="GioiThieu" name="GioiThieu" placeholder="Giới thiệu về bản thân" value="@Model.GioiThieu" required></textarea>
                                 <span class="warning-icon">!</span>
                                 <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                             </div>
@@ -148,7 +168,7 @@
 
                             <div class="form__input">
                                 <label class="lb-form">Đánh giá về việc gia sư</label>
-                                <textarea type="text" id="DanhGiaVeViecGiaSu" name="DanhGiaVeViecGiaSu" placeholder="Đánh giá của bản thân về việc gia sư" required></textarea>
+                                <textarea class="ip-form" type="text" id="DanhGiaVeViecGiaSu" name="DanhGiaVeViecGiaSu" placeholder="Đánh giá về việc gia sư (150-1000 ký tự)" value="@Model.DanhGiaVeViecGiaSu" required></textarea>
                                 <span class="warning-icon">!</span>
                                 <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                             </div>
@@ -162,7 +182,7 @@
                             <p><b class="lb-form-title">Thông Tin Môn Gia Sư 1</b></p>
                             <div class="form__input">
                                 <label class="lb-form" for="name">Môn</label>
-                                @Html.DropDownListFor(m => m.IdmonGiaSu1, Model.Subject1Items, "Chọn môn gia sư", new { @class = "form__select", @id="IdmonGiaSu2", @name="IdmonGiaSu2" })
+                                @Html.DropDownListFor(m => m.IdmonGiaSu1, Model.Subject1Items, "Chọn môn gia sư", new { @class = "form__select", @id="IdmonGiaSu1", @name="IdmonGiaSu1", @required= true })
                             </div>
                             <div class="form__input">
                                 <label class="lb-form">Điểm trung bình môn hoặc tên chứng chỉ</label>
@@ -185,7 +205,7 @@
 
                             <div class="form__input">
                                 <label class="lb-form">Giới thiệu môn gia sư</label>
-                                <textarea type="text" id="GioiThieuVeMonGiaSu1" name="GioiThieuVeMonGiaSu1" placeholder="Giới thiệu về môn gia sư" required></textarea>
+                                <textarea class="ip-form" type="text" id="GioiThieuVeMonGiaSu1" name="GioiThieuVeMonGiaSu1" placeholder="Giới thiệu môn gia sư (150-1000 ký tự)" value="@Model.GioiThieuVeMonGiaSu1" required></textarea>
                                 <span class="warning-icon">!</span>
                                 <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                             </div>
@@ -195,10 +215,10 @@
 
                         </div>
                         <div class="col-4">
-                            <p><b class="lb-form-title">Thông Tin Môn Gia Sư 2 (nếu có)</b></p>
+                            <p><b class="lb-form-title">Thông Tin Môn Gia Sư 2 (nếu có và khác với môn thứ nhất)</b></p>
                             <div class="form__input">
                                 <label class="lb-form" for="name">Môn</label>
-                                @Html.DropDownListFor(m => m.IdmonGiaSu2, Model.Subject2Items, "Chọn môn gia sư", new { @class = "form__select", @id="IdmonGiaSu2", @name="IdmonGiaSu2" })
+                                @Html.DropDownListFor(m => m.IdmonGiaSu2, Model.Subject2Items, "Chọn môn gia sư", new { @class = "form__select",@id="IdmonGiaSu2", @name="IdmonGiaSu2" })
                             </div>
                             <div class="message-error">
                                 <span asp-validation-for="IdmonGiaSu2" class="help-block with-errors" style="color:red"></span>
@@ -218,13 +238,12 @@
                                        name="certificates2"
                                        placeholder="Chứng Chỉ"
                                        multiple="multiple"
-                                       accept=".jpg, .jpeg, .png, .doc, .docx, .pdf"
-                                       required/>
+                                       accept=".jpg, .jpeg, .png, .doc, .docx, .pdf"/>
                             </div>
 
                             <div class="form__input">
                                 <label class="lb-form">Giới thiệu môn gia sư</label>
-                                <textarea type="text" id="GioiThieuVeMonGiaSu2" name="GioiThieuVeMonGiaSu2" placeholder="Giới thiệu về môn gia sư"></textarea>
+                                <textarea class="ip-form" type="text" id="GioiThieuVeMonGiaSu2" name="GioiThieuVeMonGiaSu2" placeholder="Giới thiệu môn gia sư (150-1000 ký tự)" value="@Model.GioiThieuVeMonGiaSu2" required></textarea>
                                 <span class="warning-icon">!</span>
                                 <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                             </div>
@@ -251,26 +270,4 @@
     }
 </body>
 </html>
-<script>
-    const form = document.querySelector('.sign-up__form');
-    const inputs = document.querySelectorAll('.form__input');
-    clearInputs(inputs);
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        inputs.forEach((input) => {
-            let inputValue = input.firstElementChild;
-            if (inputValue.getAttribute('id') === 'email') {
-                validateEmail(inputValue, input);
-            } else {
-                validateLength(inputValue, input);
-            }
-        });
-    });
-    function clearInputs() {
-        inputs.forEach((input) => {
-            let inputValue = input.firstElementChild;
-            inputValue.value = '';
-        });
-    }
-</script>
 

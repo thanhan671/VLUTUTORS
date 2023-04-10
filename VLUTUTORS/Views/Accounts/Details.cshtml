@@ -65,7 +65,7 @@
                                 <div class="col-sm-3 p-0 mt-1">
                                     <h6 class="mb-0">Giới Tính</h6>
                                 </div>
-                                @Html.DropDownListFor(model => model.IdgioiTinh, Model.GenderItems, new { @class = "profile-input", @readonly = true })
+                                @Html.DropDownListFor(model => model.IdgioiTinh, Model.GenderItems, new { @class = "profile-input",  disabled = "disabled" })
                             </div>
                             <hr />
                             <div class="row-profile">

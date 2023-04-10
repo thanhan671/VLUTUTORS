@@ -69,51 +69,59 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddLessonPlan(IFormCollection timeSlot, [Bind(Prefix = "Item1")] Caday caday)
+        public async Task<IActionResult> AddLessonPlan(IFormCollection timeSlot, [Bind(Prefix = "Item1")] Caday caday, [FromForm] string inputHour, [FromForm] string inputDate)
         {
-            List<DateTime> timeSlots = new List<DateTime>();
-            DateTime date = DateTime.Parse(timeSlot["inputDate"]);
-            caday.NgayDay = date;
-
-            int teachTime = _db.Cahocs.Find(caday.IdloaiCaDay).LoaiCa;
-
-            List<Caday> lessonPlans = new List<Caday>();
-            foreach (string time in timeSlot["inputHour"])
+            if (inputDate != "01/01/0001 12:00:00 SA" && inputHour != null)
             {
-                Caday lessonPlan = new Caday()
+                List<DateTime> timeSlots = new List<DateTime>();
+                DateTime date = DateTime.Parse(timeSlot["inputDate"]);
+                caday.NgayDay = date;
+
+                int teachTime = _db.Cahocs.Find(caday.IdloaiCaDay).LoaiCa;
+
+                List<Caday> lessonPlans = new List<Caday>();
+                foreach (string time in timeSlot["inputHour"])
                 {
-                    IdnguoiDay = caday.IdnguoiDay,
-                    IdmonDay = caday.IdmonDay,
-                    IdloaiCaDay = caday.IdloaiCaDay,
-                    NgayDay = caday.NgayDay,
-                    LapLich = caday.LapLich
-                };
-                DateTime hour = new DateTime();
+                    Caday lessonPlan = new Caday()
+                    {
+                        IdnguoiDay = caday.IdnguoiDay,
+                        IdmonDay = caday.IdmonDay,
+                        IdloaiCaDay = caday.IdloaiCaDay,
+                        NgayDay = caday.NgayDay,
+                        LapLich = caday.LapLich
+                    };
+                    DateTime hour = new DateTime();
 
-                hour = DateTime.Parse(time);
-                lessonPlan.GioBatDau = hour.Hour;
-                lessonPlan.PhutBatDau = hour.Minute;
+                    hour = DateTime.Parse(time);
+                    lessonPlan.GioBatDau = hour.Hour;
+                    lessonPlan.PhutBatDau = hour.Minute;
 
-                GetEndTime(lessonPlan, teachTime);
+                    GetEndTime(lessonPlan, teachTime);
 
-                bool isOverLapse = CheckLessonHasRegister(lessonPlan.IdnguoiDay, lessonPlan.NgayDay, lessonPlan.GioBatDau, lessonPlan.PhutBatDau, lessonPlan.GioKetThuc, lessonPlan.PhutKetThuc);
-                if (isOverLapse)
-                {
-                    TempData["Message"] = "Thời gian bị trùng với ca dạy khác";
-                    TempData["MessageType"] = "error";
-                    return RedirectToAction("Index", "ManageTeachSchedule");
+                    bool isOverLapse = CheckLessonHasRegister(lessonPlan.IdnguoiDay, lessonPlan.NgayDay, lessonPlan.GioBatDau, lessonPlan.PhutBatDau, lessonPlan.GioKetThuc, lessonPlan.PhutKetThuc);
+                    if (isOverLapse)
+                    {
+                        TempData["Message"] = "Thời gian bị trùng với ca dạy khác";
+                        TempData["MessageType"] = "error";
+                        return RedirectToAction("Index", "ManageTeachSchedule");
+                    }
+
+                    lessonPlans.Add(lessonPlan);
                 }
 
-                lessonPlans.Add(lessonPlan);
+
+                if (ModelState.IsValid)
+                {
+                    await _db.AddRangeAsync(lessonPlans);
+                    await _db.SaveChangesAsync();
+                    TempData["Message"] = "Đăng ký ca dạy thành công!";
+                    TempData["MessageType"] = "success";
+                }
             }
-
-
-            if (ModelState.IsValid)
+            else
             {
-                await _db.AddRangeAsync(lessonPlans);
-                await _db.SaveChangesAsync();
-                TempData["Message"] = "Đăng ký ca dạy thành công!";
-                TempData["MessageType"] = "success";
+                TempData["Message"] = "Vui lòng điền đủ thông tin cho ca dạy!";
+                TempData["MessageType"] = "error";
             }
 
             return RedirectToAction("Index", "ManageTeachSchedule");

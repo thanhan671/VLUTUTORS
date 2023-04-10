@@ -56,6 +56,7 @@ namespace VLUTUTORS.Controllers
             {
                 Taikhoannguoidung checkAccount;
                 checkAccount = db.Taikhoannguoidungs.Where(acc => acc.Email.Equals(email.Trim())).FirstOrDefault();
+
                 if (checkAccount == null)
                 {
                     TempData["Message"] = "Sai tài khoản hoặc mật khẩu";
@@ -88,7 +89,8 @@ namespace VLUTUTORS.Controllers
                         }
                         else
                         {
-                            ViewBag.Message = "Tài khoản có Email đăng nhập là " + checkAccount.Email + " đã bị khóa, vui lòng liên hệ với chúng tôi để được giải quyết! Xin cảm ơn";
+                            TempData["Message"] = "Tài khoản có Email đăng nhập là " + checkAccount.Email + " đã bị khóa, vui lòng liên hệ với chúng tôi để được giải quyết! Xin cảm ơn";
+                            TempData["MessageType"] = "error";
                         }
                     }
                 }
@@ -247,6 +249,7 @@ namespace VLUTUTORS.Controllers
                         HoTen = HoTen,
                         Email = Email,
                         MatKhau = MatKhau,
+                        NgaySinh = DateTime.Parse("01/01/0001"),
                         TrangThaiTaiKhoan = true,
                         IdgioiTinh = 1,
                         Idkhoa = 1,
