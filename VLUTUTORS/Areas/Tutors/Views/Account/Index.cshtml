@@ -68,6 +68,9 @@
                                     @Html.HiddenFor(m => m.IdmonGiaSu2)
                                     @Html.HiddenFor(m => m.DiemBaiTest)
                                     @Html.HiddenFor(m => m.TrangThaiGiaSu)
+                                    @Html.HiddenFor(m => m.Email)
+                                    @Html.HiddenFor(m => m.NgaySinh)
+                                    @Html.HiddenFor(m => m.IdgioiTinh)
                                     <div class="row-nowrap">
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Email</h6>
@@ -289,6 +292,57 @@
                 </form>
             </div>
         </div>
+    </section>
+    @section scripts {
+        <script>
+            var minDate, maxDate;
+
+            // Custom filtering function which will search data in column four between two values
+            $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
+                let min = moment($('#min').val(), 'DD/MM/YYYY', true).isValid() ?
+                    moment($('#min').val(), 'DD/MM/YYYY', true).unix() :
+                    null;
+
+                let max = moment($('#max').val(), 'DD/MM/YYYY').isValid() ?
+                    moment($('#max').val(), 'DD/MM/YYYY', true).unix() :
+                    null;
+                var date = moment(data[1], 'DD/MM/YYYY', true).unix();
+
+                if (
+                    (min === null && max === null) ||
+                    (min === null && date <= max) ||
+                    (min <= date && max === null) ||
+                    (min <= date && date <= max)
+                ) {
+                    return true;
+                }
+                return false;
+            });
+
+            $(document).ready(function () {
+                // Create date inputs
+                minDate = new DateTime($('#min'), {
+                    format: 'DD/MM/YYYY',
+                });
+                maxDate = new DateTime($('#max'), {
+                    format: 'DD/MM/YYYY',
+                });
+
+                // DataTables initialisation
+                var table = $('#myTable').DataTable();
+
+                // Refilter the table
+                $('#min, #max').on('change', function () {
+                    table.draw();
+                });
+            });
+        </script>
+        <script type="text/javascript">
+            $(function () {
+                $('#myTable_filter').prepend($('#dropdown-filter')).clone();
+                $('#filter-fade').remove();
+            })
+        </script>
         @if (TempData["Message"] != null)
         {
             <script>
@@ -331,6 +385,6 @@
                 }
             });
         </script>
-    </section>
+    }
     <!-- /.content -->
 </div>
