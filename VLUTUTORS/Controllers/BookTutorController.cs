@@ -156,7 +156,7 @@ namespace VLUTUTORS.Controllers
                 {
                     if (!string.IsNullOrEmpty(keyword))
                     {
-                        tutors = tutors.Where(it => it.HoTen.Contains(keyword)).ToList();
+                        tutors = tutors.Where(it => it.HoTen.ToLower().Contains(keyword.ToLower())).ToList();
                     }
 
                     if (subjectId > 0)

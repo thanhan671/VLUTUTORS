@@ -148,7 +148,7 @@
                                         </div>
                                         <input class="ip-form" name="DiemTrungBinh"
                                                id="DiemTrungBinh"
-                                               type="number"
+                                               type="text"
                                                value="@Model.DiemTrungBinh"
                                                data-error="Vui lòng điền đủ thông tin."
                                                required="required" />
@@ -161,12 +161,7 @@
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Giới thiệu bản thân</h6>
                                         </div>
-                                        <textarea class="ip-form" name="GioiThieu"
-                                                  id="GioiThieu"
-                                               type="number"
-                                                  value="@Model.GioiThieu"
-                                               data-error="Vui lòng điền đủ thông tin."
-                                               required="required" />
+                                        @Html.TextAreaFor(m => m.GioiThieu, new { htmlAttributes = new { @class = "ip-form", @required = "required", @id="GioiThieu", @name="GioiThieu" } })
                                     </div>
                                     <div class="message-error">
                                         <span asp-validation-for="GioiThieu" class="text-danger" style="color:red"></span>
@@ -178,12 +173,7 @@
                                                 Giới thiệu bản thân về việc gia sư
                                             </h6>
                                         </div>
-                                        <textarea class="ip-form" name="DanhGiaVeViecGiaSu"
-                                                  id="DanhGiaVeViecGiaSu"
-                                                  type="number"
-                                                  value="@Model.DanhGiaVeViecGiaSu"
-                                                  data-error="Vui lòng điền đủ thông tin."
-                                                  required="required" />
+                                        @Html.TextAreaFor(m => m.DanhGiaVeViecGiaSu, new { htmlAttributes = new { @class = "ip-form", @required = "required", @id="DanhGiaVeViecGiaSu", @name="DanhGiaVeViecGiaSu" } })
                                     </div>
                                     <div class="message-error">
                                         <span asp-validation-for="DanhGiaVeViecGiaSu" class="text-danger" style="color:red"></span>
@@ -233,12 +223,7 @@
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Giới thiệu về môn gia sư</h6>
                                         </div>
-                                        <textarea class="ip-form" name="GioiThieuVeMonGiaSu1"
-                                                  id="GioiThieuVeMonGiaSu1"
-                                                  type="number"
-                                                  value="@Model.GioiThieuVeMonGiaSu1"
-                                                  data-error="Vui lòng điền đủ thông tin."
-                                                  required="required" />
+                                        @Html.TextAreaFor(m => m.GioiThieuVeMonGiaSu1, new { htmlAttributes = new { @class = "ip-form", @required = "required", @id="GioiThieuVeMonGiaSu1", @name="GioiThieuVeMonGiaSu1" } })
                                     </div>
                                     <div class="message-error">
                                         <span asp-validation-for="GioiThieuVeMonGiaSu1" class="text-danger" style="color:red"></span>
@@ -287,12 +272,7 @@
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Giới thiệu về môn gia sư</h6>
                                         </div>
-                                        <textarea class="ip-form" name="GioiThieuVeMonGiaSu2"
-                                                  id="GioiThieuVeMonGiaSu2"
-                                                  type="number"
-                                                  value="@Model.GioiThieuVeMonGiaSu2"
-                                                  data-error="Vui lòng điền đủ thông tin."
-                                                  required="required" />
+                                        @Html.TextAreaFor(m => m.GioiThieuVeMonGiaSu2, new { htmlAttributes = new { @class = "ip-form", @required = "required", @id="GioiThieuVeMonGiaSu2", @name="GioiThieuVeMonGiaSu2" } })
                                     </div>
                                     <div class="message-error">
                                         <span asp-validation-for="GioiThieuVeMonGiaSu2" class="text-danger" style="color:red"></span>

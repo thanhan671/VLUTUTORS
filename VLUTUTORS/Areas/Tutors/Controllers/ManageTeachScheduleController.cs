@@ -22,7 +22,7 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             var userInfo = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
             Taikhoannguoidung taikhoannguoidung = _db.Taikhoannguoidungs.Find(userInfo.Id);
 
-            List<Taikhoannguoidung> teee = _db.Taikhoannguoidungs.ToList();
+            //List<Taikhoannguoidung> teee = _db.Taikhoannguoidungs.ToList();
             List<Caday> cadays = _db.Cadays.Where(ca => ca.IdnguoiDay.Equals(taikhoannguoidung.Id)).ToList();
             foreach (var cadayItem in cadays)
             {
