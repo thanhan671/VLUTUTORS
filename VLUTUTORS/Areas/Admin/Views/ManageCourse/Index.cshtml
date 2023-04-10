@@ -26,9 +26,8 @@
             <div class="card-header">
                 <h3 class="card-title">Danh sách bài học</h3>
                 <div class="card-tools">
-                    <a class="btn btn-primary btn-sm"
+                    <a class="btn custom-btn btn-5"
                        href="~/Admin/ManageCourse/AddLesson">
-                        <i class="fas fa-plus"> </i>
                         Thêm bài học
                     </a>
                 </div>
@@ -54,17 +53,17 @@
                                         @Html.DisplayFor(modelItem => item.TenBaiHoc)
                                     </td>
                                     <td class="project-actions">
-                                        <a class="btn btn-info btn-sm"
+                                        <a class="btn btn-sm"
                                            asp-action="EditLesson" asp-controller="ManageCourse" asp-route-id="@item.IdBaiHoc">
                                             <i class="fas fa-pencil-alt"> </i>
-                                            Sửa
+                                            
                                         </a>
-                                        <a class="btn btn-danger btn-sm"
+                                        <a class="btn btn-sm"
                                            data-toggle="modal"
                                            data-target="#exampleModal"
                                            onclick="document.getElementById('hdInput').value = @item.IdBaiHoc">
                                             <i class="fas fa-trash"> </i>
-                                            Xoá
+                                            
                                         </a>
                                     </td>
                                 </tr>

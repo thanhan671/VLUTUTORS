@@ -27,7 +27,7 @@
                 <div class="card-tools">
                     <button data-toggle="modal"
                             data-target="#addModal"
-                            class="col-auto btn-success">
+                            class="col-auto custom-btn btn-5">
                         Thêm loại tư vấn
                     </button>
                 </div>
@@ -55,20 +55,19 @@
                                         @Html.DisplayFor(modelItem => item.TenLoaiTuVan)
                                     </td>
                                     <td class="project-actions">
-                                        <a class="btn btn-primary btn-sm"
+                                        <a class="btn btn-sm"
                                            data-toggle="modal"
                                            data-target="@("#editModal-"+item.IdLoaiTuVan)"
                                            data-url="@Url.Action($"EditType/{item.IdLoaiTuVan}")">
                                             <i class="fas fa-pen"> </i>
-                                            Sửa
                                         </a>
                                         @await Html.PartialAsync("_ConsultingType", item)
-                                        <a class="btn btn-danger btn-sm"
+                                        <a class="btn btn-sm"
                                            data-toggle="modal"
                                            data-target="#deleteModal"
                                            onclick="document.getElementById('consultingID').value = @item.IdLoaiTuVan">
-                                            <i class="fas fa-pencil-alt"> </i>
-                                            Xóa
+                                            <i class="fas fa-trash"> </i>
+                                            
                                         </a>
                                     </td>
                                 </tr>
