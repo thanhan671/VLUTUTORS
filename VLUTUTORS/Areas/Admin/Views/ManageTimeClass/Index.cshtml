@@ -25,10 +25,10 @@
                 <h3 class="card-title">Danh sách ca học</h3>
                 <form method="post" enctype="multipart/form-data" asp-controller="ManageTimeClass" asp-action="UpdatePrice" asp-route-id="1">
                     <input type="hidden" asp-for="Item2.Id" />
-                    <div class="card-tools d-flex align-items-center justify-content-end mb-2">
+                    <div class="card-tools d-flex align-items-center justify-content-end mb-2 flex-wrap">
                         <p class="mb-0"> Chiết khấu (%): </p>
-                        <input type="number" class="mr-5 i-half" style="width: 8%" id="ChietKhau" name="ChietKhau" value="@Model.Item2.ChietKhau" />
-                        <div class="switch d-flex align-items-center">
+                        <input type="number" class="mr-5 i-half" style="width: 18%" id="ChietKhau" name="ChietKhau" value="@Model.Item2.ChietKhau" />
+                        <div class="switch d-flex align-items-center m-2">
                             <p class="mb-0">Miễn Phí:&emsp;</p>
                             <input id="HocFree" type="checkbox" value="true" name="HocFree" class="switch"/>
                             <input type="hidden" value="false" name="HocFree" />
@@ -43,7 +43,7 @@
             <div class="d-flex justify-content-end mr-3" style="margin-top:10px">
                 <button data-toggle="modal"
                         data-target="#addModal"
-                        class="col-auto btn-success">
+                        class="col-auto custom-btn btn-5">
                     Thêm ca học mới
                 </button>
             </div>
@@ -72,22 +72,22 @@
                                         @item.GiaTien.ToString("#,##0.###") đồng
                                     </td>
                                     <td class="project-actions">
-                                        <a class="btn btn-info btn-sm"
+                                        <a class="btn btn-sm"
                                            data-toggle="modal"
                                            data-target="@("#editModal-"+item.IdCaHoc)"
                                            data-url="@Url.Action($"EditTimeClass/{item.IdCaHoc}")">
                                             <i class="fas fa-pen"> </i>
-                                            Sửa
+                                            
                                         </a>
 
                                         @await Html.PartialAsync("_EditTimeClassPartial", item)
 
-                                        <a class="btn btn-danger btn-sm"
+                                        <a class="btn btn-sm"
                                            data-toggle="modal"
                                            data-target="#deleteModal"
                                            onclick="document.getElementById('timeClassID').value = @item.IdCaHoc">
-                                            <i class="fas fa-pencil-alt"> </i>
-                                            Xóa
+                                            <i class="fas fa-trash"> </i>
+                                            
                                         </a>
                                     </td>
                                 </tr>

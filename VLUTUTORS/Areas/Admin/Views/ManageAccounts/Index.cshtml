@@ -23,9 +23,8 @@
         <div class="card">
             <div class="card-header">
                 <div class="card-tools">
-                    <a class="btn btn-primary btn-sm"
+                    <a class="btn custom-btn btn-5"
                        href="~/Admin/ManageAccounts/AddNewAccounts">
-                        <i class="fas fa-plus"> </i>
                         Thêm tài khoản
                     </a>
                 </div>
@@ -61,17 +60,17 @@
                                         @Html.DisplayFor(modelItem => item.Quyen)
                                     </td>
                                     <td class="project-actions">
-                                        <a class="btn btn-info btn-sm"
+                                        <a class="btn btn-sm"
                                            asp-action="EditAccounts" asp-controller="ManageAccounts" asp-route-id="@item.Id">
                                             <i class="fas fa-pen"> </i>
-                                            Sửa
+                                            
                                         </a>
-                                        <a class="btn btn-danger btn-sm"
+                                        <a class="btn btn-sm"
                                            data-toggle="modal"
                                            data-target="#exampleModal"
                                            onclick="document.getElementById('accountID').value = @item.Id">
                                             <i class="fas fa-trash"> </i>
-                                            Xoá
+                                            
                                         </a>
                                     </td>
                                 </tr>

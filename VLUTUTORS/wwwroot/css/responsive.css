@@ -245,8 +245,8 @@
 
 	.navigation-2.sticky .navbar .navbar-nav li a {
 		padding: 10px 0;
-		color: black;
-		}
+		color: #07294D;
+	}
 
 	.category-form {
 		margin-top: 50px;
@@ -594,7 +594,7 @@
 
 	.navigation-2.sticky .navbar .navbar-nav li a {
 		padding: 10px 0;
-		color: black;
+		color: #07294D;
 	}
 
 	.category-form {
@@ -1117,10 +1117,10 @@
 .navigation-2.navigation.sticky .navbar {
 	padding: 0 0;
 }
-.navigation-2.sticky .navbar .navbar-nav li a {
-	padding: 10px 0;
-	color: black;
-}
+	.navigation-2.sticky .navbar .navbar-nav li a {
+		padding: 10px 0;
+		color: #07294D;
+	}
 .category-form {
 	margin-top: 50px;
 }
