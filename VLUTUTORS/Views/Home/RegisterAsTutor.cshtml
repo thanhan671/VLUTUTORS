@@ -84,7 +84,17 @@
                                                 @Html.ValidationMessageFor(model => model.IdgioiTinh, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
-
+                            <div class="form__input">
+                                <label for="form__label" class="form__label">Ảnh đại diện</label>
+                                <input class=""
+                                       type="file"
+                                       name="avatar"
+                                       placeholder="Ảnh đại diện"
+                                       required
+                                       accept=".jpg, .jpeg, .png" />
+                                <span class="warning-icon">!</span>
+                                <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                            </div>
                                         <div class="form__input">
                                             <label class="lb-form">Ngày sinh</label>
                                             <input type="date" name="NgaySinh" placeholder="Ngày sinh" required />
@@ -113,17 +123,7 @@
                                             <span class="warning-icon">!</span>
                                             <p class="warning">Vui lòng điền đầy đủ thông tin</p>
                                         </div>
-                                        <div class="form__input">
-                                            <label for="form__label" class="form__label">Ảnh đại diện</label>
-                                            <input class=""
-                                                   type="file"
-                                                   name="avatar"
-                                                   placeholder="Ảnh đại diện"
-                                                   required
-                                                   accept=".jpg, .jpeg, .png" />
-                                            <span class="warning-icon">!</span>
-                                            <p class="warning">Vui lòng điền đầy đủ thông tin</p>
-                                        </div>
+                                        
                                         <div class="form__input">
                                             <label class="lb-form">Giới thiệu bản thân</label>
                                             <textarea type="text" name="GioiThieu" placeholder="Giới thiệu về bản thân" required></textarea>
