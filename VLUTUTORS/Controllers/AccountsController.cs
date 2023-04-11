@@ -306,6 +306,8 @@ namespace VLUTUTORS.Controllers
                         dbTaikhoannguoidung.XacThuc = true;
                         db.Update(dbTaikhoannguoidung);
                         await db.SaveChangesAsync();
+                        TempData["Message"] = "Đăng ký tài khoản thành công!";
+                        TempData["MessageType"] = "success";
                     }
                 }
                 else
@@ -324,6 +326,8 @@ namespace VLUTUTORS.Controllers
                         dbTaikhoannguoidung.XacThuc = true;
                         db.Update(dbTaikhoannguoidung);
                         await db.SaveChangesAsync();
+                        TempData["Message"] = "Đăng ký tài khoản thành công!";
+                        TempData["MessageType"] = "success";
                     }
                 }
                 else

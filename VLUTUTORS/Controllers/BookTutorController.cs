@@ -5,10 +5,12 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using VLUTUTORS.Models;
 using ZoomNet;
+using ZoomNet.Models;
 
 namespace VLUTUTORS.Controllers
 {
@@ -375,8 +377,10 @@ namespace VLUTUTORS.Controllers
             var result = await zoomClient.Meetings.CreateScheduledMeetingAsync(hostMail, "Buổi dạy và học gia sư Văn Lang", "Buổi dạy và học gia sư Văn Lang", caday.NgayDay, lessonDuration);
             caday.Link = result.JoinUrl;
             caday.IdnguoiHoc = HttpContext.Session.GetInt32("LoginId");
+            var monDay = _db.Mongiasus.Where(acc => acc.IdmonGiaSu.Equals(caday.IdmonDay)).FirstOrDefault().TenMonGiaSu;
 
-            try {
+            try
+            {
                 _db.Update(caday);
                 await _db.SaveChangesAsync();
                 TempData["Message"] = "Đặt lịch thành công!";
@@ -386,7 +390,59 @@ namespace VLUTUTORS.Controllers
                 Console.WriteLine(ex.ToString());
             }
 
-            return RedirectToAction("Index", "BookTutor");
+            return RedirectToAction("SendMail", "BookTutor",
+            new
+            {
+        toEmail = hostMail,
+        mailBody = "<b>Xin thông báo! Ca dạy môn <b style=\"color: red;\">" + monDay+"</b> có thời gian "+caday.GioBatDau+":"+caday.PhutBatDau+" - "+caday.GioKetThuc+":"+caday.PhutKetThuc+" ngày "+caday.NgayDay.ToString("dd/MM/yyyy")+ " đã được đặt!</b>" +
+    "<p style = \"margin: 0%;\">Vui lòng chuẩn bị thật tốt cho buổi dạy, chúc bạn sẽ có một buổi dạy thật tốt!<br/>",
+        id = caday.IdnguoiHoc
+    });
+        }
+
+        public IActionResult SendMail(string toEmail, string mailBody, int id)
+        {
+            string mailTitle = "Gia Sư Văn Lang";
+            string fromMail = "giasuvanlang.thongtin@gmail.com";
+            string fromEmailPass = "vrzaiqmdiycujvas";
+            string bodyMail = "<!DOCTYPE html>" +
+        "<html>" +
+            "<body>" +
+                "<p style = \"margin: 0%;\">" +
+                "Xin chào gia sư,<br/>" +
+                mailBody + "<br/>" +
+
+               " Trân trọng!<br/>" +
+                "<b>Gia Sư Văn Lang</b><br/>" +
+                "<b style = \"font-size: 10px;text-align: center; margin: 0%;\"> Bạn nhận được thông báo này vì địa chỉ email " + toEmail + " đang được sử dụng cho " +
+                "tài khoản trên trang Gia Sư Văn Lang. Nếu thông tin này không chính xác," +
+                "vui lòng bỏ qua và không trả lời lại mail này.<br/>Xin cảm ơn!</b>" +
+            "</body>" +
+        "</html>";
+
+            //Email and content
+            MailMessage message = new MailMessage(new MailAddress(fromMail, mailTitle), new MailAddress(toEmail));
+            message.Subject = "[VLUTUTORS] Thông báo đặt lịch dạy";
+            message.Body = bodyMail;
+            message.IsBodyHtml = true;
+
+            //Server detail
+            SmtpClient smtp = new SmtpClient();
+            smtp.Host = "smtp.gmail.com";
+            smtp.Port = 587;
+            smtp.EnableSsl = true;
+            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+
+            //Credentials
+            System.Net.NetworkCredential credential = new System.Net.NetworkCredential();
+            credential.UserName = fromMail;
+            credential.Password = fromEmailPass;
+            smtp.UseDefaultCredentials = false;
+            smtp.Credentials = credential;
+
+            smtp.Send(message);
+
+            return RedirectToAction("HistoryBooking", new { id });
         }
     }
 }
