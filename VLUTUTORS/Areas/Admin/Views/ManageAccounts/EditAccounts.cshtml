@@ -37,7 +37,7 @@
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Username</h6>
                                         </div>
-                                        <input class="col-sm-9 text-secondary" name="TaiKhoan" id="TaiKhoan" type="text" value="@Model.TaiKhoan">
+                                        <input class="col-sm-9 text-secondary" name="TaiKhoan" id="TaiKhoan" type="text">
                                         @Html.ValidationMessageFor(m => m.TaiKhoan, "", new { @class = "text-danger" })
                                     </div>
                                     <hr />
@@ -45,7 +45,7 @@
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Mật Khẩu</h6>
                                         </div>
-                                        <input class="col-sm-9 text-secondary" name="MatKhau" id="MatKhau" type="text" value="@Model.MatKhau">
+                                        <input class="col-sm-9 text-secondary" name="MatKhau" id="MatKhau" type="text">
                                         @Html.ValidationMessageFor(m => m.MatKhau, "", new { @class = "text-danger" })
                                     </div>
                                     <hr />
@@ -53,7 +53,7 @@
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Quyền</h6>
                                         </div>
-                                        @Html.DropDownListFor(model => model.IdQuyen, Model.Quyens, new { @class = "col-sm-9 text-secondary" })
+                                        @Html.DropDownListFor(model => model.IdQuyen, Model.listQuyen, new { @class = "col-sm-9 text-secondary" ,@id="IdQuyen", @name="IdQuyen"})
                                     </div>
                                     <hr />
                                     <div class="row">

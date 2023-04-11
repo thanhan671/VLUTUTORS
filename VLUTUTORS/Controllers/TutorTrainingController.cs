@@ -32,12 +32,7 @@ namespace VLUTUTORS.Controllers
             {
                 return RedirectToAction("Login", "Accounts");
             }
-            int user = (int)HttpContext.Session.GetInt32("LoginId");
-            if (user == 0)
-            {
-                return RedirectToAction("Login", "Accounts");
-            }
-            int checkUser = (int)_db.Taikhoannguoidungs.Where(m => m.Id == user).First().IdxetDuyet;
+            int checkUser = (int)_db.Taikhoannguoidungs.Where(m => m.Id == HttpContext.Session.GetInt32("LoginId")).First().IdxetDuyet;
             if (checkUser == 1)
             {
                 List<Khoadaotao> lesson = _db.Khoadaotaos.ToList();
@@ -103,12 +98,7 @@ namespace VLUTUTORS.Controllers
             {
                 return RedirectToAction("Login", "Accounts");
             }
-            int user = (int)HttpContext.Session.GetInt32("LoginId");
-            if (user == 0)
-            {
-                return RedirectToAction("Login", "Accounts");
-            }
-            int checkUser = (int)_db.Taikhoannguoidungs.Where(m => m.Id == user).First().IdxetDuyet;
+            int checkUser = (int)_db.Taikhoannguoidungs.Where(m => m.Id == HttpContext.Session.GetInt32("LoginId")).First().IdxetDuyet;
             if (checkUser == 1)
             {
                 Baikiemtra baikiemtra = new Baikiemtra();
