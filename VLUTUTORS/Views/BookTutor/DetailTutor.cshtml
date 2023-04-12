@@ -179,7 +179,7 @@
                             <table id="myTable" class="mt-100">
                                 <thead>
                                     <tr>
-                                        <th style="width: 0px!important">Môn gia sư</th>
+                                        <th id="mon">Môn gia sư</th>
                                         <th style="width: 20px!important">Ngày</th>
                                         <th>Giờ</th>
                                         <th>Giá</th>
@@ -386,6 +386,7 @@
                     top: '50%',
                     transform: 'translateY(-50%)',
                 })
+                $('#mon').css({ width: '0px' })
             });
         </script>
     }
