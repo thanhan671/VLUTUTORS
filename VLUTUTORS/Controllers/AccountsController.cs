@@ -355,7 +355,6 @@ namespace VLUTUTORS.Controllers
             HttpContext.Session.SetString("loginEmail", taikhoannguoidung.Email);
             HttpContext.Session.SetString("SessionInfo", JsonConvert.SerializeObject(taikhoannguoidung));
 
-            Console.WriteLine("login success");
             return RedirectToAction("Index", "Home");
         }
 
