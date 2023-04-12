@@ -367,80 +367,90 @@ namespace VLUTUTORS.Controllers
         [HttpPost]
         public IActionResult ForGotPass(string Email)
         {
-            Random pass = new Random();
-            int newPass = pass.Next(100000, 999999);
+            var checkMail = db.Taikhoannguoidungs.AsNoTracking().SingleOrDefault(x => x.Email.ToLower() == Email.ToLower());
+            if (checkMail != null)
+            {
+                Random pass = new Random();
+                int newPass = pass.Next(100000, 999999);
 
-            var sqlStringBuilder = new SqlConnectionStringBuilder();
-            sqlStringBuilder["Server"] = "tuleap.vanlanguni.edu.vn,18082";
-            sqlStringBuilder["Database"] = "CP25Team01";
-            sqlStringBuilder["UID"] = "CP25Team01";
-            sqlStringBuilder["PWD"] = "VLUTUTORS01";
+                var sqlStringBuilder = new SqlConnectionStringBuilder();
+                sqlStringBuilder["Server"] = "tuleap.vanlanguni.edu.vn,18082";
+                sqlStringBuilder["Database"] = "CP25Team01";
+                sqlStringBuilder["UID"] = "CP25Team01";
+                sqlStringBuilder["PWD"] = "VLUTUTORS01";
 
-            var sqlStringConnection = sqlStringBuilder.ToString();
+                var sqlStringConnection = sqlStringBuilder.ToString();
 
-            using var connection = new SqlConnection(sqlStringConnection);
+                using var connection = new SqlConnection(sqlStringConnection);
 
-            connection.Open();
+                connection.Open();
 
-            using var command = new SqlCommand();
-            command.Connection = connection;
-            command.CommandText = "UPDATE TAIKHOANNGUOIDUNG SET MatKhau = @MatKhau WHERE Email = @Email";
+                using var command = new SqlCommand();
+                command.Connection = connection;
+                command.CommandText = "UPDATE TAIKHOANNGUOIDUNG SET MatKhau = @MatKhau WHERE Email = @Email";
 
-            command.Parameters.AddWithValue("@MatKhau", newPass);
-            command.Parameters.AddWithValue("@Email", Email);
+                command.Parameters.AddWithValue("@MatKhau", newPass);
+                command.Parameters.AddWithValue("@Email", Email);
 
-            command.ExecuteNonQuery();
+                command.ExecuteNonQuery();
 
-            connection.Close();
+                connection.Close();
 
-            string mailTitle = "Gia Sư Văn Lang";
-            string fromMail = "giasuvanlang.thongtin@gmail.com";
-            string fromEmailPass = "vrzaiqmdiycujvas";
-            string bodyMail = "<!DOCTYPE html>" +
-                    "<html>" +
-                        "<body>" +
-                            "<p style = \"margin: 0%;\">" +
-                            "Xin chào, <br/>" +
-                            "Mã xác minh bạn cần dùng để thay đổi mật khẩu cho email <b>" + Email + "</b> là:</p>" +
+                string mailTitle = "Gia Sư Văn Lang";
+                string fromMail = "giasuvanlang.thongtin@gmail.com";
+                string fromEmailPass = "vrzaiqmdiycujvas";
+                string bodyMail = "<!DOCTYPE html>" +
+                        "<html>" +
+                            "<body>" +
+                                "<p style = \"margin: 0%;\">" +
+                                "Xin chào, <br/>" +
+                                "Mã xác minh bạn cần dùng để thay đổi mật khẩu cho email <b>" + Email + "</b> là:</p>" +
 
-                            "<p style = \"color: green;font-size: 40px; margin: 0 0 0 50px;\">" + newPass + "</p>" +
+                                "<p style = \"color: green;font-size: 40px; margin: 0 0 0 50px;\">" + newPass + "</p>" +
 
-                            "<p style = \"margin: 0%;\" > Vui lòng nhập mã xác thực để thay đổi mật khẩu<br/>" +
-                            "Nếu bạn không yêu cầu mã này thì có thể ai đó đang sử dụng email <b>" + Email + "</b> để thay đổi mật khẩu tài khoản." +
-                            "<b style = \"color: red;\" > Không chuyển tiếp hoặc cung cấp mã này cho bất kỳ ai.</b><br/></p>" +
+                                "<p style = \"margin: 0%;\" > Vui lòng nhập mã xác thực để thay đổi mật khẩu<br/>" +
+                                "Nếu bạn không yêu cầu mã này thì có thể ai đó đang sử dụng email <b>" + Email + "</b> để thay đổi mật khẩu tài khoản." +
+                                "<b style = \"color: red;\" > Không chuyển tiếp hoặc cung cấp mã này cho bất kỳ ai.</b><br/></p>" +
 
-                            "<b style = \"font-size: small;text-align: center; margin: 0%;\"> Bạn nhận được thông báo này vì địa chỉ email đang được sử dụng cho " +
-                            "tài khoản trên trang Gia Sư Văn Lang.Nếu thông tin này không chính xác," +
-                            "vui lòng bỏ qua và không trả lời lại mail này.Xin cảm ơn!</b><br/>" +
-                           " Trân trọng!<br/>" +
-                            "<b>Gia Sư Văn Lang</b>" +
-                        "</body>" +
-                    "</html>";
+                                "<b style = \"font-size: small;text-align: center; margin: 0%;\"> Bạn nhận được thông báo này vì địa chỉ email đang được sử dụng cho " +
+                                "tài khoản trên trang Gia Sư Văn Lang.Nếu thông tin này không chính xác," +
+                                "vui lòng bỏ qua và không trả lời lại mail này.Xin cảm ơn!</b><br/>" +
+                               " Trân trọng!<br/>" +
+                                "<b>Gia Sư Văn Lang</b>" +
+                            "</body>" +
+                        "</html>";
 
-            //Email and content
-            MailMessage message = new MailMessage(new MailAddress(fromMail, mailTitle), new MailAddress(Email));
-            message.Subject = "[VLUTUTORS] Khôi phục mật khẩu";
-            message.Body = bodyMail;
-            message.IsBodyHtml = true;
+                //Email and content
+                MailMessage message = new MailMessage(new MailAddress(fromMail, mailTitle), new MailAddress(Email));
+                message.Subject = "[VLUTUTORS] Khôi phục mật khẩu";
+                message.Body = bodyMail;
+                message.IsBodyHtml = true;
 
-            //Server detail
-            SmtpClient smtp = new SmtpClient();
-            smtp.Host = "smtp.gmail.com";
-            smtp.Port = 587;
-            smtp.EnableSsl = true;
-            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                //Server detail
+                SmtpClient smtp = new SmtpClient();
+                smtp.Host = "smtp.gmail.com";
+                smtp.Port = 587;
+                smtp.EnableSsl = true;
+                smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
 
-            //Credentials
-            System.Net.NetworkCredential credential = new System.Net.NetworkCredential();
-            credential.UserName = fromMail;
-            credential.Password = fromEmailPass;
-            smtp.UseDefaultCredentials = false;
-            smtp.Credentials = credential;
+                //Credentials
+                System.Net.NetworkCredential credential = new System.Net.NetworkCredential();
+                credential.UserName = fromMail;
+                credential.Password = fromEmailPass;
+                smtp.UseDefaultCredentials = false;
+                smtp.Credentials = credential;
 
-            smtp.Send(message);
-            HttpContext.Session.SetString("loginEmail", Email);
+                smtp.Send(message);
+                HttpContext.Session.SetString("loginEmail", Email);
 
-            return RedirectToAction("ChangesPass", "Accounts");
+                TempData["Message"] = "Mã xác nhận đã được gửi đến mail của bạn, vui lòng kiểm tra!";
+                TempData["MessageType"] = "success";
+
+                return RedirectToAction("ChangesPass", "Accounts");
+            }
+            TempData["Message"] = "Email không tồn tại trên hệ thống, vui lòng kiểm tra lại!";
+            TempData["MessageType"] = "error";
+            return View();
         }
 
         [HttpGet]
@@ -458,9 +468,18 @@ namespace VLUTUTORS.Controllers
             {
                 if (checkAccount.MatKhau == verifyCode)
                 {
+                    if (newPass.Length >= 6)
+                    {
                     checkAccount.MatKhau = newPass;
                     db.Update(checkAccount);
                     db.SaveChangesAsync();
+                    }
+                    else
+                    {
+                        TempData["Message"] = "Mật khẩu phải từ 6 ký tự trở lên!";
+                        TempData["MessageType"] = "error";
+                        return View();
+                    }
                 }
                 else
                 {
