@@ -18,6 +18,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Hosting;
 using System.Net.Mail;
 using SmtpClient = System.Net.Mail.SmtpClient;
+using Org.BouncyCastle.Asn1.X509;
 
 namespace VLUTUTORS.Controllers
 {
@@ -229,59 +230,64 @@ namespace VLUTUTORS.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register([FromForm] string HoTen, [FromForm] string Email, [FromForm] string MatKhau)
+        public async Task<IActionResult> Register([FromForm] string HoTen, [FromForm] string Email, [FromForm] string MatKhau, [FromForm] string rePass)
         {
             if (ModelState["Email"].Errors.Count == 0 && ModelState["MatKhau"].Errors.Count == 0)
             {
                 ModelState.Clear();
             }
-
-            if (ModelState.IsValid)
+            if(HoTen!=null && Email != null)
             {
-                var taiKhoan = db.Taikhoannguoidungs.AsNoTracking().SingleOrDefault(x => x.Email.ToLower() == Email.ToLower());
-
-                if (taiKhoan == null)
+                if (MatKhau != null && rePass == MatKhau && MatKhau.Length >= 6)
                 {
-                    Random verify = new Random();
-                    int numVerify = verify.Next(100000, 999999);
-                    Taikhoannguoidung taiKhoanNguoiDung = new Taikhoannguoidung
-                    {
-                        HoTen = HoTen,
-                        Email = Email,
-                        MatKhau = MatKhau,
-                        NgaySinh = DateTime.Parse("01/01/0001"),
-                        TrangThaiTaiKhoan = true,
-                        IdgioiTinh = 1,
-                        Idkhoa = 1,
-                        IdxetDuyet = 6,
-                        XacThuc = false,
-                        MaXacThuc = numVerify
-                    };
-                    try
-                    {
+                    var taiKhoan = db.Taikhoannguoidungs.AsNoTracking().SingleOrDefault(x => x.Email.ToLower() == Email.ToLower());
 
-                        db.Add(taiKhoanNguoiDung);
-                        await db.SaveChangesAsync();
-                        HttpContext.Session.SetString("email", Email);
-                        return RedirectToAction("SendMail", "Accounts",
-                        new { toEmail = Email, name = HoTen, verifyCode = numVerify });
-                    }
-                    catch (Exception ex)
+                    if (taiKhoan == null)
                     {
-                        Console.WriteLine(ex);
+                        Random verify = new Random();
+                        int numVerify = verify.Next(100000, 999999);
+                        Taikhoannguoidung taiKhoanNguoiDung = new Taikhoannguoidung
+                        {
+                            HoTen = HoTen,
+                            Email = Email,
+                            MatKhau = MatKhau,
+                            NgaySinh = DateTime.Parse("01/01/0001"),
+                            TrangThaiTaiKhoan = true,
+                            IdgioiTinh = 1,
+                            Idkhoa = 1,
+                            IdxetDuyet = 6,
+                            XacThuc = false,
+                            MaXacThuc = numVerify
+                        };
+                        try
+                        {
+
+                            db.Add(taiKhoanNguoiDung);
+                            await db.SaveChangesAsync();
+                            HttpContext.Session.SetString("email", Email);
+                            return RedirectToAction("SendMail", "Accounts",
+                            new { toEmail = Email, name = HoTen, verifyCode = numVerify });
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex);
+                            return RedirectToAction("Login", "Accounts");
+                        }
+                    }
+                    else
+                    {
+                        TempData["Message"] = "Email đã được đăng ký, vui lòng kiểm tra lại!";
+                        TempData["MessageType"] = "error";
                         return RedirectToAction("Login", "Accounts");
                     }
                 }
-                else
-                {
-                    TempData["Message"] = "Email đã được đăng ký, vui lòng kiểm tra lại!";
-                    TempData["MessageType"] = "error";
-                    return RedirectToAction("Login", "Accounts");
-                }
+                TempData["Message"] = "Mật khẩu phải đủ từ 6 ký tự và Xác nhận mật khẩu phải trùng khớp với Mật khẩu, vui lòng kiểm tra lại!";
+                TempData["MessageType"] = "error";
+                return RedirectToAction("Login", "Accounts");
             }
-            TempData["Message"] = "Đăng ký tài khoản thành công!";
-            TempData["MessageType"] = "success";
-            return RedirectToAction("VerifyAccount", "Accounts");
+            TempData["Message"] = "Vui lòng điền đủ thông tin để đăng ký tài khoản!";
+            TempData["MessageType"] = "error";
+            return RedirectToAction("Login", "Accounts");
         }
 
         [HttpGet]

@@ -81,7 +81,7 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
         [HttpPost]
         public async Task<IActionResult> AddLessonPlan(IFormCollection timeSlot, [Bind(Prefix = "Item1")] Caday caday, [FromForm] string inputHour, [FromForm] string inputDate)
         {
-            if (inputDate != "01/01/0001 12:00:00 SA" && inputHour != null)
+            if (inputDate != null && inputHour != null)
             {
                 List<DateTime> timeSlots = new List<DateTime>();
                 DateTime date = DateTime.Parse(timeSlot["inputDate"]);

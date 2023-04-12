@@ -58,12 +58,12 @@
                         <i class="fas fa-user"></i>
                         <input type="text" name="Email" placeholder="Email" />
                     </div>
-                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger", @style="color:red;" })
                     <div class="input-field">
                         <i class="fas fa-lock"></i>
                         <input type="password" name="MatKhau" placeholder="Mật Khẩu" />
                     </div>
-                    @Html.ValidationMessageFor(m => m.MatKhau, "", new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(m => m.MatKhau, "", new { @class = "text-danger", @style="color:red;" })
                     <button type="submit" class="btn" onclick="Button1_Click">Đăng Nhập</button>
                     <a href="~/Accounts/ForGotPass">
                         <span>Bạn quên mật khẩu? </span>
@@ -75,22 +75,22 @@
                     <h2 class="title">Đăng Ký Tài Khoản</h2>
                     <div class="input-field">
                         <i class="fas fa-user"></i>
-                        <input data-error="Vui lòng điền đủ thông tin." type="text" id="txtHoTen" name="HoTen" placeholder="Họ tên của bạn" />
+                        <input data-error="Vui lòng điền đủ thông tin." type="text" id="HoTen" name="HoTen" placeholder="Họ tên của bạn" />
                     </div>
                     @Html.ValidationMessageFor(m => m.HoTen, "", new { @class = "text-danger" })
                     <div class="input-field">
                         <i class="fas fa-envelope"></i>
-                        <input data-error="Vui lòng điền đủ thông tin." type="email" id="txtEmail" name="Email" placeholder="Email" />
+                        <input data-error="Vui lòng điền đủ thông tin." type="email" id="Email" name="Email" placeholder="Email" />
                     </div>
                     @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                     <div class="input-field">
                         <i class="fas fa-lock"></i>
-                        <input data-error="Vui lòng điền đủ thông tin." type="password" id="txtMatKhau" name="MatKhau" placeholder="Mật Khẩu" />
+                        <input data-error="Vui lòng điền đủ thông tin." type="password" id="MatKhau" name="MatKhau" placeholder="Mật Khẩu (Ít nhất 6 ký tự)" />
                     </div>
                     @Html.ValidationMessageFor(m => m.MatKhau, "", new { @class = "text-danger" })
                     <div class="input-field">
                         <i class="fas fa-lock"></i>
-                        <input data-error="Vui lòng điền đủ thông tin." type="password" placeholder="Nhập Lại Mật Khẩu" />
+                        <input data-error="Vui lòng điền đủ thông tin." type="password" name="rePass" placeholder="Nhập Lại Mật Khẩu" />
                     </div>
                     <button type="submit" class="btn">Đăng ký</button>
                 </form>
