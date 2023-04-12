@@ -42,7 +42,7 @@ namespace VLUTUTORS.Controllers
             var loaiTuVan = new SelectList(_db.Loaituvans.ToList(), "IdLoaiTuVan", "TenLoaiTuVan");
             ViewData["loaiTuVan"] = loaiTuVan;
 
-            var hocVien = _db.Taikhoannguoidungs.Count(m => m.IdxetDuyet == 6);
+            var hocVien = _db.Taikhoannguoidungs.Count();
             var giaSu = _db.Taikhoannguoidungs.Count(m => m.IdxetDuyet == 5);
 
             var monGiaSu = await _db.Mongiasus.ToListAsync();
