@@ -50,7 +50,7 @@
                                     else if (@httpContextAccessor.HttpContext.Session.GetInt32("IdGiaSu") == 5)
                                     {
                                         <li class="nav-item">
-                                            <a href="~/Tutors">Đến Trang Gia Sư</a>
+                                            <a href="~/Tutors/ManageTeachSchedule">Đến Trang Gia Sư</a>
                                         </li>
                                     }
                                     else if (@httpContextAccessor.HttpContext.Session.GetInt32("IdGiaSu") == null
@@ -72,8 +72,8 @@
                                         <ul class="sub-menu">
                                             <li><a asp-controller="Accounts" asp-action="Details" asp-route-id="@httpContextAccessor.HttpContext.Session.GetInt32("LoginId")">Tài Khoản</a></li>
                                             <li><a asp-controller="BookTutor" asp-action="HistoryBooking" asp-route-id="@httpContextAccessor.HttpContext.Session.GetInt32("LoginId")">Lịch Học</a></li>
-                                            <li><a asp-controller="HistoryOfLearning" asp-action="Index" asp-route-id="@httpContextAccessor.HttpContext.Session.GetInt32("LoginId")">Lịch Sử Học</a></li>
-                                            <li>
+@*                                            <li><a asp-controller="HistoryOfLearning" asp-action="Index" asp-route-id="@httpContextAccessor.HttpContext.Session.GetInt32("LoginId")">Lịch Sử Học</a></li>
+*@                                            <li>
                                                 <a href=""
                                                    data-toggle="modal"
                                                    data-target="#logoutModal"

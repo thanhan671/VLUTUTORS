@@ -28,54 +28,52 @@ namespace VLUTUTORS.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(string courseName, bool justDoTest)
         {
-            
-            var noiDung = await _db.Noidungs.FirstOrDefaultAsync(m => m.Id == 1);
-
-            ViewData["Slogan"] = noiDung.Slogan;
-            ViewData["gtChanTrang"] = noiDung.GioiThieuChanTrang;
-            ViewData["diaChi"] = noiDung.DiaChi;
-            ViewData["Sdt"] = noiDung.Sdt;
-            ViewData["Email"] = noiDung.Email;
-            ViewData["Fb"] = noiDung.Facebook;
-            ViewData["gioiThieu"] = noiDung.GioiThieu;
-
-            List<Khoadaotao> lesson = _db.Khoadaotaos.ToList();
-
-            Khoadaotao baihoc = new Khoadaotao();
-            baihoc.courses = (from l in lesson
-                              select l.TenBaiHoc).ToList();
-
-            courseName = courseName == null ? _db.Khoadaotaos.First<Khoadaotao>().TenBaiHoc : courseName; // use this instead of above code line
-            Console.WriteLine("ten bai hoc la gi: " + courseName);
-
-            string videoListInJson = _db.Khoadaotaos.Where(l => l.TenBaiHoc == courseName).First().LinkVideo;
-            
-            if(videoListInJson != null)
+            if (HttpContext.Session.GetString("LoginId") == null)
             {
-                baihoc.courseLink = JsonConvert.DeserializeObject<List<string>>(videoListInJson);
+                return RedirectToAction("Login", "Accounts");
             }
-            else
+            int checkUser = (int)_db.Taikhoannguoidungs.Where(m => m.Id == HttpContext.Session.GetInt32("LoginId")).First().IdxetDuyet;
+            if (checkUser == 1)
             {
-                baihoc.courseLink = null;
+                List<Khoadaotao> lesson = _db.Khoadaotaos.ToList();
+
+                Khoadaotao baihoc = new Khoadaotao();
+                baihoc.courses = (from l in lesson
+                                  select l.TenBaiHoc).ToList();
+
+                courseName = courseName == null ? _db.Khoadaotaos.First<Khoadaotao>().TenBaiHoc : courseName; // use this instead of above code line
+                Console.WriteLine("ten bai hoc la gi: " + courseName);
+
+                string videoListInJson = _db.Khoadaotaos.Where(l => l.TenBaiHoc == courseName).First().LinkVideo;
+
+                if (videoListInJson != null)
+                {
+                    baihoc.courseLink = JsonConvert.DeserializeObject<List<string>>(videoListInJson);
+                }
+                else
+                {
+                    baihoc.courseLink = null;
+                }
+
+                baihoc.TaiLieu = _db.Khoadaotaos.Where(l => l.TenBaiHoc == courseName).First().TaiLieu;
+                baihoc.IdBaiHoc = _db.Khoadaotaos.Where(l => l.TenBaiHoc == courseName).First().IdBaiHoc;
+
+                var userInfo = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
+                Taikhoannguoidung taikhoannguoidung = _db.Taikhoannguoidungs.Find(userInfo.Id);
+
+                baihoc.currentScore = taikhoannguoidung.DiemBaiTest;
+                Console.WriteLine("moi lam bai kiem tra index: " + justDoTest);
+                if (baihoc.currentScore <= 7 && justDoTest)
+                {
+                    TempData["message"] = "Điểm của bạn: " + baihoc.currentScore + " chưa đủ để xét duyệt vui lòng làm lại bài kiểm tra";
+                }
+
+                return View(baihoc);
             }
-
-            baihoc.TaiLieu = _db.Khoadaotaos.Where(l => l.TenBaiHoc == courseName).First().TaiLieu;
-            baihoc.IdBaiHoc = _db.Khoadaotaos.Where(l => l.TenBaiHoc == courseName).First().IdBaiHoc;
-
-            var userInfo = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
-            Taikhoannguoidung taikhoannguoidung = _db.Taikhoannguoidungs.Find(userInfo.Id);
-            
-            baihoc.currentScore = taikhoannguoidung.DiemBaiTest;
-            Console.WriteLine("moi lam bai kiem tra index: " + justDoTest);
-            if (baihoc.currentScore <= 7 && justDoTest)
-            {
-                TempData["message"] = "Điểm của bạn: " + baihoc.currentScore + " chưa đủ để xét duyệt vui lòng làm lại bài kiểm tra";
-            }
-
-            return View(baihoc);
+            return RedirectToAction("Index", "Home");
         }
 
-        public FileResult DownloadFile(string courseName ,string fileName)
+        public FileResult DownloadFile(string courseName, string fileName)
         {
             //string courseFilePath = id == 1 ? Path.Combine("certificates", tutorId.ToString(), "cer1") : Path.Combine("certificates", tutorId.ToString(), "cer2");
 
@@ -96,39 +94,31 @@ namespace VLUTUTORS.Controllers
         [HttpGet]
         public async Task<IActionResult> DoTest()
         {
-            var noiDung = await _db.Noidungs.FirstOrDefaultAsync(m => m.Id == 1);
-            ViewData["Slogan"] = noiDung.Slogan;
-            ViewData["gtChanTrang"] = noiDung.GioiThieuChanTrang;
-            ViewData["diaChi"] = noiDung.DiaChi;
-            ViewData["Sdt"] = noiDung.Sdt;
-            ViewData["Email"] = noiDung.Email;
-            ViewData["Fb"] = noiDung.Facebook;
-            ViewData["gioiThieu"] = noiDung.GioiThieu;
+            if (HttpContext.Session.GetString("LoginId") == null)
+            {
+                return RedirectToAction("Login", "Accounts");
+            }
+            int checkUser = (int)_db.Taikhoannguoidungs.Where(m => m.Id == HttpContext.Session.GetInt32("LoginId")).First().IdxetDuyet;
+            if (checkUser == 1)
+            {
+                Baikiemtra baikiemtra = new Baikiemtra();
+                baikiemtra.quizes = _db.Baikiemtras.ToList();
 
-            Baikiemtra baikiemtra = new Baikiemtra();
-            baikiemtra.quizes = _db.Baikiemtras.ToList();
-
-            return View(_db.Baikiemtras.ToList());
+                return View(_db.Baikiemtras.ToList());
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
         public async Task<IActionResult> DoTest(List<Baikiemtra> baikiemtras)
         {
-            var noiDung = await _db.Noidungs.FirstOrDefaultAsync(m => m.Id == 1);
-            ViewData["Slogan"] = noiDung.Slogan;
-            ViewData["gtChanTrang"] = noiDung.GioiThieuChanTrang;
-            ViewData["diaChi"] = noiDung.DiaChi;
-            ViewData["Sdt"] = noiDung.Sdt;
-            ViewData["Email"] = noiDung.Email;
-            ViewData["Fb"] = noiDung.Facebook;
-            ViewData["gioiThieu"] = noiDung.GioiThieu;
-            
+
             // get answer 
             List<string> allAnswers = new List<string>();
-            foreach(var item in baikiemtras)
+            foreach (var item in baikiemtras)
             {
                 string answerInItem = "";
-                if(item.aChecked != "")
+                if (item.aChecked != "")
                 {
                     answerInItem += item.aChecked;
                 }
@@ -165,7 +155,7 @@ namespace VLUTUTORS.Controllers
             var userInfo = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
             Taikhoannguoidung taikhoannguoidung = _db.Taikhoannguoidungs.Find(userInfo.Id);
             taikhoannguoidung.DiemBaiTest = Math.Round(Convert.ToDouble(userScore), 2);
-            if(taikhoannguoidung.DiemBaiTest > 7)
+            if (taikhoannguoidung.DiemBaiTest > 7)
                 taikhoannguoidung.IdxetDuyet = 2;
 
             _db.Taikhoannguoidungs.Attach(taikhoannguoidung).Property(x => x.DiemBaiTest).IsModified = true;

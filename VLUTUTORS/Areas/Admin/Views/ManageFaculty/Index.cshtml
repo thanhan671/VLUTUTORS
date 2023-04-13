@@ -26,7 +26,7 @@
                 <div class="card-tools">
                     <button data-toggle="modal"
                             data-target="#addModal"
-                            class="col-auto btn-success">
+                            class="col-auto custom-btn btn-5">
                         Thêm khoa mới
                     </button>
                 </div>
@@ -52,22 +52,22 @@
                                         @Html.DisplayFor(modeItem => item.TenKhoa)
                                     </td>
                                     <td class="project-actions">
-                                        <a class="btn btn-info btn-sm"
+                                        <a class="btn btn-sm"
                                            data-toggle="modal"
                                            data-target="@("#editModal-"+item.Idkhoa)"
                                            data-url="@Url.Action($"EditFaculty/{item.Idkhoa}")">
                                             <i class="fas fa-pen"> </i>
-                                            Sửa
+                                            
                                         </a>
 
                                         @await Html.PartialAsync("_EditFacultyPartial", item)
 
-                                        <a class="btn btn-danger btn-sm"
+                                        <a class="btn btn-sm"
                                            data-toggle="modal"
                                            data-target="#deleteModal"
                                            onclick="document.getElementById('facultyID').value = @item.Idkhoa">
-                                            <i class="fas fa-pencil-alt"> </i>
-                                            Xóa
+                                            <i class="fas fa-trash"> </i>
+                                            
                                         </a>
                                     </td>
                                 </tr>
@@ -107,7 +107,7 @@
                                     data-dismiss="modal">
                                 Hủy
                             </button>
-                            <button type="submit" class="btn btn-primary">Xác nhận</button>
+                            <button type="submit" class="btn btn-5 custom-btn">Xác nhận</button>
                         </div>
                     </div>
                 </div>
@@ -127,10 +127,10 @@
                             <h5>Bạn muốn xóa khoa này?</h5>
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-default" type="button" data-dismiss="modal">
+                            <button class="btn btn-secondary" type="button" data-dismiss="modal">
                                 Hủy
                             </button>
-                            <button class="btn btn-primary" type="submit">
+                            <button class="btn btn-5 custom-btn" type="submit">
                                 Đồng ý
                             </button>
                         </div>

@@ -22,7 +22,7 @@ namespace VLUTUTORS.Models
         [NotMapped]
         public string Quyen { get; set; }
         [NotMapped]
-        public SelectList Quyens { get; set; }
+        public SelectList listQuyen { get; set; }
         public virtual Quyen IdQuyenNavigation { get; set; }
     }
 }

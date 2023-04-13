@@ -46,23 +46,23 @@ namespace VLUTUTORS.Models
         public string SoTaiKhoan { get; set; }
         public int? IdnganHang { get; set; }
 
-        //[RegularExpression("^([a-zA-Z0-9 .,:'-]+)$", ErrorMessage = "Không nhập ký tự đặc biệt")]
-        [StringLength(maximumLength: 1000, MinimumLength = 150, ErrorMessage = "Giới hạn từ 150-1000 ký tự")]
+
+        [StringLength(maximumLength: 1000, MinimumLength = 50, ErrorMessage = "Giới hạn từ 50-1000 ký tự")]
         public string GioiThieu { get; set; }
 
-        //[RegularExpression("^([a-zA-Z0-9 .,:'-]+)$", ErrorMessage = "Không nhập ký tự đặc biệt")]
-        [StringLength(maximumLength: 1000, MinimumLength = 150, ErrorMessage = "Giới hạn từ 150-1000 ký tự")]
+
+        [StringLength(maximumLength: 1000, MinimumLength = 50, ErrorMessage = "Giới hạn từ 50-1000 ký tự")]
         public string DanhGiaVeViecGiaSu { get; set; }
         public double? DiemTrungBinh { get; set; }
         public int? IdmonGiaSu1 { get; set; }
         public string ChungChiMon1 { get; set; }
 
-        [StringLength(maximumLength: 1000, MinimumLength = 150, ErrorMessage = "Giới hạn từ 150-1000 ký tự")]
+        [StringLength(maximumLength: 1000, MinimumLength = 50, ErrorMessage = "Giới hạn từ 50-1000 ký tự")]
         public string GioiThieuVeMonGiaSu1 { get; set; }
         public int? IdmonGiaSu2 { get; set; }
         public string ChungChiMon2 { get; set; }
 
-        [StringLength(maximumLength: 1000, MinimumLength = 150, ErrorMessage = "Giới hạn từ 150-1000 ký tự")]
+        [StringLength(maximumLength: 1000, MinimumLength = 50, ErrorMessage = "Giới hạn từ 50-1000 ký tự")]
         public string GioiThieuVeMonGiaSu2 { get; set; }
         public int? IdxetDuyet { get; set; }
         public string TenChungChiHoacDiemMon1 { get; set; }

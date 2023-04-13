@@ -6,7 +6,7 @@ body {
 
 .container-table {
   height: 100%;
-  width: 1080px;
+ max-width: 1080px;
   position: relative;
   left: 50%;
   transform: translateX(-50%);

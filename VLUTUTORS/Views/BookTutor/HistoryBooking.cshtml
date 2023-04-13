@@ -38,31 +38,39 @@
         <tbody>
             @foreach (var lesson in Model)
             {
-                <tr>
-                    <td>@lesson.tenMonDay</td>
-                    <td>@lesson.tenNguoiDay</td>
-                    <td>@lesson.NgayDay.ToString("dd/MM/yyyy")</td>
-                    <td>@lesson.GioBatDau:@lesson.PhutBatDau - @lesson.GioKetThuc:@lesson.PhutKetThuc</td>
-                    <td>@lesson.giaCaDay.ToString("#,##0.###") đồng</td>
+                int year = lesson.NgayDay.Year;
+                int month = lesson.NgayDay.Month;
+                int day = lesson.NgayDay.Day;
 
-                    @{
-                        if (lesson.NgayDay == DateTime.Today && lesson.PhutBatDau != 0 && lesson.GioBatDau == DateTime.Now.Hour && Math.Abs(lesson.PhutBatDau - DateTime.Now.Minute) <= 15)
-                        {
-                            <td class="done">Sắp Diễn Ra</td>
-                            <td><a class="btn btn-success btn-sm" style="width:90px" href="@lesson.Link" target="_blank">Tham gia</a><button class="btn btn-danger btn-sm" style="margin-top: 5px; width: 90px">Hủy lịch</button></td>
+                DateTime checkTime = new DateTime(year, month, day, lesson.GioBatDau, lesson.PhutBatDau, 0);
+                if (checkTime >= DateTime.Now)
+                {
+                    <tr>
+                        <td>@lesson.tenMonDay</td>
+                        <td>@lesson.tenNguoiDay</td>
+                        <td>@lesson.NgayDay.ToString("dd/MM/yyyy")</td>
+                        <td>@lesson.GioBatDau:@lesson.PhutBatDau - @lesson.GioKetThuc:@lesson.PhutKetThuc</td>
+                        <td>@lesson.giaCaDay.ToString("#,##0.###") đồng</td>
+
+                        @{
+                            if (lesson.NgayDay == DateTime.Today && lesson.PhutBatDau != 0 && lesson.GioBatDau == DateTime.Now.Hour && Math.Abs(lesson.PhutBatDau - DateTime.Now.Minute) <= 15)
+                            {
+                                <td class="done">Sắp Diễn Ra</td>
+                                <td><a class="btn btn-success btn-sm" style="width:90px" href="@lesson.Link" target="_blank">Tham gia</a><button class="btn btn-danger btn-sm" style="margin-top: 5px; width: 90px">Hủy lịch</button></td>
+                            }
+                            else if (lesson.NgayDay == DateTime.Today && (lesson.PhutBatDau == 0 || (0 < lesson.PhutBatDau) && (lesson.PhutBatDau < 15)) && lesson.GioBatDau - DateTime.Now.Hour == 1 && Math.Abs(lesson.PhutBatDau - DateTime.Now.Minute) >= 45)
+                            {
+                                <td class="done">Sắp Diễn Ra</td>
+                                <td><a class="btn btn-success btn-sm" style="width:90px" href="@lesson.Link" target="_blank">Tham gia</a><button class="btn btn-danger btn-sm" style="margin-top: 5px; width: 90px">Hủy lịch</button></td>
+                            }
+                            else
+                            {
+                                <td class="cms">Đã đặt lịch</td>
+                                <td><a class="btn btn-danger btn-sm" style="margin-top: 5px; width: 90px; color:white;">Hủy lịch</a></td>
+                            }
                         }
-                        else if (lesson.NgayDay == DateTime.Today && (lesson.PhutBatDau == 0 || (0 < lesson.PhutBatDau) && (lesson.PhutBatDau < 15)) && lesson.GioBatDau - DateTime.Now.Hour == 1 && Math.Abs(lesson.PhutBatDau - DateTime.Now.Minute) >= 45)
-                        {
-                            <td class="done">Sắp Diễn Ra</td>
-                            <td><a class="btn btn-success btn-sm" style="width:90px" href="@lesson.Link" target="_blank">Tham gia</a><button class="btn btn-danger btn-sm" style="margin-top: 5px; width: 90px">Hủy lịch</button></td>
-                        }
-                        else
-                        {
-                            <td class="cms">Đã đặt lịch</td>
-                            <td><a class="btn btn-danger btn-sm" style="margin-top: 5px; width: 90px; color:white;">Hủy lịch</a></td>
-                        }
-                    }
-                </tr>
+                    </tr>
+                }
             }
         </tbody>
     </table>
@@ -112,11 +120,53 @@
         });
     </script>
     <script type="text/javascript">
-      $(function () {
-        $('#myTable_filter').prepend($('#dropdown-filter')).clone();
-        $('#filter-fade').remove();
-        $('#myTable_filter').css({ display: 'flex' });
-            $('#myTable').css({width: 'auto'});
-      });
+        $(function () {
+            $('#myTable_filter').prepend($('#dropdown-filter')).clone();
+            $('#filter-fade').remove();
+            $('#myTable_filter').css({ display: 'flex' });
+            $('#myTable').css({ width: 'auto' });
+        });
+    </script>
+    @if (TempData["Message"] != null)
+    {
+        <script>
+            var messageType = '@TempData["MessageType"]';
+            var message = '@TempData["Message"]';
+
+            // Display the message using Toastr library
+            if (messageType === "success") {
+                toastr.success(message);
+            } else if (messageType === "error") {
+                toastr.error(message);
+            } else if (messageType === "warning") {
+                toastr.warning(message);
+            } else if (messageType === "info") {
+                toastr.info(message);
+            }
+        </script>
+    }
+    @if (ViewBag.Message != null)
+    {
+        <script type="text/javascript">
+            window.onload = function () {
+                alert("@ViewBag.Message");
+            };
+        </script>
+    }
+    <script src="~/js/app.js"></script>
+    <script>
+        $(function () {
+            // Check for a success message in TempData
+            var toastrSuccess = '@(TempData["toastr-success"])';
+            if (toastrSuccess) {
+                toastr.success(toastrSuccess);
+            }
+
+            // Check for an error message in TempData
+            var toastrError = '@(TempData["toastr-error"])';
+            if (toastrError) {
+                toastr.error(toastrError);
+            }
+        });
     </script>
 }

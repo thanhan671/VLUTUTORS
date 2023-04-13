@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable disable
@@ -12,7 +13,9 @@ namespace VLUTUTORS.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public int IdnguoiDay { get; set; }
+
         public int IdmonDay { get; set; }
+
         public int IdloaiCaDay { get; set; }
         public DateTime NgayDay { get; set; }
         public int GioBatDau { get; set; }

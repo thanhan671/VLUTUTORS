@@ -38,27 +38,12 @@ namespace VLUTUTORS.Controllers
                 Console.WriteLine("login id: " + HttpContext.Session.GetInt32("LoginId"));
             }
 
-            Tuvan tuVan = new Tuvan();
 
             var loaiTuVan = new SelectList(_db.Loaituvans.ToList(), "IdLoaiTuVan", "TenLoaiTuVan");
             ViewData["loaiTuVan"] = loaiTuVan;
 
-
-            int giaSu = 0;
-            int hocVien = 0;
-            var taiKhoans = await _db.Taikhoannguoidungs.ToListAsync();
-
-            foreach (var taiKhoan in taiKhoans)
-            {
-                if (taiKhoan.IdxetDuyet == 6)
-                {
-                    hocVien++;
-                }
-                if (taiKhoan.IdxetDuyet == 5)
-                {
-                    giaSu++;
-                }
-            }
+            var hocVien = _db.Taikhoannguoidungs.Count();
+            var giaSu = _db.Taikhoannguoidungs.Count(m => m.IdxetDuyet == 5);
 
             var monGiaSu = await _db.Mongiasus.ToListAsync();
             ViewData["monGiaSu"] = monGiaSu.Count();
@@ -71,24 +56,28 @@ namespace VLUTUTORS.Controllers
         [HttpGet]
         public IActionResult RegisterAsTutor()
         {
-            string user = HttpContext.Session.GetString("LoginId");
-            if (user == null)
+            if (HttpContext.Session.GetString("LoginId") == null)
             {
                 return RedirectToAction("Login", "Accounts");
             }
-            Taikhoannguoidung dbTaikhoannguoidung = new Taikhoannguoidung();
-            var userInfo = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
-            dbTaikhoannguoidung.Id = userInfo.Id;
-            dbTaikhoannguoidung.HoTen = userInfo.HoTen;
-            dbTaikhoannguoidung.Email = userInfo.Email;
-            dbTaikhoannguoidung.MatKhau = userInfo.MatKhau;
+            int checkUser = (int)_db.Taikhoannguoidungs.Where(m => m.Id == HttpContext.Session.GetInt32("LoginId")).First().IdxetDuyet;
+            if (checkUser == 6 || checkUser == 4)
+            {
+                Taikhoannguoidung dbTaikhoannguoidung = new Taikhoannguoidung();
+                var userInfo = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
+                dbTaikhoannguoidung.Id = userInfo.Id;
+                dbTaikhoannguoidung.HoTen = userInfo.HoTen;
+                dbTaikhoannguoidung.Email = userInfo.Email;
+                dbTaikhoannguoidung.MatKhau = userInfo.MatKhau;
 
-            dbTaikhoannguoidung.DepartmentItems = new SelectList(_db.Khoas, "Idkhoa", "TenKhoa", dbTaikhoannguoidung.Idkhoa);
-            dbTaikhoannguoidung.GenderItems = new SelectList(_db.Gioitinhs, "IdgioiTinh", "GioiTinh1", dbTaikhoannguoidung.IdgioiTinh);
-            dbTaikhoannguoidung.BankItems = new SelectList(_db.Nganhangs, "Id", "TenNganHangHoacViDienTu", dbTaikhoannguoidung.IdnganHang);
-            dbTaikhoannguoidung.Subject1Items = new SelectList(_db.Mongiasus, "IdmonGiaSu", "TenMonGiaSu", dbTaikhoannguoidung.IdmonGiaSu1);
-            dbTaikhoannguoidung.Subject2Items = new SelectList(_db.Mongiasus, "IdmonGiaSu", "TenMonGiaSu", dbTaikhoannguoidung.IdmonGiaSu2);
-            return View(dbTaikhoannguoidung);
+                dbTaikhoannguoidung.DepartmentItems = new SelectList(_db.Khoas, "Idkhoa", "TenKhoa", dbTaikhoannguoidung.Idkhoa);
+                dbTaikhoannguoidung.GenderItems = new SelectList(_db.Gioitinhs, "IdgioiTinh", "GioiTinh1", dbTaikhoannguoidung.IdgioiTinh);
+                dbTaikhoannguoidung.BankItems = new SelectList(_db.Nganhangs, "Id", "TenNganHangHoacViDienTu", dbTaikhoannguoidung.IdnganHang);
+                dbTaikhoannguoidung.Subject1Items = new SelectList(_db.Mongiasus, "IdmonGiaSu", "TenMonGiaSu", dbTaikhoannguoidung.IdmonGiaSu1);
+                dbTaikhoannguoidung.Subject2Items = new SelectList(_db.Mongiasus, "IdmonGiaSu", "TenMonGiaSu", dbTaikhoannguoidung.IdmonGiaSu2);
+                return View(dbTaikhoannguoidung);
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
@@ -118,7 +107,7 @@ namespace VLUTUTORS.Controllers
             taikhoannguoidung.BankItems = new SelectList(_db.Nganhangs, "Id", "TenNganHangHoacViDienTu", taikhoannguoidung.IdnganHang);
             taikhoannguoidung.Subject1Items = new SelectList(_db.Mongiasus, "IdmonGiaSu", "TenMonGiaSu", taikhoannguoidung.IdmonGiaSu1);
             taikhoannguoidung.Subject2Items = new SelectList(_db.Mongiasus, "IdmonGiaSu", "TenMonGiaSu", taikhoannguoidung.IdmonGiaSu2);
-            Console.WriteLine(" error post: " + ModelState["Idkhoa"].Errors.Count);
+
             return View(taikhoannguoidung);
         }
 
@@ -136,17 +125,17 @@ namespace VLUTUTORS.Controllers
         {
             if (ModelState.IsValid)
             {
-                    try
-                    {
-                        TempData["Message"] = "Gửi đăng ký tư vấn thành công!";
-                        TempData["MessageType"] = "success";
-                        _db.Add(tuVan);
-                        await _db.SaveChangesAsync();
-                    }
-                    catch
-                    {
-                        return RedirectToAction("Index", "Home");
-                    }
+                try
+                {
+                    TempData["Message"] = "Gửi đăng ký tư vấn thành công!";
+                    TempData["MessageType"] = "success";
+                    _db.Add(tuVan);
+                    await _db.SaveChangesAsync();
+                }
+                catch
+                {
+                    return RedirectToAction("Index", "Home");
+                }
             }
             else
             {

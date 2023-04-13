@@ -19,31 +19,41 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
 
         public IActionResult Index()
         {
-            var userInfo = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
-            Taikhoannguoidung taikhoannguoidung = _db.Taikhoannguoidungs.Find(userInfo.Id);
-
-            List<Taikhoannguoidung> teee = _db.Taikhoannguoidungs.ToList();
-            List<Caday> cadays = _db.Cadays.Where(ca => ca.IdnguoiDay.Equals(taikhoannguoidung.Id)).ToList();
-            foreach (var cadayItem in cadays)
+            string user = HttpContext.Session.GetString("LoginId");
+            if (user == null)
             {
-                cadayItem.tenMonDay = _db.Mongiasus.Find(cadayItem.IdmonDay).TenMonGiaSu.ToString();
-                cadayItem.tenLoaiCaDay = _db.Cahocs.Find(cadayItem.IdloaiCaDay).LoaiCa.ToString();
+                return RedirectToAction("Login", "Accounts", new { area = "default" });
             }
-
-            List<Mongiasu> subjects = new List<Mongiasu>();
-            subjects.Add(_db.Mongiasus.FirstOrDefault(i => i.IdmonGiaSu.Equals(taikhoannguoidung.IdmonGiaSu1)));
-            if (taikhoannguoidung.IdmonGiaSu2 != null)
+            int checkUser = (int)_db.Taikhoannguoidungs.Where(m => m.Id == HttpContext.Session.GetInt32("LoginId")).First().IdxetDuyet;
+            if (checkUser == 5)
             {
-                subjects.Add(_db.Mongiasus.FirstOrDefault(i => i.IdmonGiaSu.Equals(taikhoannguoidung.IdmonGiaSu2)));
+                var userInfo = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
+                Taikhoannguoidung taikhoannguoidung = _db.Taikhoannguoidungs.Find(userInfo.Id);
+
+                //List<Taikhoannguoidung> teee = _db.Taikhoannguoidungs.ToList();
+                List<Caday> cadays = _db.Cadays.Where(ca => ca.IdnguoiDay.Equals(taikhoannguoidung.Id)).ToList();
+                foreach (var cadayItem in cadays)
+                {
+                    cadayItem.tenMonDay = _db.Mongiasus.Find(cadayItem.IdmonDay).TenMonGiaSu.ToString();
+                    cadayItem.tenLoaiCaDay = _db.Cahocs.Find(cadayItem.IdloaiCaDay).LoaiCa.ToString();
+                }
+
+                List<Mongiasu> subjects = new List<Mongiasu>();
+                subjects.Add(_db.Mongiasus.FirstOrDefault(i => i.IdmonGiaSu.Equals(taikhoannguoidung.IdmonGiaSu1)));
+                if (taikhoannguoidung.IdmonGiaSu2 != null)
+                {
+                    subjects.Add(_db.Mongiasus.FirstOrDefault(i => i.IdmonGiaSu.Equals(taikhoannguoidung.IdmonGiaSu2)));
+                }
+
+                Caday caday = new Caday();
+                caday.IdnguoiDay = userInfo.Id;
+                caday.subjectItems = new SelectList(subjects, "IdmonGiaSu", "TenMonGiaSu", caday.IdmonDay);
+                caday.teachTimeItems = new SelectList(_db.Cahocs, "IdCaHoc", "LoaiCa", caday.IdloaiCaDay);
+
+                Tuple<Caday, IEnumerable<Caday>> turple = new Tuple<Caday, IEnumerable<Caday>>(caday, cadays.AsEnumerable());
+                return View(turple);
             }
-
-            Caday caday = new Caday();
-            caday.IdnguoiDay = userInfo.Id;
-            caday.subjectItems = new SelectList(subjects, "IdmonGiaSu", "TenMonGiaSu", caday.IdmonDay);
-            caday.teachTimeItems = new SelectList(_db.Cahocs, "IdCaHoc", "LoaiCa", caday.IdloaiCaDay);
-
-            Tuple<Caday, IEnumerable<Caday>> turple = new Tuple<Caday, IEnumerable<Caday>>(caday, cadays.AsEnumerable());
-            return View(turple);
+            return RedirectToAction("Login", "Accounts", new { area = "default" });
         }
 
         [HttpGet]
@@ -69,51 +79,59 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddLessonPlan(IFormCollection timeSlot, [Bind(Prefix = "Item1")] Caday caday)
+        public async Task<IActionResult> AddLessonPlan(IFormCollection timeSlot, [Bind(Prefix = "Item1")] Caday caday, [FromForm] string inputHour, [FromForm] string inputDate)
         {
-            List<DateTime> timeSlots = new List<DateTime>();
-            DateTime date = DateTime.Parse(timeSlot["inputDate"]);
-            caday.NgayDay = date;
-
-            int teachTime = _db.Cahocs.Find(caday.IdloaiCaDay).LoaiCa;
-
-            List<Caday> lessonPlans = new List<Caday>();
-            foreach (string time in timeSlot["inputHour"])
+            if (inputDate != null && inputHour != null)
             {
-                Caday lessonPlan = new Caday()
+                List<DateTime> timeSlots = new List<DateTime>();
+                DateTime date = DateTime.Parse(timeSlot["inputDate"]);
+                caday.NgayDay = date;
+
+                int teachTime = _db.Cahocs.Find(caday.IdloaiCaDay).LoaiCa;
+
+                List<Caday> lessonPlans = new List<Caday>();
+                foreach (string time in timeSlot["inputHour"])
                 {
-                    IdnguoiDay = caday.IdnguoiDay,
-                    IdmonDay = caday.IdmonDay,
-                    IdloaiCaDay = caday.IdloaiCaDay,
-                    NgayDay = caday.NgayDay,
-                    LapLich = caday.LapLich
-                };
-                DateTime hour = new DateTime();
+                    Caday lessonPlan = new Caday()
+                    {
+                        IdnguoiDay = caday.IdnguoiDay,
+                        IdmonDay = caday.IdmonDay,
+                        IdloaiCaDay = caday.IdloaiCaDay,
+                        NgayDay = caday.NgayDay,
+                        LapLich = caday.LapLich
+                    };
+                    DateTime hour = new DateTime();
 
-                hour = DateTime.Parse(time);
-                lessonPlan.GioBatDau = hour.Hour;
-                lessonPlan.PhutBatDau = hour.Minute;
+                    hour = DateTime.Parse(time);
+                    lessonPlan.GioBatDau = hour.Hour;
+                    lessonPlan.PhutBatDau = hour.Minute;
 
-                GetEndTime(lessonPlan, teachTime);
+                    GetEndTime(lessonPlan, teachTime);
 
-                bool isOverLapse = CheckLessonHasRegister(lessonPlan.IdnguoiDay, lessonPlan.NgayDay, lessonPlan.GioBatDau, lessonPlan.PhutBatDau, lessonPlan.GioKetThuc, lessonPlan.PhutKetThuc);
-                if (isOverLapse)
-                {
-                    TempData["Message"] = "Thời gian bị trùng với ca dạy khác";
-                    TempData["MessageType"] = "error";
-                    return RedirectToAction("Index", "ManageTeachSchedule");
+                    bool isOverLapse = CheckLessonHasRegister(lessonPlan.IdnguoiDay, lessonPlan.NgayDay, lessonPlan.GioBatDau, lessonPlan.PhutBatDau, lessonPlan.GioKetThuc, lessonPlan.PhutKetThuc);
+                    if (isOverLapse)
+                    {
+                        TempData["Message"] = "Thời gian bị trùng với ca dạy khác";
+                        TempData["MessageType"] = "error";
+                        return RedirectToAction("Index", "ManageTeachSchedule");
+                    }
+
+                    lessonPlans.Add(lessonPlan);
                 }
 
-                lessonPlans.Add(lessonPlan);
+
+                if (ModelState.IsValid)
+                {
+                    await _db.AddRangeAsync(lessonPlans);
+                    await _db.SaveChangesAsync();
+                    TempData["Message"] = "Đăng ký ca dạy thành công!";
+                    TempData["MessageType"] = "success";
+                }
             }
-
-
-            if (ModelState.IsValid)
+            else
             {
-                await _db.AddRangeAsync(lessonPlans);
-                await _db.SaveChangesAsync();
-                TempData["Message"] = "Đăng ký ca dạy thành công!";
-                TempData["MessageType"] = "success";
+                TempData["Message"] = "Vui lòng điền đủ thông tin cho ca dạy!";
+                TempData["MessageType"] = "error";
             }
 
             return RedirectToAction("Index", "ManageTeachSchedule");

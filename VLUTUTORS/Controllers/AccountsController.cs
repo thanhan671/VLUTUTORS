@@ -18,6 +18,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Hosting;
 using System.Net.Mail;
 using SmtpClient = System.Net.Mail.SmtpClient;
+using Org.BouncyCastle.Asn1.X509;
 
 namespace VLUTUTORS.Controllers
 {
@@ -56,6 +57,7 @@ namespace VLUTUTORS.Controllers
             {
                 Taikhoannguoidung checkAccount;
                 checkAccount = db.Taikhoannguoidungs.Where(acc => acc.Email.Equals(email.Trim())).FirstOrDefault();
+
                 if (checkAccount == null)
                 {
                     TempData["Message"] = "Sai tài khoản hoặc mật khẩu";
@@ -64,7 +66,7 @@ namespace VLUTUTORS.Controllers
                 }
                 else
                 {
-                    if (checkAccount.XacThuc==false)
+                    if (checkAccount.XacThuc == false)
                     {
                         TempData["Message"] = "Vui lòng kiểm tra email để xác thực tài khoản!";
                         TempData["MessageType"] = "error";
@@ -88,7 +90,8 @@ namespace VLUTUTORS.Controllers
                         }
                         else
                         {
-                            ViewBag.Message = "Tài khoản có Email đăng nhập là " + checkAccount.Email + " đã bị khóa, vui lòng liên hệ với chúng tôi để được giải quyết! Xin cảm ơn";
+                            TempData["Message"] = "Tài khoản có Email đăng nhập là " + checkAccount.Email + " đã bị khóa, vui lòng liên hệ với chúng tôi để được giải quyết! Xin cảm ơn";
+                            TempData["MessageType"] = "error";
                         }
                     }
                 }
@@ -157,31 +160,67 @@ namespace VLUTUTORS.Controllers
             {
                 return NotFound();
             }
-            if (ModelState.IsValid)
+            if (Sdt.Length < 10 || Sdt.Length >= 11)
             {
-                try
+                TempData["errorMessage"] = "Số điện thoại phải đủ 10 số!";
+            }
+            else
+            {
+                if (ModelState.IsValid)
                 {
-                    dbTaikhoannguoidung.IdgioiTinh = IdgioiTinh;
-                    dbTaikhoannguoidung.NgaySinh = NgaySinh;
-                    dbTaikhoannguoidung.Sdt = Sdt;
-                    dbTaikhoannguoidung.AnhDaiDien = avatar.Count != 0 ? TutorServices.SaveAvatar(this._environment.WebRootPath, avatarPath, avatar) : dbTaikhoannguoidung.AnhDaiDien;
+                    if (MatKhau == null && ReMatKhau==null)
+                    {
+                        try
+                        {
+                            dbTaikhoannguoidung.IdgioiTinh = IdgioiTinh;
+                            dbTaikhoannguoidung.NgaySinh = NgaySinh;
+                            dbTaikhoannguoidung.Sdt = Sdt;
+                            dbTaikhoannguoidung.AnhDaiDien = avatar.Count != 0 ? TutorServices.SaveAvatar(this._environment.WebRootPath, avatarPath, avatar) : dbTaikhoannguoidung.AnhDaiDien;
 
-                    if (!string.IsNullOrEmpty(MatKhau))
-                        dbTaikhoannguoidung.MatKhau = MatKhau;
-                    TempData["Message"] = "Cập nhật thành công!";
-                    TempData["MessageType"] = "success";
-                    db.Entry(dbTaikhoannguoidung).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                    db.SaveChanges();
-                    return RedirectToAction("Details", new { id });
+                            TempData["Message"] = "Cập nhật thành công!";
+                            TempData["MessageType"] = "success";
+                            db.Entry(dbTaikhoannguoidung).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                            db.SaveChanges();
+                            return RedirectToAction("Details", new { id });
+                        }
+                        catch (Exception ex)
+                        {
+                            return RedirectToAction("Details", new { id });
+                        }
+                    }
+                    else if (MatKhau != null && ReMatKhau == MatKhau && MatKhau.Length >=6)
+                    {
+                        try
+                        {
+                            dbTaikhoannguoidung.IdgioiTinh = IdgioiTinh;
+                            dbTaikhoannguoidung.NgaySinh = NgaySinh;
+                            dbTaikhoannguoidung.Sdt = Sdt;
+                            dbTaikhoannguoidung.AnhDaiDien = avatar.Count != 0 ? TutorServices.SaveAvatar(this._environment.WebRootPath, avatarPath, avatar) : dbTaikhoannguoidung.AnhDaiDien;
+                            dbTaikhoannguoidung.MatKhau = MatKhau;
+
+                            TempData["Message"] = "Cập nhật thành công!";
+                            TempData["MessageType"] = "success";
+                            db.Entry(dbTaikhoannguoidung).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                            db.SaveChanges();
+                            return RedirectToAction("Details", new { id });
+                        }
+                        catch (Exception ex)
+                        {
+                            return RedirectToAction("Details", new { id });
+                        }
+                    }
+                    else
+                    {
+                        TempData["errorMessage"] = "Mật khẩu phải đủ từ 6 ký tự và Xác nhận mật khẩu phải trùng khớp với Mật khẩu!";
+                    }
+
                 }
-                catch (Exception ex)
+                else
                 {
-                    return RedirectToAction("Details", new { id });
+                    return RedirectToAction("EditLearnerAccounts", new { id });
                 }
             }
-
-            return RedirectToAction("Details", new { id });
-
+            return RedirectToAction("EditLearnerAccounts", new { id });
         }
         public IActionResult Logout()
         {
@@ -191,58 +230,64 @@ namespace VLUTUTORS.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register([FromForm] string HoTen, [FromForm] string Email, [FromForm] string MatKhau)
+        public async Task<IActionResult> Register([FromForm] string HoTen, [FromForm] string Email, [FromForm] string MatKhau, [FromForm] string rePass)
         {
             if (ModelState["Email"].Errors.Count == 0 && ModelState["MatKhau"].Errors.Count == 0)
             {
                 ModelState.Clear();
             }
-
-            if (ModelState.IsValid)
+            if(HoTen!=null && Email != null)
             {
-                var taiKhoan = db.Taikhoannguoidungs.AsNoTracking().SingleOrDefault(x => x.Email.ToLower() == Email.ToLower());
-
-                if (taiKhoan == null)
+                if (MatKhau != null && rePass == MatKhau && MatKhau.Length >= 6)
                 {
-                    Random verify = new Random();
-                    int numVerify = verify.Next(100000, 999999);
-                    Taikhoannguoidung taiKhoanNguoiDung = new Taikhoannguoidung
-                    {
-                        HoTen = HoTen,
-                        Email = Email,
-                        MatKhau = MatKhau,
-                        TrangThaiTaiKhoan = true,
-                        IdgioiTinh = 1,
-                        Idkhoa = 1,
-                        IdxetDuyet = 6,
-                        XacThuc = false,
-                        MaXacThuc = numVerify
-                    };
-                    try
-                    {
+                    var taiKhoan = db.Taikhoannguoidungs.AsNoTracking().SingleOrDefault(x => x.Email.ToLower() == Email.ToLower());
 
-                        db.Add(taiKhoanNguoiDung);
-                        await db.SaveChangesAsync();
-                        HttpContext.Session.SetString("email", Email);
-                        return RedirectToAction("SendMail", "Accounts",
-                        new { toEmail = Email, name = HoTen, verifyCode = numVerify});
-                    }
-                    catch (Exception ex)
+                    if (taiKhoan == null)
                     {
-                        Console.WriteLine(ex);
+                        Random verify = new Random();
+                        int numVerify = verify.Next(100000, 999999);
+                        Taikhoannguoidung taiKhoanNguoiDung = new Taikhoannguoidung
+                        {
+                            HoTen = HoTen,
+                            Email = Email,
+                            MatKhau = MatKhau,
+                            NgaySinh = DateTime.Parse("01/01/0001"),
+                            TrangThaiTaiKhoan = true,
+                            IdgioiTinh = 1,
+                            Idkhoa = 1,
+                            IdxetDuyet = 6,
+                            XacThuc = false,
+                            MaXacThuc = numVerify
+                        };
+                        try
+                        {
+
+                            db.Add(taiKhoanNguoiDung);
+                            await db.SaveChangesAsync();
+                            HttpContext.Session.SetString("email", Email);
+                            return RedirectToAction("SendMail", "Accounts",
+                            new { toEmail = Email, name = HoTen, verifyCode = numVerify });
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex);
+                            return RedirectToAction("Login", "Accounts");
+                        }
+                    }
+                    else
+                    {
+                        TempData["Message"] = "Email đã được đăng ký, vui lòng kiểm tra lại!";
+                        TempData["MessageType"] = "error";
                         return RedirectToAction("Login", "Accounts");
                     }
                 }
-                else
-                {
-                    TempData["Message"] = "Email đã được đăng ký, vui lòng kiểm tra lại!";
-                    TempData["MessageType"] = "error";
-                    return RedirectToAction("Login", "Accounts");
-                }
+                TempData["Message"] = "Mật khẩu phải đủ từ 6 ký tự và Xác nhận mật khẩu phải trùng khớp với Mật khẩu, vui lòng kiểm tra lại!";
+                TempData["MessageType"] = "error";
+                return RedirectToAction("Login", "Accounts");
             }
-            TempData["Message"] = "Đăng ký tài khoản thành công!";
-            TempData["MessageType"] = "success";
-            return RedirectToAction("VerifyAccount", "Accounts");
+            TempData["Message"] = "Vui lòng điền đủ thông tin để đăng ký tài khoản!";
+            TempData["MessageType"] = "error";
+            return RedirectToAction("Login", "Accounts");
         }
 
         [HttpGet]
@@ -267,6 +312,8 @@ namespace VLUTUTORS.Controllers
                         dbTaikhoannguoidung.XacThuc = true;
                         db.Update(dbTaikhoannguoidung);
                         await db.SaveChangesAsync();
+                        TempData["Message"] = "Đăng ký tài khoản thành công!";
+                        TempData["MessageType"] = "success";
                     }
                 }
                 else
@@ -285,6 +332,8 @@ namespace VLUTUTORS.Controllers
                         dbTaikhoannguoidung.XacThuc = true;
                         db.Update(dbTaikhoannguoidung);
                         await db.SaveChangesAsync();
+                        TempData["Message"] = "Đăng ký tài khoản thành công!";
+                        TempData["MessageType"] = "success";
                     }
                 }
                 else
@@ -306,7 +355,6 @@ namespace VLUTUTORS.Controllers
             HttpContext.Session.SetString("loginEmail", taikhoannguoidung.Email);
             HttpContext.Session.SetString("SessionInfo", JsonConvert.SerializeObject(taikhoannguoidung));
 
-            Console.WriteLine("login success");
             return RedirectToAction("Index", "Home");
         }
 
@@ -319,80 +367,90 @@ namespace VLUTUTORS.Controllers
         [HttpPost]
         public IActionResult ForGotPass(string Email)
         {
-            Random pass = new Random();
-            int newPass = pass.Next(100000, 999999);
+            var checkMail = db.Taikhoannguoidungs.AsNoTracking().SingleOrDefault(x => x.Email.ToLower() == Email.ToLower());
+            if (checkMail != null)
+            {
+                Random pass = new Random();
+                int newPass = pass.Next(100000, 999999);
 
-            var sqlStringBuilder = new SqlConnectionStringBuilder();
-            sqlStringBuilder["Server"] = "tuleap.vanlanguni.edu.vn,18082";
-            sqlStringBuilder["Database"] = "CP25Team01";
-            sqlStringBuilder["UID"] = "CP25Team01";
-            sqlStringBuilder["PWD"] = "VLUTUTORS01";
+                var sqlStringBuilder = new SqlConnectionStringBuilder();
+                sqlStringBuilder["Server"] = "tuleap.vanlanguni.edu.vn,18082";
+                sqlStringBuilder["Database"] = "CP25Team01";
+                sqlStringBuilder["UID"] = "CP25Team01";
+                sqlStringBuilder["PWD"] = "VLUTUTORS01";
 
-            var sqlStringConnection = sqlStringBuilder.ToString();
+                var sqlStringConnection = sqlStringBuilder.ToString();
 
-            using var connection = new SqlConnection(sqlStringConnection);
+                using var connection = new SqlConnection(sqlStringConnection);
 
-            connection.Open();
+                connection.Open();
 
-            using var command = new SqlCommand();
-            command.Connection = connection;
-            command.CommandText = "UPDATE TAIKHOANNGUOIDUNG SET MatKhau = @MatKhau WHERE Email = @Email";
+                using var command = new SqlCommand();
+                command.Connection = connection;
+                command.CommandText = "UPDATE TAIKHOANNGUOIDUNG SET MatKhau = @MatKhau WHERE Email = @Email";
 
-            command.Parameters.AddWithValue("@MatKhau", newPass);
-            command.Parameters.AddWithValue("@Email", Email);
+                command.Parameters.AddWithValue("@MatKhau", newPass);
+                command.Parameters.AddWithValue("@Email", Email);
 
-            command.ExecuteNonQuery();
+                command.ExecuteNonQuery();
 
-            connection.Close();
+                connection.Close();
 
-            string mailTitle = "Gia Sư Văn Lang";
-            string fromMail = "giasuvanlang.thongtin@gmail.com";
-            string fromEmailPass = "vrzaiqmdiycujvas";
-            string bodyMail = "<!DOCTYPE html>" +
-                    "<html>" +
-                        "<body>" +
-                            "<p style = \"margin: 0%;\">" +
-                            "Xin chào, <br/>" +
-                            "Mã xác minh bạn cần dùng để thay đổi mật khẩu cho email <b>" + Email + "</b> là:</p>" +
+                string mailTitle = "Gia Sư Văn Lang";
+                string fromMail = "giasuvanlang.thongtin@gmail.com";
+                string fromEmailPass = "vrzaiqmdiycujvas";
+                string bodyMail = "<!DOCTYPE html>" +
+                        "<html>" +
+                            "<body>" +
+                                "<p style = \"margin: 0%;\">" +
+                                "Xin chào, <br/>" +
+                                "Mã xác minh bạn cần dùng để thay đổi mật khẩu cho email <b>" + Email + "</b> là:</p>" +
 
-                            "<p style = \"color: green;font-size: 40px; margin: 0 0 0 50px;\">" + newPass + "</p>" +
+                                "<p style = \"color: green;font-size: 40px; margin: 0 0 0 50px;\">" + newPass + "</p>" +
 
-                            "<p style = \"margin: 0%;\" > Vui lòng nhập mã xác thực để thay đổi mật khẩu<br/>" +
-                            "Nếu bạn không yêu cầu mã này thì có thể ai đó đang sử dụng email <b>" + Email + "</b> để thay đổi mật khẩu tài khoản." +
-                            "<b style = \"color: red;\" > Không chuyển tiếp hoặc cung cấp mã này cho bất kỳ ai.</b><br/></p>" +
+                                "<p style = \"margin: 0%;\" > Vui lòng nhập mã xác thực để thay đổi mật khẩu<br/>" +
+                                "Nếu bạn không yêu cầu mã này thì có thể ai đó đang sử dụng email <b>" + Email + "</b> để thay đổi mật khẩu tài khoản." +
+                                "<b style = \"color: red;\" > Không chuyển tiếp hoặc cung cấp mã này cho bất kỳ ai.</b><br/></p>" +
 
-                            "<b style = \"font-size: small;text-align: center; margin: 0%;\"> Bạn nhận được thông báo này vì địa chỉ email đang được sử dụng cho " +
-                            "tài khoản trên trang Gia Sư Văn Lang.Nếu thông tin này không chính xác," +
-                            "vui lòng bỏ qua và không trả lời lại mail này.Xin cảm ơn!</b><br/>" +
-                           " Trân trọng!<br/>" +
-                            "<b>Gia Sư Văn Lang</b>" +
-                        "</body>" +
-                    "</html>";
+                                "<b style = \"font-size: small;text-align: center; margin: 0%;\"> Bạn nhận được thông báo này vì địa chỉ email đang được sử dụng cho " +
+                                "tài khoản trên trang Gia Sư Văn Lang.Nếu thông tin này không chính xác," +
+                                "vui lòng bỏ qua và không trả lời lại mail này.Xin cảm ơn!</b><br/>" +
+                               " Trân trọng!<br/>" +
+                                "<b>Gia Sư Văn Lang</b>" +
+                            "</body>" +
+                        "</html>";
 
-            //Email and content
-            MailMessage message = new MailMessage(new MailAddress(fromMail, mailTitle), new MailAddress(Email));
-            message.Subject = "[VLUTUTORS] Khôi phục mật khẩu";
-            message.Body = bodyMail;
-            message.IsBodyHtml = true;
+                //Email and content
+                MailMessage message = new MailMessage(new MailAddress(fromMail, mailTitle), new MailAddress(Email));
+                message.Subject = "[VLUTUTORS] Khôi phục mật khẩu";
+                message.Body = bodyMail;
+                message.IsBodyHtml = true;
 
-            //Server detail
-            SmtpClient smtp = new SmtpClient();
-            smtp.Host = "smtp.gmail.com";
-            smtp.Port = 587;
-            smtp.EnableSsl = true;
-            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                //Server detail
+                SmtpClient smtp = new SmtpClient();
+                smtp.Host = "smtp.gmail.com";
+                smtp.Port = 587;
+                smtp.EnableSsl = true;
+                smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
 
-            //Credentials
-            System.Net.NetworkCredential credential = new System.Net.NetworkCredential();
-            credential.UserName = fromMail;
-            credential.Password = fromEmailPass;
-            smtp.UseDefaultCredentials = false;
-            smtp.Credentials = credential;
+                //Credentials
+                System.Net.NetworkCredential credential = new System.Net.NetworkCredential();
+                credential.UserName = fromMail;
+                credential.Password = fromEmailPass;
+                smtp.UseDefaultCredentials = false;
+                smtp.Credentials = credential;
 
-            smtp.Send(message);
-            HttpContext.Session.SetString("loginEmail", Email);
+                smtp.Send(message);
+                HttpContext.Session.SetString("loginEmail", Email);
 
-            return RedirectToAction("ChangesPass", "Accounts");
+                TempData["Message"] = "Mã xác nhận đã được gửi đến mail của bạn, vui lòng kiểm tra!";
+                TempData["MessageType"] = "success";
+
+                return RedirectToAction("ChangesPass", "Accounts");
+            }
+            TempData["Message"] = "Email không tồn tại trên hệ thống, vui lòng kiểm tra lại!";
+            TempData["MessageType"] = "error";
+            return View();
         }
 
         [HttpGet]
@@ -408,11 +466,20 @@ namespace VLUTUTORS.Controllers
             var checkAccount = db.Taikhoannguoidungs.AsNoTracking().SingleOrDefault(x => x.Email.ToLower() == email.ToLower());
             if (checkAccount != null)
             {
-                if(checkAccount.MatKhau == verifyCode)
+                if (checkAccount.MatKhau == verifyCode)
                 {
+                    if (newPass.Length >= 6)
+                    {
                     checkAccount.MatKhau = newPass;
                     db.Update(checkAccount);
                     db.SaveChangesAsync();
+                    }
+                    else
+                    {
+                        TempData["Message"] = "Mật khẩu phải từ 6 ký tự trở lên!";
+                        TempData["MessageType"] = "error";
+                        return View();
+                    }
                 }
                 else
                 {
@@ -438,7 +505,7 @@ namespace VLUTUTORS.Controllers
                             "Xin chào, <b>" + name + "</b> !<br/>" +
                             "Mã xác minh bạn cần dùng để xác thực email <b>" + toEmail + "</b> là:</p>" +
 
-                            "<p style = \"color: green;font-size: 40px; margin: 0 0 0 50px;\">"+ verifyCode + "</p>" +
+                            "<p style = \"color: green;font-size: 40px; margin: 0 0 0 50px;\">" + verifyCode + "</p>" +
 
                             "<p style = \"margin: 0%;\" > Vui lòng xác thực để sử dụng các tính năng của trang web. Hoặc nhấn vào " +
                             "<a href=\"https://cntttest.vanlanguni.edu.vn:18081/CP25Team01/Accounts/VerifyAccount\">đây</a> để xác thực:<br/>" +
