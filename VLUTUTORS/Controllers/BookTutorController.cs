@@ -361,6 +361,26 @@ namespace VLUTUTORS.Controllers
         }
 
         [HttpPost]
+        public IActionResult CancelBooking(int lessonPlanId)
+        {
+            Caday caday = _db.Cadays.FirstOrDefault(c => c.Id.Equals(lessonPlanId));
+            caday.IdnguoiHoc = null;
+            caday.Link = null;
+
+            try 
+            {
+                _db.Update(caday);
+                _db.SaveChanges();
+            }
+            catch(Exception ex) 
+            {
+                Console.WriteLine(ex.ToString());
+            }
+
+            return RedirectToAction("HistoryBooking");
+        }
+
+        [HttpPost]
         public async Task<IActionResult> LessonRegis([FromForm] int lessonId) 
         {
             if (HttpContext.Session.GetInt32("LoginId") == null)
