@@ -78,32 +78,31 @@
             }
         </tbody>
     </table>
-
-    <div class="modal fade"
-         id="deleteModal"
-         tabindex="-1"
-         role="dialog"
-         aria-labelledby="deleteModalLabel"
-         aria-hidden="true">
-        <form asp-action="" method="post" asp-controller="">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <h5>Bạn muốn hủy ca học này?</h5>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button" data-dismiss="modal">
-                            Hủy
-                        </button>
-                        <button class="btn btn-5 custom-btn" type="submit">
-                            Đồng ý
-                        </button>
-                    </div>
+</div>
+<div class="modal fade"
+     id="deleteModal"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="deleteModalLabel"
+     aria-hidden="true">
+    <form asp-action="" method="post" asp-controller="">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h5>Bạn muốn hủy ca học này?</h5>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">
+                        Hủy
+                    </button>
+                    <button class="btn btn-5 custom-btn" type="submit">
+                        Đồng ý
+                    </button>
                 </div>
             </div>
-            <input type="hidden" id="lessonPlanId" name="lessonPlanId" />
-        </form>
-    </div>
+        </div>
+        <input type="hidden" id="lessonPlanId" name="lessonPlanId" />
+    </form>
 </div>
 @section scripts{
     <script>
