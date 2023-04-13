@@ -38,25 +38,11 @@
         <tbody>
             @foreach (var lesson in Model)
             {
-                string lessonTime, typeTime;
-                if (lesson.GioBatDau <= 12)
-                {
-                    typeTime = "AM";
-                }
-                else
-                {
-                    typeTime = "PM";
-                }
-                if (lesson.PhutBatDau == 0)
-                {
-                    lessonTime = lesson.NgayDay.ToString("dd/MM/yyyy") + " " + lesson.GioBatDau + ":00 " + typeTime;
-                }
-                else
-                {
-                    lessonTime = lesson.NgayDay.ToString("dd/MM/yyyy") + " " + lesson.GioBatDau + ":" + lesson.PhutBatDau + " " + typeTime;
-                }
+                int year = lesson.NgayDay.Year;
+                int month = lesson.NgayDay.Month;
+                int day = lesson.NgayDay.Day;
 
-                DateTime checkTime = DateTime.Parse(lessonTime);
+                DateTime checkTime = new DateTime(year, month, day, lesson.GioBatDau, lesson.PhutBatDau, 0);
                 if (checkTime >= DateTime.Now)
                 {
                     <tr>
@@ -134,12 +120,12 @@
         });
     </script>
     <script type="text/javascript">
-      $(function () {
-        $('#myTable_filter').prepend($('#dropdown-filter')).clone();
-        $('#filter-fade').remove();
-        $('#myTable_filter').css({ display: 'flex' });
-            $('#myTable').css({width: 'auto'});
-      });
+        $(function () {
+            $('#myTable_filter').prepend($('#dropdown-filter')).clone();
+            $('#filter-fade').remove();
+            $('#myTable_filter').css({ display: 'flex' });
+            $('#myTable').css({ width: 'auto' });
+        });
     </script>
     @if (TempData["Message"] != null)
     {
