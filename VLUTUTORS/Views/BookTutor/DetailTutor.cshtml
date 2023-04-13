@@ -179,8 +179,8 @@
                             <table id="myTable" class="mt-100">
                                 <thead>
                                     <tr>
-                                        <th>Môn gia sư</th>
-                                        <th>Ngày</th>
+                                        <th id="mon">Môn gia sư</th>
+                                        <th style="width: 20px!important">Ngày</th>
                                         <th>Giờ</th>
                                         <th>Giá</th>
                                         <th>Đặt Lịch</th>
@@ -189,30 +189,12 @@
                                 <tbody>
                                     @foreach (var lesson in Model.Item2)
                                     {
-                                        string lessonTime,typeTime;
-                                        if(lesson.GioBatDau <= 12)
-                                        {
-                                            typeTime = "AM";
-                                        }
-                                        else
-                                        {
-                                            typeTime = "PM";
-                                        }
-                                        if (lesson.PhutBatDau == 0)
-                                        {
-                                            lessonTime = lesson.NgayDay.ToString("dd/MM/yyyy") + " " + lesson.GioBatDau + ":00:00 "+typeTime;
-                                        }
-                                        else if(lesson.PhutBatDau>0 && lesson.PhutBatDau<=5)
-                                        {
-                                            lessonTime = lesson.NgayDay.ToString("dd/MM/yyyy") + " " + lesson.GioBatDau + ":0"+lesson.PhutBatDau+":00 "+typeTime;
-                                        }
-                                        else
-                                        {
-                                            lessonTime = lesson.NgayDay.ToString("dd/MM/yyyy") + " " + lesson.GioBatDau + ":" + lesson.PhutBatDau + ":00 " + typeTime;
-                                        }
+                                        int year = lesson.NgayDay.Year;
+                                        int month = lesson.NgayDay.Month;
+                                        int day = lesson.NgayDay.Day;
 
-                                        DateTime checkTime = DateTime.Parse(lessonTime);
-                                        if (@lesson.NgayDay >= DateTime.Today && @lesson.IdnguoiHoc == null && checkTime >= DateTime.Now)
+                                        DateTime checkTime = new DateTime(year, month, day, lesson.GioBatDau, lesson.PhutBatDau, 0);
+                                        if (@lesson.IdnguoiHoc == null && checkTime >= DateTime.Now)
                                         {
                                             <tr>
                                                 <td>@lesson.tenMonDay</td>
@@ -386,6 +368,7 @@
                     top: '50%',
                     transform: 'translateY(-50%)',
                 })
+                $('#mon').css({ width: '0px' })
             });
         </script>
     }

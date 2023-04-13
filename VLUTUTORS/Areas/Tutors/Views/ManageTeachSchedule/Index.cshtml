@@ -13,7 +13,7 @@
                 <div class="col-auto mr-auto"><h1>Quản lý lịch dạy</h1></div>
                 <button data-toggle="modal"
                         data-target="#exampleModal"
-                        class="col-auto btn-success">
+                        class="col-auto btn-success btn">
                     Thêm lịch dạy
                 </button>
             </div>
@@ -47,12 +47,12 @@
                         <form>
                             <div class="form-group">
                                 <label for="inputName">Tên môn gia sư</label>
-                                @Html.DropDownListFor(m => m.Item1.IdmonDay, Model.Item1.subjectItems, new { @class = "form__select", @required= true, @id="IdmonDay", @name="IdmonDay" })
+                                @Html.DropDownListFor(m => m.Item1.IdmonDay, Model.Item1.subjectItems, new { @class = "form__select", @required= true, @id="IdmonDay", @name="IdmonDay",style="width: 100%; height: 30px;" })
                                 <span asp-validation-for="Item1.IdmonDay" class="warning"></span>
                             </div>
                             <div>
                                 <label for="select-shifts">Loại ca dạy</label>
-                                @Html.DropDownListFor(m => m.Item1.IdloaiCaDay, Model.Item1.teachTimeItems, new { @class = "form__select", @required= true, @id="IdloaiCaDay", @name="IdloaiCaDay" })
+                                @Html.DropDownListFor(m => m.Item1.IdloaiCaDay, Model.Item1.teachTimeItems, new { @class = "form__select", @required= true, @id="IdloaiCaDay", @name="IdloaiCaDay",style="width: 100%; height: 30px;" })
                                 <span asp-validation-for="Item1.IdloaiCaDay" class="warning"></span>
                             </div>
 
@@ -67,8 +67,9 @@
                                         <input type="time"
                                                id="inputHour"
                                                name="inputHour"
-                                               class="form-control form-date" />
-                                        <input onclick="AddTextBox()" type="button" value="+" class="btn-add" />
+                                               class="form-control form-date"
+                                               style="width: 100%" />
+                                        <input onclick="AddTextBox()" type="button" value="+" class="btn-success btn" />
                                     </div>
                                 </div>
                             </div>
@@ -80,7 +81,7 @@
                                 data-dismiss="modal">
                             Hủy
                         </button>
-                        <button type="submit" class="btn btn-primary">Xác nhận</button>
+                        <button type="submit" class="btn btn-5 custom-btn">Xác nhận</button>
                     </div>
                 </div>
             </div>
@@ -120,25 +121,11 @@
             <tbody>
                 @foreach (var lesson in Model.Item2)
                 {
-                    string lessonTime, typeTime;
-                    if (lesson.GioBatDau <= 12)
-                    {
-                        typeTime = "AM";
-                    }
-                    else
-                    {
-                        typeTime = "PM";
-                    }
-                    if (lesson.PhutBatDau == 0)
-                    {
-                        lessonTime = lesson.NgayDay.ToString("dd/MM/yyyy") + " " + lesson.GioBatDau + ":00 " + typeTime;
-                    }
-                    else
-                    {
-                        lessonTime = lesson.NgayDay.ToString("dd/MM/yyyy") + " " + lesson.GioBatDau + ":" + lesson.PhutBatDau + " " + typeTime;
-                    }
+                    int year = lesson.NgayDay.Year;
+                    int month = lesson.NgayDay.Month;
+                    int day = lesson.NgayDay.Day;
 
-                    DateTime checkTime = DateTime.Parse(lessonTime);
+                    DateTime checkTime = new DateTime(year,month,day,lesson.GioBatDau,lesson.PhutBatDau,0);
                     if (checkTime >= DateTime.Now)
                     {
                         <tr>
@@ -248,10 +235,10 @@
                     <h5>Bạn muốn hủy ca dạy này?</h5>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-default" type="button" data-dismiss="modal">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">
                         Hủy
                     </button>
-                    <button class="btn btn-primary" type="submit">
+                    <button class="btn btn-5 custom-btn" type="submit">
                         Đồng ý
                     </button>
                 </div>
@@ -262,7 +249,7 @@
 </div>
 <script type="text/javascript">
     function getDynamicTextBox(value) {
-        return '<div class="input-flex" style="margin-top:5px"><input type="time" id = "inputHour" name = "inputHour" class="form-control form-date"/><input onclick ="RemoveTextBox(this)" type ="button" value ="X" class="btn-delete" style="width:38px; height:38px"/></div>'
+        return '<div class="input-flex" style="margin-top:5px"><input type="time" id = "inputHour" name = "inputHour" class="form-control form-date" style="width: 100%"/><input onclick ="RemoveTextBox(this)" type ="button" value ="X" class="btn-danger btn" style="width:38px; height:38px"/></div>'
     }
     function AddTextBox() {
         var div = document.createElement('DIV');

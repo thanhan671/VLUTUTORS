@@ -1367,6 +1367,8 @@ i.active,
         height: 150px;
         min-width: 150px;
         padding: 10px;
+        object-fit: cover;
+        object-position: 50% 0;
     }
 
     .search-container .search-card .tutor-avt {
@@ -5133,6 +5135,7 @@ p.form-message.error {
     border-radius: 5px;
     border: 1px solid #ddd;
     transition: .2s ease-in-out;
+    height:100%;
 }
 .course-item:hover{
     background-color: #aaaaaa;

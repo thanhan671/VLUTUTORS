@@ -38,10 +38,9 @@
                             }
                             <td>@Html.DisplayFor(modelItem => item.Tutor.DiemBaiTest)</td>
                             <td>@Html.DisplayFor(modelItem => item.ApprovedStatus)</td>
-                            <td class="project-actions text-right">
-                                <a asp-action="DetailTutor" asp-route-id="@item.Tutor.Id" class="btn btn-primary btn-sm">
-                                    <i class="fas fa-folder"> </i>
-                                    Xem hồ sơ
+                            <td class="project-actions text-left">
+                                <a asp-action="DetailTutor" asp-route-id="@item.Tutor.Id" class="btn">
+                                    <i class="fas fa-eye"> </i>
                                 </a>
                             </td>
                         </tr>

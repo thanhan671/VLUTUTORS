@@ -38,7 +38,7 @@
                                     if (@httpContextAccessor.HttpContext.Session.GetInt32("IdGiaSu") == 5)
                                     {
                                         <li class="nav-item">
-                                            <a class="nav-link" href="~/Tutors">Đến Trang Gia Sư</a>
+                                            <a class="nav-link" href="~/Tutors/ManageTeachSchedule">Đến Trang Gia Sư</a>
                                         </li>
                                     }
                                     else
@@ -73,8 +73,8 @@
                                     <ul class="sub-menu">
                                         <li><a asp-controller="Accounts" asp-action="Details" asp-route-id="@httpContextAccessor.HttpContext.Session.GetInt32("LoginId")">Tài khoản</a></li>
                                         <li><a asp-controller="BookTutor" asp-action="HistoryBooking">Lịch Học</a></li>
-                                        <li><a asp-controller="HistoryOfLearning" asp-action="Index">Lịch Sử Học</a></li>
-                                        <li>
+@*                                        <li><a asp-controller="HistoryOfLearning" asp-action="Index">Lịch Sử Học</a></li>
+*@                                        <li>
                                             <a href=""
                                                data-toggle="modal"
                                                data-target="#logoutModal"

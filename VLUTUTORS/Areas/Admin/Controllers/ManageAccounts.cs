@@ -27,7 +27,12 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 if (quyen != null)
                     taiKhoan.Quyen = quyen.TenQuyen;
             }
-            return View(taiKhoans);
+            Taikhoanadmin taikhoanadmin = new Taikhoanadmin();
+            taikhoanadmin.listQuyen = new SelectList(_context.Quyens, "IdQuyen", "TenQuyen", taikhoanadmin.IdQuyen);
+
+            Tuple<Taikhoanadmin, IEnumerable<Taikhoanadmin>> turple = new Tuple<Taikhoanadmin, IEnumerable<Taikhoanadmin>>(taikhoanadmin, taiKhoans.AsEnumerable());
+
+            return View(turple);
         }
 
         [HttpGet]
@@ -35,9 +40,10 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         {
             Taikhoanadmin taikhoanadmin = new Taikhoanadmin();
 
-            taikhoanadmin.Quyens = new SelectList(_context.Quyens, "IdQuyen", "TenQuyen", taikhoanadmin.IdQuyen);
+            taikhoanadmin.listQuyen = new SelectList(_context.Quyens, "IdQuyen", "TenQuyen", taikhoanadmin.IdQuyen);
 
             return View(taikhoanadmin);
+            //return View();
         }
 
         [HttpPost]
@@ -86,7 +92,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 return NotFound();
             var quyens = await _context.Quyens.ToListAsync();
             SelectList ddlStatus = new SelectList(quyens, "IdQuyen", "TenQuyen");
-            taiKhoan.Quyens = ddlStatus;
+            taiKhoan.listQuyen = ddlStatus;
             return View(taiKhoan);
         }
 

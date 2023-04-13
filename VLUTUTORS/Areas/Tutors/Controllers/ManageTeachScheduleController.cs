@@ -19,31 +19,41 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
 
         public IActionResult Index()
         {
-            var userInfo = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
-            Taikhoannguoidung taikhoannguoidung = _db.Taikhoannguoidungs.Find(userInfo.Id);
-
-            //List<Taikhoannguoidung> teee = _db.Taikhoannguoidungs.ToList();
-            List<Caday> cadays = _db.Cadays.Where(ca => ca.IdnguoiDay.Equals(taikhoannguoidung.Id)).ToList();
-            foreach (var cadayItem in cadays)
+            string user = HttpContext.Session.GetString("LoginId");
+            if (user == null)
             {
-                cadayItem.tenMonDay = _db.Mongiasus.Find(cadayItem.IdmonDay).TenMonGiaSu.ToString();
-                cadayItem.tenLoaiCaDay = _db.Cahocs.Find(cadayItem.IdloaiCaDay).LoaiCa.ToString();
+                return RedirectToAction("Login", "Accounts", new { area = "default" });
             }
-
-            List<Mongiasu> subjects = new List<Mongiasu>();
-            subjects.Add(_db.Mongiasus.FirstOrDefault(i => i.IdmonGiaSu.Equals(taikhoannguoidung.IdmonGiaSu1)));
-            if (taikhoannguoidung.IdmonGiaSu2 != null)
+            int checkUser = (int)_db.Taikhoannguoidungs.Where(m => m.Id == HttpContext.Session.GetInt32("LoginId")).First().IdxetDuyet;
+            if (checkUser == 5)
             {
-                subjects.Add(_db.Mongiasus.FirstOrDefault(i => i.IdmonGiaSu.Equals(taikhoannguoidung.IdmonGiaSu2)));
+                var userInfo = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
+                Taikhoannguoidung taikhoannguoidung = _db.Taikhoannguoidungs.Find(userInfo.Id);
+
+                //List<Taikhoannguoidung> teee = _db.Taikhoannguoidungs.ToList();
+                List<Caday> cadays = _db.Cadays.Where(ca => ca.IdnguoiDay.Equals(taikhoannguoidung.Id)).ToList();
+                foreach (var cadayItem in cadays)
+                {
+                    cadayItem.tenMonDay = _db.Mongiasus.Find(cadayItem.IdmonDay).TenMonGiaSu.ToString();
+                    cadayItem.tenLoaiCaDay = _db.Cahocs.Find(cadayItem.IdloaiCaDay).LoaiCa.ToString();
+                }
+
+                List<Mongiasu> subjects = new List<Mongiasu>();
+                subjects.Add(_db.Mongiasus.FirstOrDefault(i => i.IdmonGiaSu.Equals(taikhoannguoidung.IdmonGiaSu1)));
+                if (taikhoannguoidung.IdmonGiaSu2 != null)
+                {
+                    subjects.Add(_db.Mongiasus.FirstOrDefault(i => i.IdmonGiaSu.Equals(taikhoannguoidung.IdmonGiaSu2)));
+                }
+
+                Caday caday = new Caday();
+                caday.IdnguoiDay = userInfo.Id;
+                caday.subjectItems = new SelectList(subjects, "IdmonGiaSu", "TenMonGiaSu", caday.IdmonDay);
+                caday.teachTimeItems = new SelectList(_db.Cahocs, "IdCaHoc", "LoaiCa", caday.IdloaiCaDay);
+
+                Tuple<Caday, IEnumerable<Caday>> turple = new Tuple<Caday, IEnumerable<Caday>>(caday, cadays.AsEnumerable());
+                return View(turple);
             }
-
-            Caday caday = new Caday();
-            caday.IdnguoiDay = userInfo.Id;
-            caday.subjectItems = new SelectList(subjects, "IdmonGiaSu", "TenMonGiaSu", caday.IdmonDay);
-            caday.teachTimeItems = new SelectList(_db.Cahocs, "IdCaHoc", "LoaiCa", caday.IdloaiCaDay);
-
-            Tuple<Caday, IEnumerable<Caday>> turple = new Tuple<Caday, IEnumerable<Caday>>(caday, cadays.AsEnumerable());
-            return View(turple);
+            return RedirectToAction("Login", "Accounts", new { area = "default" });
         }
 
         [HttpGet]
@@ -71,7 +81,7 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
         [HttpPost]
         public async Task<IActionResult> AddLessonPlan(IFormCollection timeSlot, [Bind(Prefix = "Item1")] Caday caday, [FromForm] string inputHour, [FromForm] string inputDate)
         {
-            if (inputDate != "01/01/0001 12:00:00 SA" && inputHour != null)
+            if (inputDate != null && inputHour != null)
             {
                 List<DateTime> timeSlots = new List<DateTime>();
                 DateTime date = DateTime.Parse(timeSlot["inputDate"]);

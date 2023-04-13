@@ -38,34 +38,72 @@
         <tbody>
             @foreach (var lesson in Model)
             {
-                <tr>
-                    <td>@lesson.tenMonDay</td>
-                    <td>@lesson.tenNguoiDay</td>
-                    <td>@lesson.NgayDay.ToString("dd/MM/yyyy")</td>
-                    <td>@lesson.GioBatDau:@lesson.PhutBatDau - @lesson.GioKetThuc:@lesson.PhutKetThuc</td>
-                    <td>@lesson.giaCaDay.ToString("#,##0.###") đồng</td>
+                int year = lesson.NgayDay.Year;
+                int month = lesson.NgayDay.Month;
+                int day = lesson.NgayDay.Day;
 
-                    @{
-                        if (lesson.NgayDay == DateTime.Today && lesson.PhutBatDau != 0 && lesson.GioBatDau == DateTime.Now.Hour && Math.Abs(lesson.PhutBatDau - DateTime.Now.Minute) <= 15)
-                        {
-                            <td class="done">Sắp Diễn Ra</td>
-                            <td><a class="btn btn-success btn-sm" style="width:90px" href="@lesson.Link" target="_blank">Tham gia</a><button class="btn btn-danger btn-sm" style="margin-top: 5px; width: 90px">Hủy lịch</button></td>
+                DateTime checkTime = new DateTime(year, month, day, lesson.GioBatDau, lesson.PhutBatDau, 0);
+                if (checkTime >= DateTime.Now)
+                {
+                    <tr>
+                        <td>@lesson.tenMonDay</td>
+                        <td>@lesson.tenNguoiDay</td>
+                        <td>@lesson.NgayDay.ToString("dd/MM/yyyy")</td>
+                        <td>@lesson.GioBatDau:@lesson.PhutBatDau - @lesson.GioKetThuc:@lesson.PhutKetThuc</td>
+                        <td>@lesson.giaCaDay.ToString("#,##0.###") đồng</td>
+
+                        @{
+                            if (lesson.NgayDay == DateTime.Today && lesson.PhutBatDau != 0 && lesson.GioBatDau == DateTime.Now.Hour && Math.Abs(lesson.PhutBatDau - DateTime.Now.Minute) <= 15)
+                            {
+                                <td class="done">Sắp Diễn Ra</td>
+                                <td><a class="btn btn-success btn-sm" style="width:90px" href="@lesson.Link" target="_blank">Tham gia</a><button class="btn btn-danger btn-sm" style="margin-top: 5px; width: 90px">Hủy lịch</button></td>
+                            }
+                            else if (lesson.NgayDay == DateTime.Today && (lesson.PhutBatDau == 0 || (0 < lesson.PhutBatDau) && (lesson.PhutBatDau < 15)) && lesson.GioBatDau - DateTime.Now.Hour == 1 && Math.Abs(lesson.PhutBatDau - DateTime.Now.Minute) >= 45)
+                            {
+                                <td class="done">Sắp Diễn Ra</td>
+                                <td><a class="btn btn-success btn-sm" style="width:90px" href="@lesson.Link" target="_blank">Tham gia</a><button class="btn btn-danger btn-sm" style="margin-top: 5px; width: 90px">Hủy lịch</button></td>
+                            }
+                            else
+                            {
+                                <td class="cms">Đã đặt lịch</td>
+                                <td><a class="btn btn-danger btn-sm" style="margin-top: 5px; width: 90px; color:white;"
+                           data-toggle="modal"
+                           data-target="#deleteModal"
+                           onclick="document.getElementById('lessonPlanId').value = @lesson.Id">Hủy lịch</a>
+                    </td>
+                            }
                         }
-                        else if (lesson.NgayDay == DateTime.Today && (lesson.PhutBatDau == 0 || (0 < lesson.PhutBatDau) && (lesson.PhutBatDau < 15)) && lesson.GioBatDau - DateTime.Now.Hour == 1 && Math.Abs(lesson.PhutBatDau - DateTime.Now.Minute) >= 45)
-                        {
-                            <td class="done">Sắp Diễn Ra</td>
-                            <td><a class="btn btn-success btn-sm" style="width:90px" href="@lesson.Link" target="_blank">Tham gia</a><button class="btn btn-danger btn-sm" style="margin-top: 5px; width: 90px">Hủy lịch</button></td>
-                        }
-                        else
-                        {
-                            <td class="cms">Đã đặt lịch</td>
-                            <td><a class="btn btn-danger btn-sm" style="margin-top: 5px; width: 90px; color:white;">Hủy lịch</a></td>
-                        }
-                    }
-                </tr>
+                    </tr>
+                }
             }
         </tbody>
     </table>
+
+    <div class="modal fade"
+         id="deleteModal"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="deleteModalLabel"
+         aria-hidden="true">
+        <form asp-action="" method="post" asp-controller="">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <h5>Bạn muốn hủy ca học này?</h5>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">
+                            Hủy
+                        </button>
+                        <button class="btn btn-5 custom-btn" type="submit">
+                            Đồng ý
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" id="lessonPlanId" name="lessonPlanId" />
+        </form>
+    </div>
 </div>
 @section scripts{
     <script>
@@ -112,12 +150,12 @@
         });
     </script>
     <script type="text/javascript">
-      $(function () {
-        $('#myTable_filter').prepend($('#dropdown-filter')).clone();
-        $('#filter-fade').remove();
-        $('#myTable_filter').css({ display: 'flex' });
-            $('#myTable').css({width: 'auto'});
-      });
+        $(function () {
+            $('#myTable_filter').prepend($('#dropdown-filter')).clone();
+            $('#filter-fade').remove();
+            $('#myTable_filter').css({ display: 'flex' });
+            $('#myTable').css({ width: 'auto' });
+        });
     </script>
     @if (TempData["Message"] != null)
     {
