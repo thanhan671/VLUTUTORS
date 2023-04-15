@@ -14,7 +14,6 @@ using VLUTUTORS.Responses;
 using VLUTUTORS.Responses.ManageTeachHistorys;
 
 namespace VLUTUTORS.Areas.Tutors.Controllers
-
 {
     [Area("Tutors")]
     public class ManageTeachHistoryController : Controller

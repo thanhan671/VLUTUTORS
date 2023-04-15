@@ -44,75 +44,7 @@ namespace VLUTUTORS.Controllers
 
         #region Method 
 
-        /// <summary>
-        /// Thêm thông tin đánh giá gia sư của người học.
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateTutorEvaluation(CreateTutorEvaluationRequest request)
-        {
-            int? userId = await IsExistUser();
-            if (userId is null)
-            {
-                TempData["Message"] = "Bạn không có quyền thực hiện chức năng này !";
-                TempData["MessageType"] = "error";
 
-                return RedirectToAction("Index", "HistoryOfLearning");
-            }
-
-            if (ModelState.IsValid)
-            {
-                var existEvaluation = await (from caDay in _db.Cadays.Where(x => x.TrangThai == true && x.NgayDay.Date <= DateTime.Now.Date) // Ca dạy đã hoàn tất
-
-                                             join danhGiaGiaSu in _db.Danhgiagiasus on caDay.Id equals danhGiaGiaSu.IdCaDay into nhomDanhGia
-                                             from danhGiaGiaSu in nhomDanhGia.DefaultIfEmpty()
-
-                                             where caDay.Id == request.IdCaDay && caDay.IdnguoiHoc == userId
-                                             select new { danhGiaGiaSu, caDay }).FirstOrDefaultAsync();
-
-                if (existEvaluation is null)
-                {
-                    TempData["Message"] = "Không tìm thấy thông tin yêu cầu !";
-                    TempData["MessageType"] = "error";
-
-                    return RedirectToAction("Index", "HistoryOfLearning");
-                }
-
-                if (existEvaluation.caDay is null || existEvaluation.danhGiaGiaSu is not null)
-                {
-                    TempData["Message"] = "Đã đánh giá gia sư với buổi dạy này rồi.";
-                    TempData["MessageType"] = "error";
-
-                    return RedirectToAction("Index", "HistoryOfLearning");
-                }
-
-                Danhgiagiasu model = new()
-                {
-                    Diem = request.Diem ?? 0,
-                    IdCaDay = request.IdCaDay,
-                    GiasuId = existEvaluation.caDay.IdnguoiDay,
-                    NguoidungId = existEvaluation.caDay.IdnguoiHoc.Value,
-                    DanhGia = request.DanhGia ?? string.Empty,
-                    TieuChi = string.Join(";", request.TieuChi)
-                };
-
-                await _db.Danhgiagiasus.AddAsync(model);
-                bool result = await _db.SaveChangesAsync() > 0;
-
-                if (result)
-                {
-                    TempData["Message"] = "Đánh giá gia sư thành công.";
-                    TempData["MessageType"] = "success";
-                    return RedirectToAction("Index", "HistoryOfLearning");
-                }
-            }
-
-            TempData["Message"] = "Thực hiện yêu cầu không thành công.";
-            TempData["MessageType"] = "error";
-            return RedirectToAction("Index", "HistoryOfLearning");
-        }
 
         /// <summary>
         /// Lấy thông tin chi tiết đánh giá gia sư của người học.
