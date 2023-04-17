@@ -119,47 +119,28 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var lesson in Model.Item2)
-                {
-                    string lessonTime, typeTime;
-                    if (lesson.GioBatDau <= 12)
-                    {
-                        typeTime = "AM";
-                    }
-                    else
-                    {
-                        typeTime = "PM";
-                    }
-                    if (lesson.PhutBatDau == 0)
-                    {
-                        lessonTime = lesson.NgayDay.ToString("dd/MM/yyyy") + " " + lesson.GioBatDau + ":00 " + typeTime;
-                    }
-                    else
-                    {
-                        lessonTime = lesson.NgayDay.ToString("dd/MM/yyyy") + " " + lesson.GioBatDau + ":" + lesson.PhutBatDau + " " + typeTime;
-                    }
+                @foreach (var lesson in Model.Item2) {
+                    int year = lesson.NgayDay.Year;
+                    int month = lesson.NgayDay.Month;
+                    int day = lesson.NgayDay.Day;
 
-                    DateTime checkTime = DateTime.Parse(lessonTime);
-                    if (checkTime >= DateTime.Now)
-                    {
+                    DateTime checkTime = new DateTime(year, month, day, lesson.GioBatDau, lesson.PhutBatDau, 0);
+                    if (checkTime >= DateTime.Now) {
                         <tr>
                             <td>@lesson.tenMonDay</td>
                             <td>@lesson.NgayDay.ToString("dd/MM/yyyy")</td>
                             <td>@lesson.GioBatDau:@lesson.PhutBatDau - @lesson.GioKetThuc:@lesson.PhutKetThuc</td>
                             <td>@lesson.tenLoaiCaDay phút</td>
                             @{
-                                if (lesson.IdnguoiHoc == null)
-                                {
+                                if (lesson.IdnguoiHoc == null) {
                                     <td>Chưa được đặt</td>
                                 }
-                                else
-                                {
+                                else {
                                     <td style="color:green">Đã được đặt</td>
                                 }
                             }
                             @{
-                                if (lesson.IdnguoiHoc == null)
-                                {
+                                if (lesson.IdnguoiHoc == null) {
                                     <td class="project-actions">
                                         <a class="btn btn-sm" style="margin-bottom:5px; width:120px" href="@Url.Action("EditLessonPlan", "ManageTeachSchedule", new { lessonPlanId = @lesson.Id })">
                                             <i class="fas fa-pencil-alt"> </i>
@@ -175,10 +156,8 @@
                                         </a>
                                     </td>
                                 }
-                                else
-                                {
-                                    if (lesson.NgayDay == DateTime.Today && lesson.PhutBatDau != 0 && lesson.GioBatDau == DateTime.Now.Hour && Math.Abs(lesson.PhutBatDau - DateTime.Now.Minute) <= 15)
-                                    {
+                                else {
+                                    if (lesson.NgayDay == DateTime.Today && lesson.PhutBatDau != 0 && lesson.GioBatDau == DateTime.Now.Hour && Math.Abs(lesson.PhutBatDau - DateTime.Now.Minute) <= 15) {
                                         <td class="project-actions">
                                             <a class="btn btn-success btn-sm" href="@lesson.Link" style="margin-bottom:5px; width:120px" target="_blank">
                                                 <i class="fas fa-chalkboard-teacher"> </i>
@@ -194,8 +173,7 @@
                                             </a>
                                         </td>
                                     }
-                                    else if (lesson.NgayDay == DateTime.Today && (lesson.PhutBatDau == 0 || (0 < lesson.PhutBatDau) && (lesson.PhutBatDau < 15)) && lesson.GioBatDau - DateTime.Now.Hour == 1 && Math.Abs(lesson.PhutBatDau - DateTime.Now.Minute) >= 45)
-                                    {
+                                    else if (lesson.NgayDay == DateTime.Today && (lesson.PhutBatDau == 0 || (0 < lesson.PhutBatDau) && (lesson.PhutBatDau < 15)) && lesson.GioBatDau - DateTime.Now.Hour == 1 && Math.Abs(lesson.PhutBatDau - DateTime.Now.Minute) >= 45) {
                                         <td class="project-actions">
                                             <a class="btn btn-success btn-sm" href="@lesson.Link" style="margin-bottom:5px; width:120px;" target="_blank">
                                                 <i class="fas fa-chalkboard-teacher"> </i>
@@ -211,8 +189,7 @@
                                             </a>
                                         </td>
                                     }
-                                    else
-                                    {
+                                    else {
                                         <td class="project-actions">
                                             <a class="btn btn-sm"
                                                style="width:120px;"
@@ -325,26 +302,24 @@
             $('#filter-fade').remove();
         })
     </script>
-    @if (TempData["Message"] != null)
-    {
+    @if (TempData["Message"] != null) {
         <script>
             var messageType = '@TempData["MessageType"]';
-        var message = '@TempData["Message"]';
+            var message = '@TempData["Message"]';
 
-        // Display the message using Toastr library
-        if (messageType === "success") {
-            toastr.success(message);
-        } else if (messageType === "error") {
-            toastr.error(message);
-        } else if (messageType === "warning") {
-            toastr.warning(message);
-        } else if (messageType === "info") {
-            toastr.info(message);
-        }
+            // Display the message using Toastr library
+            if (messageType === "success") {
+                toastr.success(message);
+            } else if (messageType === "error") {
+                toastr.error(message);
+            } else if (messageType === "warning") {
+                toastr.warning(message);
+            } else if (messageType === "info") {
+                toastr.info(message);
+            }
         </script>
     }
-    @if (ViewBag.Message != null)
-    {
+    @if (ViewBag.Message != null) {
         <script type="text/javascript">
             window.onload = function () {
                 alert("@ViewBag.Message");
@@ -354,18 +329,17 @@
     <script src="~/js/app.js"></script>
     <script>
         $(function () {
-    // Check for a success message in TempData
-    var toastrSuccess = '@(TempData["toastr-success"])';
-    if (toastrSuccess) {
-        toastr.success(toastrSuccess);
-    }
+            // Check for a success message in TempData
+            var toastrSuccess = '@(TempData["toastr-success"])';
+            if (toastrSuccess) {
+                toastr.success(toastrSuccess);
+            }
 
-    // Check for an error message in TempData
-    var toastrError = '@(TempData["toastr-error"])';
-    if (toastrError) {
-        toastr.error(toastrError);
-    }
-});
+            // Check for an error message in TempData
+            var toastrError = '@(TempData["toastr-error"])';
+            if (toastrError) {
+                toastr.error(toastrError);
+            }
+        });
     </script>
 }
-

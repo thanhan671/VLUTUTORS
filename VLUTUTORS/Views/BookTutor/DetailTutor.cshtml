@@ -26,12 +26,10 @@
                     @{
                         var totalRate = Model.Item1.Commnents.Sum(it => it.Comment.Diem);
                         int totalStar = (Model.Item1.Commnents.Count > 0 ? totalRate / Model.Item1.Commnents.Count : 0);
-                        for (int i = 0; i < totalStar; ++i)
-                        {
+                        for (int i = 0; i < totalStar; ++i) {
                             <span><i class="fa-solid fa-star"></i></span>
                         }
-                        if (totalStar > 0)
-                        {
+                        if (totalStar > 0) {
                             <span class="ml-2 mt-1">@totalStar</span>
                         }
                     }
@@ -39,13 +37,11 @@
                     <div class="name">
                         <h6>@Model.Item1.Tutor.HoTen</h6>
 
-                        @if (Model.Item1.Subject1 != null)
-                        {
+                        @if (Model.Item1.Subject1 != null) {
                             <div style="color:crimson">@Model.Item1.Subject1.TenMonGiaSu</div>
                         }
 
-                        @if (Model.Item1.Subject2 != null)
-                        {
+                        @if (Model.Item1.Subject2 != null) {
                             <div style="color:crimson">@Model.Item1.Subject2.TenMonGiaSu</div>
                         }
                     </div>
@@ -101,54 +97,51 @@
                                 </div>
                                 <!-- singel dashboard -->
                                 <div class="singel-dashboard pt-30">
-                                    <h4 class="font-weight-bold">Chứng chỉ</h3>
+                                    <h4 class="font-weight-bold">
+                                        Chứng chỉ</h3>
 
-                                    @if (Model.Item1.Subject1 != null)
-                                    {
-                                        <div>
-                                            <div style="font-size:16px; color:blue"><b>Chứng chỉ môn: @Model.Item1.Subject1.TenMonGiaSu</b></div>
-                                            <p>
-                                                @Model.Item1.Tutor.TenChungChiHoacDiemMon1
-                                            </p>
-                                        </div>
-                                    }
-
-                                    @if (Model.Item1.Subject2 != null)
-                                    {
-                                        <div>
+                                        @if (Model.Item1.Subject1 != null) {
                                             <div>
-                                                <div style="font-size:16px; color:blue"><b>Chứng chỉ môn: @Model.Item1.Subject2.TenMonGiaSu</b></div>
+                                                <div style="font-size:16px; color:blue"><b>Chứng chỉ môn: @Model.Item1.Subject1.TenMonGiaSu</b></div>
                                                 <p>
-                                                    @Model.Item1.Tutor.TenChungChiHoacDiemMon2
+                                                    @Model.Item1.Tutor.TenChungChiHoacDiemMon1
                                                 </p>
                                             </div>
-                                        </div>
-                                    }
-                                    <!-- singel dashboard -->
-                                    <div class="singel-dashboard pt-30">
+                                        }
+
+                                        @if (Model.Item1.Subject2 != null) {
+                                            <div>
+                                                <div>
+                                                    <div style="font-size:16px; color:blue"><b>Chứng chỉ môn: @Model.Item1.Subject2.TenMonGiaSu</b></div>
+                                                    <p>
+                                                        @Model.Item1.Tutor.TenChungChiHoacDiemMon2
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        }
+                                        <!-- singel dashboard -->
+                                        <div class="singel-dashboard pt-30">
                                             <h4 class="font-weight-bold">Môn tôi gia sư</h4>
 
-                                        @if (Model.Item1.Subject1 != null)
-                                        {
-                                            <div>
-                                                <div style="font-size:16px; color:blue"><b>Giới thiệu về môn: @Model.Item1.Subject1.TenMonGiaSu</b></div>
-                                                <p>
-                                                    @Model.Item1.Tutor.GioiThieuVeMonGiaSu1
-                                                </p>
-                                            </div>
-                                        }
+                                            @if (Model.Item1.Subject1 != null) {
+                                                <div>
+                                                    <div style="font-size:16px; color:blue"><b>Giới thiệu về môn: @Model.Item1.Subject1.TenMonGiaSu</b></div>
+                                                    <p>
+                                                        @Model.Item1.Tutor.GioiThieuVeMonGiaSu1
+                                                    </p>
+                                                </div>
+                                            }
 
-                                        @if (Model.Item1.Subject2 != null)
-                                        {
-                                            <div>
-                                                <div style="font-size:18px; color:blue"><b>Giới thiệu về môn: @Model.Item1.Subject2.TenMonGiaSu</b></div>
-                                                <p>
-                                                    @Model.Item1.Tutor.GioiThieuVeMonGiaSu2
-                                                </p>
-                                            </div>
-                                        }
-                                    </div>
-                                    <!-- singel dashboard -->
+                                            @if (Model.Item1.Subject2 != null) {
+                                                <div>
+                                                    <div style="font-size:18px; color:blue"><b>Giới thiệu về môn: @Model.Item1.Subject2.TenMonGiaSu</b></div>
+                                                    <p>
+                                                        @Model.Item1.Tutor.GioiThieuVeMonGiaSu2
+                                                    </p>
+                                                </div>
+                                            }
+                                        </div>
+                                        <!-- singel dashboard -->
                                 </div>
                                 <!-- dashboard cont -->
                             </div>
@@ -187,33 +180,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var lesson in Model.Item2)
-                                    {
-                                        string lessonTime,typeTime;
-                                        if(lesson.GioBatDau <= 12)
-                                        {
-                                            typeTime = "AM";
-                                        }
-                                        else
-                                        {
-                                            typeTime = "PM";
-                                        }
-                                        if (lesson.PhutBatDau == 0)
-                                        {
-                                            lessonTime = lesson.NgayDay.ToString("dd/MM/yyyy") + " " + lesson.GioBatDau + ":00:00 "+typeTime;
-                                        }
-                                        else if(lesson.PhutBatDau>0 && lesson.PhutBatDau<=5)
-                                        {
-                                            lessonTime = lesson.NgayDay.ToString("dd/MM/yyyy") + " " + lesson.GioBatDau + ":0"+lesson.PhutBatDau+":00 "+typeTime;
-                                        }
-                                        else
-                                        {
-                                            lessonTime = lesson.NgayDay.ToString("dd/MM/yyyy") + " " + lesson.GioBatDau + ":" + lesson.PhutBatDau + ":00 " + typeTime;
-                                        }
+                                    @foreach (var lesson in Model.Item2) {
+                                        int year = lesson.NgayDay.Year;
+                                        int month = lesson.NgayDay.Month;
+                                        int day = lesson.NgayDay.Day;
 
-                                        DateTime checkTime = DateTime.Parse(lessonTime);
-                                        if (@lesson.NgayDay >= DateTime.Today && @lesson.IdnguoiHoc == null && checkTime >= DateTime.Now)
-                                        {
+                                        DateTime checkTime = new DateTime(year, month, day, lesson.GioBatDau, lesson.PhutBatDau, 0);
+                                        if (@lesson.IdnguoiHoc == null && checkTime >= DateTime.Now) {
                                             <tr>
                                                 <td>@lesson.tenMonDay</td>
                                                 <td>@lesson.NgayDay.ToString("dd/MM/yyyy")</td>
@@ -238,15 +211,13 @@
                              role="tabpanel"
                              aria-labelledby="reviews-tab">
                             <div class="reviews-cont">
-                                @if (Model.Item1.Commnents.Count > 0)
-                                {
+                                @if (Model.Item1.Commnents.Count > 0) {
                                     <div class="title">
                                         <h6>Đánh giá của học viên</h6>
                                     </div>
                                     <ul>
                                         @{
-                                            foreach (var comment in Model.Item1.Commnents)
-                                            {
+                                            foreach (var comment in Model.Item1.Commnents) {
                                                 <li>
                                                     <div class="singel-reviews">
                                                         <div class="reviews-author">
@@ -265,8 +236,7 @@
                                                             <div class="rating">
 
                                                                 <ul>
-                                                                    @for (int i = 0; i < comment.Comment.Diem; ++i)
-                                                                    {
+                                                                    @for (int i = 0; i < comment.Comment.Diem; ++i) {
                                                                         <li><i class="fa fa-star"></i></li>
                                                                     }
                                                                 </ul>
@@ -282,8 +252,7 @@
                                         <h6>Hãy để lại đánh giá của bạn</h6>
                                     </div>
                                 }
-                                else
-                                {
+                                else {
                                     <p>Chưa có đánh giá cho gia sư này</p>
                                 }
 

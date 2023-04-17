@@ -158,6 +158,8 @@ namespace VLUTUTORS.Controllers
             if (taikhoannguoidung.DiemBaiTest > 7)
                 taikhoannguoidung.IdxetDuyet = 2;
 
+            TempData["Message"] = "Bạn đã hoàn thành khóa đào tạo, vui lòng theo dõi mail!";
+            TempData["MessageType"] = "success";
             _db.Taikhoannguoidungs.Attach(taikhoannguoidung).Property(x => x.DiemBaiTest).IsModified = true;
             _db.SaveChanges();
 
