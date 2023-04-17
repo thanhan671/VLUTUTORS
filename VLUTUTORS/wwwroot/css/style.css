@@ -136,6 +136,7 @@ p {
     line-height: 28px;
     color: #505050;
     margin: 0px;
+    word-wrap: break-word;
 }
 
 section.demo {
@@ -886,7 +887,7 @@ select.form-search {
 /*===== Header top =====*/
 
 .logo {
-    width: 20%;
+    max-width: 20%;
     margin-right: 20px;
 }
 
@@ -1052,6 +1053,10 @@ select.form-search {
                 transition: all 0.4s linear;
                 padding: 25px 0;
                 color: #07294d;
+                max-width: 145px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
             }
 
 .right-icon.text-right ul li a {
