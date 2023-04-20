@@ -20,15 +20,15 @@ namespace VLUTUTORS.Controllers
         }
 
         [HttpGet]
-        public IActionResult RatingTutor(int idCaDay)
+        public IActionResult RatingTutor(int id)
         {
-            if (idCaDay is 0)
+            if (id is 0)
             {
                 TempData["Message"] = "Không tìm thấy Ca dạy !";
                 TempData["MessageType"] = "error";
                 return RedirectToAction("Index", "HistoryOfLearning");
             }
-            ViewData["idCaDay"] = idCaDay;
+            ViewData["idCaDay"] = id;
 
             return View();
         }
@@ -70,7 +70,7 @@ namespace VLUTUTORS.Controllers
 
                 if (existEvaluation.caDay is null || existEvaluation.danhGiaGiaSu is not null)
                 {
-                    TempData["Message"] = "Đã đánh giá gia sư với buổi dạy này rồi.";
+                    TempData["Message"] = "Đã đánh giá gia sư với buổi dạy này!.";
                     TempData["MessageType"] = "error";
 
                     return RedirectToAction("Index", "HistoryOfLearning");

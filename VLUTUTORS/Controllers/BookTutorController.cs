@@ -198,7 +198,7 @@ namespace VLUTUTORS.Controllers
                                 var nguoiDanhGia = _db.Taikhoannguoidungs.Find(danhGia.NguoidungId);
                                 if (nguoiDanhGia != null)
                                 {
-                                    nguoiDanhGia.AnhDaiDien = nguoiDanhGia.AnhDaiDien.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
+                                    //nguoiDanhGia.AnhDaiDien = nguoiDanhGia.AnhDaiDien.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
                                     commentModel.Add(new CommentViewModel
                                     {
                                         Comment = danhGia,
@@ -301,7 +301,7 @@ namespace VLUTUTORS.Controllers
                 var nguoiDanhGia = _db.Taikhoannguoidungs.Find(danhGia.IdnguoiHoc);
                 if (nguoiDanhGia != null)
                 {
-                    nguoiDanhGia.AnhDaiDien = nguoiDanhGia.AnhDaiDien.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
+                    //nguoiDanhGia.AnhDaiDien = nguoiDanhGia.AnhDaiDien.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
                     commentModel.Add(new CommentViewModel
                     {
                         Comment = danhGia.danhGiaGiaSu,
