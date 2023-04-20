@@ -33,7 +33,7 @@ namespace VLUTUTORS.Controllers
                 return RedirectToAction("Login", "Accounts");
             }
             int checkUser = (int)_db.Taikhoannguoidungs.Where(m => m.Id == HttpContext.Session.GetInt32("LoginId")).First().IdxetDuyet;
-            if (checkUser == 1)
+            if (checkUser == 1 || checkUser == 2 || checkUser == 3)
             {
                 List<Khoadaotao> lesson = _db.Khoadaotaos.ToList();
 
