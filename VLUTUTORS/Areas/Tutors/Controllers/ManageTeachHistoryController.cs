@@ -71,7 +71,6 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
         /// <param name="request">CreateLearnerEvaluationRequest</param>
         /// <returns></returns>
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateLearnerEvaluation(CreateLearnerEvaluationRequest request)
         {
             int? userId = await IsExistUser();
@@ -90,7 +89,7 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
                                              join danhGiaNguoiHoc in _db.Danhgianguoihocs on caDay.Id equals danhGiaNguoiHoc.IdCaDay into nhomNguoiHoc
                                              from danhGiaNguoiHoc in nhomNguoiHoc.DefaultIfEmpty()
 
-                                             where caDay.Id == request.IdCaDay && caDay.IdnguoiDay == userId
+                                             where caDay.Id == request.LessonId && caDay.IdnguoiDay == userId
                                              select new { danhGiaNguoiHoc, caDay }).FirstOrDefaultAsync();
 
                 if (existEvaluation is null)
@@ -111,12 +110,12 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
 
                 Danhgianguoihoc model = new()
                 {
-                    Diem = request.Diem ?? 0,
-                    IdCaDay = request.IdCaDay,
+                    Diem = request.Rating ?? 0,
+                    IdCaDay = request.LessonId,
                     IdGiaSu = existEvaluation.caDay.IdnguoiDay,
-                    IdNguoiDung = existEvaluation.caDay.IdnguoiHoc.Value,
-                    DanhGia = request.DanhGia ?? string.Empty,
-                    TieuChi = string.Join(";", request.TieuChi)
+                    IdNguoiDung = existEvaluation.caDay.IdnguoiHoc ?? 0,
+                    DanhGia = request.FeedBack ?? string.Empty,
+                    TieuChi = string.Join(";", request.Skills)
                 };
 
                 await _db.Danhgianguoihocs.AddAsync(model);
