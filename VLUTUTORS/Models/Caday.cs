@@ -30,6 +30,8 @@ namespace VLUTUTORS.Models
         [NotMapped]
         public string tenNguoiDay { get; set; }
         [NotMapped]
+        public string tenNguoiHoc { get; set; }
+        [NotMapped]
         public string tenMonDay { get; set; }
         [NotMapped]
         public string tenLoaiCaDay { get; set; }

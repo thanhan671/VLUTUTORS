@@ -17,12 +17,12 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
         private readonly CP25Team01Context _db = new();
         public IActionResult Index()
         {
-            string user = HttpContext.Session.GetString("LoginId");
-            if (user == null)
+            int checkUser = (int)_db.Taikhoannguoidungs.Where(m => m.Id == HttpContext.Session.GetInt32("LoginId")).First().IdxetDuyet;
+            if (checkUser == 5)
             {
-                return RedirectToAction("Login", "Accounts", new { area = "default" });
+                return View();
             }
-            return View();
+            return RedirectToAction("Login", "Accounts", new { area = "default" });
         }
 
         #region Method 
@@ -95,12 +95,7 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
         }
 
         #endregion
-            int checkUser = (int)_db.Taikhoannguoidungs.Where(m => m.Id == HttpContext.Session.GetInt32("LoginId")).First().IdxetDuyet;
-            if (checkUser == 5)
-            {
-                return View();
-            }
-            return RedirectToAction("Login", "Accounts", new { area = "default" });
+
         }
     }
-}
+

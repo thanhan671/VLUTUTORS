@@ -200,7 +200,16 @@ namespace VLUTUTORS.Controllers
                                 var nguoiDanhGia = _db.Taikhoannguoidungs.Find(danhGia.NguoidungId);
                                 if (nguoiDanhGia != null)
                                 {
-                                    //nguoiDanhGia.AnhDaiDien = nguoiDanhGia.AnhDaiDien.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
+                                    string avt = nguoiDanhGia.AnhDaiDien;
+                                    if (!string.IsNullOrEmpty(avt))
+                                    {
+                                        avt = avt.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
+                                        nguoiDanhGia.AnhDaiDien = avt;
+                                    }
+                                    else
+                                    {
+                                        nguoiDanhGia.AnhDaiDien = "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png";
+                                    }
                                     commentModel.Add(new CommentViewModel
                                     {
                                         Comment = danhGia,
@@ -291,7 +300,6 @@ namespace VLUTUTORS.Controllers
             var subject2 = subjects.FirstOrDefault(it => it.IdmonGiaSu == tutor.IdmonGiaSu2);
 
             var commentModel = new List<CommentViewModel>();
-            //var danhGiaGiaSu = _db.Danhgiagiasus.Where(it => it.GiasuId == tutor.Id).ToList();
 
             var giaSus = (from danhGiaGiaSu in _db.Danhgiagiasus
                                 join caday in _db.Cadays on danhGiaGiaSu.IdCaDay equals caday.Id
@@ -303,7 +311,16 @@ namespace VLUTUTORS.Controllers
                 var nguoiDanhGia = _db.Taikhoannguoidungs.Find(danhGia.IdnguoiHoc);
                 if (nguoiDanhGia != null)
                 {
-                    //nguoiDanhGia.AnhDaiDien = nguoiDanhGia.AnhDaiDien.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
+                    string avt = nguoiDanhGia.AnhDaiDien;
+                    if (!string.IsNullOrEmpty(avt))
+                    {
+                        avt = avt.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
+                        nguoiDanhGia.AnhDaiDien = "https://cntttest.vanlanguni.edu.vn:18081/CP25Team01/"+avt;
+                    }
+                    else
+                    {
+                        nguoiDanhGia.AnhDaiDien = "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png";
+                    }
                     commentModel.Add(new CommentViewModel
                     {
                         Comment = danhGia.danhGiaGiaSu,

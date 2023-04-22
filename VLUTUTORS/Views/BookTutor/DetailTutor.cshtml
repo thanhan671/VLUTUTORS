@@ -21,8 +21,9 @@
             <div class="col-lg-4 col-md-8">
                 <div class="teachers-left">
                     <div class="hero">
-                        <img src="~/@Model.Item1.Tutor.AnhDaiDien" alt="Teachers" />
+                        <img src="@Model.Item1.Tutor.AnhDaiDien" alt="Teachers" />
                     </div>
+                    <div class="tutor-rating">
                     @{
                         var totalRate = Model.Item1.Commnents.Sum(it => it.Comment.Diem);
                         int totalStar = (Model.Item1.Commnents.Count > 0 ? totalRate / Model.Item1.Commnents.Count : 0);
@@ -33,7 +34,7 @@
                             <span class="ml-2 mt-1">@totalStar</span>
                         }
                     }
-
+                    </div>
                     <div class="name">
                         <h6>@Model.Item1.Tutor.HoTen</h6>
 
@@ -222,7 +223,7 @@
                                                     <div class="singel-reviews">
                                                         <div class="reviews-author">
                                                             <div class="author-thum" style="width: 70px">
-                                                                <img src="~/@comment.NguoiDanhGia.AnhDaiDien" alt="Reviews" />
+                                                                <img src="@comment.NguoiDanhGia.AnhDaiDien" alt="Reviews" />
                                                             </div>
                                                             <div class="author-name">
                                                                 <h6>@comment.NguoiDanhGia.HoTen</h6>
@@ -248,9 +249,6 @@
                                             }
                                         }
                                     </ul>
-                                    <div class="title pt-15">
-                                        <h6>Hãy để lại đánh giá của bạn</h6>
-                                    </div>
                                 }
                                 else {
                                     <p>Chưa có đánh giá cho gia sư này</p>

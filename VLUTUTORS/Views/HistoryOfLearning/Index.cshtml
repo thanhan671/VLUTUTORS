@@ -1,5 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Http
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model IEnumerable<VLUTUTORS.Models.Caday>
+@using Microsoft.EntityFrameworkCore;
+@using VLUTUTORS.Models;
 @{
     ViewData["Title"] = "Lịch Sử Học";
     Layout = "~/Views/Shared/_otherPageLayout.cshtml";
@@ -26,118 +29,137 @@
     <table id="myTable" class="mt-100">
         <thead>
             <tr>
-                <th>Môn Học</th>
+                <th class="text-center">Môn Học</th>
                 <th class="text-center">Tên Gia Sư</th>
-                <th>Ngày Học</th>
-                <th>Giá Tiền</th>
+                <th class="text-center">Ngày Học</th>
                 <th class="text-center">Khung Giờ</th>
+                <th class="text-center">Giá Tiền</th>
                 <th class="text-center">Trạng Thái</th>
                 <th class="text-center">Đánh giá gia sư</th>
                 <th class="text-center">Đánh giá của gia sư</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>Anh Văn Cơ Bản</td>
-                <td class="text-center"><a href="">Văn Đạt</a></td>
-                <td>18/03/2023</td>
-                <td>70.000 VNĐ</td>
-                <td class="text-center">7h - 8h</td>
-                <td class="done text-center">Đã Học</td>
-                <td class="text-center"><a asp-controller="Meeting" asp-action="RatingTutor" asp-route-id="177" class="btn btn-warning btn-sm" style="width:100px">Đánh giá</a></td>
-                <td class="text-center"><button class="btn btn-success btn-sm" style="width:100px">Xem đánh giá</button></td>
-            </tr>
-            <tr>
-                <td>Toán Cao Cấp</td>
-                <td class="text-center"><a href="">Thanh Long</a></td>
-                <td>05/03/2023</td>
-                <td>70.000 VNĐ</td>
-                <td class="text-center">7h - 8h</td>
-                <td class="cancel text-center">Đã Huỷ</td>
-                <td class="text-center">Không có đánh giá</td>
-                <td class="text-center">Không có đánh giá</td>
-            </tr>
-            <tr>
-                <td>Lập Trình Java</td>
-                <td class="text-center"><a href="">Văn Khánh</a></td>
-                <td>15/03/2023</td>
-                <td>70.000 VNĐ</td>
-                <td class="text-center">7h - 8h</td>
-                <td class="done text-center">Đã Học</td>
-                <td class="text-center"><a href="#"><button class="btn btn-success btn-sm" style="width:100px">Xem đánh giá</button></a></td>
-                <td class="text-center">Chưa đánh giá</td>
-            </tr>
+            @foreach (var lesson in Model)
+            {
+                int year = lesson.NgayDay.Year;
+                int month = lesson.NgayDay.Month;
+                int day = lesson.NgayDay.Day;
+
+                DateTime checkTime = new DateTime(year, month, day, lesson.GioBatDau, lesson.PhutBatDau, 0);
+                if (checkTime < DateTime.Now && lesson.TrangThai != null)
+                {
+                    <tr>
+                        <td>@lesson.tenMonDay</td>
+                        <td class="text-center">@lesson.tenNguoiDay</td>
+                        <td>@lesson.NgayDay.ToString("dd/MM/yyyy")</td>
+                        <td class="text-center">@lesson.GioBatDau:@lesson.PhutBatDau - @lesson.GioKetThuc:@lesson.PhutKetThuc</td>
+                        <td>@lesson.giaCaDay.ToString("#,##0.###") đồng</td>
+                        @{
+                            if (lesson.TrangThai == true)
+                            {
+                                <td class="done text-center">Đã Học</td>
+                                var danhGiaGS = new CP25Team01Context().Danhgiagiasus.FirstOrDefault(m => m.IdCaDay == lesson.Id);
+                                if (danhGiaGS != null)
+                                {
+                                    <td class="text-center"><button class="btn btn-success btn-sm" style="width:100px">Xem đánh giá</button></td>
+                                }
+                                else
+                                {
+                                    <td class="text-center"><a asp-controller="Meeting" asp-action="RatingTutor" asp-route-id="@lesson.Id" class="btn btn-warning btn-sm" style="width:100px">Đánh giá</a></td>
+                                }
+                                var danhGiaHV = new CP25Team01Context().Danhgianguoihocs.FirstOrDefault(m => m.Id == lesson.Id);
+                                if (danhGiaHV != null)
+                                {
+                                    <td class="text-center"><button class="btn btn-success btn-sm" style="width:100px">Xem đánh giá</button></td>
+                                }
+                                else
+                                {
+                                    <td class="text-center">Chưa đánh giá</td>
+                                }
+                            }
+                            else
+                            {
+                                <td class="cancel text-center">Đã Huỷ</td>
+                                <td class="text-center">Không có đánh giá</td>
+                                <td class="text-center">Không có đánh giá</td>
+                            }
+
+                        }
+                    </tr>
+                }
+            }
         </tbody>
     </table>
 </div>
 @section scripts{
     <script>
-      var minDate, maxDate;
+        var minDate, maxDate;
 
-      // Custom filtering function which will search data in column four between two values
-      $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
-          let min = moment($('#min').val(), 'DD/MM/YYYY', true).isValid() ?
-              moment($('#min').val(), 'DD/MM/YYYY', true).unix() :
-              null;
+        // Custom filtering function which will search data in column four between two values
+        $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
+            let min = moment($('#min').val(), 'DD/MM/YYYY', true).isValid() ?
+                moment($('#min').val(), 'DD/MM/YYYY', true).unix() :
+                null;
 
-          let max = moment($('#max').val(), 'DD/MM/YYYY').isValid() ?
-              moment($('#max').val(), 'DD/MM/YYYY', true).unix() :
-              null;
-          var date = moment(data[2], 'DD/MM/YYYY', true).unix();
+            let max = moment($('#max').val(), 'DD/MM/YYYY').isValid() ?
+                moment($('#max').val(), 'DD/MM/YYYY', true).unix() :
+                null;
+            var date = moment(data[2], 'DD/MM/YYYY', true).unix();
 
-        if (
-          (min === null && max === null) ||
-          (min === null && date <= max) ||
-          (min <= date && max === null) ||
-          (min <= date && date <= max)
-        ) {
-          return true;
-        }
-        return false;
-      });
-
-      $(document).ready(function () {
-        // Create date inputs
-        minDate = new DateTime($('#min'), {
-            format: 'DD/MM/YYYY',
-        });
-        maxDate = new DateTime($('#max'), {
-            format: 'DD/MM/YYYY',
+            if (
+                (min === null && max === null) ||
+                (min === null && date <= max) ||
+                (min <= date && max === null) ||
+                (min <= date && date <= max)
+            ) {
+                return true;
+            }
+            return false;
         });
 
-        // DataTables initialisation
-        var table = $('#myTable').DataTable();
+        $(document).ready(function () {
+            // Create date inputs
+            minDate = new DateTime($('#min'), {
+                format: 'DD/MM/YYYY',
+            });
+            maxDate = new DateTime($('#max'), {
+                format: 'DD/MM/YYYY',
+            });
 
-        // Refilter the table
-        $('#min, #max').on('change', function () {
-          table.draw();
+            // DataTables initialisation
+            var table = $('#myTable').DataTable();
+
+            // Refilter the table
+            $('#min, #max').on('change', function () {
+                table.draw();
+            });
         });
-      });
     </script>
     <script type="text/javascript">
-      $(function () {
-        $('#myTable_filter').prepend($('#dropdown-filter')).clone();
-        $('#filter-fade').remove();
-        $('#myTable_filter').css({ display: 'flex' });
-        $('#myTable').css({width: 'auto'});
-      });
+        $(function () {
+            $('#myTable_filter').prepend($('#dropdown-filter')).clone();
+            $('#filter-fade').remove();
+            $('#myTable_filter').css({ display: 'flex' });
+            $('#myTable').css({ width: 'auto' });
+        });
     </script>
-        @if (TempData["Message"] != null)
+    @if (TempData["Message"] != null)
     {
         <script>
             var messageType = '@TempData["MessageType"]';
-        var message = '@TempData["Message"]';
+            var message = '@TempData["Message"]';
 
-        // Display the message using Toastr library
-        if (messageType === "success") {
-            toastr.success(message);
-        } else if (messageType === "error") {
-            toastr.error(message);
-        } else if (messageType === "warning") {
-            toastr.warning(message);
-        } else if (messageType === "info") {
-            toastr.info(message);
-        }
+            // Display the message using Toastr library
+            if (messageType === "success") {
+                toastr.success(message);
+            } else if (messageType === "error") {
+                toastr.error(message);
+            } else if (messageType === "warning") {
+                toastr.warning(message);
+            } else if (messageType === "info") {
+                toastr.info(message);
+            }
         </script>
     }
     @if (ViewBag.Message != null)

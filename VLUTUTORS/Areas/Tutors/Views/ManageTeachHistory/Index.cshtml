@@ -1,4 +1,8 @@
-﻿
+﻿@using Microsoft.AspNetCore.Http
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model IEnumerable<VLUTUTORS.Models.Caday>
+@using Microsoft.EntityFrameworkCore;
+@using VLUTUTORS.Models;
 @{
     ViewData["Title"] = "Lịch Sử Dạy";
     Layout = "~/Areas/Tutors/Views/Shared/_TutorsLayout.cshtml";
@@ -17,10 +21,6 @@
         </div>
         <!-- /.container-fluid -->
     </section>
-
-
-
-   
 
     <!-- Main content -->
     <section class="content">
@@ -47,70 +47,73 @@
         <table id="myTable">
             <thead>
                 <tr>
-                    <th>Tên Môn Học</th>
-                    <th>Tên Người Học</th>
-                    <th>Ngày</th>
-                    <th>Khung Giờ</th>
-                    <th>Giá Tiền</th>
-                    <th>Trạng Thái</th>
+                    <th class="text-center">Tên Môn Học</th>
+                    <th class="text-center">Tên Người Học</th>
+                    <th class="text-center">Ngày</th>
+                    <th class="text-center">Khung Giờ</th>
+                    <th class="text-center">Giá Tiền</th>
+                    <th class="text-center">Trạng Thái</th>
                     <th class="text-center">Đánh giá buổi học</th>
                     <th class="text-center">Đánh giá của người học</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Anh Văn Cơ Bản</td>
-                    <td>Nguyễn Thanh An</td>
-                    <td>18/03/2023</td>
-                    <td>7h - 8h</td>
-                    <td>70.000 VNĐ</td>
-                    <td class="text-success">Hoàn thành</td>
-                    <td class="text-center"><button class="btn-success btn" style="">Xem đánh giá</button></td>
-                    <td class="text-center"><button class="btn-success btn" style="">Xem đánh giá</button></td>
+                @foreach (var lesson in Model)
+                {
+                    int year = lesson.NgayDay.Year;
+                    int month = lesson.NgayDay.Month;
+                    int day = lesson.NgayDay.Day;
 
-                </tr>
+                    DateTime checkTime = new DateTime(year, month, day, lesson.GioBatDau, lesson.PhutBatDau, 0);
+                    if (checkTime < DateTime.Now && lesson.TrangThai != null)
+                    {
+                        <tr>
+                            <td class="text-center">@lesson.tenMonDay</td>
+                            <td class="text-center">@lesson.tenNguoiHoc</td>
+                            <td class="text-center">@lesson.NgayDay.ToString("dd/MM/yyyy")</td>
+                            <td class="text-center">@lesson.GioBatDau:@lesson.PhutBatDau - @lesson.GioKetThuc:@lesson.PhutKetThuc</td>
+                            <td class="text-center">@lesson.giaCaDay.ToString("#,##0.###") đồng</td>
+                            @{
+                                if (lesson.TrangThai == true)
+                                {
+                                    <td class="done text-center">Đã Học</td>
+                                    var danhGiaGS = new CP25Team01Context().Danhgianguoihocs.FirstOrDefault(m => m.IdCaDay == lesson.Id);
+                                    if (danhGiaGS != null)
+                                    {
+                                        <td class="text-center"><button class="btn btn-success btn-sm" style="width:100px">Xem đánh giá</button></td>
+                                    }
+                                    else
+                                    {
+                                        <td class="text-center"><a asp-controller="ManageTeachHistory" asp-action="RatingLearner" asp-route-id="@lesson.Id" class="btn btn-warning btn-sm" style="width:100px">Đánh giá</a></td>
+                                    }
+                                    var danhGiaHV = new CP25Team01Context().Danhgiagiasus.FirstOrDefault(m => m.IdCaDay == lesson.Id);
+                                    if (danhGiaHV != null)
+                                    {
+                                        <td class="text-center"><button class="btn btn-success btn-sm" style="width:100px">Xem đánh giá</button></td>
+                                    }
+                                    else
+                                    {
+                                        <td class="text-center">Chưa đánh giá</td>
+                                    }
+                                }
+                                else
+                                {
+                                    <td class="cancel text-center">Đã Huỷ</td>
+                                    <td class="text-center">Không có đánh giá</td>
+                                    <td class="text-center">Không có đánh giá</td>
+                                }
 
-                <tr>
-                    <td>Anh Văn Cơ Bản</td>
-                    <td>Nguyễn Thanh An</td>
-                    <td>20/03/2023</td>
-                    <td>7h - 8h</td>
-                    <td>70.000 VNĐ</td>
-                    <td class="text-danger">Đã hủy</td>
-                    <td class="text-center"><button class="btn-warning btn" style="">Đánh giá</button></td>
-                    <td class="text-center">Chưa có đánh giá</td>
-                </tr>
+                            }
+                        </tr>
+                    }
+                }
+
             </tbody>
         </table>
-            @await Component.InvokeAsync("Pager", Model)
         <!-- /.card -->
     </section>
     <!-- /.content -->
-                <div>
-     <form method="get" asp-controller="ManageTeachHistory" asp-action="Index" style="position:absolute">
-         <label for="Search">Name</label>
-        <input type="text" name="Search" /> 
-
-        <label style="padding-right:5px">
-                                    &nbsp;
-                                    Từ ngày:
-                                   
-                                </label>
-                                 <input type="date" class="form-control input-sm" id="start-date"  name="FromDate" />
-                                <label>
-                                    &nbsp;
-                                    Đến ngày:
-                                    
-                                </label>
-                                <input type="date" class="form-control input-sm" id="end-date"  onchange="this.form.submit()" name="ToDate" />
-
-        <button class="btn" type="submit" style="height: 45px; width: 48px; color: black; border: none; padding: 12px; margin-left: -51px; "><i style="position: absolute; margin-top: -7px; margin-left: -7px;" class="fas fa-search"></i></button>
-    </form>
-            </div>
 </div>
-
-
-
 @section scripts {
     <script>
         var minDate, maxDate;

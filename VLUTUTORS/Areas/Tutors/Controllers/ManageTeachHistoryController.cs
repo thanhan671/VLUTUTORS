@@ -23,19 +23,46 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
         #region View
 
         [HttpGet]
-        public async Task<IActionResult> Index(GetAllManagerTeachHistoryRequest request)
+        public IActionResult Index(int id)
         {
-            IReadOnlyCollection<GetAllTeachHistoryResponse> result = await GetAllTeachHistoryByFilter(request);
-
-            PagedResult<GetAllTeachHistoryResponse> pagedResult = new()
+            string user = HttpContext.Session.GetString("LoginId");
+            if (user == null)
             {
-                TotalRecords = result.Count,
-                PageIndex = request.PageIndex,
-                PageSize = request.PageSize,
-                Items = result
-            };
+                return RedirectToAction("Login", "Accounts", new { area = "default" });
+            }
+            int checkUser = (int)_db.Taikhoannguoidungs.Where(m => m.Id == HttpContext.Session.GetInt32("LoginId")).First().IdxetDuyet;
+            if (checkUser != 5)
+            {
+                return RedirectToAction("Index", "Home", new { area = "default" });
+            }
+            List<Caday> cadays = _db.Cadays.Where(ca => ca.IdnguoiDay.Equals(HttpContext.Session.GetInt32("LoginId"))).ToList();
 
-            return View(pagedResult);
+            foreach (var cadayItem in cadays)
+            {
+                if (cadayItem.IdnguoiHoc != null)
+                {
+                    cadayItem.tenNguoiHoc = _db.Taikhoannguoidungs.Find(cadayItem.IdnguoiHoc).HoTen.ToString();
+                }
+                cadayItem.tenMonDay = _db.Mongiasus.Find(cadayItem.IdmonDay).TenMonGiaSu.ToString();
+                cadayItem.giaCaDay = _db.Cahocs.Find(cadayItem.IdloaiCaDay).GiaTien;
+            }
+
+            return View(cadays);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> RatingLearner(int id)
+        {
+            if (id is 0)
+            {
+                TempData["Message"] = "Không tìm thấy Ca dạy !";
+                TempData["MessageType"] = "error";
+                return RedirectToAction("Index", "HistoryOfLearning");
+            }
+            ViewData["idCaDay"] = id;
+            var tieuChi = await _db.Tieuchidanhgias.ToListAsync();
+            return View(tieuChi);
+
         }
 
         /// <summary>
@@ -324,20 +351,6 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
         }
 
         #endregion 
-        private CP25Team01Context _db = new CP25Team01Context();
-        public IActionResult Index()
-        {
-            string user = HttpContext.Session.GetString("LoginId");
-            if (user == null)
-            {
-                return RedirectToAction("Login", "Accounts", new { area = "default" });
-            }
-            int checkUser = (int)_db.Taikhoannguoidungs.Where(m => m.Id == HttpContext.Session.GetInt32("LoginId")).First().IdxetDuyet;
-            if (checkUser == 5)
-            {
-                return View();
-            }
-            return RedirectToAction("Login", "Accounts", new { area = "default" });
-        }
+
     }
 }

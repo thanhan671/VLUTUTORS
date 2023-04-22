@@ -1,0 +1,102 @@
+﻿@model IEnumerable<VLUTUTORS.Models.Tieuchidanhgia>
+@{
+    Layout = null;
+    var caDay = ViewData["idCaDay"] as int?;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gia Sư Văn Lang | Đánh giá học viên</title>
+    <!--====== Favicon Icon ======-->
+    <link rel="shortcut icon" href="~/images/LogoVL.png" type="image/png" />
+    <link href="~/css/rating.css" rel="stylesheet" />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+          integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer" />
+</head>
+<body>
+    <main>
+
+        <form aaction="/ManageTeachHistory/CreateLearnerEvaluation" method="post">
+            <div class="rating__header">
+
+                <h1>Đánh giá</h1>
+
+                <div class="fav-tutor">
+                    <label class="fa-solid fa-heart icon-heart" for="heart" onclick="toggle()"></label>
+
+                    <input name="wishlish" type="checkbox" id="heart" value="false" hidden>
+
+                </div>
+
+            </div>
+
+            <p> Đánh giá học viên sau buổi học! </p>
+
+            <div class="rating">
+
+                <input type="radio" name="rating" id="rating-1" value="1" />
+                <input type="radio" name="rating" id="rating-2" value="2" />
+                <input type="radio" name="rating" id="rating-3" value="3" />
+                <input type="radio" name="rating" id="rating-4" value="4" />
+                <input type="radio" name="rating" id="rating-5" value="5" />
+
+                <div class="rating__box">
+                    <label for="rating-1" class="rating__star">&starf;</label>
+                    <label for="rating-2" class="rating__star">&starf;</label>
+                    <label for="rating-3" class="rating__star">&starf;</label>
+                    <label for="rating-4" class="rating__star">&starf;</label>
+                    <label for="rating-5" class="rating__star">&starf;</label>
+                </div>
+
+            </div>
+            <div class="boxed">
+                @{
+                    foreach (var item in Model)
+                    {
+                        if (item.IdTieuChi >= 7)
+                        {
+                            <input type="checkbox" id="@item.IdTieuChi" name="skills[]" value="@item.IdTieuChi" />
+                            <label for="@item.IdTieuChi" class="rcm__btn">@item.TieuChi</label>
+                        }
+                    }
+                }
+            </div>
+            <div class="textarea-group">
+                <label>
+                    <span>Nhận xét: </span>
+                    <textarea id="comment-rating" name="feedback"></textarea>
+                </label>
+            </div>
+
+            <input name="lessonid" value="@caDay" hidden />
+
+            <div class="action-group">
+                <input type="submit" value="Đánh giá" />
+            </div>
+        </form>
+
+    </main>
+</body>
+</html>
+<script>
+    function toggle() {
+        let tim = document.querySelector('.rating__header label');
+        let check = document.querySelector('#heart');
+
+        if (check.checked) {
+            tim.classList.toggle('pink-color');
+            check.value = true
+        }
+        else {
+            tim.classList.remove('pink-color')
+            check.value = false
+        }
+    }
+</script>

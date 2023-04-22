@@ -20,7 +20,7 @@ namespace VLUTUTORS.Controllers
         }
 
         [HttpGet]
-        public IActionResult RatingTutor(int id)
+        public async Task<IActionResult> RatingTutor(int id)
         {
             if (id is 0)
             {
@@ -29,8 +29,9 @@ namespace VLUTUTORS.Controllers
                 return RedirectToAction("Index", "HistoryOfLearning");
             }
             ViewData["idCaDay"] = id;
+            var tieuChi = await _db.Tieuchidanhgias.ToListAsync();
+            return View(tieuChi);
 
-            return View();
         }
 
         /// <summary>

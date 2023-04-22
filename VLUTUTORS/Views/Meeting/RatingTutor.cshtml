@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<VLUTUTORS.Models.Tieuchidanhgia>
 @{
     Layout = null;
     var caDay = ViewData["idCaDay"] as int?;
@@ -57,23 +57,16 @@
 
         </div>
         <div class="boxed">
-            <input type="checkbox" id="good" name="skills[]" value="1"/>
-            <label for="good" class="rcm__btn">Nhiệt tình</label>   
-            
-            <input type="checkbox" id="ok" name="skills[]" value="2" />
-            <label for="ok" class="rcm__btn">Dễ hiểu</label>
-            
-            <input type="checkbox" id="nice" name="skills[]" value="3"/>
-            <label for="nice" class="rcm__btn">Dạy hay</label>
-            
-            <input type="checkbox" id="onTime" name="skills[]" value="4"/>
-            <label for="onTime" class="rcm__btn">Gia sư đúng giờ</label>
-            
-            <input type="checkbox" id="great" name="skills[]" value="5"/>
-            <label for="great" class="rcm__btn">Tuyệt vời</label>
-            
-            <input type="checkbox" id="kind" name="skills[]" value="6"/>
-            <label for="kind" class="rcm__btn">Thân thiện</label> 
+                @{
+                    foreach(var item in Model)
+                    {
+                        if (item.IdTieuChi < 7)
+                        {
+                            <input type="checkbox" id="@item.IdTieuChi" name="skills[]" value="@item.IdTieuChi" />
+                            <label for="@item.IdTieuChi" class="rcm__btn">@item.TieuChi</label>                           
+                        }
+                    }
+                }
         </div>
         <div class="textarea-group">
             <label>
