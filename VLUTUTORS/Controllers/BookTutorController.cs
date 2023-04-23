@@ -422,6 +422,7 @@ namespace VLUTUTORS.Controllers
             var result = await zoomClient.Meetings.CreateScheduledMeetingAsync(hostMail, "Buổi dạy và học gia sư Văn Lang", "Buổi dạy và học gia sư Văn Lang", caday.NgayDay, lessonDuration);
             caday.Link = result.JoinUrl;
             caday.IdnguoiHoc = HttpContext.Session.GetInt32("LoginId");
+            caday.TrangThai = false;
             var monDay = _db.Mongiasus.Where(acc => acc.IdmonGiaSu.Equals(caday.IdmonDay)).FirstOrDefault().TenMonGiaSu;
 
             try

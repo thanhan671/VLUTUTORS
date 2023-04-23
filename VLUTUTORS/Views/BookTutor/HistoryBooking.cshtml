@@ -56,7 +56,7 @@
                             if (lesson.NgayDay == DateTime.Today && lesson.PhutBatDau != 0 && lesson.GioBatDau == DateTime.Now.Hour && Math.Abs(lesson.PhutBatDau - DateTime.Now.Minute) <= 15)
                             {
                                 <td class="done">Sắp Diễn Ra</td>
-                                <td><a class="btn btn-success btn-sm" style="width:90px" href="@lesson.Link" target="_blank">Tham gia</a><button class="btn btn-danger btn-sm" style="margin-top: 5px; width: 90px">Hủy lịch</button></td>
+                                <td><button class="btn btn-success btn-sm" style="width:90px" href="@lesson.Link" target="_blank">Tham gia</button><button class="btn btn-danger btn-sm" style="margin-top: 5px; width: 90px">Hủy lịch</button></td>
                             }
                             else if (lesson.NgayDay == DateTime.Today && (lesson.PhutBatDau == 0 || (0 < lesson.PhutBatDau) && (lesson.PhutBatDau < 15)) && lesson.GioBatDau - DateTime.Now.Hour == 1 && Math.Abs(lesson.PhutBatDau - DateTime.Now.Minute) >= 45)
                             {
