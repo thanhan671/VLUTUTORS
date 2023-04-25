@@ -403,7 +403,7 @@ namespace VLUTUTORS.Controllers
 
             TempData["link"] = caday.Link;
 
-            return RedirectToAction("HistoryBooking");
+            return RedirectToAction("HistoryBooking", "BookTutor", new { id });
         }
 
         [HttpPost]

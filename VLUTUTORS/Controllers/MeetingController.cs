@@ -49,6 +49,7 @@ namespace VLUTUTORS.Controllers
                 TempData["MessageType"] = "error";
 
                 return RedirectToAction("Index", "HistoryOfLearning");
+
             }
 
             if (ModelState.IsValid)
@@ -66,7 +67,7 @@ namespace VLUTUTORS.Controllers
                     TempData["Message"] = "Không tìm thấy thông tin yêu cầu !";
                     TempData["MessageType"] = "error";
 
-                    return RedirectToAction("Index", "HistoryOfLearning");
+                    return RedirectToAction("Index", "HistoryOfLearning", new { id = existEvaluation.caDay.IdnguoiHoc });
                 }
 
                 if (existEvaluation.caDay is null || existEvaluation.danhGiaGiaSu is not null)
@@ -74,7 +75,7 @@ namespace VLUTUTORS.Controllers
                     TempData["Message"] = "Đã đánh giá gia sư với buổi dạy này!.";
                     TempData["MessageType"] = "error";
 
-                    return RedirectToAction("Index", "HistoryOfLearning");
+                    return RedirectToAction("Index", "HistoryOfLearning", new { id = existEvaluation.caDay.IdnguoiHoc });
                 }
 
                 Danhgiagiasu model = new()
@@ -94,7 +95,7 @@ namespace VLUTUTORS.Controllers
                 {
                     TempData["Message"] = "Đánh giá gia sư thành công.";
                     TempData["MessageType"] = "success";
-                    return RedirectToAction("Index", "HistoryOfLearning");
+                    return RedirectToAction("Index", "HistoryOfLearning", new { id = existEvaluation.caDay.IdnguoiHoc });
                 }
             }
 

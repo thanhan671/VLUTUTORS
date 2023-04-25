@@ -136,7 +136,19 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
 
             return RedirectToAction("Index", "ManageTeachSchedule");
         }
+        [HttpPost]
+        public IActionResult AcceptBooking(int id)
+        {
+            Caday caday = _db.Cadays.FirstOrDefault(m => m.Id == id);
+            caday.TrangThai = true;
 
+            _db.Update(caday);
+            _db.SaveChanges();
+
+            TempData["link"] = caday.Link;
+
+            return RedirectToAction("HistoryBooking", "ManageTeachSchedule");
+        }
         private void GetEndTime(Caday caDay, int teachTime)
         {
             int startHour = caDay.GioBatDau;
