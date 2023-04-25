@@ -179,7 +179,7 @@
             $('#myTable_filter').prepend($('#dropdown-filter')).clone();
             $('#filter-fade').remove();
             $('#myTable_filter').css({ display: 'flex' });
-            $('#myTable').css({ width: 'auto' });
+            $('#myTable').css({ width: 'auto', borderCollapse: 'collapse' });
         });
     </script>
     @if (TempData["Message"] != null)

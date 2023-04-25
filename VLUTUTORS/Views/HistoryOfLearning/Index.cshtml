@@ -62,7 +62,7 @@
                                 var danhGiaGS = new CP25Team01Context().Danhgiagiasus.FirstOrDefault(m => m.IdCaDay == lesson.Id);
                                 if (danhGiaGS != null)
                                 {
-                                    <td class="text-center"><button class="btn btn-success btn-sm" style="width:100px">Xem đánh giá</button></td>
+                                    <td class="text-center"><button class="btn btn-success btn-sm" data-toggle="modal" data-target="#exampleModalCenter" style="width:100px">Xem đánh giá</button></td>
                                 }
                                 else
                                 {
@@ -71,7 +71,7 @@
                                 var danhGiaHV = new CP25Team01Context().Danhgianguoihocs.FirstOrDefault(m => m.Id == lesson.Id);
                                 if (danhGiaHV != null)
                                 {
-                                    <td class="text-center"><button class="btn btn-success btn-sm" style="width:100px">Xem đánh giá</button></td>
+                                    <td class="text-center"><button type="button" class="btn btn-success btn-sm"  style="width:100px">Xem đánh giá</button></td>
                                 }
                                 else
                                 {
@@ -91,6 +91,35 @@
             }
         </tbody>
     </table>
+<!-- Modal -->
+</div>
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Chi tiết đánh giá</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h4>Số sao</h4>
+        <p>4</p>
+        <hr/>
+        <h4>Tiêu chí đánh giá</h4>
+        <p>Dễ hiểu</p>
+        <hr/>
+        <h4>Khác</h4>
+        <p>
+            hehe
+        </p>
+      </div>
+      <div class="modal-footer">@*
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-5 custom-btn">Save changes</button>*@
+      </div>
+    </div>
+  </div>
 </div>
 @section scripts{
     <script>
@@ -141,7 +170,8 @@
             $('#myTable_filter').prepend($('#dropdown-filter')).clone();
             $('#filter-fade').remove();
             $('#myTable_filter').css({ display: 'flex' });
-            $('#myTable').css({ width: 'auto' });
+            $('#myTable').css({ width: 'auto', borderCollapse: 'collapse' });
+            
         });
     </script>
     @if (TempData["Message"] != null)
