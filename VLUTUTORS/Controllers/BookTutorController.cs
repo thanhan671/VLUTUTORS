@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
+using System.Runtime.Intrinsics.X86;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using VLUTUTORS.Models;
@@ -293,8 +294,14 @@ namespace VLUTUTORS.Controllers
 
             string avatar = tutor.AnhDaiDien;
             if (!string.IsNullOrEmpty(avatar))
+            {
                 avatar = avatar.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
-            tutor.AnhDaiDien = avatar;
+                tutor.AnhDaiDien = "https://cntttest.vanlanguni.edu.vn:18081/CP25Team01/" + avatar;
+            }
+            else
+            {
+                tutor.AnhDaiDien = "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png";
+            }
 
             var subject1 = subjects.FirstOrDefault(it => it.IdmonGiaSu == tutor.IdmonGiaSu1);
             var subject2 = subjects.FirstOrDefault(it => it.IdmonGiaSu == tutor.IdmonGiaSu2);
@@ -383,6 +390,20 @@ namespace VLUTUTORS.Controllers
             }
 
             return View(cadays);
+        }
+
+        [HttpPost]
+        public IActionResult AcceptBooking(int id)
+        {
+            Caday caday = _db.Cadays.FirstOrDefault(m=>m.Id == id);
+            caday.TrangThai = true;
+
+            _db.Update(caday);
+            _db.SaveChanges();
+
+            TempData["link"] = caday.Link;
+
+            return RedirectToAction("HistoryBooking");
         }
 
         [HttpPost]
