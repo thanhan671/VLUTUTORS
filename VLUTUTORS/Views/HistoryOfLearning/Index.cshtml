@@ -62,16 +62,20 @@
                                 var danhGiaGS = new CP25Team01Context().Danhgiagiasus.FirstOrDefault(m => m.IdCaDay == lesson.Id);
                                 if (danhGiaGS != null)
                                 {
-                                    <td class="text-center"><button class="btn btn-success btn-sm" data-toggle="modal" data-target="#exampleModalCenter" style="width:100px">Xem đánh giá</button></td>
+                                    var modelName = "#danhGiaGS-" + danhGiaGS.Id;
+
+                                    <td class="text-center"><button class="btn btn-success btn-sm" data-toggle="modal" data-target="@modelName" style="width:100px">Xem đánh giá</button></td>
                                 }
                                 else
                                 {
                                     <td class="text-center"><a asp-controller="Meeting" asp-action="RatingTutor" asp-route-id="@lesson.Id" class="btn btn-warning btn-sm" style="width:100px">Đánh giá</a></td>
                                 }
-                                var danhGiaHV = new CP25Team01Context().Danhgianguoihocs.FirstOrDefault(m => m.Id == lesson.Id);
+                                var danhGiaHV = new CP25Team01Context().Danhgianguoihocs.FirstOrDefault(m => m.IdCaDay == lesson.Id);
                                 if (danhGiaHV != null)
                                 {
-                                    <td class="text-center"><button type="button" class="btn btn-success btn-sm"  style="width:100px">Xem đánh giá</button></td>
+                                    var modelName = "#danhGiaHV-" + danhGiaHV.Id;
+
+                                    <td class="text-center"><button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="@modelName" style="width:100px">Xem đánh giá</button></td>
                                 }
                                 else
                                 {
@@ -93,34 +97,98 @@
     </table>
 <!-- Modal -->
 </div>
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Chi tiết đánh giá</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <h4>Số sao</h4>
-        <p>4</p>
-        <hr/>
-        <h4>Tiêu chí đánh giá</h4>
-        <p>Dễ hiểu</p>
-        <hr/>
-        <h4>Khác</h4>
-        <p>
-            hehe
-        </p>
-      </div>
-      <div class="modal-footer">@*
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-5 custom-btn">Save changes</button>*@
-      </div>
-    </div>
-  </div>
-</div>
+@foreach (var lesson in Model)
+{
+    var danhGiaGS = new CP25Team01Context().Danhgiagiasus.FirstOrDefault(m => m.IdCaDay == lesson.Id);
+    var tieuChis = new CP25Team01Context().Tieuchidanhgias.ToList();
+    if(danhGiaGS != null)
+    {
+        var modelName = "danhGiaGS-" + danhGiaGS.Id;
+        var strTieuChi = string.Empty;
+        @foreach (var tieuChiId in danhGiaGS.TieuChi.Split(";"))
+        {
+            var tieuChi = tieuChis.FirstOrDefault(it => it.IdTieuChi.ToString() == tieuChiId);
+            if (tieuChi != null)
+                strTieuChi += (string.IsNullOrEmpty(strTieuChi) ? string.Empty : ", ") + tieuChi.TieuChi;
+        }
+        <div class="modal fade" id="@modelName" tabindex="-1" role="dialog" aria-labelledby="@modelName" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Chi tiết đánh giá</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h4>Số sao</h4>
+                        <p>
+                            @danhGiaGS.Diem
+                        </p>
+                        <hr />
+                        <h4>Tiêu chí đánh giá</h4>
+                        <p>
+                            @strTieuChi
+                        </p>
+                        <hr />
+                        <h4>Khác</h4>
+                        <p>
+                            @danhGiaGS.DanhGia
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+}
+
+@foreach (var lesson in Model)
+{
+    var danhGiaHV = new CP25Team01Context().Danhgianguoihocs.FirstOrDefault(m => m.IdCaDay == lesson.Id);
+    var tieuChis = new CP25Team01Context().Tieuchidanhgias.ToList();
+    if (danhGiaHV != null)
+    {
+        var modelName = "danhGiaHV-" + danhGiaHV.Id;
+        var strTieuChi = string.Empty;
+        @foreach (var tieuChiId in danhGiaHV.TieuChi.Split(";"))
+        {
+            var tieuChi = tieuChis.FirstOrDefault(it => it.IdTieuChi.ToString() == tieuChiId);
+            if (tieuChi != null)
+                strTieuChi += (string.IsNullOrEmpty(strTieuChi) ? string.Empty : ", ") + tieuChi.TieuChi;
+        }
+        <div class="modal fade" id="@modelName" tabindex="-1" role="dialog" aria-labelledby="@modelName" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Chi tiết đánh giá</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h4>Số sao</h4>
+                        <p>
+                            @danhGiaHV.Diem
+                        </p>
+                        <hr />
+                        <h4>Tiêu chí đánh giá</h4>
+                        <p>
+                            @strTieuChi
+                        </p>
+                        <hr />
+                        <h4>Khác</h4>
+                        <p>
+                            @danhGiaHV.DanhGia
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+}
+
 @section scripts{
     <script>
         var minDate, maxDate;
