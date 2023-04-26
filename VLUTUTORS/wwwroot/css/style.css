@@ -136,6 +136,7 @@ p {
     line-height: 28px;
     color: #505050;
     margin: 0px;
+    word-wrap: break-word;
 }
 
 section.demo {
@@ -886,7 +887,7 @@ select.form-search {
 /*===== Header top =====*/
 
 .logo {
-    width: 20%;
+    max-width: 20%;
     margin-right: 20px;
 }
 
@@ -1052,6 +1053,10 @@ select.form-search {
                 transition: all 0.4s linear;
                 padding: 25px 0;
                 color: #07294d;
+                max-width: 145px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
             }
 
 .right-icon.text-right ul li a {
@@ -1417,6 +1422,7 @@ i.active,
     -webkit-line-clamp: 2; /* number of lines to show */
     line-clamp: 2;
     -webkit-box-orient: vertical;
+    word-break: break-word;
 }
 
 .search-container .search-card .tutor-desc .desc {
@@ -2724,6 +2730,7 @@ i.active,
             width: 100%;
             -webkit-transform: translateY(-50%);
             transform: translateY(-50%);
+            cursor: pointer;
         }
 
             .category-2-items .singel-items .items-cont h5 {
@@ -5047,13 +5054,13 @@ p.form-message.error {
 .profile-input {
     width: 100%;
     padding-left: 8px;
-    border: 2px solid hsla(246, 25%, 77%, 0.25);
+    border: none;
     border-radius: 0.5em;
 }
 
     .profile-input:focus {
         outline: none;
-        border: 2px solid hsla(246, 25%, 77%, 1);
+        border: none;
     }
 
 .edit-avt {
@@ -5317,13 +5324,14 @@ p.form-message.error {
     border: none;
 }
 .btn-5 {
-    width: 100%;
+    /*    width: 100%;*/
     height: 40px;
     line-height: 42px;
     padding: 0;
     border: none;
     background: #ec6923;
     background: #ec6923;
+    font-family: 'Montserrat', sans-serif;
 }
 
     .btn-5:hover {
@@ -5396,3 +5404,7 @@ p.form-message.error {
         width: 100%;
         transition: 800ms ease all;
     }
+
+.lb-question{
+    display: contents;
+}

@@ -72,8 +72,8 @@
                                         <ul class="sub-menu">
                                             <li><a asp-controller="Accounts" asp-action="Details" asp-route-id="@httpContextAccessor.HttpContext.Session.GetInt32("LoginId")">Tài Khoản</a></li>
                                             <li><a asp-controller="BookTutor" asp-action="HistoryBooking" asp-route-id="@httpContextAccessor.HttpContext.Session.GetInt32("LoginId")">Lịch Học</a></li>
-@*                                            <li><a asp-controller="HistoryOfLearning" asp-action="Index" asp-route-id="@httpContextAccessor.HttpContext.Session.GetInt32("LoginId")">Lịch Sử Học</a></li>
-*@                                            <li>
+                                            <li><a asp-controller="HistoryOfLearning" asp-action="Index" asp-route-id="@httpContextAccessor.HttpContext.Session.GetInt32("LoginId")">Lịch Sử Học</a></li>
+                                            <li>
                                                 <a href=""
                                                    data-toggle="modal"
                                                    data-target="#logoutModal"
@@ -83,8 +83,8 @@
                                     }
                                     else
                                     {
-                                        <a href="~/Accounts/Login">
-                                            Đăng Nhập/Đăng Ký
+                                        <a href="~/Accounts/Login" title="Đăng nhập / Đăng ký" style="max-width: 100%">
+                                            Đăng Nhập / Đăng Ký
                                         </a>
                                     }
                                 </li>
@@ -122,7 +122,7 @@
                     <button class="btn btn-default" type="button" data-dismiss="modal">
                         Hủy
                     </button>
-                    <button class="btn btn-primary" type="button" onclick="location.href='@Url.Action("Logout", "Accounts")'">
+                    <button class="btn btn-5 custom-btn" type="button" onclick="location.href='@Url.Action("Logout", "Accounts")'">
                         Đồng ý
                     </button>
                 </div>

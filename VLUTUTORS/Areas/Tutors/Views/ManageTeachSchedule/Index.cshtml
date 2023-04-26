@@ -125,9 +125,13 @@
                     int month = lesson.NgayDay.Month;
                     int day = lesson.NgayDay.Day;
 
-                    DateTime checkTime = new DateTime(year,month,day,lesson.GioBatDau,lesson.PhutBatDau,0);
+                    DateTime checkTime = new DateTime(year, month, day, lesson.GioBatDau, lesson.PhutBatDau, 0);
                     if (checkTime >= DateTime.Now)
                     {
+                        if (lesson.Link == null && lesson.TrangThai == false)
+                        {
+                            break;
+                        }
                         <tr>
                             <td>@lesson.tenMonDay</td>
                             <td>@lesson.NgayDay.ToString("dd/MM/yyyy")</td>
@@ -152,10 +156,10 @@
                                             Sửa
                                         </a>
                                         <a class="btn btn-sm"
-                                           style="width:120px;"
-                                           data-toggle="modal"
-                                           data-target="#deleteModal"
-                                           onclick="document.getElementById('lessonPlanId').value = @lesson.Id">
+                               style="width:120px;"
+                               data-toggle="modal"
+                               data-target="#deleteModal"
+                               onclick="document.getElementById('lessonPlanId').value = @lesson.Id">
                                             <i class="fa-solid fa-ban"></i>
                                             Hủy
                                         </a>
@@ -166,15 +170,17 @@
                                     if (lesson.NgayDay == DateTime.Today && lesson.PhutBatDau != 0 && lesson.GioBatDau == DateTime.Now.Hour && Math.Abs(lesson.PhutBatDau - DateTime.Now.Minute) <= 15)
                                     {
                                         <td class="project-actions">
-                                            <a class="btn btn-success btn-sm" href="@lesson.Link" style="margin-bottom:5px; width:120px" target="_blank">
-                                                <i class="fas fa-chalkboard-teacher"> </i>
-                                                Tham gia dạy
-                                            </a>
+                                            <form asp-action="AcceptBooking" method="post" asp-controller="ManageTeachSchedule" asp-route-id="@lesson.Id">
+                                                <button class="btn btn-success btn-sm" href="@lesson.Link" style="margin-bottom:5px; width:120px" target="_blank">
+                                                    <i class="fas fa-chalkboard-teacher"> </i>
+                                                    Tham gia dạy
+                                                </button>
+                                            </form>
                                             <a class="btn "
-                                               style="width:120px;"
-                                               data-toggle="modal"
-                                               data-target="#deleteModal"
-                                               onclick="document.getElementById('lessonPlanId').value = @lesson.Id">
+                               style="width:120px;"
+                               data-toggle="modal"
+                               data-target="#deleteModal"
+                               onclick="document.getElementById('lessonPlanId').value = @lesson.Id">
                                                 <i class="fa-solid fa-ban"></i>
                                                 Hủy
                                             </a>
@@ -183,15 +189,17 @@
                                     else if (lesson.NgayDay == DateTime.Today && (lesson.PhutBatDau == 0 || (0 < lesson.PhutBatDau) && (lesson.PhutBatDau < 15)) && lesson.GioBatDau - DateTime.Now.Hour == 1 && Math.Abs(lesson.PhutBatDau - DateTime.Now.Minute) >= 45)
                                     {
                                         <td class="project-actions">
-                                            <a class="btn btn-success btn-sm" href="@lesson.Link" style="margin-bottom:5px; width:120px;" target="_blank">
-                                                <i class="fas fa-chalkboard-teacher"> </i>
-                                                Tham gia dạy
-                                            </a>
+                                            <form asp-action="AcceptBooking" method="post" asp-controller="ManageTeachSchedule" asp-route-id="@lesson.Id">
+                                                <button class="btn btn-success btn-sm" href="@lesson.Link" style="margin-bottom:5px; width:120px" target="_blank">
+                                                    <i class="fas fa-chalkboard-teacher"> </i>
+                                                    Tham gia dạy
+                                                </button>
+                                            </form>
                                             <a class="btn btn-sm"
-                                               style="width:120px;"
-                                               data-toggle="modal"
-                                               data-target="#deleteModal"
-                                               onclick="document.getElementById('lessonPlanId').value = @lesson.Id">
+                               style="width:120px;"
+                               data-toggle="modal"
+                               data-target="#deleteModal"
+                               onclick="document.getElementById('lessonPlanId').value = @lesson.Id">
                                                 <i class="fa-solid fa-ban"></i>
                                                 Hủy
                                             </a>
@@ -201,10 +209,10 @@
                                     {
                                         <td class="project-actions">
                                             <a class="btn btn-sm"
-                                               style="width:120px;"
-                                               data-toggle="modal"
-                                               data-target="#deleteModal"
-                                               onclick="document.getElementById('lessonPlanId').value = @lesson.Id">
+                               style="width:120px;"
+                               data-toggle="modal"
+                               data-target="#deleteModal"
+                               onclick="document.getElementById('lessonPlanId').value = @lesson.Id">
                                                 <i class="fa-solid fa-ban"></i>
                                                 Hủy
                                             </a>
@@ -262,6 +270,12 @@
 </script>
 
 @section scripts {
+    @if (TempData["link"] != null)
+    {
+        <script>
+            window.open('@TempData["link"]');
+        </script>
+    }
     <script>
         var minDate, maxDate;
 
@@ -315,18 +329,18 @@
     {
         <script>
             var messageType = '@TempData["MessageType"]';
-        var message = '@TempData["Message"]';
+            var message = '@TempData["Message"]';
 
-        // Display the message using Toastr library
-        if (messageType === "success") {
-            toastr.success(message);
-        } else if (messageType === "error") {
-            toastr.error(message);
-        } else if (messageType === "warning") {
-            toastr.warning(message);
-        } else if (messageType === "info") {
-            toastr.info(message);
-        }
+            // Display the message using Toastr library
+            if (messageType === "success") {
+                toastr.success(message);
+            } else if (messageType === "error") {
+                toastr.error(message);
+            } else if (messageType === "warning") {
+                toastr.warning(message);
+            } else if (messageType === "info") {
+                toastr.info(message);
+            }
         </script>
     }
     @if (ViewBag.Message != null)
@@ -340,18 +354,17 @@
     <script src="~/js/app.js"></script>
     <script>
         $(function () {
-    // Check for a success message in TempData
-    var toastrSuccess = '@(TempData["toastr-success"])';
-    if (toastrSuccess) {
-        toastr.success(toastrSuccess);
-    }
+            // Check for a success message in TempData
+            var toastrSuccess = '@(TempData["toastr-success"])';
+            if (toastrSuccess) {
+                toastr.success(toastrSuccess);
+            }
 
-    // Check for an error message in TempData
-    var toastrError = '@(TempData["toastr-error"])';
-    if (toastrError) {
-        toastr.error(toastrError);
-    }
-});
+            // Check for an error message in TempData
+            var toastrError = '@(TempData["toastr-error"])';
+            if (toastrError) {
+                toastr.error(toastrError);
+            }
+        });
     </script>
 }
-

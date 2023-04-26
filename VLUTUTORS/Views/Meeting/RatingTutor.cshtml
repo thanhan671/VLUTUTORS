@@ -1,6 +1,7 @@
-﻿
+﻿@model IEnumerable<VLUTUTORS.Models.Tieuchidanhgia>
 @{
     Layout = null;
+    var caDay = ViewData["idCaDay"] as int?;
 }
 
 <!DOCTYPE html>
@@ -21,58 +22,84 @@
 </head>
 <body>
     <main>
-        <form>
-            <div class="rating__header">
-                <p></p>
-                <h1>Đánh giá</h1>
-                <button class="fav-tutor">
-                    <i onclick="toggle()"
-                       class="fa-solid fa-heart icon-heart"
-                       id="heart1"></i>
-                </button>
-            </div>
-            <p>Đánh giá gia sư sau buổi học!</p>
 
-            <div class="rating">
-                <input type="radio" name="rating" id="rating-1" value="1" />
-                <input type="radio" name="rating" id="rating-2" value="2" />
-                <input type="radio" name="rating" id="rating-3" value="3" />
-                <input type="radio" name="rating" id="rating-4" value="4" />
-                <input type="radio" name="rating" id="rating-5" value="5" />
+    <form  action="/Meeting/CreateTutorEvaluation" method="post">
+        <div class="rating__header">
+            
+            <h1>Đánh giá</h1>
 
-                <div class="rating__box">
-                    <label for="rating-1" class="rating__star">&starf;</label>
-                    <label for="rating-2" class="rating__star">&starf;</label>
-                    <label for="rating-3" class="rating__star">&starf;</label>
-                    <label for="rating-4" class="rating__star">&starf;</label>
-                    <label for="rating-5" class="rating__star">&starf;</label>
-                </div>
-            </div>
-            <div class="boxed">
-                <input type="radio" id="good" name="skills" />
-                <label for="good" class="rcm__btn">Nhiệt tình</label>
-                <input type="radio" id="ok" name="skills" />
-                <label for="ok" class="rcm__btn">Dễ hiểu</label>
-                <input type="radio" id="nice" name="skills" />
-                <label for="nice" class="rcm__btn">Dạy hay</label>
-                <input type="radio" id="onTime" name="skills" />
-                <label for="onTime" class="rcm__btn">Gia sư đúng giờ</label>
-                <input type="radio" id="great" name="skills" />
-                <label for="great" class="rcm__btn">Tuyệt vời</label>
-                <input type="radio" id="kind" name="skills" />
-                <label for="kind" class="rcm__btn">Thân thiện</label>
+            <div class="fav-tutor">
+                <label class="fa-solid fa-heart icon-heart" for="heart" onclick="toggle()"></label>
+                
+                <input name="wishlish" type="checkbox" id="heart" value="false" hidden>
+
             </div>
 
-            <div class="action-group">
-                <input type="button" value="Đánh giá" />
-            </div>
-        </form>
+        </div>
+
+        <p> Đánh giá gia sư sau buổi học! </p>
+ 
+        <div class="rating">
+
+            <input type="radio" name="rating" id="rating-1" value="1" />
+            <input type="radio" name="rating" id="rating-2" value="2" />
+            <input type="radio" name="rating" id="rating-3" value="3" />
+            <input type="radio" name="rating" id="rating-4" value="4" />
+            <input type="radio" name="rating" id="rating-5" value="5" />
+
+            <div class="rating__box">
+                 <label for="rating-1" class="rating__star">&starf;</label>
+                 <label for="rating-2" class="rating__star">&starf;</label>
+                 <label for="rating-3" class="rating__star">&starf;</label>
+                 <label for="rating-4" class="rating__star">&starf;</label>
+                 <label for="rating-5" class="rating__star">&starf;</label>
+             </div>
+
+        </div>
+        <div class="boxed">
+                @{
+                    foreach(var item in Model)
+                    {
+                        if (item.IdTieuChi < 7)
+                        {
+                            <input type="checkbox" id="@item.IdTieuChi" name="skills[]" value="@item.IdTieuChi" />
+                            <label for="@item.IdTieuChi" class="rcm__btn">@item.TieuChi</label>                           
+                        }
+                    }
+                }
+        </div>
+        <div class="textarea-group">
+            <label>
+                <span>Nhận xét: </span>
+                <textarea id="comment-rating" name="feedback"></textarea>
+            </label>
+        </div>
+
+        <input name="lessonid" value="@caDay" hidden/> 
+
+        <div class="action-group">
+            <input type="submit" value="Đánh giá" />
+        </div>
+    </form>
+
     </main>
-    <!-- <script>
-      function toggle() {
-        var btnLike = document.getElementById('heart1');
-        btnLike.classList.toggle('pink-color');
-      }
-    </script> -->
 </body>
 </html>
+<script>
+      function toggle() 
+      {
+            let tim = document.querySelector('.rating__header label');
+            let check = document.querySelector('#heart');
+
+            if(check.checked)
+            {
+                tim.classList.toggle('pink-color');
+                check.value = true
+            }
+            else
+            {
+                tim.classList.remove('pink-color')
+                check.value = false
+            }
+      }
+</script>

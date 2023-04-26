@@ -86,7 +86,10 @@
                                 <img src="~/images/category/bgcolor.jpg" alt="Category" />
                             </div>
                             <div class="items-cont">
-                                <h5>@Html.DisplayFor(modeItem => item.TenMonGiaSu)</h5>
+                                <form asp-controller="BookTutor" id="form-@item.IdmonGiaSu">
+                                    <input name="subjectId" value="@item.IdmonGiaSu" hidden />
+                                    <h5 onclick="search(@item.IdmonGiaSu)"  data-id="@item.IdmonGiaSu" >@Html.DisplayFor(modeItem => item.TenMonGiaSu)</h5>
+                              </form>
                             </div>
                         </div>
                         <!-- singel items -->
@@ -306,6 +309,11 @@
         toastr.error(toastrError);
     }
 });
+    function search(id){
+        const form = document.getElementById(`form-${id}`)
+        console.log(form)
+        $(`#form-${id}`).submit()
+    }
     </script>
 
     <!-- container -->

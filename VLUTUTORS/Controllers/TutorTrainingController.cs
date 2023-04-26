@@ -33,7 +33,7 @@ namespace VLUTUTORS.Controllers
                 return RedirectToAction("Login", "Accounts");
             }
             int checkUser = (int)_db.Taikhoannguoidungs.Where(m => m.Id == HttpContext.Session.GetInt32("LoginId")).First().IdxetDuyet;
-            if (checkUser == 1)
+            if (checkUser == 1 || checkUser == 2 || checkUser == 3)
             {
                 List<Khoadaotao> lesson = _db.Khoadaotaos.ToList();
 
@@ -158,6 +158,8 @@ namespace VLUTUTORS.Controllers
             if (taikhoannguoidung.DiemBaiTest > 7)
                 taikhoannguoidung.IdxetDuyet = 2;
 
+            TempData["Message"] = "Bạn đã hoàn thành khóa đào tạo, vui lòng theo dõi mail!";
+            TempData["MessageType"] = "success";
             _db.Taikhoannguoidungs.Attach(taikhoannguoidung).Property(x => x.DiemBaiTest).IsModified = true;
             _db.SaveChanges();
 

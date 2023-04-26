@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using VLUTUTORS.Models;
+using ZoomNet.Models;
 
 namespace VLUTUTORS.Areas.Admin.Controllers
 {
@@ -29,6 +30,16 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             }
 
             var taiKhoan = await _context.Taikhoannguoidungs.FirstOrDefaultAsync(m => m.Id == id);
+            string avatar = taiKhoan.AnhDaiDien;
+            if (!string.IsNullOrEmpty(avatar))
+            {
+                avatar = avatar.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
+                taiKhoan.AnhDaiDien = "https://cntttest.vanlanguni.edu.vn:18081/CP25Team01/" + avatar;
+            }
+            else
+            {
+                taiKhoan.AnhDaiDien = "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png";
+            }
             if (taiKhoan == null || (taiKhoan != null && taiKhoan.IdxetDuyet != 6))
                 return NotFound();
             return View(taiKhoan);

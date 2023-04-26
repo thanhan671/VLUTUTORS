@@ -70,7 +70,7 @@ namespace VLUTUTORS.Controllers
                     {
                         TempData["Message"] = "Vui lòng kiểm tra email để xác thực tài khoản!";
                         TempData["MessageType"] = "error";
-                        return View();
+                        return RedirectToAction("VerifyAccount", "Accounts");
                     }
                     else
                     {
@@ -256,8 +256,8 @@ namespace VLUTUTORS.Controllers
                             IdgioiTinh = 1,
                             Idkhoa = 1,
                             IdxetDuyet = 6,
-                            XacThuc = false,
-                            MaXacThuc = numVerify
+                            MaXacThuc = numVerify,
+                            XacThuc = false
                         };
                         try
                         {
