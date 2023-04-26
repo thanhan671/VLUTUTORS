@@ -187,7 +187,7 @@
                                         int day = lesson.NgayDay.Day;
 
                                         DateTime checkTime = new DateTime(year, month, day, lesson.GioBatDau, lesson.PhutBatDau, 0);
-                                        if (@lesson.IdnguoiHoc == null && checkTime >= DateTime.Now) {
+                                        if (@lesson.Link == null && checkTime >= DateTime.Now && lesson.IdnguoiHoc==null) {
                                             <tr>
                                                 <td>@lesson.tenMonDay</td>
                                                 <td>@lesson.NgayDay.ToString("dd/MM/yyyy")</td>

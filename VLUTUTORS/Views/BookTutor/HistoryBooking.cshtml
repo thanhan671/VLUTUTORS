@@ -44,7 +44,7 @@
 
                 DateTime checkTime = new DateTime(year, month, day, lesson.GioBatDau, lesson.PhutBatDau, 0);
 
-                if (checkTime >= DateTime.Now)
+                if (checkTime >= DateTime.Now && lesson.Link!=null)
                 {
                     <tr>
                         <td>@lesson.tenMonDay</td>

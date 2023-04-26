@@ -102,6 +102,13 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
                     };
                     DateTime hour = new DateTime();
 
+                    if (time == "")
+                    {
+                        TempData["Message"] = "Vui lòng điền đủ thông tin cho ca dạy!";
+                        TempData["MessageType"] = "error";
+                        return RedirectToAction("Index", "ManageTeachSchedule");
+                    }
+
                     hour = DateTime.Parse(time);
                     lessonPlan.GioBatDau = hour.Hour;
                     lessonPlan.PhutBatDau = hour.Minute;
@@ -147,7 +154,7 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
 
             TempData["link"] = caday.Link;
 
-            return RedirectToAction("HistoryBooking", "ManageTeachSchedule");
+            return RedirectToAction("Index", "ManageTeachSchedule");
         }
         private void GetEndTime(Caday caDay, int teachTime)
         {
@@ -238,9 +245,11 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             // call check lesson has register
 
             Caday caDay = _db.Cadays.Where(p => p.Id == lessonPlanId).FirstOrDefault();
-            _db.Cadays.Remove(caDay);
+            caDay.Link = null;
+            caDay.TrangThai = false;
+            _db.Cadays.Update(caDay);
             await _db.SaveChangesAsync();
-            TempData["Message"] = "Xóa ca dạy thành công!";
+            TempData["Message"] = "Hủy ca dạy thành công!";
             TempData["MessageType"] = "success";
 
             return RedirectToAction("Index", "ManageTeachSchedule");
