@@ -82,7 +82,7 @@
                             @{
                                 if (lesson.TrangThai == true)
                                 {
-                                    <td class="done text-center">Đã Học</td>
+                                    <td class="done text-center" style="color:green">Đã Hoàn Thành</td>
                                     var danhGiaGS = new CP25Team01Context().Danhgianguoihocs.FirstOrDefault(m => m.IdCaDay == lesson.Id);
                                     if (danhGiaGS != null)
                                     {
