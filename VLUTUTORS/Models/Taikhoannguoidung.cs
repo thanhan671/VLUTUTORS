@@ -18,6 +18,8 @@ namespace VLUTUTORS.Models
 
         public int Id { get; set; }
 
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Vui lòng điền trường này!")]
+        [StringLength(maximumLength: 30, MinimumLength = 5, ErrorMessage = "Giới hạn từ 5-30 ký tự")]
         public string HoTen { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Vui lòng điền trường này!")]
