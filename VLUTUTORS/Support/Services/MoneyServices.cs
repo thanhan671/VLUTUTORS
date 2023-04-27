@@ -6,7 +6,7 @@ namespace VLUTUTORS.Support.Services {
     public class MoneyServices 
     {
         public static void AddMoney(int amount, int userId, CP25Team01Context _db, Action<bool> callback) 
-        {
+        {                                                   
             //Taikhoannguoidung userAccount = _db.Taikhoannguoidungs.Where(a => a.Equals(userId)).FirstOrDefault();
 
             //userAccount.Xu += amount;
@@ -29,6 +29,12 @@ namespace VLUTUTORS.Support.Services {
             //_db.SaveChanges();
 
             //callback?.Invoke(true);
+        }
+
+        public static int AutoGenCodeWhenDeposit() 
+        {
+            int code = 0;
+            return code;
         }
     }
 }
