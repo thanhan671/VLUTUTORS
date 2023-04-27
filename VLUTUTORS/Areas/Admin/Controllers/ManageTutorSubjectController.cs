@@ -39,7 +39,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 {
                     TempData["Message"] = "Môn gia sư đã tồn tại!";
                     TempData["MessageType"] = "error";
-                    return RedirectToAction("AddSubject");
+                    return RedirectToAction("Index");
                 }
                 else
                 {
@@ -77,10 +77,20 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult EditSubject(Mongiasu mongiasu)
         {
-            TempData["Message"] = "Cập nhật thành công!";
-            TempData["MessageType"] = "success";
-            _context.Mongiasus.Update(mongiasu);
-            _context.SaveChanges();
+            var mon = _context.Mongiasus.AsNoTracking().SingleOrDefault(x => x.TenMonGiaSu.ToLower() == mongiasu.TenMonGiaSu.ToLower());
+            if (mon != null)
+            {
+                TempData["Message"] = "Môn gia sư đã tồn tại!";
+                TempData["MessageType"] = "error";
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["Message"] = "Cập nhật thành công!";
+                TempData["MessageType"] = "success";
+                _context.Mongiasus.Update(mongiasu);
+                _context.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
         [HttpPost]

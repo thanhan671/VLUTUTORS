@@ -28,24 +28,17 @@
 
                 <h1>Đánh giá</h1>
 
-                <div class="fav-tutor">
-                    <label class="fa-solid fa-heart icon-heart" for="heart" onclick="toggle()"></label>
-
-                    <input name="wishlish" type="checkbox" id="heart" value="false" hidden>
-
-                </div>
-
             </div>
 
             <p> Đánh giá học viên sau buổi học! </p>
 
             <div class="rating">
 
-                <input type="radio" name="rating" id="rating-1" value="1" />
-                <input type="radio" name="rating" id="rating-2" value="2" />
-                <input type="radio" name="rating" id="rating-3" value="3" />
-                <input type="radio" name="rating" id="rating-4" value="4" />
-                <input type="radio" name="rating" id="rating-5" value="5" />
+                <input type="radio" name="rating" id="rating-1" value="1" required />
+                <input type="radio" name="rating" id="rating-2" value="2" required />
+                <input type="radio" name="rating" id="rating-3" value="3" required />
+                <input type="radio" name="rating" id="rating-4" value="4" required />
+                <input type="radio" name="rating" id="rating-5" value="5" required />
 
                 <div class="rating__box">
                     <label for="rating-1" class="rating__star">&starf;</label>
@@ -78,7 +71,7 @@
             <input name="lessonid" value="@caDay" hidden />
 
             <div class="action-group">
-                <input type="submit" value="Đánh giá" />
+                <button type="submit">Đánh giá</button>
             </div>
         </form>
 

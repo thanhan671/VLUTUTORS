@@ -16,6 +16,7 @@ namespace VLUTUTORS.Models
         public int IdQuyen { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Vui lòng điền trường này!")]
+        [StringLength(maximumLength: 40, ErrorMessage = "Tối đa 40 ký tự")]
         public string TenQuyen { get; set; }
 
         public virtual ICollection<Taikhoanadmin> Taikhoanadmins { get; set; }

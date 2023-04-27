@@ -1,5 +1,5 @@
 ﻿@using VLUTUTORS.Models;
-@model IEnumerable<VLUTUTORS.Models.Danhgiagiasu>
+@model IEnumerable<VLUTUTORS.Models.Danhgianguoihoc>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
@@ -10,7 +10,7 @@
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2 justify-content-between">
-                <div class="col-auto mr-auto"><h1>Quản lý đánh giá gia sư</h1></div>
+                <div class="col-auto mr-auto"><h1>Quản lý đánh giá người học</h1></div>
             </div>
         </div>
         <!-- /.container-fluid -->
@@ -22,7 +22,7 @@
             <thead>
                 <tr>
                     <th class="no-sort">Stt</th>
-                    <th class="text-center">Tên gia sư</th>
+                    <th class="text-center">Tên người học</th>
                     <th class="text-center">Số điểm</th>
                     <th class="text-center">Người đánh giá</th>
                     <th class="text-center">Chức năng</th>
@@ -36,12 +36,12 @@
                         index++;
                         <tr>
                             <td class="text-center">@index</td>
-                            <td class="text-center">@item.tenNguoiDay</td>
-                            <td class="text-center">@item.Diem</td>
                             <td class="text-center">@item.tenNguoiHoc</td>
+                            <td class="text-center">@item.Diem</td>
+                            <td class="text-center">@item.tenNguoiDay</td>
                             @{
 
-                                var modelName = "#danhGiaGS-" + item.IdCaDay;
+                                var modelName = "#danhGiaHV-" + item.IdCaDay;
 
                                 <td class="project-actions text-center">
                                     <button data-toggle="modal" data-target="@modelName" class="btn btn-sm">
@@ -66,7 +66,7 @@
     string ngayDay = new CP25Team01Context().Cadays.FirstOrDefault(m => m.Id == lesson.IdCaDay).NgayDay.ToString("dd/MM/yyyy");
     var tieuChis = new CP25Team01Context().Tieuchidanhgias.ToList();
 
-    var modelName = "danhGiaGS-" + lesson.IdCaDay;
+    var modelName = "danhGiaHV-" + lesson.IdCaDay;
     var strTieuChi = string.Empty;
     @foreach (var tieuChiId in lesson.TieuChi.Split(";"))
     {
