@@ -6,9 +6,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
+using System.Runtime.Intrinsics.X86;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using VLUTUTORS.Models;
+using VLUTUTORS.Responses.BookTutors;
 using ZoomNet;
 using ZoomNet.Models;
 
@@ -199,7 +201,16 @@ namespace VLUTUTORS.Controllers
                                 var nguoiDanhGia = _db.Taikhoannguoidungs.Find(danhGia.NguoidungId);
                                 if (nguoiDanhGia != null)
                                 {
-                                    nguoiDanhGia.AnhDaiDien = nguoiDanhGia.AnhDaiDien.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
+                                    string avt = nguoiDanhGia.AnhDaiDien;
+                                    if (!string.IsNullOrEmpty(avt))
+                                    {
+                                        avt = avt.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
+                                        nguoiDanhGia.AnhDaiDien = avt;
+                                    }
+                                    else
+                                    {
+                                        nguoiDanhGia.AnhDaiDien = "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png";
+                                    }
                                     commentModel.Add(new CommentViewModel
                                     {
                                         Comment = danhGia,
@@ -270,8 +281,9 @@ namespace VLUTUTORS.Controllers
             return RedirectToAction("Index", "BookTutor");
         }
 
-        public IActionResult DetailTutor(int id)
+        public async Task<IActionResult> DetailTutor(int id)
         {
+
             var tutor = _db.Taikhoannguoidungs.FirstOrDefault(it => it.Id == id);
 
             if (tutor == null)
@@ -282,23 +294,43 @@ namespace VLUTUTORS.Controllers
 
             string avatar = tutor.AnhDaiDien;
             if (!string.IsNullOrEmpty(avatar))
+            {
                 avatar = avatar.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
-            tutor.AnhDaiDien = avatar;
+                tutor.AnhDaiDien = "https://cntttest.vanlanguni.edu.vn:18081/CP25Team01/" + avatar;
+            }
+            else
+            {
+                tutor.AnhDaiDien = "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png";
+            }
 
             var subject1 = subjects.FirstOrDefault(it => it.IdmonGiaSu == tutor.IdmonGiaSu1);
             var subject2 = subjects.FirstOrDefault(it => it.IdmonGiaSu == tutor.IdmonGiaSu2);
 
             var commentModel = new List<CommentViewModel>();
-            var danhGiaGiaSu = _db.Danhgiagiasus.Where(it => it.GiasuId == tutor.Id).ToList();
-            foreach (var danhGia in danhGiaGiaSu)
+
+            var giaSus = (from danhGiaGiaSu in _db.Danhgiagiasus
+                                join caday in _db.Cadays on danhGiaGiaSu.IdCaDay equals caday.Id
+                                where caday.IdnguoiDay == tutor.Id
+                                select new { caday.IdnguoiHoc  , danhGiaGiaSu }).ToList();
+
+            foreach (var danhGia in giaSus)
             {
-                var nguoiDanhGia = _db.Taikhoannguoidungs.Find(danhGia.NguoidungId);
+                var nguoiDanhGia = _db.Taikhoannguoidungs.Find(danhGia.IdnguoiHoc);
                 if (nguoiDanhGia != null)
                 {
-                    nguoiDanhGia.AnhDaiDien = nguoiDanhGia.AnhDaiDien.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
+                    string avt = nguoiDanhGia.AnhDaiDien;
+                    if (!string.IsNullOrEmpty(avt))
+                    {
+                        avt = avt.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
+                        nguoiDanhGia.AnhDaiDien = "https://cntttest.vanlanguni.edu.vn:18081/CP25Team01/"+avt;
+                    }
+                    else
+                    {
+                        nguoiDanhGia.AnhDaiDien = "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png";
+                    }
                     commentModel.Add(new CommentViewModel
                     {
-                        Comment = danhGia,
+                        Comment = danhGia.danhGiaGiaSu,
                         NguoiDanhGia = nguoiDanhGia
                     });
                 }
@@ -334,7 +366,7 @@ namespace VLUTUTORS.Controllers
                 {
                     GiasuId = id,
                     Diem = diem,
-                    Danhgia = danhGia,
+                    DanhGia = danhGia,
                     NguoidungId = currentUserId.Value,
                     NgayTao = DateTime.Now
                 };
@@ -358,6 +390,20 @@ namespace VLUTUTORS.Controllers
             }
 
             return View(cadays);
+        }
+
+        [HttpPost]
+        public IActionResult AcceptBooking(int id)
+        {
+            Caday caday = _db.Cadays.FirstOrDefault(m=>m.Id == id);
+            caday.TrangThai = true;
+
+            _db.Update(caday);
+            _db.SaveChanges();
+
+            TempData["link"] = caday.Link;
+
+            return RedirectToAction("HistoryBooking", "BookTutor", new { id });
         }
 
         [HttpPost]
@@ -397,6 +443,7 @@ namespace VLUTUTORS.Controllers
             var result = await zoomClient.Meetings.CreateScheduledMeetingAsync(hostMail, "Buổi dạy và học gia sư Văn Lang", "Buổi dạy và học gia sư Văn Lang", caday.NgayDay, lessonDuration);
             caday.Link = result.JoinUrl;
             caday.IdnguoiHoc = HttpContext.Session.GetInt32("LoginId");
+            caday.TrangThai = false;
             var monDay = _db.Mongiasus.Where(acc => acc.IdmonGiaSu.Equals(caday.IdmonDay)).FirstOrDefault().TenMonGiaSu;
 
             try
@@ -463,6 +510,61 @@ namespace VLUTUTORS.Controllers
             smtp.Send(message);
 
             return RedirectToAction("HistoryBooking", new { id });
+        }
+
+        /// <summary>
+        /// Đánh gia tiêu chí đã được đánh giá gia sư của người học.
+        /// </summary>
+        /// <param name="idGiaSu">Int</param>
+        /// <returns>IReadOnlyCollection -> GetAllEvaluationCriteriaTutorResponse</returns>
+        public async Task<IReadOnlyCollection<GetAllEvaluationCriteriaTutorResponse>> GetAllEvaluationCriteriaTutor(int idGiaSu)
+        {
+            const string TIEU_CHI_DANH_GIA_GIA_SU = "Gia sư";
+            List<GetAllEvaluationCriteriaTutorResponse> result = new();
+            if (idGiaSu is 0)
+            {
+                return result;
+            }
+
+            List<string> danhGias = await (from danhGiaGiaSu in _db.Danhgiagiasus
+                                           join caDay in _db.Cadays.Where(x => x.TrangThai == true && x.NgayDay.Date <= DateTime.Now.Date)
+                                           on danhGiaGiaSu.IdCaDay equals caDay.Id
+                                           where caDay.IdnguoiDay == idGiaSu
+                                           select danhGiaGiaSu.TieuChi).ToListAsync();
+
+            if (danhGias is null)
+            {
+                return result;
+            }
+
+            List<int> tieuChiIds = new();
+            List<Tieuchidanhgia> tieuChiDanhGias = await _db.Tieuchidanhgias.Where(x => x.DanhCho == TIEU_CHI_DANH_GIA_GIA_SU).ToListAsync();
+            danhGias.ForEach(tieuChi =>
+            {
+                if (!string.IsNullOrEmpty(tieuChi))
+                {
+                    var tieuChiDanhGia = tieuChi?.Split(";").Select(tieuChiId => int.TryParse(tieuChiId, out int output) ? output : 0);
+                    if (tieuChiDanhGia is not null)
+                    {
+                        tieuChiIds.AddRange(tieuChiDanhGias.Where(x => tieuChiDanhGia.Contains(x.IdTieuChi)).Select(x => x.IdTieuChi).ToList());
+                    }
+                }
+            });
+
+            foreach (var tieuChi in tieuChiDanhGias)
+            {
+                var tongDanhGia = tieuChiIds.LongCount(tieuchi => tieuchi == tieuChi.IdTieuChi);
+
+                GetAllEvaluationCriteriaTutorResponse model = new()
+                {
+                    IdTieuChi = tieuChi.IdTieuChi,
+                    TenTieuChi = tieuChi.TieuChi,
+                    TongDiem = tongDanhGia
+                };
+
+                result.Add(model);
+            }
+            return result;
         }
     }
 }

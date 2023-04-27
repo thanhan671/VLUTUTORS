@@ -119,83 +119,100 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var lesson in Model.Item2) {
+                @foreach (var lesson in Model.Item2)
+                {
                     int year = lesson.NgayDay.Year;
                     int month = lesson.NgayDay.Month;
                     int day = lesson.NgayDay.Day;
 
                     DateTime checkTime = new DateTime(year, month, day, lesson.GioBatDau, lesson.PhutBatDau, 0);
-                    if (checkTime >= DateTime.Now) {
+                    if (checkTime >= DateTime.Now)
+                    {
+                        if (lesson.Link == null && lesson.TrangThai == false)
+                        {
+                            continue;
+                        }
                         <tr>
                             <td>@lesson.tenMonDay</td>
                             <td>@lesson.NgayDay.ToString("dd/MM/yyyy")</td>
                             <td>@lesson.GioBatDau:@lesson.PhutBatDau - @lesson.GioKetThuc:@lesson.PhutKetThuc</td>
                             <td>@lesson.tenLoaiCaDay phút</td>
                             @{
-                                if (lesson.IdnguoiHoc == null) {
+                                if (lesson.IdnguoiHoc == null)
+                                {
                                     <td>Chưa được đặt</td>
                                 }
-                                else {
+                                else
+                                {
                                     <td style="color:green">Đã được đặt</td>
                                 }
                             }
                             @{
-                                if (lesson.IdnguoiHoc == null) {
+                                if (lesson.IdnguoiHoc == null)
+                                {
                                     <td class="project-actions">
                                         <a class="btn btn-sm" style="margin-bottom:5px; width:120px" href="@Url.Action("EditLessonPlan", "ManageTeachSchedule", new { lessonPlanId = @lesson.Id })">
                                             <i class="fas fa-pencil-alt"> </i>
                                             Sửa
                                         </a>
                                         <a class="btn btn-sm"
-                                           style="width:120px;"
-                                           data-toggle="modal"
-                                           data-target="#deleteModal"
-                                           onclick="document.getElementById('lessonPlanId').value = @lesson.Id">
+                               style="width:120px;"
+                               data-toggle="modal"
+                               data-target="#deleteModal"
+                               onclick="document.getElementById('lessonPlanId').value = @lesson.Id">
                                             <i class="fa-solid fa-ban"></i>
                                             Hủy
                                         </a>
                                     </td>
                                 }
-                                else {
-                                    if (lesson.NgayDay == DateTime.Today && lesson.PhutBatDau != 0 && lesson.GioBatDau == DateTime.Now.Hour && Math.Abs(lesson.PhutBatDau - DateTime.Now.Minute) <= 15) {
+                                else
+                                {
+                                    if (lesson.NgayDay == DateTime.Today && lesson.PhutBatDau != 0 && lesson.GioBatDau == DateTime.Now.Hour && Math.Abs(lesson.PhutBatDau - DateTime.Now.Minute) <= 15)
+                                    {
                                         <td class="project-actions">
-                                            <a class="btn btn-success btn-sm" href="@lesson.Link" style="margin-bottom:5px; width:120px" target="_blank">
-                                                <i class="fas fa-chalkboard-teacher"> </i>
-                                                Tham gia dạy
-                                            </a>
+                                            <form asp-action="AcceptBooking" method="post" asp-controller="ManageTeachSchedule" asp-route-id="@lesson.Id">
+                                                <button class="btn btn-success btn-sm" href="@lesson.Link" style="margin-bottom:5px; width:120px" target="_blank">
+                                                    <i class="fas fa-chalkboard-teacher"> </i>
+                                                    Tham gia dạy
+                                                </button>
+                                            </form>
                                             <a class="btn "
-                                               style="width:120px;"
-                                               data-toggle="modal"
-                                               data-target="#deleteModal"
-                                               onclick="document.getElementById('lessonPlanId').value = @lesson.Id">
+                               style="width:120px;"
+                               data-toggle="modal"
+                               data-target="#deleteModal"
+                               onclick="document.getElementById('lessonPlanId').value = @lesson.Id">
                                                 <i class="fa-solid fa-ban"></i>
                                                 Hủy
                                             </a>
                                         </td>
                                     }
-                                    else if (lesson.NgayDay == DateTime.Today && (lesson.PhutBatDau == 0 || (0 < lesson.PhutBatDau) && (lesson.PhutBatDau < 15)) && lesson.GioBatDau - DateTime.Now.Hour == 1 && Math.Abs(lesson.PhutBatDau - DateTime.Now.Minute) >= 45) {
+                                    else if (lesson.NgayDay == DateTime.Today && (lesson.PhutBatDau == 0 || (0 < lesson.PhutBatDau) && (lesson.PhutBatDau < 15)) && lesson.GioBatDau - DateTime.Now.Hour == 1 && Math.Abs(lesson.PhutBatDau - DateTime.Now.Minute) >= 45)
+                                    {
                                         <td class="project-actions">
-                                            <a class="btn btn-success btn-sm" href="@lesson.Link" style="margin-bottom:5px; width:120px;" target="_blank">
-                                                <i class="fas fa-chalkboard-teacher"> </i>
-                                                Tham gia dạy
-                                            </a>
+                                            <form asp-action="AcceptBooking" method="post" asp-controller="ManageTeachSchedule" asp-route-id="@lesson.Id">
+                                                <button class="btn btn-success btn-sm" href="@lesson.Link" style="margin-bottom:5px; width:120px" target="_blank">
+                                                    <i class="fas fa-chalkboard-teacher"> </i>
+                                                    Tham gia dạy
+                                                </button>
+                                            </form>
                                             <a class="btn btn-sm"
-                                               style="width:120px;"
-                                               data-toggle="modal"
-                                               data-target="#deleteModal"
-                                               onclick="document.getElementById('lessonPlanId').value = @lesson.Id">
+                               style="width:120px;"
+                               data-toggle="modal"
+                               data-target="#deleteModal"
+                               onclick="document.getElementById('lessonPlanId').value = @lesson.Id">
                                                 <i class="fa-solid fa-ban"></i>
                                                 Hủy
                                             </a>
                                         </td>
                                     }
-                                    else {
+                                    else
+                                    {
                                         <td class="project-actions">
                                             <a class="btn btn-sm"
-                                               style="width:120px;"
-                                               data-toggle="modal"
-                                               data-target="#deleteModal"
-                                               onclick="document.getElementById('lessonPlanId').value = @lesson.Id">
+                               style="width:120px;"
+                               data-toggle="modal"
+                               data-target="#deleteModal"
+                               onclick="document.getElementById('lessonPlanId').value = @lesson.Id">
                                                 <i class="fa-solid fa-ban"></i>
                                                 Hủy
                                             </a>
@@ -253,6 +270,12 @@
 </script>
 
 @section scripts {
+    @if (TempData["link"] != null)
+    {
+        <script>
+            window.open('@TempData["link"]');
+        </script>
+    }
     <script>
         var minDate, maxDate;
 
@@ -302,7 +325,8 @@
             $('#filter-fade').remove();
         })
     </script>
-    @if (TempData["Message"] != null) {
+    @if (TempData["Message"] != null)
+    {
         <script>
             var messageType = '@TempData["MessageType"]';
             var message = '@TempData["Message"]';
@@ -319,7 +343,8 @@
             }
         </script>
     }
-    @if (ViewBag.Message != null) {
+    @if (ViewBag.Message != null)
+    {
         <script type="text/javascript">
             window.onload = function () {
                 alert("@ViewBag.Message");

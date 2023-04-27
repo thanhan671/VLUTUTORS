@@ -21,6 +21,7 @@ namespace VLUTUTORS.Models
         public virtual DbSet<Caday> Cadays { get; set; }
         public virtual DbSet<Cahoc> Cahocs { get; set; }
         public virtual DbSet<Danhgiagiasu> Danhgiagiasus { get; set; }
+        public virtual DbSet<Danhgianguoihoc> Danhgianguoihocs { get; set; }
         public virtual DbSet<Giasuyeuthich> Giasuyeuthichs { get; set; }
         public virtual DbSet<Gioitinh> Gioitinhs { get; set; }
         public virtual DbSet<Khoa> Khoas { get; set; }
@@ -134,7 +135,16 @@ namespace VLUTUTORS.Models
             {
                 entity.ToTable("DANHGIAGIASU");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.Id).UseIdentityColumn();
+
+                entity.Property(e => e.NgayTao).HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<Danhgianguoihoc>(entity =>
+            {
+                entity.ToTable("DANHGIANGUOIHOC");
+
+                entity.Property(e => e.Id).UseIdentityColumn();
 
                 entity.Property(e => e.NgayTao).HasColumnType("datetime");
             });
