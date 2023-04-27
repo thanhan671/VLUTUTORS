@@ -16,7 +16,8 @@ main {
     display: grid;
     place-items: center;
     min-height: 100vh;
-    padding: 2em;
+/*    padding: 2em;
+*/
 }
 
 form {
@@ -91,7 +92,7 @@ form {
     }
 }
 
-form > div.action-group > input[type='button'] {
+form > div.action-group > button[type='submit'] {
     border: 2px solid transparent;
     padding: 1em 2em;
     border-radius: 12px;
@@ -102,12 +103,11 @@ form > div.action-group > input[type='button'] {
     transition: all 0.1s ease-in-out;
 }
 
-@media (hover: hover) {
-    form > div.action-group > input[type='button']:hover {
+    form > div.action-group > button:hover {
         background-color: #ec6923;
         border: 2px solid #ec6923;
     }
-}
+
 /* Input Rating */
 .rating {
     user-select: none;
@@ -208,11 +208,11 @@ form > div.action-group > input[type='button'] {
         border-radius: 150px;
     }
 
-    .boxed input[type='radio'] {
+    .boxed input[type='checkbox'] {
         display: none;
     }
 
-        .boxed input[type='radio']:checked + label {
+        .boxed input[type='checkbox']:checked + label {
             border: solid 2px #ec6923;
         }
 
