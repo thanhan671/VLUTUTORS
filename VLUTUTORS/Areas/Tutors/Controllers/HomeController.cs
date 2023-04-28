@@ -43,6 +43,24 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
                 .SumAsync(x => ((x.GioKetThuc - x.GioBatDau) * 60) + (x.PhutKetThuc - x.PhutBatDau)) / 60;
         }
 
+        public JsonResult GetLessonTutor()
+        {
+            int userId = (int)HttpContext.Session.GetInt32("LoginId");
+
+            int success = _db.Cadays.Where(x => x.TrangThai == true && x.NgayDay <= DateTime.Now.Date && x.IdnguoiDay == userId).Count();
+            int cancel = _db.Cadays.Where(x => x.TrangThai == false && x.NgayDay <= DateTime.Now.Date && x.IdnguoiDay == userId).Count();
+            int regist = _db.Cadays.Where(x => x.TrangThai == null && x.NgayDay <= DateTime.Now.Date && x.IdnguoiDay == userId).Count();
+
+            List<Chart> list = new List<Chart>();
+
+            list.Add(new Chart { CategoryName = "Số ca chưa được đặt", PostCount = regist });
+            list.Add(new Chart { CategoryName = "Số ca hoàn thành", PostCount = success });
+            list.Add(new Chart { CategoryName = "Số ca hủy", PostCount = cancel });
+
+            return Json(new { JSONList = list });
+
+        }
+
         /// <summary>
         /// Xem thống kê thu nhập từng gia sư.
         /// </summary>

@@ -42,7 +42,7 @@ namespace VLUTUTORS.Controllers
             var loaiTuVan = new SelectList(_db.Loaituvans.ToList(), "IdLoaiTuVan", "TenLoaiTuVan");
             ViewData["loaiTuVan"] = loaiTuVan;
 
-            var hocVien = _db.Taikhoannguoidungs.Count();
+            var hocVien = _db.Taikhoannguoidungs.Count(m => m.IdxetDuyet != 5);
             var giaSu = _db.Taikhoannguoidungs.Count(m => m.IdxetDuyet == 5);
 
             var monGiaSu = await _db.Mongiasus.ToListAsync();
@@ -185,73 +185,5 @@ namespace VLUTUTORS.Controllers
         {
             return View();
         }
-
-
-        #region Method Report
-
-        /// <summary>
-        /// Thống kê giờ dạy đã hoàn thành của tất cả gia sư hiện có của website.
-        /// </summary>
-        /// <returns>long</returns>
-        private async Task<long> GetReportTeachingHours()
-        {
-            const int DA_XET_DUYET = 5;
-
-            return await (from caDay in _db.Cadays.Where(x => x.TrangThai == true && x.NgayDay <= DateTime.Now.Date)
-                          join giaSu in _db.Taikhoannguoidungs.Where(x => x.IdxetDuyet == DA_XET_DUYET)
-                          on caDay.IdnguoiDay equals giaSu.Id
-                          select caDay).SumAsync(x => ((x.GioKetThuc - x.GioBatDau) * 60) + (x.PhutKetThuc - x.PhutBatDau)) / 60;
-        }
-
-        /// <summary>
-        /// Thống kê số ca học đã diễn ra.
-        /// </summary>
-        /// <returns>long</returns>
-        private async Task<long> GetReportLessonAlready()
-        {
-            return await _db.Cadays.Where(x => x.TrangThai == true && x.NgayDay <= DateTime.Now.Date).LongCountAsync();
-        }
-
-        /// <summary>
-        /// Thống kê người học hiện có.
-        /// </summary>
-        /// <returns>long</returns>
-        private async Task<long> GetReportLearner()
-        {
-            const int KHONG_XET_DUYET = 6;
-            return await _db.Taikhoannguoidungs.Where(x => x.IdxetDuyet == KHONG_XET_DUYET).LongCountAsync();
-        }
-
-        /// <summary>
-        /// Thông kê gia sư hiện có.
-        /// </summary>
-        /// <returns>long</returns>
-        private async Task<long> GetReportTutor()
-        {
-            const int DA_XET_DUYET = 5;
-            return await _db.Taikhoannguoidungs.Where(x => x.IdxetDuyet == DA_XET_DUYET).LongCountAsync();
-        }
-
-        /// <summary>
-        /// Thông kê số lượng người dùng.
-        /// </summary>
-        /// <returns>long</returns>
-        private async Task<long> GetReportUser()
-        {
-            return await _db.Taikhoannguoidungs.LongCountAsync();
-        }
-
-        /// <summary>
-        /// Thông kê tổng tiền thu được.
-        /// </summary>
-        /// <returns>double</returns>
-        private async Task<double> GetReportMoney()
-        {
-            return await (from caDay in _db.Cadays.Where(x => x.TrangThai == true && x.NgayDay.Date <= DateTime.Now.Date) /// Thế nào là dung hiện có
-                          join caHoc in _db.Cahocs on caDay.IdloaiCaDay equals caHoc.IdCaHoc
-                          select new { caHoc.GiaTien }).SumAsync(x => x.GiaTien);
-        }
-
-        #endregion
     }
 }
