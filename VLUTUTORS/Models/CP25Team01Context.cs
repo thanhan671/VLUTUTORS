@@ -29,10 +29,12 @@ namespace VLUTUTORS.Models
         public virtual DbSet<Lienhe> Lienhes { get; set; }
         public virtual DbSet<Loaituvan> Loaituvans { get; set; }
         public virtual DbSet<Mongiasu> Mongiasus { get; set; }
+        public virtual DbSet<Naptien> Naptiens { get; set; }
         public virtual DbSet<Nganhang> Nganhangs { get; set; }
         public virtual DbSet<Noidung> Noidungs { get; set; }
         public virtual DbSet<Phiday> Phidays { get; set; }
         public virtual DbSet<Quyen> Quyens { get; set; }
+        public virtual DbSet<Ruttien> Ruttiens { get; set; }
         public virtual DbSet<Taikhoanadmin> Taikhoanadmins { get; set; }
         public virtual DbSet<Taikhoannguoidung> Taikhoannguoidungs { get; set; }
         public virtual DbSet<Tieuchidanhgia> Tieuchidanhgias { get; set; }
@@ -255,6 +257,20 @@ namespace VLUTUTORS.Models
                     .HasMaxLength(500);
             });
 
+            modelBuilder.Entity<Naptien>(entity => {
+                entity.ToTable("NAPTIEN");
+
+                entity.Property(e => e.MaNapTien)
+                    .IsRequired()
+                    .HasMaxLength(20);
+
+                entity.HasOne(d => d.IdNguoiNapNavigation)
+                    .WithMany(p => p.Naptiens)
+                    .HasForeignKey(d => d.IdNguoiNap)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_NAPTIEN_TAIKHOANNGUOIDUNG");
+            });
+
             modelBuilder.Entity<Nganhang>(entity =>
             {
                 entity.ToTable("NGANHANG");
@@ -333,6 +349,20 @@ namespace VLUTUTORS.Models
                 entity.Property(e => e.TenQuyen)
                     .IsRequired()
                     .HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<Ruttien>(entity => {
+                entity.ToTable("RUTTIEN");
+
+                entity.Property(e => e.MaRutTien)
+                    .IsRequired()
+                    .HasMaxLength(20);
+
+                entity.HasOne(d => d.IdNguoiRutNavigation)
+                    .WithMany(p => p.Ruttiens)
+                    .HasForeignKey(d => d.IdNguoiRut)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_RUTTIEN_TAIKHOANNGUOIDUNG");
             });
 
             modelBuilder.Entity<Taikhoanadmin>(entity =>

@@ -31,9 +31,12 @@ namespace VLUTUTORS.Support.Services {
             //callback?.Invoke(true);
         }
 
-        public static int AutoGenCodeWhenDeposit() 
+        public static string AutoGenCodeWhenDeposit() 
         {
-            int code = 0;
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            Random random = new Random();
+            string code = new string(Enumerable.Repeat(chars, 6)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
             return code;
         }
     }
