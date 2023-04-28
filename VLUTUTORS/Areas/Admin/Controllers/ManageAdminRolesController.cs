@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -17,6 +18,10 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
+            if (HttpContext.Session.GetString("LoginId") == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             var quyens = await _context.Quyens.ToListAsync();
 
             return View(quyens);
@@ -55,7 +60,9 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                     return RedirectToAction("Index");
                 }
             }
-            return View(quyen);
+            TempData["Message"] = "Tên quyền tối đa 40 ký tự, vui lòng kiểm tra lại!";
+            TempData["MessageType"] = "error";
+            return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> EditRole(int id)

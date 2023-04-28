@@ -57,7 +57,9 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                     return RedirectToAction("Index");
                 }
             }
-            return View(mongiasu);
+            TempData["Message"] = "Tên môn tối đa 50 ký tự, vui lòng kiểm tra lại!";
+            TempData["MessageType"] = "error";
+            return RedirectToAction("Index");
         }
         [HttpGet]
         public async Task<IActionResult> EditSubject(int? id = -1)

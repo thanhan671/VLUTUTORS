@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -16,6 +17,10 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         private readonly CP25Team01Context _context = new CP25Team01Context();
         public async Task<IActionResult> Index()
         {
+            if (HttpContext.Session.GetString("LoginId") == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             var caHoc = await _context.Cahocs.ToListAsync();
             var phiDay = _context.Phidays.FirstOrDefault(m => m.Id == 1);
             Tuple<IEnumerable<Cahoc>, Phiday> turple = new Tuple<IEnumerable<Cahoc>, Phiday>(caHoc.AsEnumerable(), phiDay);

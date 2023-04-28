@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -20,6 +21,10 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            if (HttpContext.Session.GetString("LoginId") == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             List<Danhgianguoihoc> danhGias = _db.Danhgianguoihocs.ToList();
 
             foreach (var danhgiaItem in danhGias)

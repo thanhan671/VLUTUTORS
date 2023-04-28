@@ -1,0 +1,80 @@
+﻿@model IEnumerable<VLUTUTORS.Models.Taikhoannguoidung>
+@{
+    ViewData["Title"] = "Chi tiết thống kê";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2 justify-content-center text-center text-uppercase">
+                <div class="col-sm-6">
+                    <h1>Danh sách người dùng</h1>
+                </div>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <!-- Default box -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-tools">
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-striped projects" id="myTable">
+                    <thead>
+                        <tr>
+                            <th class="text-center">#</th>
+                            <th class="text-center">Họ tên</th>
+                            <th class="text-center">Email</th>
+                            <th class="text-center">Tài khoản</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            var index = 0;
+                            foreach (var item in Model)
+                            {
+                                index++;
+                                <tr>
+                                    <td class="text-center">
+                                        @index
+                                    </td>
+                                    <td class="text-center">
+                                        @Html.DisplayFor(modelItem => item.HoTen)
+                                    </td>
+                                    <td class="text-center">
+                                        @Html.DisplayFor(modelItem => item.Email)
+                                    </td>
+                                    @{
+                                        if (item.IdxetDuyet == 5)
+                                        {
+                                            <td class="text-center">
+                                                Gia sư
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td class="text-center">
+                                                Gia sư
+                                            </td>
+                                        }
+                                    }
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </section>
+    <!-- /.content -->
+</div>
+

@@ -23,28 +23,28 @@
                 <div class="col-lg-6">
                     <div class="card">
                         <div class="card-body">
-                            <h3>Tổng số người dùng web: </h3>
+                            <h3>Tổng số người dùng web: <b style="color:red;">@TempData["AllUser"]</b></h3>
                             <div class="d-flex" id="chartuser" style="width:570px;height:350px"></div>
-                            <button>Xem chi tiết</button>
+                            <a type="button" href="~/Admin/Home/DetailStaticUser">Xem chi tiết</a>
                         </div>
                     </div>
                     <div class="card">
                         <div class="card-body">
-                            <h3>Tổng số tiền trang web nhận được: </h3>
+                            <h3>Tổng số tiền trang web nhận được: <b style="color:red;"></b></h3>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="card">
                         <div class="card-body">
-                            <h3>Tổng số ca dạy của web: </h3>
+                            <h3>Tổng số ca dạy của web: <b style="color:red;">@TempData["AllLesson"]</b></h3>
                             <div class="d-flex" id="chartlesson" style="width:570px;height:350px"></div>
-                            <button>Xem chi tiết</button>
+                            <a type="button" href="~/Admin/Home/DetailStaticLesson">Xem chi tiết</a>
                         </div>
                     </div>
                     <div class="card">
                         <div class="card-body">
-                            <h3>Tổng số giờ dạy đã diễn ra: </h3>
+                            <h3>Tổng số giờ dạy đã diễn ra: <b style="color:red;">@TempData["TeachingHours"]</b> giờ</h3>
                         </div>
                     </div>
                 </div>

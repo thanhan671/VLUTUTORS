@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +20,10 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
+            if (HttpContext.Session.GetString("LoginId") == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             var taiKhoans = await _context.Taikhoannguoidungs.Where(it=> it.IdxetDuyet == 6).ToListAsync();
             return View(taiKhoans);
         }

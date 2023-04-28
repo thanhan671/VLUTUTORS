@@ -38,6 +38,10 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index([FromQuery] string search)
         {
+            if (HttpContext.Session.GetString("LoginId") == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             var model = new TutorListModel();
             var awaitTutors = new List<TutorViewModel>();
             var approvedTutors = new List<TutorViewModel>();

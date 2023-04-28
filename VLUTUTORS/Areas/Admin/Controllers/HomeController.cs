@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -18,23 +19,18 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         private CP25Team01Context _db = new CP25Team01Context();
         public IActionResult Index()
         {
+            if (HttpContext.Session.GetString("LoginId") == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            int chietKhau = (int)_db.Phidays.FirstOrDefault(x => x.Id == 1).ChietKhau;
+            TempData["AllLesson"] = _db.Cadays.Where(x => x.TrangThai != null && x.NgayDay <= DateTime.Now.Date).Count();
+            TempData["AllUser"] = _db.Taikhoannguoidungs.Count();
+            TempData["TeachingHours"] = (double)_db.Cadays.Where(x => x.TrangThai == true && x.NgayDay <= DateTime.Now.Date).Sum(x => ((x.GioKetThuc - x.GioBatDau) * 60) + (x.PhutKetThuc - x.PhutBatDau))/60;
+
             return View();
         }
         #region Method Report
-
-        /// <summary>
-        /// Thống kê giờ dạy đã hoàn thành của tất cả gia sư hiện có của website.
-        /// </summary>
-        /// <returns>long</returns>
-        private async Task<long> GetReportTeachingHours()
-        {
-            const int DA_XET_DUYET = 5;
-
-            return await (from caDay in _db.Cadays.Where(x => x.TrangThai == true && x.NgayDay <= DateTime.Now.Date)
-                          join giaSu in _db.Taikhoannguoidungs.Where(x => x.IdxetDuyet == DA_XET_DUYET)
-                          on caDay.IdnguoiDay equals giaSu.Id
-                          select caDay).SumAsync(x => ((x.GioKetThuc - x.GioBatDau) * 60) + (x.PhutKetThuc - x.PhutBatDau)) / 60;
-        }
 
         /// <summary>
         /// Thông kê tổng tiền thu được.
@@ -43,18 +39,9 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         private async Task<double> GetReportMoney()
         {
             int chietKhau = (int)_db.Phidays.FirstOrDefault(x => x.Id == 1).ChietKhau;
-            return await (from caDay in _db.Cadays.Where(x => x.TrangThai == true && x.NgayDay.Date <= DateTime.Now.Date) /// Thế nào là dung hiện có
+            return await (from caDay in _db.Cadays.Where(x => x.TrangThai == true && x.NgayDay.Date <= DateTime.Now.Date) 
                           join caHoc in _db.Cahocs on caDay.IdloaiCaDay equals caHoc.IdCaHoc
                           select new { caHoc.GiaTien }).SumAsync(x => x.GiaTien) / chietKhau;
-        }
-
-        /// <summary>
-        /// Thống kê tất cả số ca học.
-        /// </summary>
-        /// <returns>long</returns>
-        private async Task<long> GetReportAllLesson()
-        {
-            return await _db.Cadays.Where(x => x.TrangThai != null && x.NgayDay <= DateTime.Now.Date).LongCountAsync();
         }
 
         public JsonResult GetLessonWeb()
@@ -69,15 +56,6 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
             return Json(new { JSONList = list });
 
-        }
-
-        /// <summary>
-        /// Thông kê số lượng người dùng.
-        /// </summary>
-        /// <returns>long</returns>
-        private async Task<long> GetReportUser()
-        {
-            return await _db.Taikhoannguoidungs.LongCountAsync();
         }
 
         public JsonResult GetUserWeb()
@@ -96,5 +74,33 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
 
         #endregion
+
+        public async Task<IActionResult> DetailStaticUser()
+        {
+            if (HttpContext.Session.GetString("LoginId") == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            var taiKhoans = await _db.Taikhoannguoidungs.ToListAsync();
+            return View(taiKhoans);
+        }
+
+        public IActionResult DetailStaticLesson()
+        {
+            if (HttpContext.Session.GetString("LoginId") == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            List<Caday> caDays = _db.Cadays.Where(ca => ca.TrangThai != null).ToList();
+
+            foreach (var cadayItem in caDays)
+            {
+                cadayItem.tenNguoiDay = _db.Taikhoannguoidungs.Find(cadayItem.IdnguoiDay).HoTen.ToString();
+                cadayItem.tenNguoiHoc = _db.Taikhoannguoidungs.Find(cadayItem.IdnguoiHoc).HoTen.ToString();
+                cadayItem.tenMonDay = _db.Mongiasus.Find(cadayItem.IdmonDay).TenMonGiaSu.ToString();
+                cadayItem.giaCaDay = _db.Cahocs.Find(cadayItem.IdloaiCaDay).GiaTien;
+            }
+            return View(caDays);
+        }
     }
 }

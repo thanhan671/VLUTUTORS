@@ -25,7 +25,7 @@
                         <div class="card-body">
                             <h3>Tổng số ca dạy của gia sư: </h3>
                             <div class="d-flex" id="charttutor" style="width:570px;height:350px"></div>
-                            <button>Xem chi tiết</button>
+                            <a type="button" href="~/Tutors/Home/DetailStaticLesson">Xem chi tiết</a>
                         </div>
                     </div>
                 </div>
@@ -38,7 +38,7 @@
                     </div>
                     <div class="card">
                         <div class="card-body">
-                            <h3>Tổng số giờ đã dạy:</h3>
+                            <h3>Tổng số giờ đã dạy: <b style="color:red;">@TempData["TeachingHours"]</b> giờ</h3>
                         </div>
                     </div>
                     <!-- /.card -->
