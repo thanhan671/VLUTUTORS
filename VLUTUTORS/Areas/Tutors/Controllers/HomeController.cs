@@ -24,7 +24,8 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
                 {
                     int? userId = await IsExistUser();
                     TempData["TeachingHours"] = (double)_db.Cadays.Where(x => x.TrangThai == true && x.NgayDay <= DateTime.Now.Date && x.IdnguoiDay == userId).Sum(x => ((x.GioKetThuc - x.GioBatDau) * 60) + (x.PhutKetThuc - x.PhutBatDau)) / 60;
-
+                    var reportIncome = GetReportIncome();
+                    TempData["ReportIncome"] = reportIncome.Result.ToString();
                     return View();
                 }
             }
@@ -83,6 +84,27 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             {
                 caDays = caDays.Where(x => x.NgayDay >= request.ToDate.Value.Date);
             }
+
+            return await caDays.SumAsync(x => x.GiaTien);
+        }
+
+        public async Task<double> GetReportIncome()
+        {
+            int? userId = await IsExistUser();
+            if (userId is null)
+            {
+                return 0;
+            }
+
+            var caDays = from caDay in _db.Cadays.Where(x => x.TrangThai == true && x.NgayDay.Date <= DateTime.Now.Date)
+                         join caHoc in _db.Cahocs
+                         on caDay.IdloaiCaDay equals caHoc.IdCaHoc
+                         where caDay.IdnguoiDay == userId
+                         select new
+                         {
+                             NgayDay = caDay.NgayDay,
+                             GiaTien = caHoc.GiaTien
+                         };
 
             return await caDays.SumAsync(x => x.GiaTien);
         }

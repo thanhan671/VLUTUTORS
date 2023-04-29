@@ -27,7 +27,8 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             TempData["AllLesson"] = _db.Cadays.Where(x => x.TrangThai != null && x.NgayDay <= DateTime.Now.Date).Count();
             TempData["AllUser"] = _db.Taikhoannguoidungs.Count();
             TempData["TeachingHours"] = (double)_db.Cadays.Where(x => x.TrangThai == true && x.NgayDay <= DateTime.Now.Date).Sum(x => ((x.GioKetThuc - x.GioBatDau) * 60) + (x.PhutKetThuc - x.PhutBatDau))/60;
-
+            var reportMoney = GetReportMoney();
+            TempData["ReportMoney"] = reportMoney.Result.ToString();
             return View();
         }
         #region Method Report
