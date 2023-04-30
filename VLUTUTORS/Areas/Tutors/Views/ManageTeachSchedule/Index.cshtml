@@ -126,7 +126,10 @@
                     int day = lesson.NgayDay.Day;
 
                     DateTime checkTime = new DateTime(year, month, day, lesson.GioBatDau, lesson.PhutBatDau, 0);
-                    if (checkTime >= DateTime.Now)
+
+                    TimeSpan result = DateTime.Now - checkTime;
+
+                    if (checkTime >= DateTime.Now || (result.Days==0 && result.Hours==0 && result.Minutes <= 10))
                     {
                         if (lesson.Link == null && lesson.TrangThai == false)
                         {
@@ -167,7 +170,7 @@
                                 }
                                 else
                                 {
-                                    if (lesson.NgayDay == DateTime.Today && lesson.PhutBatDau != 0 && lesson.GioBatDau == DateTime.Now.Hour && Math.Abs(lesson.PhutBatDau - DateTime.Now.Minute) <= 15)
+                                    if (lesson.NgayDay == DateTime.Today && Math.Abs(result.Minutes) <= 15)
                                     {
                                         <td class="project-actions">
                                             <form asp-action="AcceptBooking" method="post" asp-controller="ManageTeachSchedule" asp-route-id="@lesson.Id">
@@ -177,25 +180,6 @@
                                                 </button>
                                             </form>
                                             <a class="btn "
-                               style="width:120px;"
-                               data-toggle="modal"
-                               data-target="#deleteModal"
-                               onclick="document.getElementById('lessonPlanId').value = @lesson.Id">
-                                                <i class="fa-solid fa-ban"></i>
-                                                Hủy
-                                            </a>
-                                        </td>
-                                    }
-                                    else if (lesson.NgayDay == DateTime.Today && (lesson.PhutBatDau == 0 || (0 < lesson.PhutBatDau) && (lesson.PhutBatDau < 15)) && lesson.GioBatDau - DateTime.Now.Hour == 1 && Math.Abs(lesson.PhutBatDau - DateTime.Now.Minute) >= 45)
-                                    {
-                                        <td class="project-actions">
-                                            <form asp-action="AcceptBooking" method="post" asp-controller="ManageTeachSchedule" asp-route-id="@lesson.Id">
-                                                <button class="btn btn-success btn-sm" href="@lesson.Link" style="margin-bottom:5px; width:120px" target="_blank">
-                                                    <i class="fas fa-chalkboard-teacher"> </i>
-                                                    Tham gia dạy
-                                                </button>
-                                            </form>
-                                            <a class="btn btn-sm"
                                style="width:120px;"
                                data-toggle="modal"
                                data-target="#deleteModal"

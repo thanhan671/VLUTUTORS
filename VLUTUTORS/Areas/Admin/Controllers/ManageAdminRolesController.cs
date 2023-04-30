@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -17,8 +18,12 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
+            if (HttpContext.Session.GetString("LoginId") == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             var quyens = await _context.Quyens.ToListAsync();
-            
+
             return View(quyens);
         }
         public IActionResult AddRole()
@@ -42,21 +47,22 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 else
                 {
                     try
-                {
-                    
-                    _context.Add(quyen);
-                    await _context.SaveChangesAsync();
-                    TempData["Message"] = "Thêm mới thành công!";
-                    TempData["MessageType"] = "success";
+                    {
+                        _context.Add(quyen);
+                        await _context.SaveChangesAsync();
+                        TempData["Message"] = "Thêm mới thành công!";
+                        TempData["MessageType"] = "success";
                     }
-                catch (Exception ex)
-                {
-                    return RedirectToAction(nameof(Index));
+                    catch (Exception ex)
+                    {
+                        return RedirectToAction(nameof(Index));
+                    }
+                    return RedirectToAction("Index");
                 }
-                return RedirectToAction("Index");
             }
-            }
-            return View(quyen);
+            TempData["Message"] = "Tên quyền tối đa 40 ký tự, vui lòng kiểm tra lại!";
+            TempData["MessageType"] = "error";
+            return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> EditRole(int id)
@@ -69,10 +75,20 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult EditRole(Quyen quyen)
         {
-            TempData["Message"] = "Cập nhật thành công!";
-            TempData["MessageType"] = "success";
-            _context.Quyens.Update(quyen);
-            _context.SaveChanges();
+            var Quyen = _context.Quyens.AsNoTracking().SingleOrDefault(x => x.TenQuyen.ToLower() == quyen.TenQuyen.ToLower());
+            if (Quyen != null)
+            {
+                TempData["Message"] = "Quyền đã tồn tại, vui lòng kiểm tra lại!";
+                TempData["MessageType"] = "error";
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["Message"] = "Cập nhật thành công!";
+                TempData["MessageType"] = "success";
+                _context.Quyens.Update(quyen);
+                _context.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
         [HttpPost]

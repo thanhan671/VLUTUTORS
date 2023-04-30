@@ -33,6 +33,10 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
+            if (HttpContext.Session.GetString("LoginId") == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             var khoaHocs = await _context.Khoadaotaos.ToListAsync();
             return View(khoaHocs);
         }

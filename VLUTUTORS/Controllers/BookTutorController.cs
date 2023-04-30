@@ -412,6 +412,7 @@ namespace VLUTUTORS.Controllers
             Caday caday = _db.Cadays.FirstOrDefault(c => c.Id.Equals(lessonPlanId));
             caday.IdnguoiHoc = null;
             caday.Link = null;
+            caday.TrangThai = null;
 
             try 
             {
