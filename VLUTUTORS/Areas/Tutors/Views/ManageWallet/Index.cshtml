@@ -1,4 +1,5 @@
-﻿@model VLUTUTORS.Areas.Tutors.Controllers.MoneyServiceHistory 
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model IEnumerable<VLUTUTORS.Areas.Tutors.Controllers.MoneyServiceHistory>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Tutors/Views/Shared/_TutorsLayout.cshtml";
@@ -24,36 +25,31 @@
         </div>
     </div>
     <div class="col justify-content-center gap-10 d-flex">
-            <div type="button" data-toggle="modal"
-                 data-target="#inputModal" class="btn-card-input d-flex justify-content-center align-items-center mr-2" style="height: 50px">Nạp tiền vào ví</div>
-                 
         <div type="button" data-toggle="modal"
-                 data-target="#outputModal" class="btn-card-output d-flex justify-content-center align-items-center " style="height: 50px">Rút tiền</div>
+             data-target="#inputModal" class="btn-card-input d-flex justify-content-center align-items-center mr-2" style="height: 50px">Nạp tiền vào ví</div>
+
+        <div type="button" data-toggle="modal"
+             data-target="#outputModal" class="btn-card-output d-flex justify-content-center align-items-center " style="height: 50px">Rút tiền</div>
     </div>
     <!-- /.content -->
-
     <!-- Main content -->
     <section class="content">
         <div class="row " id="dropdown-filter">
             <div class="col d-flex">
-              <label class="form-label" for="min">Ngày bắt đầu:</label>
-              <input
-                type="text"
-                class="form-control-sm"
-                id="min"
-                name="min"
-                style="width: 150px"
-              />
-              <label class="form-label ml-3" for="max">Ngày kết thúc:</label>
-              <input
-                type="text"
-                id="max"
-                name="max"
-                class="form-control-sm"
-                style="width: 150px"
-              />
+                <label class="form-label" for="min">Ngày bắt đầu:</label>
+                <input type="text"
+                       class="form-control-sm"
+                       id="min"
+                       name="min"
+                       style="width: 150px" />
+                <label class="form-label ml-3" for="max">Ngày kết thúc:</label>
+                <input type="text"
+                       id="max"
+                       name="max"
+                       class="form-control-sm"
+                       style="width: 150px" />
             </div>
-          </div>
+        </div>
         <!-- Default box -->
         <table id="myTable">
             <thead>
@@ -115,22 +111,24 @@
      role="dialog"
      aria-labelledby="checkoutModalLabel"
      aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Lập lệnh rút tiền</h5>
-            </div>
-            <form>
-                <div class="form-group">
-                    <label for="inputName">Số tiền muốn rút</label>
-                    <input type="text" id="depositMoney" class="form-control" />
+    <form asp-action="Withdrawal" method="post" asp-controller="ManageWallet">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Lập lệnh rút tiền</h5>
                 </div>
-            </form>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary btn-sm" data-dismiss="modal">Xác nhận</button>
+                @*<form>*@
+                    <div class="form-group">
+                        <label for="inputName">Số tiền muốn rút</label>
+                        <input type="text" id="withdrawalMoney" name="withdrawalMoney" class="form-control" />
+                    </div>
+                @*</form>*@
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-sm" @*data-dismiss="modal"*@>Xác nhận</button>
+                </div>
             </div>
         </div>
-    </div>
+    </form>
 </div>
 @section scripts {
     <script>

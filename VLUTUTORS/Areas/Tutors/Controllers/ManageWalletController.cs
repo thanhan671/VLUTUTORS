@@ -26,6 +26,7 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             return View(moneyServiceHistories);
         }
 
+        [HttpPost]
         public IActionResult Deposit(int depositMoney)
         {
             var userId = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
@@ -43,6 +44,7 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             return View();
         }
 
+        [HttpPost]
         public IActionResult Withdrawal(int withdrawalMoney)
         {
             var userId = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
@@ -51,7 +53,7 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
 
             if(balanceMoney < withdrawalMoney)
             {
-                return View();
+                return RedirectToAction("Index", "ManageWallet");
             }
 
             Ruttien withdrawal = new Ruttien();
@@ -64,7 +66,7 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             _db.Add(withdrawal);
             _db.SaveChangesAsync();
 
-            return View();
+            return RedirectToAction("Index", "ManageWallet");
         }
 
         private List<MoneyServiceHistory> SumaryDepositAndWithdrawal()
