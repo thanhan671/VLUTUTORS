@@ -264,6 +264,8 @@ namespace VLUTUTORS.Models
                     .IsRequired()
                     .HasMaxLength(20);
 
+                entity.Property(e => e.ThoiGianNapTien).HasColumnType("smalldatetime");
+
                 entity.HasOne(d => d.IdNguoiNapNavigation)
                     .WithMany(p => p.Naptiens)
                     .HasForeignKey(d => d.IdNguoiNap)
@@ -357,6 +359,8 @@ namespace VLUTUTORS.Models
                 entity.Property(e => e.MaRutTien)
                     .IsRequired()
                     .HasMaxLength(20);
+
+                entity.Property(e => e.ThoiGianRutTien).HasColumnType("smalldatetime");
 
                 entity.HasOne(d => d.IdNguoiRutNavigation)
                     .WithMany(p => p.Ruttiens)

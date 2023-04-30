@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,9 +22,12 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             //{
             //    return RedirectToAction("Login", "Accounts", new { area = "default" });
             //}
-            List<MoneyServiceHistory> moneyServiceHistories = SumaryDepositAndWithdrawal();
+            var userId = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
+            Taikhoannguoidung taikhoannguoidung = _db.Taikhoannguoidungs.Find(userId.Id);
 
-            return View(moneyServiceHistories);
+            List<MoneyServiceHistory> moneyServiceHistories = SumaryDepositAndWithdrawal();
+            Tuple<Taikhoannguoidung, IEnumerable<MoneyServiceHistory>> turple = new Tuple<Taikhoannguoidung, IEnumerable<MoneyServiceHistory>>(taikhoannguoidung, moneyServiceHistories);
+            return View(turple);
         }
 
         [HttpPost]
@@ -37,6 +41,9 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             deposit.MaNapTien = MoneyServices.AutoGenCodeWhenDeposit();
             deposit.SoTienNap = depositMoney;
             deposit.TrangThai = false;
+            deposit.ThoiGianNapTien = DateTime.Now;
+
+            MoneyServices.AddMoney(depositMoney, userId.Id, _db);
 
             _db.Add(deposit);
             _db.SaveChangesAsync();
@@ -62,6 +69,9 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             withdrawal.MaRutTien = MoneyServices.AutoGenCodeWhenDeposit();
             withdrawal.SoTienRut = withdrawalMoney;
             withdrawal.TrangThai = false;
+            withdrawal.ThoiGianRutTien = DateTime.Now;
+
+            MoneyServices.SubtractMoney(withdrawalMoney, userId.Id, _db);
 
             _db.Add(withdrawal);
             _db.SaveChangesAsync();
@@ -84,8 +94,9 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
                     id = item.Id,
                     serviceName = "Nap Tien",
                     serviceCode = item.MaNapTien,
-                    // some code for date time
-                    money = item.SoTienNap
+                    dateTime = item.ThoiGianNapTien.ToString("MM/dd/yyyy HH:mm:ss"),
+                    money = item.SoTienNap,
+                    status = item.TrangThai ? "Processed" : "In procesing"
                 };
 
                 moneyServiceHistories.Add(moneyServiceHistory);
@@ -98,8 +109,9 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
                     id = item.Id,
                     serviceName = "Rut Tien",
                     serviceCode = item.MaRutTien,
-                    // some code for date time
-                    money = item.SoTienRut
+                    dateTime = item.ThoiGianRutTien.ToString("MM/dd/yyyy HH:mm:ss"),
+                    money = item.SoTienRut,
+                     status = item.TrangThai ? "Processed" : "In procesing"
                 };
 
                 moneyServiceHistories.Add(moneyServiceHistory);
@@ -117,5 +129,6 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
         public string serviceCode { get; set; }
         public string dateTime { get; set; }
         public int money { get; set; }
+        public string status { get; set; }
     }
 }

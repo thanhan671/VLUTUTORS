@@ -13,6 +13,8 @@ namespace VLUTUTORS.Models
         public int SoTienRut { get; set; }
         public bool TrangThai { get; set; }
 
+        public DateTime ThoiGianRutTien { get; set; }
+
         public virtual Taikhoannguoidung IdNguoiRutNavigation { get; set; }
     }
 }

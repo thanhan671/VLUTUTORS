@@ -5,30 +5,30 @@ using VLUTUTORS.Models;
 namespace VLUTUTORS.Support.Services {
     public class MoneyServices 
     {
-        public static void AddMoney(int amount, int userId, CP25Team01Context _db, Action<bool> callback) 
-        {                                                   
-            //Taikhoannguoidung userAccount = _db.Taikhoannguoidungs.Where(a => a.Equals(userId)).FirstOrDefault();
+        public static void AddMoney(int amount, int userId, CP25Team01Context _db, Action<bool> callback = null) 
+        {
+            Taikhoannguoidung userAccount = _db.Taikhoannguoidungs.Find(userId);
 
-            //userAccount.Xu += amount;
-            //_db.Update(userAccount);
-            //_db.SaveChanges();
+            userAccount.SoDuVi += amount;
+            _db.Update(userAccount);
+            _db.SaveChanges();
 
-            //callback?.Invoke(true);
+            callback?.Invoke(true);
         }
 
-        public static void SubtractMoney(int amount, int userId, CP25Team01Context _db, Action<bool> callback) 
+        public static void SubtractMoney(int amount, int userId, CP25Team01Context _db, Action<bool> callback = null) 
         {
-            //Taikhoannguoidung userAccount = _db.Taikhoannguoidungs.Where(a => a.Equals(userId)).FirstOrDefault();
-            //if(userAccount.Xu < amount)
-            //{
-            //    callback?.Invoke(false);
-            //    return;
-            //}
-            //userAccount.Xu -= amount;
-            //_db.Update(userAccount);
-            //_db.SaveChanges();
+            Taikhoannguoidung userAccount = _db.Taikhoannguoidungs.Find(userId);
+            if (userAccount.SoDuVi < amount)
+            {
+                callback?.Invoke(false);
+                return;
+            }
+            userAccount.SoDuVi -= amount;
+            _db.Update(userAccount);
+            _db.SaveChanges();
 
-            //callback?.Invoke(true);
+            callback?.Invoke(true);
         }
 
         public static string AutoGenCodeWhenDeposit() 

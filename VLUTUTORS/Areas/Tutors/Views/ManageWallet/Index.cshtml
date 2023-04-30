@@ -1,5 +1,5 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-@model IEnumerable<VLUTUTORS.Areas.Tutors.Controllers.MoneyServiceHistory>
+@model Tuple<VLUTUTORS.Models.Taikhoannguoidung, IEnumerable<VLUTUTORS.Areas.Tutors.Controllers.MoneyServiceHistory>>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Tutors/Views/Shared/_TutorsLayout.cshtml";
@@ -19,9 +19,9 @@
     <div class="card_container">
         <div class="card-checkout">
             <div class="card_name">
-                <h1>Nguyễn Thanh An</h1>
+                <h1>@Model.Item1.HoTen</h1>
             </div>
-            <div class="card_number">Số dư ví: 100.000&nbsp;VND</div>
+            <div class="card_number">Số dư ví: @Model.Item1.SoDuVi&nbsp;VND</div>
         </div>
     </div>
     <div class="col justify-content-center gap-10 d-flex">
@@ -58,10 +58,21 @@
                     <th>Ngày</th>
                     <th>Mã giao dịch</th>
                     <th>Số tiền</th>
+                    <th>Trạng thái</th>
                 </tr>
             </thead>
             <tbody>
+                @foreach(var item in Model.Item2)
+                {
                 <tr>
+                    <td>@item.serviceName</td>
+                    <td>@item.dateTime</td>
+                    <td>@item.serviceCode</td>
+                    <td>@item.serviceName</td>
+                    <td>@item.status</td>
+                </tr>
+                }
+                @*<tr>
                     <td>Rút tiền</td>
                     <td>2023-02-11</td>
                     <td>GS123456</td>
@@ -74,7 +85,7 @@
                     <td>2023-02-12</td>
                     <td>GS654321</td>
                     <td>500,000</td>
-                </tr>
+                </tr>*@
             </tbody>
         </table>
 
