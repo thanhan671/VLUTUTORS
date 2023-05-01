@@ -10,6 +10,13 @@ namespace VLUTUTORS.Support.Services {
             Taikhoannguoidung userAccount = _db.Taikhoannguoidungs.Find(userId);
 
             userAccount.SoDuVi += amount;
+
+            if(userAccount.SoDuVi == null)
+            {
+                userAccount.SoDuVi = 0;
+                userAccount.SoDuVi += amount;
+            }
+
             _db.Update(userAccount);
             _db.SaveChanges();
 
