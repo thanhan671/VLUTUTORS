@@ -24,16 +24,20 @@
         <div class="card">
             <div class="card-header">
                 <div class="card-tools">
-@*                    <button data-toggle="modal"
-                            data-target="#addModal"
-                            class="col-auto custom-btn btn-5">
-                        Thêm tài khoản
-                    </button>*@
                     <a class="btn btn-primary btn-sm"
                        href="~/Admin/ManageAccounts/AddNewAccounts">
                         <i class="fas fa-plus"> </i>
                         Thêm tài khoản
                     </a>
+@*                    <a class="btn btn-sm"
+                       data-toggle="modal"
+                       data-target="@("#addModal")"
+                       data-url="@Url.Action($"AddNewAccounts")">
+                        <i class="fas fa-plus"> </i>
+                        Thêm tài khoản
+                    </a>
+
+                    @await Html.PartialAsync("_AddAccountPartial")*@
                 </div>
             </div>
             <div class="card-body p-0">

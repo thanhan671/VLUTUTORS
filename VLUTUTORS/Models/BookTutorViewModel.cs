@@ -17,5 +17,6 @@ namespace VLUTUTORS.Models
     {
         public Danhgiagiasu Comment;
         public Taikhoannguoidung NguoiDanhGia;
+        public List<Tieuchidanhgia> Tieuchi;
     }
 }

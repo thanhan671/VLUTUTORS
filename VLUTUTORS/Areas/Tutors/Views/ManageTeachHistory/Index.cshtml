@@ -109,8 +109,28 @@
                                 else
                                 {
                                     <td class="cancel text-center" style="color:red">Đã Huỷ</td>
-                                    <td class="text-center">Không có đánh giá</td>
-                                    <td class="text-center">Không có đánh giá</td>
+                                    var danhGiaGS = new CP25Team01Context().Danhgianguoihocs.FirstOrDefault(m => m.IdCaDay == lesson.Id);
+                                    if (danhGiaGS != null)
+                                    {
+                                        var modelName = "#danhGiaGS-" + danhGiaGS.Id;
+
+                                        <td class="text-center"><button class="btn btn-success btn-sm" data-toggle="modal" data-target="@modelName" style="width:100px">Xem đánh giá</button></td>
+                                    }
+                                    else
+                                    {
+                                        <td class="text-center"><a asp-controller="ManageTeachHistory" asp-action="RatingLearner" asp-route-id="@lesson.Id" class="btn btn-warning btn-sm" style="width:100px">Đánh giá</a></td>
+                                    }
+                                    var danhGiaHV = new CP25Team01Context().Danhgiagiasus.FirstOrDefault(m => m.IdCaDay == lesson.Id);
+                                    if (danhGiaHV != null)
+                                    {
+                                        var modelName = "#danhGiaHV-" + danhGiaHV.Id;
+
+                                        <td class="text-center"><button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="@modelName" style="width:100px">Xem đánh giá</button></td>
+                                    }
+                                    else
+                                    {
+                                        <td class="text-center">Chưa đánh giá</td>
+                                    }
                                 }
 
                             }

@@ -1,0 +1,48 @@
+﻿@model Tuple<VLUTUTORS.Models.Taikhoanadmin, IEnumerable<VLUTUTORS.Models.Taikhoanadmin>>
+
+<div class="modal fade"
+     id="addModal"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <form method="post" asp-controller="ManageAccounts" asp-action="AddNewAccounts">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        Thêm mới tài khoản
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    <span class="alert-danger">
+                    </span>
+                    <div class="form-group">
+                        <label for="Username">Tên đăng nhập</label>
+                        <input asp-for="Item1.TaiKhoan"ype="text" id="TaiKhoan" name="TaiKhoan" placeholder="Tên đăng nhập" class="form-control" data-error="Vui lòng điền đủ thông tin!" required="required" />
+                    </div>
+                    <span asp-validation-for="Item1.TaiKhoan" class="help-block with-errors" style="color:red"></span>
+                    <div class="form-group">
+                        <label for="MatKhau">Mật khẩu</label>
+                        <input asp-for="Item1.MatKhau" type="password" id="MatKhau" name="MatKhau" placeholder="Mật khẩu" class="form-control" data-error="Vui lòng điền đủ thông tin!" required="required" />
+                    </div>
+                    <span asp-validation-for="Item1.MatKhau" class="help-block with-errors" style="color:red"></span>
+                    <div class="form-group">
+                        <label for="Quyen">Quyền</label>
+                        @Html.DropDownListFor(model => model.Item1.IdQuyen, Model.Item1.listQuyen, new { @class="form-control" })
+                    </div>
+                    <span asp-validation-for="Item1.Quyen" class="help-block with-errors" style="color:red"></span>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button"
+                            class="btn btn-secondary"
+                            data-dismiss="modal">
+                        Hủy
+                    </button>
+                    <button type="submit" class="btn btn-5 custom-btn">Thêm</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
