@@ -48,7 +48,7 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             _db.Add(deposit);
             _db.SaveChangesAsync();
 
-            return View();
+            return RedirectToAction("Index", "ManageWallet");
         }
 
         [HttpPost]

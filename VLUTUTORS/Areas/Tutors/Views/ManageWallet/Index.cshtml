@@ -68,7 +68,7 @@
                     <td>@item.serviceName</td>
                     <td>@item.dateTime</td>
                     <td>@item.serviceCode</td>
-                    <td>@item.serviceName</td>
+                    <td>@item.money</td>
                     <td>@item.status</td>
                 </tr>
                 }
@@ -99,22 +99,28 @@
      role="dialog"
      aria-labelledby="checkoutModalLabel"
      aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Thông tin chuyển khoản</h5>
-            </div>
-            <div class="modal-body" style="color: red">
-                <p>
-                    Vui lòng chuyển khoản đến NGÂN HÀNG VIETCOMBANK - GIA SU VAN LANG - STK: 123456789
-                    với nội dung: GSxxxxxx - Nguyen Thanh An
-                </p>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary btn-sm" data-dismiss="modal">Xác nhận</button>
+    <form asp-action="Deposit" method="post" asp-controller="ManageWallet">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Thông tin chuyển khoản</h5>
+                </div>
+                <div class="modal-body" style="color: red">
+                    <p>
+                        Vui lòng chuyển khoản đến NGÂN HÀNG VIETCOMBANK - GIA SU VAN LANG - STK: 123456789
+                        với nội dung: GSxxxxxx - Nguyen Thanh An
+                    </p>
+                </div>
+                <div class="form-group">
+                    <label for="inputName">Số Tiền Đã Chuyển</label>
+                    <input type="text" id="depositMoney" name="depositMoney" class="form-control" />
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-sm" @*data-dismiss="modal"*@>Xác nhận</button>
+                </div>
             </div>
         </div>
-    </div>
+    </form>
 </div>
 <div class="modal fade"
      id="outputModal"
