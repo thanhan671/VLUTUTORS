@@ -1,27 +1,26 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using System;
 using VLUTUTORS.Models;
 using VLUTUTORS.Support.Services;
+using System.Linq;
 
-namespace VLUTUTORS.Areas.Tutors.Controllers
+namespace VLUTUTORS.Controllers
 {
-    [Area("Tutors")]
-    public class ManageWalletController : Controller
+    public class WalletController : Controller
     {
         private CP25Team01Context _db = new CP25Team01Context();
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            //string user = HttpContext.Session.GetString("LoginId");
-            //if (user == null)
-            //{
-            //    return RedirectToAction("Login", "Accounts", new { area = "default" });
-            //}
+            string user = HttpContext.Session.GetString("LoginId");
+            if (user == null)
+            {
+                return RedirectToAction("Login", "Accounts");
+            }
             var userId = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
             Taikhoannguoidung taikhoannguoidung = _db.Taikhoannguoidungs.Find(userId.Id);
 
@@ -43,10 +42,13 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             deposit.TrangThai = false;
             deposit.ThoiGianNapTien = DateTime.Now;
 
-            MoneyServices.AddMoney(depositMoney, userId.Id, _db);
+            //MoneyServices.AddMoney(depositMoney, userId.Id, _db);
 
             _db.Add(deposit);
             _db.SaveChangesAsync();
+
+            TempData["Message"] = "Yêu cầu gửi thành công, vui lòng đợi xét duyệt!";
+            TempData["MessageType"] = "success";
 
             return RedirectToAction("Index", "ManageWallet");
         }
@@ -56,16 +58,16 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
         {
             var userId = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
             Taikhoannguoidung taikhoannguoidung = _db.Taikhoannguoidungs.Find(userId.Id);
-            int balanceMoney = (int) taikhoannguoidung.SoDuVi;
+            int balanceMoney = (int)taikhoannguoidung.SoDuVi;
 
-            if(balanceMoney < withdrawalMoney)
+            if (balanceMoney < withdrawalMoney)
             {
                 return RedirectToAction("Index", "ManageWallet");
             }
 
             Ruttien withdrawal = new Ruttien();
 
-            withdrawal.IdNguoiRut = (int) userId.Id;
+            withdrawal.IdNguoiRut = (int)userId.Id;
             withdrawal.MaRutTien = MoneyServices.AutoGenCodeWhenDeposit();
             withdrawal.SoTienRut = withdrawalMoney;
             withdrawal.TrangThai = false;
@@ -75,6 +77,9 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
 
             _db.Add(withdrawal);
             _db.SaveChangesAsync();
+
+            TempData["Message"] = "Yêu cầu gửi thành công, vui lòng đợi xét duyệt!";
+            TempData["MessageType"] = "success";
 
             return RedirectToAction("Index", "ManageWallet");
         }
@@ -87,14 +92,14 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             List<Ruttien> withdrawalList = _db.Ruttiens.Where(w => w.IdNguoiRut.Equals(user.Id)).ToList();
 
             List<MoneyServiceHistory> moneyServiceHistories = new List<MoneyServiceHistory>();
-            foreach(var item in depositList)
+            foreach (var item in depositList)
             {
                 MoneyServiceHistory moneyServiceHistory = new MoneyServiceHistory
                 {
                     id = item.Id,
                     serviceName = "Nap Tien",
                     serviceCode = item.MaNapTien,
-                    dateTime = item.ThoiGianNapTien.ToString("MM/dd/yyyy HH:mm:ss"),
+                    dateTime = item.ThoiGianNapTien.ToString("dd/MM/yyyy HH:mm:ss"),
                     money = item.SoTienNap,
                     status = item.TrangThai ? "Processed" : "In procesing"
                 };
@@ -109,9 +114,9 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
                     id = item.Id,
                     serviceName = "Rut Tien",
                     serviceCode = item.MaRutTien,
-                    dateTime = item.ThoiGianRutTien.ToString("MM/dd/yyyy HH:mm:ss"),
+                    dateTime = item.ThoiGianRutTien.ToString("dd/MM/yyyy HH:mm:ss"),
                     money = item.SoTienRut,
-                     status = item.TrangThai ? "Processed" : "In procesing"
+                    status = item.TrangThai ? "Processed" : "In procesing"
                 };
 
                 moneyServiceHistories.Add(moneyServiceHistory);
@@ -119,7 +124,7 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
 
             return moneyServiceHistories;
         }
-        
+
     }
 
     public class MoneyServiceHistory
