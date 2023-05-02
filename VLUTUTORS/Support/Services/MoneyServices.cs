@@ -32,6 +32,13 @@ namespace VLUTUTORS.Support.Services {
                 return;
             }
             userAccount.SoDuVi -= amount;
+
+            if (userAccount.SoDuVi == null)
+            {
+                userAccount.SoDuVi = 0;
+                userAccount.SoDuVi += amount;
+            }
+
             _db.Update(userAccount);
             _db.SaveChanges();
 
@@ -46,5 +53,7 @@ namespace VLUTUTORS.Support.Services {
                 .Select(s => s[random.Next(s.Length)]).ToArray());
             return code;
         }
+
+
     }
 }

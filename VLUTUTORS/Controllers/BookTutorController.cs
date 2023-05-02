@@ -11,6 +11,7 @@ using System.Security.Principal;
 using System.Threading.Tasks;
 using VLUTUTORS.Models;
 using VLUTUTORS.Responses.BookTutors;
+using VLUTUTORS.Support.Services;
 using ZoomNet;
 using ZoomNet.Models;
 
@@ -414,6 +415,26 @@ namespace VLUTUTORS.Controllers
             caday.Link = null;
             caday.TrangThai = null;
 
+            int year = caday.NgayDay.Year;
+            int month = caday.NgayDay.Month;
+            int day = caday.NgayDay.Day;
+
+            DateTime checkTime = new DateTime(year, month, day, caday.GioBatDau, caday.PhutBatDau, 0);
+
+            TimeSpan result = DateTime.Now - checkTime;
+
+            if(result.Hours > 4)
+            {
+                Cahoc cahoc = _db.Cahocs.Where(c => c.IdCaHoc == caday.IdloaiCaDay).FirstOrDefault();
+                Phiday phiday = _db.Phidays.Where(ph => ph.Id == 1).FirstOrDefault();
+
+                float commision = (int)cahoc.GiaTien * ((float)phiday.ChietKhau / 100);
+                int money = (int)(cahoc.GiaTien - commision);
+
+                MoneyServices.SubtractMoney(money, caday.IdnguoiDay, _db); 
+                MoneyServices.AddMoney((int)cahoc.GiaTien, (int)caday.IdnguoiHoc, _db); 
+            }
+
             try 
             {
                 _db.Update(caday);
@@ -446,6 +467,16 @@ namespace VLUTUTORS.Controllers
             caday.IdnguoiHoc = HttpContext.Session.GetInt32("LoginId");
             caday.TrangThai = false;
             var monDay = _db.Mongiasus.Where(acc => acc.IdmonGiaSu.Equals(caday.IdmonDay)).FirstOrDefault().TenMonGiaSu;
+
+            // wallet manage
+            Cahoc cahoc = _db.Cahocs.Where(c => c.IdCaHoc == caday.IdloaiCaDay).FirstOrDefault();
+            Phiday phiday = _db.Phidays.Where(ph => ph.Id == 1).FirstOrDefault();
+
+            float commision = (int)cahoc.GiaTien * ((float)phiday.ChietKhau / 100);
+            int money = (int)(cahoc.GiaTien - commision);
+
+            MoneyServices.SubtractMoney((int)cahoc.GiaTien, (int) caday.IdnguoiHoc, _db); 
+            MoneyServices.AddMoney(money, caday.IdnguoiDay, _db); 
 
             try
             {
