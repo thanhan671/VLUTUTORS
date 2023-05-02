@@ -8,6 +8,7 @@ using VLUTUTORS.Areas.Tutors.Models;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using VLUTUTORS.Support.Services;
 
 namespace VLUTUTORS.Areas.Tutors.Controllers
 {
@@ -249,6 +250,19 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             caDay.TrangThai = false;
             _db.Cadays.Update(caDay);
             await _db.SaveChangesAsync();
+
+            Cahoc cahoc = _db.Cahocs.Where(c => c.IdCaHoc == caDay.IdloaiCaDay).FirstOrDefault();
+            Phiday phiday = _db.Phidays.Where(ph => ph.Id == 1).FirstOrDefault();
+
+            float commision = (int)cahoc.GiaTien * ((float)phiday.ChietKhau/100);
+            int money = (int) (cahoc.GiaTien + commision);
+
+            if(caDay.IdnguoiHoc != null)
+            {
+                MoneyServices.SubtractMoney(money, caDay.IdnguoiDay, _db);
+                MoneyServices.AddMoney((int)cahoc.GiaTien, (int)caDay.IdnguoiHoc, _db);
+            }
+
             TempData["Message"] = "Hủy ca dạy thành công!";
             TempData["MessageType"] = "success";
 
