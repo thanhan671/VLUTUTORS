@@ -24,7 +24,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
-            var taiKhoans = await _context.Taikhoannguoidungs.Where(it=> it.IdxetDuyet == 6).ToListAsync();
+            var taiKhoans = await _context.Taikhoannguoidungs.Where(it=> it.IdxetDuyet != 5).ToListAsync();
             return View(taiKhoans);
         }
         public async Task<IActionResult> DetailLearner(int? id = -1)

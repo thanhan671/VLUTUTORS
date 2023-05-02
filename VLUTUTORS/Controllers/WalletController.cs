@@ -36,7 +36,7 @@ namespace VLUTUTORS.Controllers
 
             if(depositMoney == 0)
             {
-                TempData["Message"] = "Hãy nhập một số tiền, vui lòng thử lại!";
+                TempData["Message"] = "Hãy nhập một số tiền khác 0 !";
                 TempData["MessageType"] = "error";
 
                 return RedirectToAction("Index", "Wallet");
@@ -106,9 +106,9 @@ namespace VLUTUTORS.Controllers
                     id = item.Id,
                     serviceName = "Nạp Tiền",
                     serviceCode = item.MaNapTien,
-                    dateTime = item.ThoiGianNapTien.ToString("dd/MM/yyyy HH:mm:ss"),
+                    dateTime = item.ThoiGianNapTien.ToString("dd/MM/yyyy"),
                     money = item.SoTienNap,
-                    status = item.TrangThai ? "Đã xử lý" : "Đang chờ"
+                    status = item.TrangThai ? "Đã xử lý" : "Đang chờ duyệt"
                 };
 
                 moneyServiceHistories.Add(moneyServiceHistory);
@@ -121,9 +121,9 @@ namespace VLUTUTORS.Controllers
                     id = item.Id,
                     serviceName = "Rút Tiền",
                     serviceCode = item.MaRutTien,
-                    dateTime = item.ThoiGianRutTien.ToString("dd/MM/yyyy HH:mm:ss"),
+                    dateTime = item.ThoiGianRutTien.ToString("dd/MM/yyyy"),
                     money = item.SoTienRut,
-                    status = item.TrangThai ? "Đã xử lý" : "Đang chờ"
+                    status = item.TrangThai ? "Đã xử lý" : "Đang chờ duyệt"
                 };
 
                 moneyServiceHistories.Add(moneyServiceHistory);

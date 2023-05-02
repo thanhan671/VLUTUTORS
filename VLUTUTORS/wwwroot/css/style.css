@@ -5330,7 +5330,6 @@ p.form-message.error {
     padding: 0;
     border: none;
     background: #ec6923;
-    background: #ec6923;
     font-family: 'Montserrat', sans-serif;
 }
 
@@ -5446,4 +5445,22 @@ p.form-message.error {
 .switch {
     position: relative;
     left: -20px;
+}
+
+.custom-btn {
+    width: 8.125rem;
+    height: 2.5rem;
+    color: #fff;
+    border-radius: 5px;
+    padding: 0.625em 1.5em;
+    font-family: inherit;
+    font-weight: 700;
+    background: transparent;
+    cursor: pointer;
+    // transition: all 3000ms ease;
+    position: relative;
+    display: inline-block;
+    // box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, .5), // 7px 7px 20px 0px rgba(0, 0, 0, .1), // 4px 4px 5px 0px rgba(0, 0, 0, .1);
+    // outline: none;
+    border: none;
 }
