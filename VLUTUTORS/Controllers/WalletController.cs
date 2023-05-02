@@ -97,11 +97,11 @@ namespace VLUTUTORS.Controllers
                 MoneyServiceHistory moneyServiceHistory = new MoneyServiceHistory
                 {
                     id = item.Id,
-                    serviceName = "Nap Tien",
+                    serviceName = "Nạp Tiền",
                     serviceCode = item.MaNapTien,
                     dateTime = item.ThoiGianNapTien.ToString("dd/MM/yyyy HH:mm:ss"),
                     money = item.SoTienNap,
-                    status = item.TrangThai ? "Processed" : "In procesing"
+                    status = item.TrangThai ? "Đã xử lý" : "Đang chờ"
                 };
 
                 moneyServiceHistories.Add(moneyServiceHistory);
@@ -112,11 +112,11 @@ namespace VLUTUTORS.Controllers
                 MoneyServiceHistory moneyServiceHistory = new MoneyServiceHistory
                 {
                     id = item.Id,
-                    serviceName = "Rut Tien",
+                    serviceName = "Rút Tiền",
                     serviceCode = item.MaRutTien,
                     dateTime = item.ThoiGianRutTien.ToString("dd/MM/yyyy HH:mm:ss"),
                     money = item.SoTienRut,
-                    status = item.TrangThai ? "Processed" : "In procesing"
+                    status = item.TrangThai ? "Đã xử lý" : "Đang chờ"
                 };
 
                 moneyServiceHistories.Add(moneyServiceHistory);

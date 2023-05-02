@@ -5408,3 +5408,42 @@ p.form-message.error {
 .lb-question{
     display: contents;
 }
+
+.card_container {
+    display: grid;
+    padding: 10px;
+    justify-content: space-around;
+}
+
+.card-checkout {
+    width: fit-content;
+    height: 200px;
+    border-radius: 1rem;
+    display: grid;
+    padding: 0 2rem;
+    align-items: center;
+    color: #ffffff;
+    background: linear-gradient(to bottom, #d5252ed9 0%, #07294dd1 90%);
+    box-shadow: -0.6rem 0.6rem 1.8rem #4f46f83d;
+    border: 1px solid #ffffff;
+    z-index: 200;
+    position: relative;
+    align-content: center;
+    justify-items: center;
+}
+
+.card_name {
+    color: #fff;
+}
+
+.card_number {
+    font-size: 25px;
+}
+
+.wallet-function {
+}
+
+.switch {
+    position: relative;
+    left: -20px;
+}
