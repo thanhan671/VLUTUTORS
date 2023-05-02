@@ -34,6 +34,13 @@ namespace VLUTUTORS.Controllers
         {
             var userId = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
 
+            if(depositMoney == 0)
+            {
+                TempData["Message"] = "Hãy nhập một số tiền, vui lòng thử lại!";
+                TempData["MessageType"] = "error";
+
+                return RedirectToAction("Index", "Wallet");
+            }
             Naptien deposit = new Naptien();
 
             deposit.IdNguoiNap = (int)userId.Id;
@@ -50,7 +57,7 @@ namespace VLUTUTORS.Controllers
             TempData["Message"] = "Yêu cầu gửi thành công, vui lòng đợi xét duyệt!";
             TempData["MessageType"] = "success";
 
-            return RedirectToAction("Index", "ManageWallet");
+            return RedirectToAction("Index", "Wallet");
         }
 
         [HttpPost]
@@ -62,7 +69,7 @@ namespace VLUTUTORS.Controllers
 
             if (balanceMoney < withdrawalMoney)
             {
-                return RedirectToAction("Index", "ManageWallet");
+                return RedirectToAction("Index", "Wallet");
             }
 
             Ruttien withdrawal = new Ruttien();
@@ -81,7 +88,7 @@ namespace VLUTUTORS.Controllers
             TempData["Message"] = "Yêu cầu gửi thành công, vui lòng đợi xét duyệt!";
             TempData["MessageType"] = "success";
 
-            return RedirectToAction("Index", "ManageWallet");
+            return RedirectToAction("Index", "Wallet");
         }
 
         private List<MoneyServiceHistory> SumaryDepositAndWithdrawal()
