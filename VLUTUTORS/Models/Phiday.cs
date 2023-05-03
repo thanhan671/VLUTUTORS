@@ -9,6 +9,7 @@ namespace VLUTUTORS.Models
     {
         public int Id { get; set; }
         public int? ChietKhau { get; set; }
-        public bool? HocFree { get; set; }
+        public string SoTaiKhoan { get; set; }
+        public string NganHang { get; set; }
     }
 }

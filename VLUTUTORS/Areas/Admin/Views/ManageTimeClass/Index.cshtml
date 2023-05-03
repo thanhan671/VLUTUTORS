@@ -22,18 +22,15 @@
         <!-- Default box -->
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Danh sách ca học</h3>
                 <form method="post" enctype="multipart/form-data" asp-controller="ManageTimeClass" asp-action="UpdatePrice" asp-route-id="1">
                     <input type="hidden" asp-for="Item2.Id" />
-                    <div class="card-tools d-flex align-items-center justify-content-end mb-2 flex-wrap">
+                    <div class="card-tools d-flex align-items-center justify-content-end mb-2">
                         <p class="mb-0"> Chiết khấu (%): </p>
                         <input type="number" class="mr-5 i-half" style="width: 18%" id="ChietKhau" name="ChietKhau" value="@Model.Item2.ChietKhau" />
-                        <div class="switch d-flex align-items-center m-2">
-                            <p class="mb-0">Miễn Phí:&emsp;</p>
-                            <input id="HocFree" type="checkbox" value="true" name="HocFree" class="switch"/>
-                            <input type="hidden" value="false" name="HocFree" />
-                            <label data-on="ON" data-off="OFF" for="HocFree" class="mb-0"></label>
-                        </div>
+                        <p class="mb-0"> Số tài khoản: </p>
+                        <input type="text" class="mr-5 i-half" style="width: 18%" id="SoTaiKhoan" name="SoTaiKhoan" value="@Model.Item2.SoTaiKhoan" />
+                        <p class="mb-0"> Tên ngân hàng: </p>
+                        <input type="text" class="mr-5 i-half" style="width: 18%" id="NganHang" name="NganHang" value="@Model.Item2.NganHang" />
                         <button type="submit" class="btn btn-success btn-sm mr-2" style="width:100px;">
                             Cập nhật
                         </button>

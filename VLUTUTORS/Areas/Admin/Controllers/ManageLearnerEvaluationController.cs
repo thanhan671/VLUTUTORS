@@ -13,7 +13,7 @@ using VLUTUTORS.Models;
 namespace VLUTUTORS.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Quản trị viên người học")]
+    [Authorize(Roles = "3")]
     public class ManageLearnerEvaluationController : Controller
     {
         private readonly CP25Team01Context _db = new();

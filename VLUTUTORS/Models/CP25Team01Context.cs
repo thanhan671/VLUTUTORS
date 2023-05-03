@@ -338,6 +338,12 @@ namespace VLUTUTORS.Models
                 entity.ToTable("PHIDAY");
 
                 entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.NganHang).HasMaxLength(100);
+
+                entity.Property(e => e.SoTaiKhoan)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<Quyen>(entity =>

@@ -23,7 +23,7 @@ using SmtpClient = System.Net.Mail.SmtpClient;
 namespace VLUTUTORS.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Quản trị viên gia sư")]
+    [Authorize(Roles = "2")]
     public class ManageTutors : Controller
     {
         private readonly CP25Team01Context _context = new CP25Team01Context();

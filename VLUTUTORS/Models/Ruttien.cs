@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable disable
 
@@ -15,6 +16,11 @@ namespace VLUTUTORS.Models
 
         public DateTime ThoiGianRutTien { get; set; }
 
+        [NotMapped]
+        public string tenNguoiRut { get; set; }
+
+        [NotMapped]
+        public string trangThai { get; set; }
         public virtual Taikhoannguoidung IdNguoiRutNavigation { get; set; }
     }
 }

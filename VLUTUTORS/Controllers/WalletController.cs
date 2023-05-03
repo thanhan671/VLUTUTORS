@@ -49,8 +49,6 @@ namespace VLUTUTORS.Controllers
             deposit.TrangThai = false;
             deposit.ThoiGianNapTien = DateTime.Now;
 
-            //MoneyServices.AddMoney(depositMoney, userId.Id, _db);
-
             _db.Add(deposit);
             _db.SaveChangesAsync();
 

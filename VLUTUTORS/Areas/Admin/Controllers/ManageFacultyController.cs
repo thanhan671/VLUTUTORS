@@ -11,7 +11,7 @@ using VLUTUTORS.Models;
 namespace VLUTUTORS.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Quản trị viên hệ thống")]
+    [Authorize(Roles = "1")]
     public class ManageFacultyController : Controller
     {
         private readonly CP25Team01Context _context = new CP25Team01Context();

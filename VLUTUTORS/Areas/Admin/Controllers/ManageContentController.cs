@@ -18,7 +18,7 @@ using Microsoft.EntityFrameworkCore;
 namespace VLUTUTORS.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Quản trị viên hệ thống")]
+    [Authorize(Roles = "1")]
 
     public class ManageContentController : Controller
     {

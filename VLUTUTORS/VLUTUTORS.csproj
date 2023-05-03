@@ -43,6 +43,7 @@
 
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Admin\Views\ManageLearnerEvaluation\" />
     <Folder Include="Areas\Tutors\Data\" />
     <Folder Include="wwwroot\avatars\" />
     <Folder Include="wwwroot\certificates\" />

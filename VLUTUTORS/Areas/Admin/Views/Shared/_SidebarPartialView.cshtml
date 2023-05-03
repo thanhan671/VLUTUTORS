@@ -21,7 +21,7 @@
                 role="menu"
                 data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
-    with font-awesome or any other icon font library -->
+                with font-awesome or any other icon font library -->
 
                 <li class="nav-item">
                     <a href="~/Admin/Home" class="nav-link">
@@ -120,12 +120,24 @@
                             <p>Quản lý đánh giá gia sư</p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="~/Admin/ManageTutorWallet/ManageDeposit" class="nav-link">
+                            <i class="fa-sharp fa-solid fa-plus-circle"></i>
+                            <p>Quản lý nạp tiền gia sư</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="~/Admin/ManageTutorWallet/ManageWithdrawal" class="nav-link">
+                            <i class="fa-sharp fa-solid fa-minus-circle"></i>
+                            <p>Quản lý rút tiền gia sư</p>
+                        </a>
+                    </li>
                 }
                 @if (@httpContextAccessor.HttpContext.Session.GetInt32("IdQuyen") == 3)
                 {
                     <li class="nav-item">
                         <a href="~/Admin/ManageLearner"
-                           class="nav-link">
+                       class="nav-link">
                             <i class="fa-sharp fa-solid fa-users"></i>
                             <p>Quản lý học viên</p>
                         </a>
@@ -152,7 +164,7 @@
         <!-- /.sidebar-menu -->
     </div>
     <script>
-const getNavItem = document.querySelectorAll('.nav-item');
+        const getNavItem = document.querySelectorAll('.nav-item');
         getNavItem.forEach(item => {
             const link = item.querySelector('.nav-link');
             if (link.href === window.location.href) {

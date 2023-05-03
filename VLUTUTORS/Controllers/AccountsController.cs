@@ -257,7 +257,8 @@ namespace VLUTUTORS.Controllers
                             Idkhoa = 1,
                             IdxetDuyet = 6,
                             MaXacThuc = numVerify,
-                            XacThuc = false
+                            XacThuc = false,
+                            NgayTao = DateTime.Now
                         };
                         try
                         {
