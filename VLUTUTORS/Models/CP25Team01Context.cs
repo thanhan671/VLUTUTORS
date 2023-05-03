@@ -136,18 +136,14 @@ namespace VLUTUTORS.Models
             modelBuilder.Entity<Danhgiagiasu>(entity =>
             {
                 entity.ToTable("DANHGIAGIASU");
-
                 entity.Property(e => e.Id).UseIdentityColumn();
-
                 entity.Property(e => e.NgayTao).HasColumnType("datetime");
             });
 
             modelBuilder.Entity<Danhgianguoihoc>(entity =>
             {
                 entity.ToTable("DANHGIANGUOIHOC");
-
                 entity.Property(e => e.Id).UseIdentityColumn();
-
                 entity.Property(e => e.NgayTao).HasColumnType("datetime");
             });
 
@@ -257,7 +253,8 @@ namespace VLUTUTORS.Models
                     .HasMaxLength(500);
             });
 
-            modelBuilder.Entity<Naptien>(entity => {
+            modelBuilder.Entity<Naptien>(entity =>
+            {
                 entity.ToTable("NAPTIEN");
 
                 entity.Property(e => e.MaNapTien)
@@ -336,7 +333,8 @@ namespace VLUTUTORS.Models
                     .HasColumnName("TieuDeGT3");
             });
 
-            modelBuilder.Entity<Phiday>(entity => {
+            modelBuilder.Entity<Phiday>(entity =>
+            {
                 entity.ToTable("PHIDAY");
 
                 entity.Property(e => e.Id).ValueGeneratedNever();
@@ -353,7 +351,8 @@ namespace VLUTUTORS.Models
                     .HasMaxLength(50);
             });
 
-            modelBuilder.Entity<Ruttien>(entity => {
+            modelBuilder.Entity<Ruttien>(entity =>
+            {
                 entity.ToTable("RUTTIEN");
 
                 entity.Property(e => e.MaRutTien)
@@ -428,6 +427,8 @@ namespace VLUTUTORS.Models
 
                 entity.Property(e => e.NgaySinh).HasColumnType("date");
 
+                entity.Property(e => e.NgayTao).HasColumnType("date");
+
                 entity.Property(e => e.Sdt)
                     .HasMaxLength(10)
                     .IsUnicode(false);
@@ -475,7 +476,9 @@ namespace VLUTUTORS.Models
 
                 entity.Property(e => e.DanhCho).HasMaxLength(50);
 
-                entity.Property(e => e.TieuChi).HasMaxLength(100);
+                entity.Property(e => e.TieuChi)
+                    .IsRequired()
+                    .HasMaxLength(100);
             });
 
             modelBuilder.Entity<Trangthai>(entity =>
