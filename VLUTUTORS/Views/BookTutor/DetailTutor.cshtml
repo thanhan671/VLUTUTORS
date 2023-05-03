@@ -207,7 +207,7 @@
                                         int day = lesson.NgayDay.Day;
 
                                         DateTime checkTime = new DateTime(year, month, day, lesson.GioBatDau, lesson.PhutBatDau, 0);
-                                        if (@lesson.Link == null && checkTime >= DateTime.Now && lesson.IdnguoiHoc == null)
+                                        if (@lesson.Link == null && checkTime >= DateTime.Now)
                                         {
                                             <tr>
                                                 <td>@lesson.tenMonDay</td>

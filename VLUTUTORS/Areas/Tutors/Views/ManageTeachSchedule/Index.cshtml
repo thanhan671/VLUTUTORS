@@ -141,7 +141,7 @@
                             <td>@lesson.GioBatDau:@lesson.PhutBatDau - @lesson.GioKetThuc:@lesson.PhutKetThuc</td>
                             <td>@lesson.tenLoaiCaDay phút</td>
                             @{
-                                if (lesson.IdnguoiHoc == null)
+                                if (lesson.Link == null)
                                 {
                                     <td>Chưa được đặt</td>
                                 }
@@ -151,7 +151,7 @@
                                 }
                             }
                             @{
-                                if (lesson.IdnguoiHoc == null)
+                                if (lesson.Link == null)
                                 {
                                     <td class="project-actions">
                                         <a class="btn btn-sm" style="margin-bottom:5px; width:120px" href="@Url.Action("EditLessonPlan", "ManageTeachSchedule", new { lessonPlanId = @lesson.Id })">

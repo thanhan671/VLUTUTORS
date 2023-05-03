@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,10 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         private CP25Team01Context _db = new CP25Team01Context();
         public IActionResult ManageDeposit()
         {
+            if (HttpContext.Session.GetString("LoginADId") == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             List<Naptien> depositPending = _db.Naptiens.Where(m=>m.TrangThai==false).ToList();
             foreach(var item in depositPending)
             {
@@ -37,6 +42,10 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         }
         public IActionResult ManageWithdrawal()
         {
+            if (HttpContext.Session.GetString("LoginADId") == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             List<Ruttien> withDrawalPending = _db.Ruttiens.Where(m => m.TrangThai == false).ToList();
             foreach (var item in withDrawalPending)
             {

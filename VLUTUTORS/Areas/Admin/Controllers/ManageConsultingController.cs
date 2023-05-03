@@ -24,7 +24,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
-            if (HttpContext.Session.GetString("LoginId") == null)
+            if (HttpContext.Session.GetString("LoginADId") == null)
             {
                 return RedirectToAction("Index", "Login");
             }
@@ -67,10 +67,10 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             {
                 try
                 {
-                    TempData["Message"] = "Cập nhật thành công!";
-                    TempData["MessageType"] = "success";
                     _context.Update(tuVan);
                     await _context.SaveChangesAsync();
+                    TempData["Message"] = "Cập nhật thành công!";
+                    TempData["MessageType"] = "success";
                 }
                 catch (Exception ex) 
                 {

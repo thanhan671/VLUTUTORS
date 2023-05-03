@@ -341,6 +341,8 @@ namespace VLUTUTORS.Models
 
                 entity.Property(e => e.NganHang).HasMaxLength(100);
 
+                entity.Property(e => e.NguoiNhan).HasMaxLength(200);
+
                 entity.Property(e => e.SoTaiKhoan)
                     .HasMaxLength(50)
                     .IsUnicode(false);

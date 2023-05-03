@@ -21,6 +21,13 @@ namespace VLUTUTORS.Controllers
             {
                 return RedirectToAction("Login", "Accounts");
             }
+
+            Phiday phiday = _db.Phidays.Where(ph => ph.Id == 1).FirstOrDefault();
+
+            TempData["STK"] = phiday.SoTaiKhoan.ToString();
+            TempData["NH"] = phiday.NganHang.ToString();
+            TempData["NguoiNhan"] = phiday.NguoiNhan.ToString();
+
             var userId = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
             Taikhoannguoidung taikhoannguoidung = _db.Taikhoannguoidungs.Find(userId.Id);
 

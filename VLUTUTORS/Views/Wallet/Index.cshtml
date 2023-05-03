@@ -107,12 +107,14 @@
                     <h5 class="modal-title" id="exampleModalLabel">Thông tin chuyển khoản</h5>
                 </div>
                 <div class="modal-body">
-                    <p style="color: red">
-                        Vui lòng chuyển khoản đến NGÂN HÀNG VIETCOMBANK - GIA SU VAN LANG - STK: 123456789
-                        với nội dung: GSxxxxxx - Nguyen Thanh An
-                    </p>                
+                    <p style="color: red;font-size:20px">
+                        Vui lòng chuyển khoản đến NGÂN HÀNG @TempData["NH"] - @TempData["NguoiNhan"] - STK: @TempData["STK"]
+                    </p>  
+                    <p style="color:blue;font-size:20px">
+                        <b>Với nội dung: Họ tên - ngày chuyển tiền</b>
+                    </p>
                     <div>
-                        <label for="inputName">Số Tiền Đã Chuyển:</label>
+                        <label for="inputName" style="font-size:20px">Nhập Số Tiền Đã Chuyển:</label>
                         <input type="number" id="depositMoney" name="depositMoney" class="form-control" />
                     </div>
                 </div>

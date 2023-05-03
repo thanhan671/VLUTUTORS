@@ -11,5 +11,6 @@ namespace VLUTUTORS.Models
         public int? ChietKhau { get; set; }
         public string SoTaiKhoan { get; set; }
         public string NganHang { get; set; }
+        public string NguoiNhan { get; set; }
     }
 }

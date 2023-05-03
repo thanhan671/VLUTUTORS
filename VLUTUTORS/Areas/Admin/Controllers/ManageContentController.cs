@@ -33,7 +33,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            if (HttpContext.Session.GetString("LoginId") == null)
+            if (HttpContext.Session.GetString("LoginADId") == null)
             {
                 return RedirectToAction("Index", "Login");
             }

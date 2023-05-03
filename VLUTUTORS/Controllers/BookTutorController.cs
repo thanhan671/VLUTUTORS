@@ -458,10 +458,19 @@ namespace VLUTUTORS.Controllers
             {
                 return RedirectToAction("Login", "Accounts");
             }
+            Caday caday = _db.Cadays.FirstOrDefault(c => c.Id.Equals(lessonId));
+            Cahoc cahoc = _db.Cahocs.Where(c => c.IdCaHoc == caday.IdloaiCaDay).FirstOrDefault();
+            int soDu = (int)_db.Taikhoannguoidungs.Find(HttpContext.Session.GetInt32("LoginId")).SoDuVi;
+
+            if (soDu < cahoc.GiaTien)
+            {
+                TempData["Message"] = "Số dư ví không đủ, vui lòng nạp thêm!";
+                TempData["MessageType"] = "error";
+                return RedirectToAction("Index", "Wallet");
+            }
+
             JwtConnectionInfo connectionInfo = new JwtConnectionInfo("9wPjAoQIQsSEzltlIl_vQw", "84zfXjpKoHTUS2Tqjnfswk7pyezmMsbYRxvf");
             ZoomClient zoomClient = new ZoomClient(connectionInfo);
-
-            Caday caday = _db.Cadays.FirstOrDefault(c => c.Id.Equals(lessonId));
 
             var hostMail = _db.Taikhoannguoidungs.Where(acc => acc.Id.Equals(caday.IdnguoiDay)).FirstOrDefault().Email;
             int lessonDuration = _db.Cahocs.Where(l => l.IdCaHoc.Equals(caday.IdloaiCaDay)).FirstOrDefault().LoaiCa;
@@ -472,7 +481,6 @@ namespace VLUTUTORS.Controllers
             var monDay = _db.Mongiasus.Where(acc => acc.IdmonGiaSu.Equals(caday.IdmonDay)).FirstOrDefault().TenMonGiaSu;
 
             // wallet manage
-            Cahoc cahoc = _db.Cahocs.Where(c => c.IdCaHoc == caday.IdloaiCaDay).FirstOrDefault();
             Phiday phiday = _db.Phidays.Where(ph => ph.Id == 1).FirstOrDefault();
 
             float commision = (int)cahoc.GiaTien * ((float)phiday.ChietKhau / 100);

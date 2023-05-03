@@ -246,6 +246,17 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             // call check lesson has register
 
             Caday caDay = _db.Cadays.Where(p => p.Id == lessonPlanId).FirstOrDefault();
+
+            if(caDay.IdnguoiHoc != null)
+            {
+                _db.Cadays.Remove(caDay);
+                await _db.SaveChangesAsync();
+                TempData["Message"] = "Hủy ca dạy thành công!";
+                TempData["MessageType"] = "success";
+
+                return RedirectToAction("Index", "ManageTeachSchedule");
+            }
+
             caDay.Link = null;
             caDay.TrangThai = false;
             _db.Cadays.Update(caDay);
@@ -256,8 +267,21 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
 
             float commision = (int)cahoc.GiaTien * ((float)phiday.ChietKhau/100);
             int money = (int) (cahoc.GiaTien + commision);
+            int moneyBack = (int)(cahoc.GiaTien - commision);
 
-            if(caDay.IdnguoiHoc != null)
+            int year = caDay.NgayDay.Year;
+            int month = caDay.NgayDay.Month;
+            int day = caDay.NgayDay.Day;
+
+            DateTime checkTime = new DateTime(year, month, day, caDay.GioBatDau, caDay.PhutBatDau, 0);
+
+            TimeSpan result = DateTime.Now - checkTime;
+
+            if (caDay.IdnguoiHoc != null && result.Hours > 4)
+            {
+                MoneyServices.SubtractMoney(moneyBack, caDay.IdnguoiDay, _db);
+                MoneyServices.AddMoney((int)cahoc.GiaTien, (int)caDay.IdnguoiHoc, _db);
+            }else if(caDay.IdnguoiHoc != null && result.Hours < 4)
             {
                 MoneyServices.SubtractMoney(money, caDay.IdnguoiDay, _db);
                 MoneyServices.AddMoney((int)cahoc.GiaTien, (int)caDay.IdnguoiHoc, _db);

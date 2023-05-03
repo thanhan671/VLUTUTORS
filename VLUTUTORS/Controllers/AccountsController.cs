@@ -258,6 +258,7 @@ namespace VLUTUTORS.Controllers
                             IdxetDuyet = 6,
                             MaXacThuc = numVerify,
                             XacThuc = false,
+                            SoDuVi = 0,
                             NgayTao = DateTime.Now
                         };
                         try

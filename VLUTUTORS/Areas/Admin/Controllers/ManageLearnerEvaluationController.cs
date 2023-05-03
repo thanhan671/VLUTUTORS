@@ -21,7 +21,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            if (HttpContext.Session.GetString("LoginId") == null)
+            if (HttpContext.Session.GetString("LoginADId") == null)
             {
                 return RedirectToAction("Index", "Login");
             }

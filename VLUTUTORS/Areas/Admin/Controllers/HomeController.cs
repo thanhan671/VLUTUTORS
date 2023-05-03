@@ -19,7 +19,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         private CP25Team01Context _db = new CP25Team01Context();
         public IActionResult Index()
         {
-            if (HttpContext.Session.GetString("LoginId") == null)
+            if (HttpContext.Session.GetString("LoginADId") == null)
             {
                 return RedirectToAction("Index", "Login");
             }
@@ -78,17 +78,34 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
         public async Task<IActionResult> DetailStaticUser()
         {
-            if (HttpContext.Session.GetString("LoginId") == null)
+            if (HttpContext.Session.GetString("LoginADId") == null)
             {
                 return RedirectToAction("Index", "Login");
             }
             var taiKhoans = await _db.Taikhoannguoidungs.ToListAsync();
-            return View(taiKhoans);
+            List<Taikhoannguoidung> newUser = new List<Taikhoannguoidung>();
+            List<Taikhoannguoidung> oldUser = new List<Taikhoannguoidung>();
+
+            foreach(var user in taiKhoans)
+            {
+                TimeSpan checkTime = (TimeSpan)(DateTime.Now - user.NgayTao);
+                if(checkTime.Days <= 7)
+                {
+                    newUser.Add(user);
+                }
+                else
+                {
+                    oldUser.Add(user);
+                }
+            }
+
+            Tuple<IEnumerable<Taikhoannguoidung>, IEnumerable<Taikhoannguoidung>> turple = new Tuple<IEnumerable<Taikhoannguoidung>, IEnumerable<Taikhoannguoidung>>(newUser, oldUser);
+            return View(turple);
         }
 
         public IActionResult DetailStaticLesson()
         {
-            if (HttpContext.Session.GetString("LoginId") == null)
+            if (HttpContext.Session.GetString("LoginADId") == null)
             {
                 return RedirectToAction("Index", "Login");
             }

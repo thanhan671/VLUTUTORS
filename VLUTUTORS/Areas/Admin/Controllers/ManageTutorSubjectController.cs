@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -18,6 +19,10 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         private readonly CP25Team01Context _context = new CP25Team01Context();
         public async Task<IActionResult> Index()
         {
+            if (HttpContext.Session.GetString("LoginADId") == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             var monGiaSus = await _context.Mongiasus.ToListAsync();
             return View(monGiaSus);
         }

@@ -38,7 +38,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index([FromQuery] string search)
         {
-            if (HttpContext.Session.GetString("LoginId") == null)
+            if (HttpContext.Session.GetString("LoginADId") == null)
             {
                 return RedirectToAction("Index", "Login");
             }
@@ -122,6 +122,10 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
         public async Task<IActionResult> DetailTutor(int id)
         {
+            if (HttpContext.Session.GetString("LoginADId") == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             var account = await _context.Taikhoannguoidungs.FirstOrDefaultAsync(m => m.Id == id);
             if (account == null)
                 return NotFound();
@@ -232,6 +236,10 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
         public async Task<IActionResult> UpdateTutor(int id)
         {
+            if (HttpContext.Session.GetString("LoginADId") == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             var account = await _context.Taikhoannguoidungs.FirstOrDefaultAsync(m => m.Id == id);
             if (account == null)
                 return NotFound();
