@@ -44,26 +44,29 @@
                             var index = 0;
                             foreach (var item in Model.Item1)
                             {
-                                index++;
-                                <tr>
-                                    <td class="text-center">
-                                        @index
-                                    </td>
-                                    <td class="text-center">@item.MaRutTien</td>
-                                    <td class="text-center">@item.tenNguoiRut</td>
-                                    <td class="text-center">@item.SoTienRut.ToString("#,##0.###") đồng</td>
-                                    <td class="text-center" style="color:red">@item.trangThai</td>
-                                    <td class="text-center">@item.ThoiGianRutTien.ToString("dd/MM/yyyy")</td>
-                                    <td class="text-center">
-                                        <a class="btn btn-sm"
+                                if (item.taiKhoan == "5")
+                                {
+                                    index++;
+                                    <tr>
+                                        <td class="text-center">
+                                            @index
+                                        </td>
+                                        <td class="text-center">@item.MaRutTien</td>
+                                        <td class="text-center">@item.tenNguoiRut</td>
+                                        <td class="text-center">@item.SoTienRut.ToString("#,##0.###") đồng</td>
+                                        <td class="text-center" style="color:red">@item.trangThai</td>
+                                        <td class="text-center">@item.ThoiGianRutTien.ToString("dd/MM/yyyy")</td>
+                                        <td class="text-center">
+                                            <a class="btn btn-sm"
                                        data-toggle="modal"
                                        data-target="@("#confirmModal-"+item.Id)"
                                        data-url="@Url.Action($"ConfirmWithdrawal/{item.Id}")">
-                                            <i class="fas fa-pen"> </i>
-                                        </a>
-                                        @await Html.PartialAsync("_CofirmWithdrawal", item)
-                                    </td>
-                                </tr>
+                                                <i class="fas fa-pen"> </i>
+                                            </a>
+                                            @await Html.PartialAsync("_CofirmWithdrawal", item)
+                                        </td>
+                                    </tr>
+                                }
                             }
                         }
                     </tbody>
@@ -92,17 +95,20 @@
                             var index2 = 0;
                             foreach (var item in Model.Item2)
                             {
-                                index2++;
-                                <tr>
-                                    <td class="text-center">
-                                        @index2
-                                    </td>
-                                    <td class="text-center">@item.MaRutTien</td>
-                                    <td class="text-center">@item.tenNguoiRut</td>
-                                    <td class="text-center">@item.SoTienRut.ToString("#,##0.###") đồng</td>
-                                    <td class="text-center" style="color:green">@item.trangThai</td>
-                                    <td class="text-center">@item.ThoiGianRutTien.ToString("dd/MM/yyyy")</td>
-                                </tr>
+                                if (item.taiKhoan == "5")
+                                {
+                                    index2++;
+                                    <tr>
+                                        <td class="text-center">
+                                            @index2
+                                        </td>
+                                        <td class="text-center">@item.MaRutTien</td>
+                                        <td class="text-center">@item.tenNguoiRut</td>
+                                        <td class="text-center">@item.SoTienRut.ToString("#,##0.###") đồng</td>
+                                        <td class="text-center" style="color:green">@item.trangThai</td>
+                                        <td class="text-center">@item.ThoiGianRutTien.ToString("dd/MM/yyyy")</td>
+                                    </tr>
+                                }
                             }
                         }
                     </tbody>

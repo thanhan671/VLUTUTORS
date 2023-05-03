@@ -1,12 +1,12 @@
 ﻿@model VLUTUTORS.Models.Naptien;
 
 <div class="modal fade"
-     id="confirmDepositModal-@Model.Id"
+     id="confirmModal-@Model.Id"
      tabindex="-1"
      role="dialog"
      aria-labelledby="exampleModalLabel"
      aria-hidden="true">
-    <form asp-action="ConfirmDeposit" asp-controller="ManageTutorWallet" method="post">
+    <form asp-action="ConfirmLearnerDeposit" asp-controller="ManageLearnerWallet" method="post">
         <input type="hidden" asp-for="Id" />
         <input type="hidden" asp-for="IdNguoiNap" />
         <input type="hidden" asp-for="SoTienNap" />

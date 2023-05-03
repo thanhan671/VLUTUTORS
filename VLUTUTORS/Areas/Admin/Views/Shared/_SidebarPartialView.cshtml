@@ -148,6 +148,18 @@
                             <p>Quản lý đánh giá học viên</p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="~/Admin/ManageLearnerWallet/ManageDeposit" class="nav-link">
+                            <i class="fa-sharp fa-solid fa-plus-circle"></i>
+                            <p>Quản lý nạp tiền học viên</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="~/Admin/ManageLearnerWallet/ManageWithdrawal" class="nav-link">
+                            <i class="fa-sharp fa-solid fa-minus-circle"></i>
+                            <p>Quản lý rút tiền học viên</p>
+                        </a>
+                    </li>
                 }
                 @if (@httpContextAccessor.HttpContext.Session.GetInt32("IdQuyen") == 4)
                 {

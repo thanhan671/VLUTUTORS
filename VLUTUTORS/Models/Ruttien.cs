@@ -21,6 +21,8 @@ namespace VLUTUTORS.Models
 
         [NotMapped]
         public string trangThai { get; set; }
+        [NotMapped]
+        public string taiKhoan { get; set; }
         public virtual Taikhoannguoidung IdNguoiRutNavigation { get; set; }
     }
 }

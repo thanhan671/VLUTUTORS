@@ -67,6 +67,8 @@ namespace VLUTUTORS.Controllers
 
             if (balanceMoney < withdrawalMoney)
             {
+                TempData["Message"] = "Số dư không đủ, vui lòng thử lại!";
+                TempData["MessageType"] = "success";
                 return RedirectToAction("Index", "Wallet");
             }
 
