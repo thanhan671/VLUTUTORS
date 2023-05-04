@@ -38,7 +38,6 @@ namespace VLUTUTORS.Controllers
                 Console.WriteLine("login id: " + HttpContext.Session.GetInt32("LoginId"));
             }
 
-
             var loaiTuVan = new SelectList(_db.Loaituvans.ToList(), "IdLoaiTuVan", "TenLoaiTuVan");
             ViewData["loaiTuVan"] = loaiTuVan;
 

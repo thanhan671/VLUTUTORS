@@ -100,7 +100,6 @@ namespace VLUTUTORS.Controllers
             return View();
         }
 
-
         public async Task<IActionResult> Details(int? id = -1)
         {
             if (id == null)

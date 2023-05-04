@@ -22,14 +22,14 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
-            List<Naptien> depositPending = _db.Naptiens.Where(m => m.TrangThai == false).ToList();
+            List<Naptien> depositPending = _db.Naptiens.Where(m => m.TrangThai == false).OrderByDescending(m => m.Id).ToList();
             foreach (var item in depositPending)
             {
                 item.taiKhoan = _db.Taikhoannguoidungs.Find(item.IdNguoiNap).IdxetDuyet.ToString();
                 item.tenNguoiNap = _db.Taikhoannguoidungs.Find(item.IdNguoiNap).HoTen.ToString();
                 item.trangThai = item.TrangThai ? "Đã xử lý" : "Đang chờ duyệt";
             }
-            List<Naptien> depositDone = _db.Naptiens.Where(m => m.TrangThai == true).ToList();
+            List<Naptien> depositDone = _db.Naptiens.Where(m => m.TrangThai == true).OrderByDescending(m => m.Id).ToList();
             foreach (var item in depositDone)
             {
                 item.taiKhoan = _db.Taikhoannguoidungs.Find(item.IdNguoiNap).IdxetDuyet.ToString();
@@ -46,14 +46,14 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
-            List<Ruttien> withDrawalPending = _db.Ruttiens.Where(m => m.TrangThai == false).ToList();
+            List<Ruttien> withDrawalPending = _db.Ruttiens.Where(m => m.TrangThai == false).OrderByDescending(m => m.Id).ToList();
             foreach (var item in withDrawalPending)
             {
                 item.taiKhoan = _db.Taikhoannguoidungs.Find(item.IdNguoiRut).IdxetDuyet.ToString();
                 item.tenNguoiRut = _db.Taikhoannguoidungs.Find(item.IdNguoiRut).HoTen.ToString();
                 item.trangThai = item.TrangThai ? "Đã xử lý" : "Đang chờ duyệt";
             }
-            List<Ruttien> withDrawalDone = _db.Ruttiens.Where(m => m.TrangThai == true).ToList();
+            List<Ruttien> withDrawalDone = _db.Ruttiens.Where(m => m.TrangThai == true).OrderByDescending(m => m.Id).ToList();
             foreach (var item in withDrawalDone)
             {
                 item.taiKhoan = _db.Taikhoannguoidungs.Find(item.IdNguoiRut).IdxetDuyet.ToString();

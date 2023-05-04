@@ -2223,7 +2223,8 @@ i.active,
         .singel-teachers .image img {
             -webkit-transition: all 0.4s linear;
             transition: all 0.4s linear;
-            width: 100%;
+            width: 300px;
+            height: 260px;
         }
 
     .singel-teachers:hover .image img {
