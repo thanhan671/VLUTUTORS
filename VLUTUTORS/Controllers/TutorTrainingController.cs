@@ -143,9 +143,8 @@ namespace VLUTUTORS.Controllers
             decimal userScore = 0;
 
             // grading quiz
-            for (int i = 0; i < rightAnswers.Count; i++)
+            for (int i = 0; i < allAnswers.Count; i++)
             {
-                Console.WriteLine("answer: " + rightAnswers[i] + " choose: " + allAnswers[i] + " score per question: " + scorePerAnswer);
                 if (allAnswers[i].Equals(rightAnswers[i]))
                 {
                     userScore += scorePerAnswer;

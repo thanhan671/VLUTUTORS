@@ -60,7 +60,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                     return RedirectToAction("Index");
                 }
             }
-            TempData["Message"] = "Tên quyền tối đa 40 ký tự, vui lòng kiểm tra lại!";
+            TempData["Message"] = "Tên quyền tối đa 40 ký tự và không chứa ký tự đặc biệt, vui lòng kiểm tra lại!";
             TempData["MessageType"] = "error";
             return RedirectToAction("Index");
         }
@@ -75,20 +75,25 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult EditRole(Quyen quyen)
         {
-            var Quyen = _context.Quyens.AsNoTracking().SingleOrDefault(x => x.TenQuyen.ToLower() == quyen.TenQuyen.ToLower());
-            if (Quyen != null)
+            if (ModelState.IsValid)
             {
-                TempData["Message"] = "Quyền đã tồn tại, vui lòng kiểm tra lại!";
-                TempData["MessageType"] = "error";
-                return RedirectToAction("Index");
+                var Quyen = _context.Quyens.AsNoTracking().SingleOrDefault(x => x.TenQuyen.ToLower() == quyen.TenQuyen.ToLower());
+                if (Quyen != null)
+                {
+                    TempData["Message"] = "Quyền đã tồn tại, vui lòng kiểm tra lại!";
+                    TempData["MessageType"] = "error";
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    TempData["Message"] = "Cập nhật thành công!";
+                    TempData["MessageType"] = "success";
+                    _context.Quyens.Update(quyen);
+                    _context.SaveChanges();
+                }
             }
-            else
-            {
-                TempData["Message"] = "Cập nhật thành công!";
-                TempData["MessageType"] = "success";
-                _context.Quyens.Update(quyen);
-                _context.SaveChanges();
-            }
+            TempData["Message"] = "Tên quyền tối đa 40 ký tự và không chứa ký tự đặc biệt, vui lòng kiểm tra lại!";
+            TempData["MessageType"] = "error";
             return RedirectToAction("Index");
         }
         [HttpPost]

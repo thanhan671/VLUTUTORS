@@ -414,9 +414,8 @@ namespace VLUTUTORS.Controllers
         public IActionResult CancelBooking(int lessonPlanId)
         {
             Caday caday = _db.Cadays.FirstOrDefault(c => c.Id.Equals(lessonPlanId));
-            caday.IdnguoiHoc = null;
-            caday.Link = null;
-            caday.TrangThai = null;
+
+            int id = (int)caday.IdnguoiHoc;
 
             int year = caday.NgayDay.Year;
             int month = caday.NgayDay.Month;
@@ -426,7 +425,7 @@ namespace VLUTUTORS.Controllers
 
             TimeSpan result = DateTime.Now - checkTime;
 
-            if(result.Hours > 4)
+            if(result.Days <= 0 && Math.Abs(result.Hours) > 1)
             {
                 Cahoc cahoc = _db.Cahocs.Where(c => c.IdCaHoc == caday.IdloaiCaDay).FirstOrDefault();
                 Phiday phiday = _db.Phidays.Where(ph => ph.Id == 1).FirstOrDefault();
@@ -440,6 +439,8 @@ namespace VLUTUTORS.Controllers
 
             try 
             {
+                caday.Link = null;
+                caday.TrangThai = false;
                 _db.Update(caday);
                 _db.SaveChanges();
             }
@@ -448,7 +449,7 @@ namespace VLUTUTORS.Controllers
                 Console.WriteLine(ex.ToString());
             }
 
-            return RedirectToAction("HistoryBooking");
+            return RedirectToAction("HistoryBooking", "BookTutor", new {id});
         }
 
         [HttpPost]

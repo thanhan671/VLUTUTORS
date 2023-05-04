@@ -127,6 +127,14 @@ namespace VLUTUTORS.Models
                     yield return new ValidationResult(
                         "Giới thiệu môn gia sư", new[] { "GioiThieuVeMonGiaSu2" });
             }
+
+            var namSinh = DateTime.Parse(NgaySinh.Value.ToString());
+            int tuoi = DateTime.Now.Year - namSinh.Year;
+            if (tuoi < 18)
+            {
+                yield return new ValidationResult(
+                    "Phải từ đủ 18 tuổi", new[] { "NgaySinh" });
+            }
         }
     }
 }

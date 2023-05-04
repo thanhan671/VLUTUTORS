@@ -47,7 +47,7 @@
                 TimeSpan result = DateTime.Now - checkTime;
                 
 
-                if ((checkTime >= DateTime.Now || result.Minutes <= 10) && lesson.Link != null)
+                if (result.Days<=0 && result.Minutes <= 10 && lesson.Link != null)
                 {
                     <tr>
                         <td>@lesson.tenMonDay</td>
@@ -98,7 +98,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-body">
-                    <h5>Bạn muốn hủy ca học này?</h5>
+                    <h5>Bạn muốn hủy ca học này? <b style="color:red">(Nếu hủy trước giờ bắt đầu dưới 1 giờ sẽ không được hoàn tiền)</b></h5>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">

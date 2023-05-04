@@ -55,7 +55,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var lesson in Model)
+                @foreach (var lesson in Model.OrderBy(m=>m.NgayDay))
                 {
                     int year = lesson.NgayDay.Year;
                     int month = lesson.NgayDay.Month;
