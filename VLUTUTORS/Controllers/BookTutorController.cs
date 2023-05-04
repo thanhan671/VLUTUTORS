@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ using System.Net.Mail;
 using System.Runtime.Intrinsics.X86;
 using System.Security.Principal;
 using System.Threading.Tasks;
+using VLUTUTORS.Areas.Tutors.Models;
 using VLUTUTORS.Models;
 using VLUTUTORS.Responses.BookTutors;
 using VLUTUTORS.Support.Services;
@@ -473,6 +475,16 @@ namespace VLUTUTORS.Controllers
             JwtConnectionInfo connectionInfo = new JwtConnectionInfo("9wPjAoQIQsSEzltlIl_vQw", "84zfXjpKoHTUS2Tqjnfswk7pyezmMsbYRxvf");
             ZoomClient zoomClient = new ZoomClient(connectionInfo);
 
+            Caday caday = _db.Cadays.FirstOrDefault(c => c.Id.Equals(lessonId));
+
+            var userId = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
+            bool isOverLapse = CheckLessonHasRegister(userId.Id, caday.NgayDay, caday.GioBatDau, caday.PhutBatDau, caday.GioKetThuc, caday.PhutKetThuc);
+            if (isOverLapse) {
+                TempData["Message"] = "Thời gian bị trùng với ca dạy khác";
+                TempData["MessageType"] = "error";
+                return RedirectToAction("Index", "BookTutor");
+            }
+
             var hostMail = _db.Taikhoannguoidungs.Where(acc => acc.Id.Equals(caday.IdnguoiDay)).FirstOrDefault().Email;
             int lessonDuration = _db.Cahocs.Where(l => l.IdCaHoc.Equals(caday.IdloaiCaDay)).FirstOrDefault().LoaiCa;
             var result = await zoomClient.Meetings.CreateScheduledMeetingAsync(hostMail, "Buổi dạy và học gia sư Văn Lang", "Buổi dạy và học gia sư Văn Lang", caday.NgayDay, lessonDuration);
@@ -510,6 +522,34 @@ namespace VLUTUTORS.Controllers
     "<p style = \"margin: 0%;\">Vui lòng chuẩn bị thật tốt cho buổi dạy, chúc bạn sẽ có một buổi dạy thật tốt!<br/>",
                 id = caday.IdnguoiHoc
             });
+        }
+
+        private bool CheckLessonHasRegister(int learnerId, DateTime regisDate, int startHour, int startMinute, int endHour, int endMinute) 
+        {
+            List<Caday> caDayByLearner = _db.Cadays.Where(c => c.IdnguoiHoc == learnerId).ToList();
+            List<Caday> caDayByDate = caDayByLearner.Where(c => c.NgayDay.Date == regisDate.Date).ToList();
+
+            if (caDayByDate.Count == 0 || caDayByLearner.Count == 0)
+            {
+                return false;
+            }
+
+            TimeSpan startTime = new TimeSpan(startHour, startMinute, 0);
+            TimeSpan endTime = new TimeSpan(endHour, endMinute, 0);
+
+            bool isOverLapse = false;
+
+            foreach (var caDay in caDayByDate) {
+                TimeSpan caDayStartTime = new TimeSpan(caDay.GioBatDau, caDay.PhutBatDau, 0);
+                TimeSpan caDayEndTime = new TimeSpan(caDay.GioKetThuc, caDay.PhutKetThuc, 0);
+
+                isOverLapse = startTime <= caDayEndTime && caDayStartTime <= endTime;
+                if (isOverLapse) {
+                    break;
+                }
+            }
+
+            return isOverLapse;
         }
 
         public IActionResult SendMail(string toEmail, string mailBody, int id)
