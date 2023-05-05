@@ -135,11 +135,11 @@ namespace VLUTUTORS.Controllers
 
             if (taiKhoan.AnhDaiDien != null)
             {
-                TempData["avt"] = "Yes";
+                taiKhoan.AnhDaiDien = "https://cntttest.vanlanguni.edu.vn:18081/CP25Team01/"+taiKhoan.AnhDaiDien.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
             }
             else
             {
-                TempData["avt"] = null;
+                taiKhoan.AnhDaiDien = "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png";
             }
 
             var gioiTinhs = await db.Gioitinhs.ToListAsync();
