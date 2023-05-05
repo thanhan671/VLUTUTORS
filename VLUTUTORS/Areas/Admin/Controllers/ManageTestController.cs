@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,13 +13,17 @@ using VLUTUTORS.Models;
 namespace VLUTUTORS.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Quản trị viên hệ thống")]
+    [Authorize(Roles = "1")]
 
     public class ManageTestController : Controller
     {
         private readonly CP25Team01Context _context = new CP25Team01Context();
         public async Task<IActionResult> Index()
         {
+            if (HttpContext.Session.GetString("LoginADId") == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             var baiKTs = await _context.Baikiemtras.ToListAsync();
             return View(baiKTs);
         }

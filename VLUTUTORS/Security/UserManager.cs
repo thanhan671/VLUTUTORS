@@ -53,7 +53,7 @@ namespace VLUTUTORS.Security
             claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
             var quyen = await db.Quyens.FindAsync(user.IdQuyen);
             if(quyen != null )
-                claims.Add(new Claim(ClaimTypes.Role, quyen.TenQuyen.ToString()));
+                claims.Add(new Claim(ClaimTypes.Role, quyen.IdQuyen.ToString()));
             return claims;
         }
     }

@@ -23,7 +23,7 @@ using SmtpClient = System.Net.Mail.SmtpClient;
 namespace VLUTUTORS.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Quản trị viên gia sư")]
+    [Authorize(Roles = "2")]
     public class ManageTutors : Controller
     {
         private readonly CP25Team01Context _context = new CP25Team01Context();
@@ -38,6 +38,10 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index([FromQuery] string search)
         {
+            if (HttpContext.Session.GetString("LoginADId") == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             var model = new TutorListModel();
             var awaitTutors = new List<TutorViewModel>();
             var approvedTutors = new List<TutorViewModel>();
@@ -118,6 +122,10 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
         public async Task<IActionResult> DetailTutor(int id)
         {
+            if (HttpContext.Session.GetString("LoginADId") == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             var account = await _context.Taikhoannguoidungs.FirstOrDefaultAsync(m => m.Id == id);
             if (account == null)
                 return NotFound();
@@ -228,6 +236,10 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
         public async Task<IActionResult> UpdateTutor(int id)
         {
+            if (HttpContext.Session.GetString("LoginADId") == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             var account = await _context.Taikhoannguoidungs.FirstOrDefaultAsync(m => m.Id == id);
             if (account == null)
                 return NotFound();

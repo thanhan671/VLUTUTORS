@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +16,7 @@ using static System.Net.Mime.MediaTypeNames;
 namespace VLUTUTORS.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Trung tâm hỗ trợ sinh viên")]
+    [Authorize(Roles = "4")]
 
     public class ManageConsultingController : Controller
     {
@@ -23,6 +24,10 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
+            if (HttpContext.Session.GetString("LoginADId") == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             var tuVans = await _context.Tuvans.ToListAsync();
             var trangThais = await _context.Trangthais.ToListAsync();
             foreach (var tuVan in tuVans)
@@ -62,10 +67,10 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             {
                 try
                 {
-                    TempData["Message"] = "Cập nhật thành công!";
-                    TempData["MessageType"] = "success";
                     _context.Update(tuVan);
                     await _context.SaveChangesAsync();
+                    TempData["Message"] = "Cập nhật thành công!";
+                    TempData["MessageType"] = "success";
                 }
                 catch (Exception ex) 
                 {

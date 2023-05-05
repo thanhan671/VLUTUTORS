@@ -8,6 +8,7 @@ using VLUTUTORS.Areas.Tutors.Models;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using VLUTUTORS.Support.Services;
 
 namespace VLUTUTORS.Areas.Tutors.Controllers
 {
@@ -102,6 +103,13 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
                     };
                     DateTime hour = new DateTime();
 
+                    if (time == "")
+                    {
+                        TempData["Message"] = "Vui lòng điền đủ thông tin cho ca dạy!";
+                        TempData["MessageType"] = "error";
+                        return RedirectToAction("Index", "ManageTeachSchedule");
+                    }
+
                     hour = DateTime.Parse(time);
                     lessonPlan.GioBatDau = hour.Hour;
                     lessonPlan.PhutBatDau = hour.Minute;
@@ -147,7 +155,7 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
 
             TempData["link"] = caday.Link;
 
-            return RedirectToAction("HistoryBooking", "ManageTeachSchedule");
+            return RedirectToAction("Index", "ManageTeachSchedule");
         }
         private void GetEndTime(Caday caDay, int teachTime)
         {
@@ -238,9 +246,48 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             // call check lesson has register
 
             Caday caDay = _db.Cadays.Where(p => p.Id == lessonPlanId).FirstOrDefault();
-            _db.Cadays.Remove(caDay);
+
+            if(caDay.IdnguoiHoc != null)
+            {
+                _db.Cadays.Remove(caDay);
+                await _db.SaveChangesAsync();
+                TempData["Message"] = "Hủy ca dạy thành công!";
+                TempData["MessageType"] = "success";
+
+                return RedirectToAction("Index", "ManageTeachSchedule");
+            }
+
+            caDay.Link = null;
+            caDay.TrangThai = false;
+            _db.Cadays.Update(caDay);
             await _db.SaveChangesAsync();
-            TempData["Message"] = "Xóa ca dạy thành công!";
+
+            Cahoc cahoc = _db.Cahocs.Where(c => c.IdCaHoc == caDay.IdloaiCaDay).FirstOrDefault();
+            Phiday phiday = _db.Phidays.Where(ph => ph.Id == 1).FirstOrDefault();
+
+            float commision = (int)cahoc.GiaTien * ((float)phiday.ChietKhau/100);
+            int money = (int) (cahoc.GiaTien + commision);
+            int moneyBack = (int)(cahoc.GiaTien - commision);
+
+            int year = caDay.NgayDay.Year;
+            int month = caDay.NgayDay.Month;
+            int day = caDay.NgayDay.Day;
+
+            DateTime checkTime = new DateTime(year, month, day, caDay.GioBatDau, caDay.PhutBatDau, 0);
+
+            TimeSpan result = DateTime.Now - checkTime;
+
+            if (caDay.IdnguoiHoc != null && result.Hours > 4)
+            {
+                MoneyServices.SubtractMoney(moneyBack, caDay.IdnguoiDay, _db);
+                MoneyServices.AddMoney((int)cahoc.GiaTien, (int)caDay.IdnguoiHoc, _db);
+            }else if(caDay.IdnguoiHoc != null && result.Hours < 4)
+            {
+                MoneyServices.SubtractMoney(money, caDay.IdnguoiDay, _db);
+                MoneyServices.AddMoney((int)cahoc.GiaTien, (int)caDay.IdnguoiHoc, _db);
+            }
+
+            TempData["Message"] = "Hủy ca dạy thành công!";
             TempData["MessageType"] = "success";
 
             return RedirectToAction("Index", "ManageTeachSchedule");

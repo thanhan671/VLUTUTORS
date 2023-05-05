@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace VLUTUTORS.Models
 {
@@ -12,5 +13,9 @@ namespace VLUTUTORS.Models
         public int IdGiaSu { get; set; }
         public int IdNguoiDung { get; set; }
         public DateTime NgayTao { get; set; } = DateTime.Now;
+        [NotMapped]
+        public string tenNguoiDay { get; set; }
+        [NotMapped]
+        public string tenNguoiHoc { get; set; }
     }
 }

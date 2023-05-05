@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -11,13 +12,17 @@ using VLUTUTORS.Models;
 namespace VLUTUTORS.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Quản trị viên hệ thống")]
+    [Authorize(Roles = "1")]
 
     public class ManageTutorSubjectController : Controller
     {
         private readonly CP25Team01Context _context = new CP25Team01Context();
         public async Task<IActionResult> Index()
         {
+            if (HttpContext.Session.GetString("LoginADId") == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             var monGiaSus = await _context.Mongiasus.ToListAsync();
             return View(monGiaSus);
         }
@@ -39,7 +44,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 {
                     TempData["Message"] = "Môn gia sư đã tồn tại!";
                     TempData["MessageType"] = "error";
-                    return RedirectToAction("AddSubject");
+                    return RedirectToAction("Index");
                 }
                 else
                 {
@@ -57,7 +62,9 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                     return RedirectToAction("Index");
                 }
             }
-            return View(mongiasu);
+            TempData["Message"] = "Tên môn tối đa 50 ký tự, vui lòng kiểm tra lại!";
+            TempData["MessageType"] = "error";
+            return RedirectToAction("Index");
         }
         [HttpGet]
         public async Task<IActionResult> EditSubject(int? id = -1)
@@ -77,10 +84,20 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult EditSubject(Mongiasu mongiasu)
         {
-            TempData["Message"] = "Cập nhật thành công!";
-            TempData["MessageType"] = "success";
-            _context.Mongiasus.Update(mongiasu);
-            _context.SaveChanges();
+            var mon = _context.Mongiasus.AsNoTracking().SingleOrDefault(x => x.TenMonGiaSu.ToLower() == mongiasu.TenMonGiaSu.ToLower());
+            if (mon != null)
+            {
+                TempData["Message"] = "Môn gia sư đã tồn tại!";
+                TempData["MessageType"] = "error";
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["Message"] = "Cập nhật thành công!";
+                TempData["MessageType"] = "success";
+                _context.Mongiasus.Update(mongiasu);
+                _context.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
         [HttpPost]

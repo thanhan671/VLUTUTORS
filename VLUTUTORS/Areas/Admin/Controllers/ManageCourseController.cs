@@ -18,7 +18,7 @@ using VLUTUTORS.Support.Services;
 namespace VLUTUTORS.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Quản trị viên hệ thống")]
+    [Authorize(Roles = "1")]
 
     public class ManageCourseController : Controller
     {
@@ -33,6 +33,10 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
+            if (HttpContext.Session.GetString("LoginADId") == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             var khoaHocs = await _context.Khoadaotaos.ToListAsync();
             return View(khoaHocs);
         }

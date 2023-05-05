@@ -6,9 +6,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable disable
 
-namespace VLUTUTORS.Models 
+namespace VLUTUTORS.Models
 {
-    public partial class Caday 
+    public partial class Caday
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }

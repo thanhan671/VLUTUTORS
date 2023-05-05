@@ -29,7 +29,7 @@ namespace VLUTUTORS.Models
         [Required(AllowEmptyStrings = false, ErrorMessage = "Vui lòng điền trường này!")]
         public string Sdt { get; set; }
 
-        [StringLength(maximumLength: 1000, MinimumLength = 50, ErrorMessage = "Giới hạn từ 50-1000 ký tự")]
+        [StringLength(maximumLength: 1000, MinimumLength = 10, ErrorMessage = "Giới hạn từ 10-1000 ký tự")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Vui lòng điền trường này!")]
         public string NoiDung { get; set; }
 

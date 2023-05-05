@@ -51,7 +51,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                             TempData["Message"] = "Mật khẩu chưa đúng, vui lòng kiểm tra lại!";
                             TempData["MessageType"] = "error";
                         }
-                        HttpContext.Session.SetInt32("LoginId", admin.Id);
+                        HttpContext.Session.SetInt32("LoginADId", admin.Id);
                         HttpContext.Session.SetInt32("IdQuyen", admin.IdQuyen);
                         HttpContext.Session.SetString("loginName", admin.TaiKhoan);
                         HttpContext.Session.SetString("SessionInfo", JsonConvert.SerializeObject(admin));

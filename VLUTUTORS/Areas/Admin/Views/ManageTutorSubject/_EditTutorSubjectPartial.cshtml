@@ -20,8 +20,9 @@
                     </span>
                     <div class="form-group">
                         <label for="inputName">Tên môn gia sư</label>
-                        <input asp-for="TenMonGiaSu" type="text" id="TenMonGiaSu" name="TenMonGiaSu" class="form-control" data-error="Vui lòng điền đủ thông tin!" required />
+                        <input asp-for="TenMonGiaSu" type="text" id="TenMonGiaSu" name="TenMonGiaSu" placeholder="Tên môn gia sư (Giới hạn từ 2-50 ký tự)" class="form-control" data-error="Vui lòng không để trống!." required="required" />
                     </div>
+                    <span asp-validation-for="TenMonGiaSu" class="help-block with-errors" style="color:red"></span>
                 </div>
                 <div class="modal-footer">
                     <button type="button"

@@ -68,15 +68,20 @@
                                             @Html.DisplayFor(model => model.Email)
                                         </div>
                                     </div>
-                                    <hr />
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <h6 class="mb-0">Trạng thái</h6>
-                                        </div>
-                                        <div class="col-sm-9 text-secondary">
-                                            @Html.DropDownListFor(model => model.IdtrangThai, Model.TrangThais)
-                                        </div>
-                                    </div>
+                                    @{
+                                        if (@Model.IdtrangThai != 3)
+                                        {
+                                            <hr />
+                                            <div class="row d-flex flex-nowrap">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">Trạng thái</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    @Html.DropDownListFor(model => model.IdtrangThai, Model.TrangThais)
+                                                </div>
+                                            </div>
+                                        }
+                                    }
                                     <hr />
                                     <div class="row">
                                         <div class="col-12 flex-right mb-4">
@@ -94,8 +99,4 @@
     </form>
     <!-- /.content -->
 </div>
-@if (TempData["message"] != null)
-{
-    <script>alert('@TempData["message"]');</script>
-}
 

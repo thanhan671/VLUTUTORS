@@ -8,17 +8,22 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 
 namespace VLUTUTORS.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Quản trị viên hệ thống")]
+    [Authorize(Roles = "1")]
 
     public class ManageAccounts : Controller
     {
         private readonly CP25Team01Context _context = new CP25Team01Context();
         public async Task<IActionResult> Index()
         {
+            if (HttpContext.Session.GetString("LoginADId") == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             var taiKhoans = await _context.Taikhoanadmins.ToListAsync();
             var quyens = await _context.Quyens.ToListAsync();
             foreach (var taiKhoan in taiKhoans)

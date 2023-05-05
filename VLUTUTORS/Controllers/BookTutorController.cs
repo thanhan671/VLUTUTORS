@@ -11,6 +11,7 @@ using System.Security.Principal;
 using System.Threading.Tasks;
 using VLUTUTORS.Models;
 using VLUTUTORS.Responses.BookTutors;
+using VLUTUTORS.Support.Services;
 using ZoomNet;
 using ZoomNet.Models;
 
@@ -281,7 +282,7 @@ namespace VLUTUTORS.Controllers
             return RedirectToAction("Index", "BookTutor");
         }
 
-        public async Task<IActionResult> DetailTutor(int id)
+        public IActionResult DetailTutor(int id)
         {
 
             var tutor = _db.Taikhoannguoidungs.FirstOrDefault(it => it.Id == id);
@@ -296,7 +297,7 @@ namespace VLUTUTORS.Controllers
             if (!string.IsNullOrEmpty(avatar))
             {
                 avatar = avatar.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
-                tutor.AnhDaiDien = "https://cntttest.vanlanguni.edu.vn:18081/CP25Team01/" + avatar;
+                tutor.AnhDaiDien = avatar;
             }
             else
             {
@@ -309,9 +310,11 @@ namespace VLUTUTORS.Controllers
             var commentModel = new List<CommentViewModel>();
 
             var giaSus = (from danhGiaGiaSu in _db.Danhgiagiasus
-                                join caday in _db.Cadays on danhGiaGiaSu.IdCaDay equals caday.Id
-                                where caday.IdnguoiDay == tutor.Id
-                                select new { caday.IdnguoiHoc  , danhGiaGiaSu }).ToList();
+                          join caday in _db.Cadays on danhGiaGiaSu.IdCaDay equals caday.Id
+                          where caday.IdnguoiDay == tutor.Id
+                          select new { caday.IdnguoiHoc, danhGiaGiaSu }).ToList();
+
+            var tieuChis = _db.Tieuchidanhgias.ToList();
 
             foreach (var danhGia in giaSus)
             {
@@ -322,15 +325,16 @@ namespace VLUTUTORS.Controllers
                     if (!string.IsNullOrEmpty(avt))
                     {
                         avt = avt.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
-                        nguoiDanhGia.AnhDaiDien = "https://cntttest.vanlanguni.edu.vn:18081/CP25Team01/"+avt;
+                        nguoiDanhGia.AnhDaiDien = avt;
                     }
                     else
                     {
-                        nguoiDanhGia.AnhDaiDien = "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png";
+                        nguoiDanhGia.AnhDaiDien = null;
                     }
                     commentModel.Add(new CommentViewModel
                     {
                         Comment = danhGia.danhGiaGiaSu,
+                        Tieuchi = tieuChis,
                         NguoiDanhGia = nguoiDanhGia
                     });
                 }
@@ -395,7 +399,7 @@ namespace VLUTUTORS.Controllers
         [HttpPost]
         public IActionResult AcceptBooking(int id)
         {
-            Caday caday = _db.Cadays.FirstOrDefault(m=>m.Id == id);
+            Caday caday = _db.Cadays.FirstOrDefault(m => m.Id == id);
             caday.TrangThai = true;
 
             _db.Update(caday);
@@ -412,13 +416,34 @@ namespace VLUTUTORS.Controllers
             Caday caday = _db.Cadays.FirstOrDefault(c => c.Id.Equals(lessonPlanId));
             caday.IdnguoiHoc = null;
             caday.Link = null;
+            caday.TrangThai = null;
+
+            int year = caday.NgayDay.Year;
+            int month = caday.NgayDay.Month;
+            int day = caday.NgayDay.Day;
+
+            DateTime checkTime = new DateTime(year, month, day, caday.GioBatDau, caday.PhutBatDau, 0);
+
+            TimeSpan result = DateTime.Now - checkTime;
+
+            if(result.Hours > 4)
+            {
+                Cahoc cahoc = _db.Cahocs.Where(c => c.IdCaHoc == caday.IdloaiCaDay).FirstOrDefault();
+                Phiday phiday = _db.Phidays.Where(ph => ph.Id == 1).FirstOrDefault();
+
+                float commision = (int)cahoc.GiaTien * ((float)phiday.ChietKhau / 100);
+                int money = (int)(cahoc.GiaTien - commision);
+
+                MoneyServices.SubtractMoney(money, caday.IdnguoiDay, _db); 
+                MoneyServices.AddMoney((int)cahoc.GiaTien, (int)caday.IdnguoiHoc, _db); 
+            }
 
             try 
             {
                 _db.Update(caday);
                 _db.SaveChanges();
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
@@ -427,16 +452,25 @@ namespace VLUTUTORS.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> LessonRegis([FromForm] int lessonId) 
+        public async Task<IActionResult> LessonRegis([FromForm] int lessonId)
         {
             if (HttpContext.Session.GetInt32("LoginId") == null)
             {
                 return RedirectToAction("Login", "Accounts");
             }
+            Caday caday = _db.Cadays.FirstOrDefault(c => c.Id.Equals(lessonId));
+            Cahoc cahoc = _db.Cahocs.Where(c => c.IdCaHoc == caday.IdloaiCaDay).FirstOrDefault();
+            int soDu = (int)_db.Taikhoannguoidungs.Find(HttpContext.Session.GetInt32("LoginId")).SoDuVi;
+
+            if (soDu < cahoc.GiaTien)
+            {
+                TempData["Message"] = "Số dư ví không đủ, vui lòng nạp thêm!";
+                TempData["MessageType"] = "error";
+                return RedirectToAction("Index", "Wallet");
+            }
+
             JwtConnectionInfo connectionInfo = new JwtConnectionInfo("9wPjAoQIQsSEzltlIl_vQw", "84zfXjpKoHTUS2Tqjnfswk7pyezmMsbYRxvf");
             ZoomClient zoomClient = new ZoomClient(connectionInfo);
-
-            Caday caday = _db.Cadays.FirstOrDefault(c => c.Id.Equals(lessonId));
 
             var hostMail = _db.Taikhoannguoidungs.Where(acc => acc.Id.Equals(caday.IdnguoiDay)).FirstOrDefault().Email;
             int lessonDuration = _db.Cahocs.Where(l => l.IdCaHoc.Equals(caday.IdloaiCaDay)).FirstOrDefault().LoaiCa;
@@ -446,6 +480,15 @@ namespace VLUTUTORS.Controllers
             caday.TrangThai = false;
             var monDay = _db.Mongiasus.Where(acc => acc.IdmonGiaSu.Equals(caday.IdmonDay)).FirstOrDefault().TenMonGiaSu;
 
+            // wallet manage
+            Phiday phiday = _db.Phidays.Where(ph => ph.Id == 1).FirstOrDefault();
+
+            float commision = (int)cahoc.GiaTien * ((float)phiday.ChietKhau / 100);
+            int money = (int)(cahoc.GiaTien - commision);
+
+            MoneyServices.SubtractMoney((int)cahoc.GiaTien, (int) caday.IdnguoiHoc, _db); 
+            MoneyServices.AddMoney(money, caday.IdnguoiDay, _db); 
+
             try
             {
                 _db.Update(caday);
@@ -453,18 +496,19 @@ namespace VLUTUTORS.Controllers
                 TempData["Message"] = "Đặt lịch thành công!";
                 TempData["MessageType"] = "success";
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 Console.WriteLine(ex.ToString());
             }
 
             return RedirectToAction("SendMail", "BookTutor",
             new
             {
-        toEmail = hostMail,
-        mailBody = "<b>Xin thông báo! Ca dạy môn <b style=\"color: red;\">" + monDay+"</b> có thời gian "+caday.GioBatDau+":"+caday.PhutBatDau+" - "+caday.GioKetThuc+":"+caday.PhutKetThuc+" ngày "+caday.NgayDay.ToString("dd/MM/yyyy")+ " đã được đặt!</b>" +
+                toEmail = hostMail,
+                mailBody = "<b>Xin thông báo! Ca dạy môn <b style=\"color: red;\">" + monDay + "</b> có thời gian " + caday.GioBatDau + ":" + caday.PhutBatDau + " - " + caday.GioKetThuc + ":" + caday.PhutKetThuc + " ngày " + caday.NgayDay.ToString("dd/MM/yyyy") + " đã được đặt!</b>" +
     "<p style = \"margin: 0%;\">Vui lòng chuẩn bị thật tốt cho buổi dạy, chúc bạn sẽ có một buổi dạy thật tốt!<br/>",
-        id = caday.IdnguoiHoc
-    });
+                id = caday.IdnguoiHoc
+            });
         }
 
         public IActionResult SendMail(string toEmail, string mailBody, int id)

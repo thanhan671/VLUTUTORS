@@ -29,10 +29,12 @@ namespace VLUTUTORS.Models
         public virtual DbSet<Lienhe> Lienhes { get; set; }
         public virtual DbSet<Loaituvan> Loaituvans { get; set; }
         public virtual DbSet<Mongiasu> Mongiasus { get; set; }
+        public virtual DbSet<Naptien> Naptiens { get; set; }
         public virtual DbSet<Nganhang> Nganhangs { get; set; }
         public virtual DbSet<Noidung> Noidungs { get; set; }
         public virtual DbSet<Phiday> Phidays { get; set; }
         public virtual DbSet<Quyen> Quyens { get; set; }
+        public virtual DbSet<Ruttien> Ruttiens { get; set; }
         public virtual DbSet<Taikhoanadmin> Taikhoanadmins { get; set; }
         public virtual DbSet<Taikhoannguoidung> Taikhoannguoidungs { get; set; }
         public virtual DbSet<Tieuchidanhgia> Tieuchidanhgias { get; set; }
@@ -134,18 +136,14 @@ namespace VLUTUTORS.Models
             modelBuilder.Entity<Danhgiagiasu>(entity =>
             {
                 entity.ToTable("DANHGIAGIASU");
-
                 entity.Property(e => e.Id).UseIdentityColumn();
-
                 entity.Property(e => e.NgayTao).HasColumnType("datetime");
             });
 
             modelBuilder.Entity<Danhgianguoihoc>(entity =>
             {
                 entity.ToTable("DANHGIANGUOIHOC");
-
                 entity.Property(e => e.Id).UseIdentityColumn();
-
                 entity.Property(e => e.NgayTao).HasColumnType("datetime");
             });
 
@@ -255,6 +253,23 @@ namespace VLUTUTORS.Models
                     .HasMaxLength(500);
             });
 
+            modelBuilder.Entity<Naptien>(entity =>
+            {
+                entity.ToTable("NAPTIEN");
+
+                entity.Property(e => e.MaNapTien)
+                    .IsRequired()
+                    .HasMaxLength(20);
+
+                entity.Property(e => e.ThoiGianNapTien).HasColumnType("smalldatetime");
+
+                entity.HasOne(d => d.IdNguoiNapNavigation)
+                    .WithMany(p => p.Naptiens)
+                    .HasForeignKey(d => d.IdNguoiNap)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_NAPTIEN_TAIKHOANNGUOIDUNG");
+            });
+
             modelBuilder.Entity<Nganhang>(entity =>
             {
                 entity.ToTable("NGANHANG");
@@ -318,10 +333,19 @@ namespace VLUTUTORS.Models
                     .HasColumnName("TieuDeGT3");
             });
 
-            modelBuilder.Entity<Phiday>(entity => {
+            modelBuilder.Entity<Phiday>(entity =>
+            {
                 entity.ToTable("PHIDAY");
 
                 entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.NganHang).HasMaxLength(100);
+
+                entity.Property(e => e.NguoiNhan).HasMaxLength(200);
+
+                entity.Property(e => e.SoTaiKhoan)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<Quyen>(entity =>
@@ -333,6 +357,23 @@ namespace VLUTUTORS.Models
                 entity.Property(e => e.TenQuyen)
                     .IsRequired()
                     .HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<Ruttien>(entity =>
+            {
+                entity.ToTable("RUTTIEN");
+
+                entity.Property(e => e.MaRutTien)
+                    .IsRequired()
+                    .HasMaxLength(20);
+
+                entity.Property(e => e.ThoiGianRutTien).HasColumnType("smalldatetime");
+
+                entity.HasOne(d => d.IdNguoiRutNavigation)
+                    .WithMany(p => p.Ruttiens)
+                    .HasForeignKey(d => d.IdNguoiRut)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_RUTTIEN_TAIKHOANNGUOIDUNG");
             });
 
             modelBuilder.Entity<Taikhoanadmin>(entity =>
@@ -394,6 +435,8 @@ namespace VLUTUTORS.Models
 
                 entity.Property(e => e.NgaySinh).HasColumnType("date");
 
+                entity.Property(e => e.NgayTao).HasColumnType("date");
+
                 entity.Property(e => e.Sdt)
                     .HasMaxLength(10)
                     .IsUnicode(false);
@@ -441,7 +484,9 @@ namespace VLUTUTORS.Models
 
                 entity.Property(e => e.DanhCho).HasMaxLength(50);
 
-                entity.Property(e => e.TieuChi).HasMaxLength(100);
+                entity.Property(e => e.TieuChi)
+                    .IsRequired()
+                    .HasMaxLength(100);
             });
 
             modelBuilder.Entity<Trangthai>(entity =>

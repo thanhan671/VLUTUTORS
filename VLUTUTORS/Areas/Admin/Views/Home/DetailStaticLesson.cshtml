@@ -1,0 +1,84 @@
+﻿@model IEnumerable<VLUTUTORS.Models.Caday>
+@{
+    ViewData["Title"] = "Chi tiết thống kê";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2 justify-content-center text-center text-uppercase">
+                <div class="col-sm-6">
+                    <h1>Danh sách ca dạy</h1>
+                </div>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <!-- Default box -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-tools">
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-striped projects" id="myTable">
+                    <thead>
+                        <tr>
+                            <th class="text-center">#</th>
+                            <th class="text-center">Môn gia sư</th>
+                            <th class="text-center">Tên gia sư</th>
+                            <th class="text-center">Ngày dạy</th>
+                            <th class="text-center">Thời gian</th>
+                            <th class="text-center">Giá tiền</th>
+                            <th class="text-center">Tên người học</th>
+                            <th class="text-center">Trạng thái</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            var index = 0;
+                            foreach (var item in Model)
+                            {
+                                index++;
+                                <tr>
+                                    <td class="text-center">
+                                        @index
+                                    </td>
+                                    <td class="text-center">@item.tenMonDay</td>
+                                    <td class="text-center">@item.tenNguoiDay</td>
+                                    <td class="text-center">@item.NgayDay.ToString("dd/MM/yyyy")</td>
+                                    <td class="text-center">@item.GioBatDau:@item.PhutBatDau - @item.GioKetThuc:@item.PhutKetThuc</td>
+                                    <td class="text-center">@item.giaCaDay.ToString("#,##0.###") đồng</td>
+                                    <td class="text-center">@item.tenNguoiHoc</td>
+                                    @{
+                                        if (item.TrangThai == true)
+                                        {
+                                            <td class="text-center" style="color:green">
+                                                Hoàn thành
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td class="text-center" style="color:red">
+                                                Đã hủy
+                                            </td>
+                                        }
+                                    }
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </section>
+    <!-- /.content -->
+</div>
+

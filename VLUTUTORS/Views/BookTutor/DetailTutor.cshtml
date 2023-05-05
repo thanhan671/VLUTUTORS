@@ -1,4 +1,5 @@
-﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+﻿@using VLUTUTORS.Models;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @model Tuple<VLUTUTORS.Models.BookTutorViewModel, IEnumerable<VLUTUTORS.Models.Caday>>
 @{
     ViewData["Title"] = "Chi tiết gia sư";
@@ -21,28 +22,42 @@
             <div class="col-lg-4 col-md-8">
                 <div class="teachers-left">
                     <div class="hero">
-                        <img src="@Model.Item1.Tutor.AnhDaiDien" alt="Teachers" />
+                        @{
+                            if (@Model.Item1.Tutor.AnhDaiDien != null)
+                            {
+                                <img src="https://cntttest.vanlanguni.edu.vn:18081/CP25Team01/@Model.Item1.Tutor.AnhDaiDien" alt="Teachers" />
+                            }
+                            else
+                            {
+                                <img src="https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png" alt="Teachers" />
+                            }
+                        }
+
                     </div>
                     <div class="tutor-rating">
-                    @{
-                        var totalRate = Model.Item1.Commnents.Sum(it => it.Comment.Diem);
-                        int totalStar = (Model.Item1.Commnents.Count > 0 ? totalRate / Model.Item1.Commnents.Count : 0);
-                        for (int i = 0; i < totalStar; ++i) {
-                            <span><i class="fa-solid fa-star"></i></span>
+                        @{
+                            var totalRate = Model.Item1.Commnents.Sum(it => it.Comment.Diem);
+                            int totalStar = (Model.Item1.Commnents.Count > 0 ? totalRate / Model.Item1.Commnents.Count : 0);
+                            for (int i = 0; i < totalStar; ++i)
+                            {
+                                <span><i class="fa-solid fa-star"></i></span>
+                            }
+                            if (totalStar > 0)
+                            {
+                                <span class="ml-2 mt-1">@totalStar</span>
+                            }
                         }
-                        if (totalStar > 0) {
-                            <span class="ml-2 mt-1">@totalStar</span>
-                        }
-                    }
                     </div>
                     <div class="name">
                         <h6>@Model.Item1.Tutor.HoTen</h6>
 
-                        @if (Model.Item1.Subject1 != null) {
+                        @if (Model.Item1.Subject1 != null)
+                        {
                             <div style="color:crimson">@Model.Item1.Subject1.TenMonGiaSu</div>
                         }
 
-                        @if (Model.Item1.Subject2 != null) {
+                        @if (Model.Item1.Subject2 != null)
+                        {
                             <div style="color:crimson">@Model.Item1.Subject2.TenMonGiaSu</div>
                         }
                     </div>
@@ -101,7 +116,8 @@
                                     <h4 class="font-weight-bold">
                                         Chứng chỉ</h3>
 
-                                        @if (Model.Item1.Subject1 != null) {
+                                        @if (Model.Item1.Subject1 != null)
+                                        {
                                             <div>
                                                 <div style="font-size:16px; color:blue"><b>Chứng chỉ môn: @Model.Item1.Subject1.TenMonGiaSu</b></div>
                                                 <p>
@@ -110,7 +126,8 @@
                                             </div>
                                         }
 
-                                        @if (Model.Item1.Subject2 != null) {
+                                        @if (Model.Item1.Subject2 != null)
+                                        {
                                             <div>
                                                 <div>
                                                     <div style="font-size:16px; color:blue"><b>Chứng chỉ môn: @Model.Item1.Subject2.TenMonGiaSu</b></div>
@@ -124,7 +141,8 @@
                                         <div class="singel-dashboard pt-30">
                                             <h4 class="font-weight-bold">Môn tôi gia sư</h4>
 
-                                            @if (Model.Item1.Subject1 != null) {
+                                            @if (Model.Item1.Subject1 != null)
+                                            {
                                                 <div>
                                                     <div style="font-size:16px; color:blue"><b>Giới thiệu về môn: @Model.Item1.Subject1.TenMonGiaSu</b></div>
                                                     <p>
@@ -133,7 +151,8 @@
                                                 </div>
                                             }
 
-                                            @if (Model.Item1.Subject2 != null) {
+                                            @if (Model.Item1.Subject2 != null)
+                                            {
                                                 <div>
                                                     <div style="font-size:18px; color:blue"><b>Giới thiệu về môn: @Model.Item1.Subject2.TenMonGiaSu</b></div>
                                                     <p>
@@ -181,13 +200,15 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var lesson in Model.Item2) {
+                                    @foreach (var lesson in Model.Item2)
+                                    {
                                         int year = lesson.NgayDay.Year;
                                         int month = lesson.NgayDay.Month;
                                         int day = lesson.NgayDay.Day;
 
                                         DateTime checkTime = new DateTime(year, month, day, lesson.GioBatDau, lesson.PhutBatDau, 0);
-                                        if (@lesson.IdnguoiHoc == null && checkTime >= DateTime.Now) {
+                                        if (@lesson.Link == null && checkTime >= DateTime.Now)
+                                        {
                                             <tr>
                                                 <td>@lesson.tenMonDay</td>
                                                 <td>@lesson.NgayDay.ToString("dd/MM/yyyy")</td>
@@ -195,9 +216,9 @@
                                                 <td>@lesson.giaCaDay.ToString("#,##0.###") đồng</td>
                                                 <td>
                                                     <button data-toggle="modal"
-                                                            data-target="#exampleModal"
-                                                            onclick="document.getElementById('lessonID').value = @lesson.Id"
-                                                            class="custom-btn btn-5" style="width: 100%">
+                                                    data-target="#exampleModal"
+                                                    onclick="document.getElementById('lessonID').value = @lesson.Id"
+                                                    class="custom-btn btn-5" style="width: 100%">
                                                         Đặt Lịch
                                                     </button>
                                                 </td>
@@ -212,18 +233,30 @@
                              role="tabpanel"
                              aria-labelledby="reviews-tab">
                             <div class="reviews-cont">
-                                @if (Model.Item1.Commnents.Count > 0) {
+                                @if (Model.Item1.Commnents.Count > 0)
+                                {
                                     <div class="title">
                                         <h6>Đánh giá của học viên</h6>
                                     </div>
                                     <ul>
                                         @{
-                                            foreach (var comment in Model.Item1.Commnents) {
+                                            foreach (var comment in Model.Item1.Commnents)
+                                            {
                                                 <li>
                                                     <div class="singel-reviews">
                                                         <div class="reviews-author">
                                                             <div class="author-thum" style="width: 70px">
-                                                                <img src="@comment.NguoiDanhGia.AnhDaiDien" alt="Reviews" />
+                                                                @{
+                                                                    if (@comment.NguoiDanhGia.AnhDaiDien != null)
+                                                                    {
+                                                                        <img src="https://cntttest.vanlanguni.edu.vn:18081/CP25Team01/@comment.NguoiDanhGia.AnhDaiDien" alt="Reviews" />
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <img src="https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png" alt="Reviews" />
+                                                                    }
+                                                                }
+
                                                             </div>
                                                             <div class="author-name">
                                                                 <h6>@comment.NguoiDanhGia.HoTen</h6>
@@ -231,13 +264,28 @@
                                                             </div>
                                                         </div>
                                                         <div class="reviews-description pt-20">
-                                                            <p>
-                                                                @comment.Comment.DanhGia
-                                                            </p>
+                                                            @{
+                                                                var strTieuChi = string.Empty;
+                                                                @foreach (var tieuChiId in comment.Comment.TieuChi.Split(";"))
+                                                                {
+                                                                    var tieuChi = comment.Tieuchi.FirstOrDefault(it => it.IdTieuChi.ToString() == tieuChiId);
+                                                                    if (tieuChi != null)
+                                                                        strTieuChi += (string.IsNullOrEmpty(strTieuChi) ? string.Empty : ", ") + tieuChi.TieuChi;
+                                                                }
+                                                                <p>
+                                                                    @strTieuChi
+                                                                </p>
+                                                                if (comment.Comment.DanhGia != null)
+                                                                {
+                                                                    <p>
+                                                                        Đánh giá khác: @comment.Comment.DanhGia
+                                                                    </p>
+                                                                }
+                                                            }
                                                             <div class="rating">
-
                                                                 <ul>
-                                                                    @for (int i = 0; i < comment.Comment.Diem; ++i) {
+                                                                    @for (int i = 0; i < comment.Comment.Diem; ++i)
+                                                                    {
                                                                         <li><i class="fa fa-star"></i></li>
                                                                     }
                                                                 </ul>
@@ -250,7 +298,8 @@
                                         }
                                     </ul>
                                 }
-                                else {
+                                else
+                                {
                                     <p>Chưa có đánh giá cho gia sư này</p>
                                 }
 

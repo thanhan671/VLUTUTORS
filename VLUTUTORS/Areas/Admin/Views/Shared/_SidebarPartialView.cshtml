@@ -21,10 +21,10 @@
                 role="menu"
                 data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
-    with font-awesome or any other icon font library -->
+                with font-awesome or any other icon font library -->
 
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="~/Admin/Home" class="nav-link">
                         <i class="fa-sharp fa-solid fa-th"></i>
                         <p>Thống kê</p>
                     </a>
@@ -62,7 +62,7 @@
                     <li class="nav-item">
                         <a href="~/Admin/ManageTimeClass" class="nav-link">
                             <i class="fa-sharp fa-solid fa-clock"></i>
-                            <p>Quản lý ca dạy</p>
+                            <p>Quản lý ca dạy và phí ca dạy</p>
                         </a>
                     </li>
 
@@ -116,8 +116,20 @@
                     </li>
                     <li class="nav-item">
                         <a href="~/Admin/ManageTutorEvaluation" class="nav-link">
-                            <i class="fa-sharp fa-solid fa-check"></i>
+                            <i class="fa-sharp fa-solid fa-thumbs-up"></i>
                             <p>Quản lý đánh giá gia sư</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="~/Admin/ManageTutorWallet/ManageDeposit" class="nav-link">
+                            <i class="fa-sharp fa-solid fa-plus-circle"></i>
+                            <p>Quản lý nạp tiền gia sư</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="~/Admin/ManageTutorWallet/ManageWithdrawal" class="nav-link">
+                            <i class="fa-sharp fa-solid fa-minus-circle"></i>
+                            <p>Quản lý rút tiền gia sư</p>
                         </a>
                     </li>
                 }
@@ -125,32 +137,37 @@
                 {
                     <li class="nav-item">
                         <a href="~/Admin/ManageLearner"
-                           class="nav-link">
+                       class="nav-link">
                             <i class="fa-sharp fa-solid fa-users"></i>
                             <p>Quản lý học viên</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="~/Admin/ManageLearnerEvaluation" class="nav-link">
+                            <i class="fa-sharp fa-solid fa-thumbs-up"></i>
+                            <p>Quản lý đánh giá học viên</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="~/Admin/ManageLearnerWallet/ManageDeposit" class="nav-link">
+                            <i class="fa-sharp fa-solid fa-plus-circle"></i>
+                            <p>Quản lý nạp tiền học viên</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="~/Admin/ManageLearnerWallet/ManageWithdrawal" class="nav-link">
+                            <i class="fa-sharp fa-solid fa-minus-circle"></i>
+                            <p>Quản lý rút tiền học viên</p>
                         </a>
                     </li>
                 }
                 @if (@httpContextAccessor.HttpContext.Session.GetInt32("IdQuyen") == 4)
                 {
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="fa-sharp fa-solid fa-thumbs-up"></i>
-                            <p>Quản lý bài đánh giá</p>
-                        </a>
-                    </li>
 
                     <li class="nav-item">
                         <a href="~/Admin/ManageConsulting" class="nav-link">
                             <i class="fa-solid fa-envelope"></i>
                             <p>Quản lý tư vấn</p>
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="fa-sharp fa-solid fa-money-check-dollar"></i>
-                            <p>Lịch sử thanh toán</p>
                         </a>
                     </li>
                 }
@@ -159,7 +176,7 @@
         <!-- /.sidebar-menu -->
     </div>
     <script>
-const getNavItem = document.querySelectorAll('.nav-item');
+        const getNavItem = document.querySelectorAll('.nav-item');
         getNavItem.forEach(item => {
             const link = item.querySelector('.nav-link');
             if (link.href === window.location.href) {

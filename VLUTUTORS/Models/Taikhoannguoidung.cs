@@ -14,10 +14,14 @@ namespace VLUTUTORS.Models
         public Taikhoannguoidung()
         {
             Cadays = new HashSet<Caday>();
+            Naptiens = new HashSet<Naptien>();
+            Ruttiens = new HashSet<Ruttien>();
         }
 
         public int Id { get; set; }
 
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Vui lòng điền trường này!")]
+        [StringLength(maximumLength: 30, MinimumLength = 5, ErrorMessage = "Giới hạn từ 5-30 ký tự")]
         public string HoTen { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Vui lòng điền trường này!")]
@@ -71,6 +75,8 @@ namespace VLUTUTORS.Models
         public bool? TrangThaiGiaSu { get; set; }
         public int? MaXacThuc { get; set; }
         public bool? XacThuc { get; set; }
+        public int? SoDuVi { get; set; }
+        public DateTime? NgayTao { get; set; }
 
         public virtual Gioitinh IdgioiTinhNavigation { get; set; }
         public virtual Khoa IdkhoaNavigation { get; set; }
@@ -79,6 +85,8 @@ namespace VLUTUTORS.Models
         public virtual Nganhang IdnganHangNavigation { get; set; }
         public virtual Xetduyet IdxetDuyetNavigation { get; set; }
         public virtual ICollection<Caday> Cadays { get; set; }
+        public virtual ICollection<Naptien> Naptiens { get; set; }
+        public virtual ICollection<Ruttien> Ruttiens { get; set; }
 
         [NotMapped]
         public SelectList DepartmentItems { get; set; }

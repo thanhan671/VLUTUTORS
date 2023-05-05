@@ -103,11 +103,12 @@ form > div.action-group > button[type='submit'] {
     transition: all 0.1s ease-in-out;
 }
 
-    form > div.action-group > button:hover {
+@media (hover: hover) {
+    form > div.action-group > input[type='button']:hover {
         background-color: #ec6923;
         border: 2px solid #ec6923;
     }
-
+}
 /* Input Rating */
 .rating {
     user-select: none;

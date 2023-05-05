@@ -1,4 +1,5 @@
-﻿
+﻿@using VLUTUTORS.Models;
+@model IEnumerable<VLUTUTORS.Models.Danhgiagiasu>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
@@ -8,61 +9,112 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <div class="container-fluid">
-            <div class="row mb-2 justify-content-center text-center text-uppercase">
-                <div class="col-sm-6">
-                    <h1>Quản lý đánh giá gia sư</h1>
-                </div>
+            <div class="row mb-2 justify-content-between">
+                <div class="col-auto mr-auto"><h1>Quản lý đánh giá gia sư</h1></div>
             </div>
         </div>
         <!-- /.container-fluid -->
     </section>
-
     <!-- Main content -->
     <section class="content">
         <!-- Default box -->
-        <div class="card">
-            <div class="card-header">
-                <div class="card-tools">
-                </div>
-            </div>
-            <div class="card-body p-0">
-                <table class="table table-striped projects" id="myTable">
-                    <thead>
+        <table class="table table-striped table-bordered post-list-table" id="myTable">
+            <thead>
+                <tr>
+                    <th class="no-sort">Stt</th>
+                    <th class="text-center">Tên gia sư</th>
+                    <th class="text-center">Số điểm</th>
+                    <th class="text-center">Người đánh giá</th>
+                    <th class="text-center">Chức năng</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    var index = 0;
+                    foreach (var item in Model)
+                    {
+                        index++;
                         <tr>
-                            <th style="width: 1%">#</th>
-                            <th style="width: 20%">Tên Gia Sư</th>
-                            <th style="width: 20%">Điểm Tổng</th>
-                            <th style="width: 20%">Chức năng</th>
+                            <td class="text-center">@index</td>
+                            <td class="text-center">@item.tenNguoiDay</td>
+                            <td class="text-center">@item.Diem</td>
+                            <td class="text-center">@item.tenNguoiHoc</td>
+                            @{
+
+                                var modelName = "#danhGiaGS-" + item.IdCaDay;
+
+                                <td class="project-actions text-center">
+                                    <button data-toggle="modal" data-target="@modelName" class="btn btn-sm">
+                                        <i class="fas fa-eye"> </i>
+                                    </button>
+                                </td>
+                            }
                         </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Nguyễn Thanh An</td>
-                            <td>4,5</td>
-                            <td class="project-actions">
-                                <a class="btn"
-                                   asp-action="DetailEvaluation" asp-controller="ManageTutorEvaluation">
-                                    <i class="fas fa-eye"> </i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Nguyễn Văn Khánh</td>
-                            <td>4,5</td>
-                            <td class="project-actions">
-                                <a class="btn"
-                                   asp-action="DetailEvaluation" asp-controller="ManageTutorEvaluation">
-                                    <i class="fas fa-eye"> </i>
-                                </a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <!-- /.card-body -->
-        </div>
+                    }
+                }
+            </tbody>
+        </table>
+
         <!-- /.card -->
     </section>
+    <!-- /.content -->
 </div>
+@foreach (var lesson in Model)
+{
+    int idMon = new CP25Team01Context().Cadays.FirstOrDefault(m => m.Id == lesson.IdCaDay).IdmonDay;
+    string tenMon = new CP25Team01Context().Mongiasus.FirstOrDefault(m => m.IdmonGiaSu == idMon).TenMonGiaSu.ToString();
+    string ngayDay = new CP25Team01Context().Cadays.FirstOrDefault(m => m.Id == lesson.IdCaDay).NgayDay.ToString("dd/MM/yyyy");
+    var tieuChis = new CP25Team01Context().Tieuchidanhgias.ToList();
+
+    var modelName = "danhGiaGS-" + lesson.IdCaDay;
+    var strTieuChi = string.Empty;
+    @foreach (var tieuChiId in lesson.TieuChi.Split(";"))
+    {
+        var tieuChi = tieuChis.FirstOrDefault(it => it.IdTieuChi.ToString() == tieuChiId);
+        if (tieuChi != null)
+            strTieuChi += (string.IsNullOrEmpty(strTieuChi) ? string.Empty : ", ") + tieuChi.TieuChi;
+    }
+    <div class="modal fade" id="@modelName" tabindex="-1" role="dialog" aria-labelledby="@modelName" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="exampleModalLongTitle">Chi tiết đánh giá</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h4>Tên môn</h4>
+                    <p>
+                        @tenMon
+                    </p>
+                    <hr />
+                    <h4>Ngày dạy</h4>
+                    <p>
+                        @ngayDay
+                    </p>
+                    <hr />
+                    <h4>Số sao</h4>
+                    <p>
+                        @lesson.Diem <span><i class="fa-solid fa-star"></i></span>
+                    </p>
+                    <hr />
+                    <h4>Tiêu chí đánh giá</h4>
+                    <p>
+                        @strTieuChi
+                    </p>
+                    <hr />
+                    <h4>Khác</h4>
+                    <p>
+                        @lesson.DanhGia
+                    </p>
+                    <h4>Ngày đánh giá</h4>
+                    <p>
+                        @lesson.NgayTao.ToString("dd/MM/yyyy")
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+

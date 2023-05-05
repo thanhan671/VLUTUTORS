@@ -95,7 +95,7 @@
                                 </span>
                                 <div class="form-group">
                                     <label for="inputName">Tên môn gia sư</label>
-                                    <input type="text" id="TenMonGiaSu" name="TenMonGiaSu" class="form-control" data-error="Vui lòng điền đủ thông tin!" required />
+                                    <input type="text" id="TenMonGiaSu" name="TenMonGiaSu" placeholder="Tên môn gia sư (Giới hạn từ 2-50 ký tự)" class="form-control" data-error="Vui lòng không để trống!." required="required" />
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -104,7 +104,7 @@
                                         data-dismiss="modal">
                                     Hủy
                                 </button>
-                                <button type="submit" class="btn btn-primary">Xác nhận</button>
+                                <button type="submit" class="btn btn-5 custom-btn">Xác nhận</button>
                             </div>
                         </div>
                     </div>
@@ -118,6 +118,7 @@
                  aria-labelledby="deleteModalLabel"
                  aria-hidden="true">
                 <form asp-action="DeleteSubject" method="post" asp-controller="ManageTutorSubject">
+                    <input type="hidden" id="subjectID" name="subjectID" />
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-body">
@@ -133,7 +134,6 @@
                             </div>
                         </div>
                     </div>
-                    <input type="hidden" id="subjectID" name="subjectID" />
                 </form>
             </div>
             <!-- /.card-body -->
