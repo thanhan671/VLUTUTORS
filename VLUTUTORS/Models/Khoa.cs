@@ -16,6 +16,7 @@ namespace VLUTUTORS.Models
         public int Idkhoa { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Vui lòng điền trường này!")]
+        [StringLength(maximumLength: 100, ErrorMessage = "Tối đa 100 ký tự")]
         public string TenKhoa { get; set; }
 
         public virtual ICollection<Taikhoannguoidung> Taikhoannguoidungs { get; set; }

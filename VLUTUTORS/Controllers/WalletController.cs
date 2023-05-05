@@ -41,9 +41,9 @@ namespace VLUTUTORS.Controllers
         {
             var userId = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
 
-            if(depositMoney == 0)
+            if(depositMoney <= 0)
             {
-                TempData["Message"] = "Hãy nhập một số tiền khác 0 !";
+                TempData["Message"] = "Hãy nhập một số tiền lớn hơn 0 !";
                 TempData["MessageType"] = "error";
 
                 return RedirectToAction("Index", "Wallet");
@@ -68,6 +68,13 @@ namespace VLUTUTORS.Controllers
         [HttpPost]
         public IActionResult Withdrawal(int withdrawalMoney)
         {
+            if (withdrawalMoney <= 0)
+            {
+                TempData["Message"] = "Hãy nhập một số tiền lớn hơn 0 !";
+                TempData["MessageType"] = "error";
+
+                return RedirectToAction("Index", "Wallet");
+            }
             var userId = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
             Taikhoannguoidung taikhoannguoidung = _db.Taikhoannguoidungs.Find(userId.Id);
             int balanceMoney = (int)taikhoannguoidung.SoDuVi;

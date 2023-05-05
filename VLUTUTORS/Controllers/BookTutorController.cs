@@ -79,7 +79,16 @@ namespace VLUTUTORS.Controllers
                                         var nguoiDanhGia = _db.Taikhoannguoidungs.Find(danhGia.NguoidungId);
                                         if (nguoiDanhGia != null)
                                         {
-                                            nguoiDanhGia.AnhDaiDien = nguoiDanhGia.AnhDaiDien.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
+                                            string avt = nguoiDanhGia.AnhDaiDien;
+                                            if (!string.IsNullOrEmpty(avt))
+                                            {
+                                                avt = avt.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
+                                                nguoiDanhGia.AnhDaiDien = avt;
+                                            }
+                                            else
+                                            {
+                                                nguoiDanhGia.AnhDaiDien = null;
+                                            }
                                             commentModel.Add(new CommentViewModel
                                             {
                                                 Comment = danhGia,

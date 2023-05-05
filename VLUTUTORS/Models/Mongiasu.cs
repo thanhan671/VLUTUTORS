@@ -18,7 +18,6 @@ namespace VLUTUTORS.Models
         public int IdmonGiaSu { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Vui lòng điền trường này!")]
-        [RegularExpression(@"[A-Za-z 0-9]", ErrorMessage = "Không nhập ký tự đặc biệt cho trường này!")]
         [StringLength(maximumLength: 50, MinimumLength = 2, ErrorMessage = "Giới hạn từ 2-50 ký tự")]
         public string TenMonGiaSu { get; set; }
 
