@@ -119,7 +119,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var lesson in Model.Item2)
+                @foreach (var lesson in Model.Item2.OrderBy(m=>m.NgayDay))
                 {
                     int year = lesson.NgayDay.Year;
                     int month = lesson.NgayDay.Month;
@@ -129,12 +129,8 @@
 
                     TimeSpan result = DateTime.Now - checkTime;
 
-                    if (checkTime >= DateTime.Now || (result.Days==0 && result.Hours==0 && result.Minutes <= 10))
+                    if (result.Days <= 0 && result.Hours <= 0 && result.Minutes <= 10)
                     {
-                        if (lesson.Link == null && lesson.TrangThai == false)
-                        {
-                            continue;
-                        }
                         <tr>
                             <td>@lesson.tenMonDay</td>
                             <td>@lesson.NgayDay.ToString("dd/MM/yyyy")</td>
@@ -224,7 +220,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-body">
-                    <h5>Bạn muốn hủy ca dạy này?</h5>
+                    <h5>Bạn muốn hủy ca dạy này? <b style="color:red">(Nếu hủy trước giờ dạy dưới 1 giờ sẽ bị trừ tiền hoa hồng)</b></h5>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">

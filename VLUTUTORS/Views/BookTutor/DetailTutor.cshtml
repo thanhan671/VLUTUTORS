@@ -1,6 +1,7 @@
 ﻿@using VLUTUTORS.Models;
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @model Tuple<VLUTUTORS.Models.BookTutorViewModel, IEnumerable<VLUTUTORS.Models.Caday>>
+
 @{
     ViewData["Title"] = "Chi tiết gia sư";
     Layout = "~/Views/Shared/_otherPageLayout.cshtml";
@@ -171,8 +172,10 @@
                              role="tabpanel"
                              aria-labelledby="courses-tab">
                             <h4 class="pt-3 pl-3 pr-3 text-center">
-                                Lịch dạy của gia sư
+                                Lịch dạy của gia sư <br>
+                                <b style="color:red; font-size:14px">(Nếu bạn đặt, sau đó hủy trước giờ bắt đầu dưới 1 giờ sẽ không được hoàn tiền)</b>
                             </h4>
+                            
                             <!--schedule -->
                             <div class="row" id="dropdown-filter">
                                 <div class="col d-flex mr-10">
@@ -200,7 +203,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var lesson in Model.Item2)
+                                    @foreach (var lesson in Model.Item2.OrderBy(m=>m.NgayDay))
                                     {
                                         int year = lesson.NgayDay.Year;
                                         int month = lesson.NgayDay.Month;
@@ -240,7 +243,7 @@
                                     </div>
                                     <ul>
                                         @{
-                                            foreach (var comment in Model.Item1.Commnents)
+                                            foreach (var comment in Model.Item1.Commnents.OrderByDescending(m=>m.Comment.Id))
                                             {
                                                 <li>
                                                     <div class="singel-reviews">

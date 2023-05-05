@@ -134,37 +134,43 @@
 
                         if (total >= 4)
                         {
+                            tutor.soSao = total;
                             recomments.Add(tutor);
                         }
                     }
                     totalPoint = 0;
                 }
-                foreach (var tutor in recomments)
+                int i = 1;
+                foreach (var tutor in recomments.OrderByDescending(m=>m.soSao))
                 {
-                    string avatar = tutor.AnhDaiDien.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
-                    string subject1 = new CP25Team01Context().Mongiasus.Find(@tutor.IdmonGiaSu1).TenMonGiaSu;
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="singel-teachers mt-30 text-center">
-                            <div class="image">
-                                <img src="https://cntttest.vanlanguni.edu.vn:18081/CP25Team01/@avatar" alt="Teachers" />
-                            </div>
-                            <div class="cont">
-                                <a href="~/BookTutor/DetailTutor/@tutor.Id"><h6>@tutor.HoTen</h6></a>
-                                @{
-                                    if (@tutor.IdmonGiaSu2 == null)
-                                    {
-                                        <span>@subject1</span>
+                    if (i <= 4)
+                    {
+                        string avatar = tutor.AnhDaiDien.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
+                        string subject1 = new CP25Team01Context().Mongiasus.Find(@tutor.IdmonGiaSu1).TenMonGiaSu;
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="singel-teachers mt-30 text-center">
+                                <div class="image">
+                                    <img src="https://cntttest.vanlanguni.edu.vn:18081/CP25Team01/@avatar" alt="Teachers" />
+                                </div>
+                                <div class="cont">
+                                    <a href="~/BookTutor/DetailTutor/@tutor.Id"><h6>@tutor.HoTen</h6></a>
+                                    @{
+                                        if (@tutor.IdmonGiaSu2 == null)
+                                        {
+                                            <span>@subject1</span>
+                                        }
+                                        else
+                                        {
+                                            string subject2 = new CP25Team01Context().Mongiasus.Find(@tutor.IdmonGiaSu2).TenMonGiaSu;
+                                            <span>@subject1 - @subject2</span>
+                                        }
                                     }
-                                    else
-                                    {
-                                        string subject2 = new CP25Team01Context().Mongiasus.Find(@tutor.IdmonGiaSu2).TenMonGiaSu;
-                                        <span>@subject1 - @subject2</span>
-                                    }
-                                }
+                                </div>
                             </div>
+                            <!-- singel teachers -->
                         </div>
-                        <!-- singel teachers -->
-                    </div>
+                    }
+                    i++;
                 }
             }
         </div>

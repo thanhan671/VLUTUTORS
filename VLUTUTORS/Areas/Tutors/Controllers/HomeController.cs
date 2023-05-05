@@ -56,9 +56,9 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
         /// <summary>
         /// Xem thống kê thu nhập từng gia sư.
         /// </summary>
-        /// <param name="request">GetReportIncomeByDurationRequest</param>
-        /// <returns>double</returns>
-        public async Task<double> GetReportIncomeByDuration(GetReportIncomeByDurationRequest request)
+        /// <returns>float</returns>
+
+        public async Task<float> GetReportIncome()
         {
             int? userId = await IsExistUser();
             if (userId is null)
@@ -75,38 +75,12 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
                              NgayDay = caDay.NgayDay,
                              GiaTien = caHoc.GiaTien
                          };
+            float chietKhau = (float)_db.Phidays.FirstOrDefault(x => x.Id == 1).ChietKhau / 100;
+            float tienThue = (float)await caDays.SumAsync(x => x.GiaTien) * chietKhau;
 
-            if (request.FromDate is not null)
-            {
-                caDays = caDays.Where(x => x.NgayDay <= request.FromDate.Value.Date);
-            }
-            if (request.ToDate is not null)
-            {
-                caDays = caDays.Where(x => x.NgayDay >= request.ToDate.Value.Date);
-            }
+            float tienNhan = (float)await caDays.SumAsync(x => x.GiaTien) - tienThue;
 
-            return await caDays.SumAsync(x => x.GiaTien);
-        }
-
-        public async Task<double> GetReportIncome()
-        {
-            int? userId = await IsExistUser();
-            if (userId is null)
-            {
-                return 0;
-            }
-
-            var caDays = from caDay in _db.Cadays.Where(x => x.TrangThai == true && x.NgayDay.Date <= DateTime.Now.Date)
-                         join caHoc in _db.Cahocs
-                         on caDay.IdloaiCaDay equals caHoc.IdCaHoc
-                         where caDay.IdnguoiDay == userId
-                         select new
-                         {
-                             NgayDay = caDay.NgayDay,
-                             GiaTien = caHoc.GiaTien
-                         };
-
-            return await caDays.SumAsync(x => x.GiaTien);
+            return tienNhan;
         }
 
         private async Task<int?> IsExistUser()

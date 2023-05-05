@@ -247,7 +247,7 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
 
             Caday caDay = _db.Cadays.Where(p => p.Id == lessonPlanId).FirstOrDefault();
 
-            if(caDay.IdnguoiHoc != null)
+            if(caDay.IdnguoiHoc == null)
             {
                 _db.Cadays.Remove(caDay);
                 await _db.SaveChangesAsync();
@@ -277,11 +277,11 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
 
             TimeSpan result = DateTime.Now - checkTime;
 
-            if (caDay.IdnguoiHoc != null && result.Hours > 4)
+            if (caDay.IdnguoiHoc != null && result.Hours > 1)
             {
                 MoneyServices.SubtractMoney(moneyBack, caDay.IdnguoiDay, _db);
                 MoneyServices.AddMoney((int)cahoc.GiaTien, (int)caDay.IdnguoiHoc, _db);
-            }else if(caDay.IdnguoiHoc != null && result.Hours < 4)
+            }else if(caDay.IdnguoiHoc != null && result.Hours < 1)
             {
                 MoneyServices.SubtractMoney(money, caDay.IdnguoiDay, _db);
                 MoneyServices.AddMoney((int)cahoc.GiaTien, (int)caDay.IdnguoiHoc, _db);

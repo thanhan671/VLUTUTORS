@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,19 +10,24 @@ using System.Net.Mail;
 using System.Runtime.Intrinsics.X86;
 using System.Security.Principal;
 using System.Threading.Tasks;
+using VLUTUTORS.Areas.Tutors.Models;
 using VLUTUTORS.Models;
 using VLUTUTORS.Responses.BookTutors;
 using VLUTUTORS.Support.Services;
 using ZoomNet;
 using ZoomNet.Models;
+using X.PagedList;
 
 namespace VLUTUTORS.Controllers
 {
     public class BookTutorController : Controller
     {
         private CP25Team01Context _db = new CP25Team01Context();
-        public async Task<IActionResult> Index(string? keyword = "", int? subjectId = -1, string nameFilter = "")
+        public IActionResult Index(string? keyword = "", int? subjectId = -1, string nameFilter = "", int page = 1)
         {
+            page = page<1 ? 1 : page;
+            int pageSize = 10;
+
             ViewData["Keyword"] = keyword;
             ViewData["SubjectId"] = subjectId;
             ViewData["NameFilter"] = nameFilter;
@@ -232,7 +238,8 @@ namespace VLUTUTORS.Controllers
                 }
             }
             ViewBag.Subjects = subjects;
-            return View(models);
+       
+            return View(models.ToPagedList(page,pageSize));
         }
 
         [HttpPost]
@@ -284,7 +291,6 @@ namespace VLUTUTORS.Controllers
 
         public IActionResult DetailTutor(int id)
         {
-
             var tutor = _db.Taikhoannguoidungs.FirstOrDefault(it => it.Id == id);
 
             if (tutor == null)
@@ -414,9 +420,8 @@ namespace VLUTUTORS.Controllers
         public IActionResult CancelBooking(int lessonPlanId)
         {
             Caday caday = _db.Cadays.FirstOrDefault(c => c.Id.Equals(lessonPlanId));
-            caday.IdnguoiHoc = null;
-            caday.Link = null;
-            caday.TrangThai = null;
+
+            int id = (int)caday.IdnguoiHoc;
 
             int year = caday.NgayDay.Year;
             int month = caday.NgayDay.Month;
@@ -426,7 +431,7 @@ namespace VLUTUTORS.Controllers
 
             TimeSpan result = DateTime.Now - checkTime;
 
-            if(result.Hours > 4)
+            if(result.Days <= 0 && Math.Abs(result.Hours) > 1)
             {
                 Cahoc cahoc = _db.Cahocs.Where(c => c.IdCaHoc == caday.IdloaiCaDay).FirstOrDefault();
                 Phiday phiday = _db.Phidays.Where(ph => ph.Id == 1).FirstOrDefault();
@@ -440,6 +445,8 @@ namespace VLUTUTORS.Controllers
 
             try 
             {
+                caday.Link = null;
+                caday.TrangThai = false;
                 _db.Update(caday);
                 _db.SaveChanges();
             }
@@ -448,7 +455,7 @@ namespace VLUTUTORS.Controllers
                 Console.WriteLine(ex.ToString());
             }
 
-            return RedirectToAction("HistoryBooking");
+            return RedirectToAction("HistoryBooking", "BookTutor", new {id});
         }
 
         [HttpPost]
@@ -471,6 +478,14 @@ namespace VLUTUTORS.Controllers
 
             JwtConnectionInfo connectionInfo = new JwtConnectionInfo("9wPjAoQIQsSEzltlIl_vQw", "84zfXjpKoHTUS2Tqjnfswk7pyezmMsbYRxvf");
             ZoomClient zoomClient = new ZoomClient(connectionInfo);
+
+            var userId = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
+            bool isOverLapse = CheckLessonHasRegister(userId.Id, caday.NgayDay, caday.GioBatDau, caday.PhutBatDau, caday.GioKetThuc, caday.PhutKetThuc);
+            if (isOverLapse) {
+                TempData["Message"] = "Thời gian bị trùng với ca dạy khác";
+                TempData["MessageType"] = "error";
+                return RedirectToAction("Index", "BookTutor");
+            }
 
             var hostMail = _db.Taikhoannguoidungs.Where(acc => acc.Id.Equals(caday.IdnguoiDay)).FirstOrDefault().Email;
             int lessonDuration = _db.Cahocs.Where(l => l.IdCaHoc.Equals(caday.IdloaiCaDay)).FirstOrDefault().LoaiCa;
@@ -509,6 +524,34 @@ namespace VLUTUTORS.Controllers
     "<p style = \"margin: 0%;\">Vui lòng chuẩn bị thật tốt cho buổi dạy, chúc bạn sẽ có một buổi dạy thật tốt!<br/>",
                 id = caday.IdnguoiHoc
             });
+        }
+
+        private bool CheckLessonHasRegister(int learnerId, DateTime regisDate, int startHour, int startMinute, int endHour, int endMinute) 
+        {
+            List<Caday> caDayByLearner = _db.Cadays.Where(c => c.IdnguoiHoc == learnerId).ToList();
+            List<Caday> caDayByDate = caDayByLearner.Where(c => c.NgayDay.Date == regisDate.Date).ToList();
+
+            if (caDayByDate.Count == 0 || caDayByLearner.Count == 0)
+            {
+                return false;
+            }
+
+            TimeSpan startTime = new TimeSpan(startHour, startMinute, 0);
+            TimeSpan endTime = new TimeSpan(endHour, endMinute, 0);
+
+            bool isOverLapse = false;
+
+            foreach (var caDay in caDayByDate) {
+                TimeSpan caDayStartTime = new TimeSpan(caDay.GioBatDau, caDay.PhutBatDau, 0);
+                TimeSpan caDayEndTime = new TimeSpan(caDay.GioKetThuc, caDay.PhutKetThuc, 0);
+
+                isOverLapse = startTime <= caDayEndTime && caDayStartTime <= endTime;
+                if (isOverLapse) {
+                    break;
+                }
+            }
+
+            return isOverLapse;
         }
 
         public IActionResult SendMail(string toEmail, string mailBody, int id)

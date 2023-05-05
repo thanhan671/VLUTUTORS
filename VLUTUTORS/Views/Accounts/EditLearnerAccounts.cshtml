@@ -31,30 +31,21 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex flex-column align-items-center text-center avatar">
-                                @if (TempData["avt"] != null)
-                                {
-                                    @foreach (var file in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.AnhDaiDien))
-                                    {
-                                        <img src="~/@file"
+
+                                <img src="@Model.AnhDaiDien"
+                                     id="preview"
                                      alt="Admin"
                                      class="rounded-circle"
                                      width="200"
-                                     height="200" />
-                                    }
-                                }
-                                else
-                                {
-                                    <img src="https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"
-                                     class="rounded-circle"
-                                     width="200"
-                                     height="200" />
-                                }
+                                     height="200"/>
+
                                 <div class="mt-3">
                                     <input style="width: 80px"
                                            type="file"
                                            name="avatar"
                                            multiple="multiple"
-                                           accept=".jpg, .jpeg, .png" /><br />
+                                           accept=".jpg, .jpeg, .png"
+                                           onchange="document.getElementById('preview').src= window.URL.createObjectURL(this.files[0])" /><br />
                                     <span>Định dạng: .JPG, .JPEG, .PNG</span>
                                 </div>
                                 <div class="mt-3">
@@ -80,7 +71,7 @@
                                 <div class="col-sm-3 p-0 mt-1">
                                     <h6 class="mb-0">Giới Tính</h6>
                                 </div>
-                                
+
                                 @Html.DropDownListFor(model => model.IdgioiTinh, Model.GenderItems, new { @class = "profile-input" })
                             </div>
                             <hr />

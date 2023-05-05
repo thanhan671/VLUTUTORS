@@ -23,7 +23,6 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
-            int chietKhau = (int)_db.Phidays.FirstOrDefault(x => x.Id == 1).ChietKhau;
             TempData["AllLesson"] = _db.Cadays.Where(x => x.TrangThai != null && x.NgayDay <= DateTime.Now.Date).Count();
             TempData["AllUser"] = _db.Taikhoannguoidungs.Count();
             TempData["TeachingHours"] = (double)_db.Cadays.Where(x => x.TrangThai == true && x.NgayDay <= DateTime.Now.Date).Sum(x => ((x.GioKetThuc - x.GioBatDau) * 60) + (x.PhutKetThuc - x.PhutBatDau))/60;
@@ -39,10 +38,10 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         /// <returns>double</returns>
         private async Task<double> GetReportMoney()
         {
-            int chietKhau = (int)_db.Phidays.FirstOrDefault(x => x.Id == 1).ChietKhau;
+            float chietKhau = (int)_db.Phidays.FirstOrDefault(x => x.Id == 1).ChietKhau;
             return await (from caDay in _db.Cadays.Where(x => x.TrangThai == true && x.NgayDay.Date <= DateTime.Now.Date) 
                           join caHoc in _db.Cahocs on caDay.IdloaiCaDay equals caHoc.IdCaHoc
-                          select new { caHoc.GiaTien }).SumAsync(x => x.GiaTien) / chietKhau;
+                          select new { caHoc.GiaTien }).SumAsync(x => x.GiaTien) * (chietKhau / 100);
         }
 
         public JsonResult GetLessonWeb()
