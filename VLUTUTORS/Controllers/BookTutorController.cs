@@ -16,14 +16,18 @@ using VLUTUTORS.Responses.BookTutors;
 using VLUTUTORS.Support.Services;
 using ZoomNet;
 using ZoomNet.Models;
+using X.PagedList;
 
 namespace VLUTUTORS.Controllers
 {
     public class BookTutorController : Controller
     {
         private CP25Team01Context _db = new CP25Team01Context();
-        public async Task<IActionResult> Index(string? keyword = "", int? subjectId = -1, string nameFilter = "")
+        public IActionResult Index(string? keyword = "", int? subjectId = -1, string nameFilter = "", int page = 1)
         {
+            page = page<1 ? 1 : page;
+            int pageSize = 10;
+
             ViewData["Keyword"] = keyword;
             ViewData["SubjectId"] = subjectId;
             ViewData["NameFilter"] = nameFilter;
@@ -234,7 +238,8 @@ namespace VLUTUTORS.Controllers
                 }
             }
             ViewBag.Subjects = subjects;
-            return View(models);
+       
+            return View(models.ToPagedList(page,pageSize));
         }
 
         [HttpPost]
@@ -286,7 +291,6 @@ namespace VLUTUTORS.Controllers
 
         public IActionResult DetailTutor(int id)
         {
-
             var tutor = _db.Taikhoannguoidungs.FirstOrDefault(it => it.Id == id);
 
             if (tutor == null)

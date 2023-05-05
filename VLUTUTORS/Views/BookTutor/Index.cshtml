@@ -1,8 +1,10 @@
 ﻿@using VLUTUTORS.Models
-@model IEnumerable<VLUTUTORS.Models.BookTutorViewModel>
+@model X.PagedList.IPagedList<VLUTUTORS.Models.BookTutorViewModel>
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor httpContextAccessor
+@using X.PagedList.Mvc.Core;
+@using X.PagedList
 @{
     ViewData["Title"] = "Tìm gia sư";
     Layout = "~/Views/Shared/_otherPageLayout.cshtml";
@@ -76,7 +78,10 @@
         <div class="">
             <div class="col d-flex flex-column align-items-center ">
                 <hr>
-                @foreach (var tutor in Model)
+
+                @if(Model != null && Model.Any())
+                {
+                    @foreach (var tutor in Model)
                 {
                     <div class="search-card col-10 ml-10 mt-30 mb-20 wow bounceInLeft">
                         <div class="tutor-avt">
@@ -128,8 +133,12 @@
                         </div>
                     </div>
 
+                }                    
                 }
             </div>
+        </div>
+        <div>
+            @Html.PagedListPager(Model, page=>Url.Action("Index","BookTutor",new {page=page}))
         </div>
     </div>
     @section scripts {

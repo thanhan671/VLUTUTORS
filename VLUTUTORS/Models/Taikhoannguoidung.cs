@@ -106,6 +106,9 @@ namespace VLUTUTORS.Models
         [NotMapped]
         public Microsoft.AspNetCore.Http.IFormFile avatarImage { get; set; }
 
+        [NotMapped]
+        public double soSao;
+
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (IdmonGiaSu1.HasValue && IdmonGiaSu2.HasValue)
