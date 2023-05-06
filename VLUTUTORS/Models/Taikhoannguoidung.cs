@@ -76,7 +76,7 @@ namespace VLUTUTORS.Models
         public int? MaXacThuc { get; set; }
         public bool? XacThuc { get; set; }
         public int? SoDuVi { get; set; }
-        public DateTime? NgayTao { get; set; }
+        public DateTime NgayTao { get; set; }
 
         public virtual Gioitinh IdgioiTinhNavigation { get; set; }
         public virtual Khoa IdkhoaNavigation { get; set; }

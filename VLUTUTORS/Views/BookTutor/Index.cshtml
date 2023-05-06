@@ -138,7 +138,11 @@
             </div>
         </div>
         <div>
-            @Html.PagedListPager(Model, page=>Url.Action("Index","BookTutor",new {page=page}))
+            @Html.PagedListPager(Model, page=>Url.Action("Index","BookTutor",new {page=page}),
+            new PagedListRenderOptions {
+            LiElementClasses = new string[] { "page-item" },
+            PageClasses = new string[] { "page-link" }
+            })
         </div>
     </div>
     @section scripts {
