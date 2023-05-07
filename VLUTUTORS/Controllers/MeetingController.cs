@@ -78,6 +78,16 @@ namespace VLUTUTORS.Controllers
                     return RedirectToAction("Index", "HistoryOfLearning", new { id = existEvaluation.caDay.IdnguoiHoc });
                 }
 
+                string tieuChi = null;
+                if(request.Skills != null)
+                {
+                    tieuChi = string.Join(";", request.Skills);
+                }
+                else
+                {
+                    tieuChi = null;
+                }
+
                 Danhgiagiasu model = new()
                 {
                     Diem = request.Rating ?? 0,
@@ -85,7 +95,7 @@ namespace VLUTUTORS.Controllers
                     GiasuId = existEvaluation.caDay.IdnguoiDay,
                     NguoidungId = existEvaluation.caDay.IdnguoiHoc.Value,
                     DanhGia = request.FeedBack ?? string.Empty,
-                    TieuChi = string.Join(";", request.Skills)
+                    TieuChi = tieuChi
                 };
 
                 await _db.Danhgiagiasus.AddAsync(model);
