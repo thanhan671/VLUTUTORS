@@ -138,7 +138,7 @@
             </div>
         </div>
         <div>
-            @Html.PagedListPager(Model, page=>Url.Action("Index","BookTutor",new {page=page}))
+            @Html.PagedListPager(Model, page=>Url.Action("Index","BookTutor",new {page=page}) )
         </div>
     </div>
     @section scripts {

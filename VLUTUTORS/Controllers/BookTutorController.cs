@@ -26,7 +26,7 @@ namespace VLUTUTORS.Controllers
         public IActionResult Index(string? keyword = "", int? subjectId = -1, string nameFilter = "", int page = 1)
         {
             page = page<1 ? 1 : page;
-            int pageSize = 10;
+            int pageSize = 1;
 
             ViewData["Keyword"] = keyword;
             ViewData["SubjectId"] = subjectId;

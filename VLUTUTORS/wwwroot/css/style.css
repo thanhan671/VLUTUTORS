@@ -3698,7 +3698,27 @@ i.active,
 
 .reviews-cont {
     padding: 25px 30px 30px;
+    height: 835px;
+    overflow-y: scroll;
 }
+    .reviews-cont::-webkit-scrollbar {
+        margin-left: 15px;
+        height: 5px;
+        margin-top: 4px;
+        width:3px;
+    }
+
+    .reviews-cont::-webkit-scrollbar-track {
+        background-color: #ebebeb;
+        -webkit-border-radius: 7px;
+        border-radius: 7px;
+    }
+
+    .reviews-cont::-webkit-scrollbar-thumb {
+        -webkit-border-radius: 7px;
+        border-radius: 7px;
+        background: #6d6d6d;
+    }
 
     .reviews-cont .title h6 {
         font-size: 18px;
@@ -5436,16 +5456,17 @@ p.form-message.error {
     height: 200px;
     border-radius: 1rem;
     display: grid;
-    padding: 0 2rem;
     align-items: center;
     color: #ffffff;
-    background: linear-gradient(to bottom, #d5252ed9 0%, #07294dd1 90%);
+    /*    background: linear-gradient(to bottom, #d5252ed9 0%, #07294dd1 90%);*/
+    background-image: linear-gradient(315deg, #182b3a 0%, #20A4DA 91%);
     box-shadow: -0.6rem 0.6rem 1.8rem #4f46f83d;
     border: 1px solid #ffffff;
     z-index: 200;
     position: relative;
     align-content: center;
     justify-items: center;
+    width: 345px;
 }
 
 .card_name {
