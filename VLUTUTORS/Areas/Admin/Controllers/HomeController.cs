@@ -82,24 +82,30 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 return RedirectToAction("Index", "Login");
             }
             var taiKhoans = await _db.Taikhoannguoidungs.ToListAsync();
-            List<Taikhoannguoidung> newUser = new List<Taikhoannguoidung>();
-            List<Taikhoannguoidung> oldUser = new List<Taikhoannguoidung>();
+            int newAcc = 0;
+            int newLearners = 0;
+            int newTutors = 0;
 
             foreach(var user in taiKhoans)
             {
                 TimeSpan checkTime = (TimeSpan)(DateTime.Now - user.NgayTao);
                 if(checkTime.Days <= 7)
                 {
-                    newUser.Add(user);
-                }
-                else
-                {
-                    oldUser.Add(user);
+                    newAcc++;
+                    if(user.IdxetDuyet == 5)
+                    {
+                        newTutors++;
+                    }
+                    else
+                    {
+                        newLearners++;
+                    }
                 }
             }
-
-            Tuple<IEnumerable<Taikhoannguoidung>, IEnumerable<Taikhoannguoidung>> turple = new Tuple<IEnumerable<Taikhoannguoidung>, IEnumerable<Taikhoannguoidung>>(newUser, oldUser);
-            return View(turple);
+            TempData["NewAcc"] = newAcc;
+            TempData["NewLearner"] = newLearners;
+            TempData["NewTutor"] = newTutors;
+            return View(taiKhoans);
         }
 
         public IActionResult DetailStaticLesson()

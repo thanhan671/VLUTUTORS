@@ -1,5 +1,5 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-@model Tuple<IEnumerable<VLUTUTORS.Models.Taikhoannguoidung>, IEnumerable<VLUTUTORS.Models.Taikhoannguoidung>>
+@model IEnumerable<VLUTUTORS.Models.Taikhoannguoidung>
 @{
     ViewData["Title"] = "Chi tiết thống kê";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
@@ -31,14 +31,36 @@
         <!-- Default box -->
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Tài khoản mới trong 1 tuần qua:</h3>
+                <h3 class="card-title">Tài khoản mới trong 1 tuần qua: @TempData["NewAcc"] tài khoản (@TempData["NewLearner"] người học, @TempData["NewTutor"] gia sư)</h3>
+                <div class="left-content">
+                    <button type="button" id="exportexcel" name="exportexcel" class="button-download" style=" width: 200px;" data-target="#myModal" data-toggle="modal">
+                        Xuất thống kê
+                    </button>
+                </div>
             </div>
             <div class="card-body p-0">
-                <table class="table table-striped projects" id="myTable">
+                <div class="row" id="dropdown-filter">
+                    <div class="col d-flex mr-10 flex-wrap">
+                        <label class="form-label" for="min">Ngày bắt đầu:</label>
+                        <input type="text"
+                               class="form-control-sm"
+                               id="min"
+                               name="min"
+                               style="width: 150px" />
+                        <label class="form-label ml-1" for="max">Ngày kết thúc:</label>
+                        <input type="text"
+                               id="max"
+                               name="max"
+                               class="form-control-sm"
+                               style="width: 150px" />
+                    </div>
+                </div>
+                <table id="myTable" class="table table-striped projects">
                     <thead>
                         <tr>
                             <th class="text-center">#</th>
                             <th class="text-center">Họ tên</th>
+                            <th class="text-center">Ngày tạo</th>
                             <th class="text-center">Email</th>
                             <th class="text-center">Tài khoản</th>
                         </tr>
@@ -46,7 +68,7 @@
                     <tbody>
                         @{
                             var index = 0;
-                            foreach (var item in Model.Item1)
+                            foreach (var item in Model.OrderByDescending(m => m.NgayTao))
                             {
                                 index++;
                                 <tr>
@@ -54,63 +76,13 @@
                                         @index
                                     </td>
                                     <td class="text-center">
-                                        @Html.DisplayFor(modelItem => item.HoTen)
+                                        @item.HoTen
                                     </td>
                                     <td class="text-center">
-                                        @Html.DisplayFor(modelItem => item.Email)
-                                    </td>
-                                    @{
-                                        if (item.IdxetDuyet == 5)
-                                        {
-                                            <td class="text-center">
-                                                Gia sư
-                                            </td>
-                                        }
-                                        else
-                                        {
-                                            <td class="text-center">
-                                                Người học
-                                            </td>
-                                        }
-                                    }
-                                </tr>
-                            }
-                        }
-                    </tbody>
-                </table>
-            </div>
-            <!-- /.card-body -->
-        </div>
-        <div class="card">
-            <div class="card-header">
-                <div class="card-tools">
-                </div>
-            </div>
-            <div class="card-body p-0">
-                <table class="table table-striped projects" id="myTable2">
-                    <thead>
-                        <tr>
-                            <th class="text-center">#</th>
-                            <th class="text-center">Họ tên</th>
-                            <th class="text-center">Email</th>
-                            <th class="text-center">Tài khoản</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @{
-                            var index2 = 0;
-                            foreach (var item in Model.Item2)
-                            {
-                                index2++;
-                                <tr>
-                                    <td class="text-center">
-                                        @index
+                                        @item.NgayTao.ToString("dd/MM/yyyy")
                                     </td>
                                     <td class="text-center">
-                                        @Html.DisplayFor(modelItem => item.HoTen)
-                                    </td>
-                                    <td class="text-center">
-                                        @Html.DisplayFor(modelItem => item.Email)
+                                        @item.Email
                                     </td>
                                     @{
                                         if (item.IdxetDuyet == 5)
@@ -138,4 +110,106 @@
     </section>
     <!-- /.content -->
 </div>
+<div class="modal fade"
+     id="myModal"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    Thông báo!
+                </h5>
+                <button class="close"
+                        type="button"
+                        data-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <b>Xác nhận tải về thống kê này</b>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary"
+                        type="button"
+                        data-dismiss="modal">
+                    Hủy
+                </button>
+                <button class="btn btn-5 custom-btn" type="button" id="export_button" data-dismiss="modal">
+                    Đồng ý
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var minDate, maxDate;
+
+    // Custom filtering function which will search data in column four between two values
+    $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
+        let min = moment($('#min').val(), 'DD/MM/YYYY', true).isValid() ?
+            moment($('#min').val(), 'DD/MM/YYYY', true).unix() :
+            null;
+
+        let max = moment($('#max').val(), 'DD/MM/YYYY').isValid() ?
+            moment($('#max').val(), 'DD/MM/YYYY', true).unix() :
+            null;
+        var date = moment(data[2], 'DD/MM/YYYY', true).unix();
+
+        if (
+            (min === null && max === null) ||
+            (min === null && date <= max) ||
+            (min <= date && max === null) ||
+            (min <= date && date <= max)
+        ) {
+            return true;
+        }
+        return false;
+    });
+
+    $(document).ready(function () {
+        // Create date inputs
+        minDate = new DateTime($('#min'), {
+            format: 'DD/MM/YYYY',
+        });
+        maxDate = new DateTime($('#max'), {
+            format: 'DD/MM/YYYY',
+        });
+
+        // DataTables initialisation
+        var table = $('#myTable').DataTable();
+
+        // Refilter the table
+        $('#min, #max').on('change', function () {
+            table.draw();
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(function () {
+        $('#myTable_filter').prepend($('#dropdown-filter')).clone();
+        $('#filter-fade').remove();
+        $('#myTable_filter').css({ display: 'flex' });
+        $('#myTable').css({ width: 'auto', borderCollapse: 'collapse' });
+    });
+</script>
+<script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+<script>
+    function html_table_to_excel(type) {
+        var data = document.getElementById('myTable');
+
+        var file = XLSX.utils.table_to_book(data, { sheet: "sheet1" });
+
+        XLSX.write(file, { bookType: type, bookSST: true, type: 'base64' });
+
+        XLSX.writeFile(file, 'ThongKeNguoiDung.' + type);
+    }
+
+    const export_button = document.getElementById('export_button');
+
+    export_button.addEventListener('click', () => {
+        html_table_to_excel('xlsx');
+    });
+</script>
 

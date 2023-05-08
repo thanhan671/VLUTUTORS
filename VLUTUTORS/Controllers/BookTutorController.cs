@@ -26,7 +26,7 @@ namespace VLUTUTORS.Controllers
         public IActionResult Index(string? keyword = "", int? subjectId = -1, string nameFilter = "", int page = 1)
         {
             page = page<1 ? 1 : page;
-            int pageSize = 1;
+            int pageSize = 6;
 
             ViewData["Keyword"] = keyword;
             ViewData["SubjectId"] = subjectId;
@@ -79,7 +79,16 @@ namespace VLUTUTORS.Controllers
                                         var nguoiDanhGia = _db.Taikhoannguoidungs.Find(danhGia.NguoidungId);
                                         if (nguoiDanhGia != null)
                                         {
-                                            nguoiDanhGia.AnhDaiDien = nguoiDanhGia.AnhDaiDien.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
+                                            string avt = nguoiDanhGia.AnhDaiDien;
+                                            if (!string.IsNullOrEmpty(avt))
+                                            {
+                                                avt = avt.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
+                                                nguoiDanhGia.AnhDaiDien = avt;
+                                            }
+                                            else
+                                            {
+                                                nguoiDanhGia.AnhDaiDien = null;
+                                            }
                                             commentModel.Add(new CommentViewModel
                                             {
                                                 Comment = danhGia,

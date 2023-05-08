@@ -137,8 +137,12 @@
                 }
             </div>
         </div>
-        <div>
-            @Html.PagedListPager(Model, page=>Url.Action("Index","BookTutor",new {page=page}) )
+        <div class=" d-flex justify-content-center mb-2">
+            @Html.PagedListPager(Model, page=>Url.Action("Index","BookTutor",new {page=page}),
+            new PagedListRenderOptions {
+            LiElementClasses = new string[] { "page-item" },
+            PageClasses = new string[] { "page-link" }
+            })
         </div>
     </div>
     @section scripts {
