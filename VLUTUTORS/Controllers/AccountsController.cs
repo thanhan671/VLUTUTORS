@@ -141,7 +141,6 @@ namespace VLUTUTORS.Controllers
             {
                 taiKhoan.AnhDaiDien = "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png";
             }
-
             var gioiTinhs = await db.Gioitinhs.ToListAsync();
             SelectList ddlStatus = new SelectList(gioiTinhs, "IdgioiTinh", "GioiTinh1");
             taiKhoan.GenderItems = ddlStatus;
@@ -235,7 +234,7 @@ namespace VLUTUTORS.Controllers
             {
                 ModelState.Clear();
             }
-            if(HoTen!=null && Email != null)
+            if(HoTen!=null && Email != null && HoTen.Length >=5)
             {
                 if (MatKhau != null && rePass == MatKhau && MatKhau.Length >= 6)
                 {
@@ -286,7 +285,7 @@ namespace VLUTUTORS.Controllers
                 TempData["MessageType"] = "error";
                 return RedirectToAction("Login", "Accounts");
             }
-            TempData["Message"] = "Vui lòng điền đủ thông tin để đăng ký tài khoản!";
+            TempData["Message"] = "Vui lòng điền đủ và đúng định dạng thông tin để đăng ký tài khoản!";
             TempData["MessageType"] = "error";
             return RedirectToAction("Login", "Accounts");
         }

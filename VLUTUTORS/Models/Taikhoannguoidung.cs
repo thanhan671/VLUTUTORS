@@ -38,7 +38,9 @@ namespace VLUTUTORS.Models
 
         [StringLength(maximumLength: 11, MinimumLength = 10, ErrorMessage = "Giới hạn từ 10-11 ký tự")]
         public string Sdt { get; set; }
-        public DateTime? NgaySinh { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime NgaySinh { get; set; }
 
         [Required(ErrorMessage = "Vui lòng chọn trường này")]
         [Range(1, Int32.MaxValue, ErrorMessage = "Vui lòng chọn trường này")]
@@ -131,7 +133,7 @@ namespace VLUTUTORS.Models
                         "Giới thiệu môn gia sư", new[] { "GioiThieuVeMonGiaSu2" });
             }
 
-            var namSinh = DateTime.Parse(NgaySinh.Value.ToString());
+            var namSinh = DateTime.Parse(NgaySinh.ToString());
             int tuoi = DateTime.Now.Year - namSinh.Year;
             if (tuoi < 18)
             {

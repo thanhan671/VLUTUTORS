@@ -13,7 +13,7 @@ using ZoomNet.Models;
 namespace VLUTUTORS.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "3")]
+    [Authorize(Roles = "1,3")]
     public class ManageLearnerController : Controller
     {
         private readonly CP25Team01Context _context = new CP25Team01Context();

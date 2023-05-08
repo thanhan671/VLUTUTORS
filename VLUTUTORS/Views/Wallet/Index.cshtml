@@ -11,11 +11,8 @@
     <!-- Main content -->
     <div class="card_container">
         <div class="card-checkout">
-@*            <div class="card_name">
-                <h1>@Model.Item1.HoTen</h1>
-            </div>*@
 
-            <div class="card_number"><i class="fa-solid fa-wallet"></i> Số dư ví: @Model.Item1.SoDuVi đồng</div>
+            <div class="card_number"><i class="fa-solid fa-wallet"></i> Số dư ví: @TempData["SoDu"] đồng</div>
         </div>
     </div>
     <div class="col justify-content-center gap-10 d-flex">

@@ -12,7 +12,7 @@ using ZoomNet.Resources;
 namespace VLUTUTORS.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "3")]
+    [Authorize(Roles = "1,3")]
     public class ManageLearnerWalletController : Controller
     {
         private CP25Team01Context _db = new CP25Team01Context();

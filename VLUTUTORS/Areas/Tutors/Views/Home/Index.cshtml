@@ -23,9 +23,9 @@
                 <div class="col-lg-6">
                     <div class="card">
                         <div class="card-body">
-                            <h3>Tổng số ca dạy của gia sư: </h3>
+                            <h3>Tổng số ca dạy của gia sư: <b style="color:red;">@TempData["AllLesson"]</b></h3>
                             <div class="d-flex" id="charttutor" style="width:570px;height:350px"></div>
-                            <a type="button" href="~/Tutors/Home/DetailStaticLesson">Xem chi tiết</a>
+                            <a class="btn-5 custom-btn text-center" type="button" href="~/Tutors/Home/DetailStaticLesson">Xem chi tiết</a>
                         </div>
                     </div>
                 </div>
@@ -33,7 +33,7 @@
                 <div class="col-lg-6">
                     <div class="card">
                         <div class="card-body">
-                            <h3>Tổng thu nhập đạt được: <b style="color:red;">@TempData["ReportIncome"]</b> VND</h3>
+                            <h3>Tổng thu nhập đạt được: <b style="color:red;">@TempData["ReportIncome"]</b> đồng</h3>
                         </div>
                     </div>
                     <div class="card">

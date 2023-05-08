@@ -40,7 +40,7 @@
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Tên môn gia sư</h6>
                                         </div>
-                                        @Html.DropDownListFor(m => m.IdmonDay, Model.subjectItems, new { @class = "form__select" })
+                                        @Html.DropDownListFor(m => m.IdmonDay, Model.subjectItems, new { @class = "form-control" })
                                         <span asp-validation-for="IdmonDay" class="warning"></span>
                                     </div>
                                     <hr />
@@ -48,7 +48,7 @@
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Loại ca dạy</h6>
                                         </div>
-                                        @Html.DropDownListFor(m => m.IdloaiCaDay, Model.teachTimeItems, new { @class = "form__select" })
+                                        @Html.DropDownListFor(m => m.IdloaiCaDay, Model.teachTimeItems, new { @class = "form-control" })
                                         Phút
                                         <span asp-validation-for="IdloaiCaDay" class="warning"></span>
                                     </div>
@@ -57,7 +57,7 @@
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Ngày dạy</h6>
                                         </div>
-                                        <input type="date" id="inputName" name="inputDate" class="" value="@Model.NgayDay.ToString("yyyy-MM-dd")" />
+                                        <input class="form-control form-date" type="date" id="inputName" name="inputDate" value="@Model.NgayDay.ToString("yyyy-MM-dd")" />
                                     </div>
                                     <hr />
                                     <div class="row">

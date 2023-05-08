@@ -72,7 +72,7 @@
             </div>
             <div class="col-lg-8">
                 <div class="teachers-right">
-                    <ul class="nav nav-justified" id="myTab" role="tablist" style="    font-family: 'Montserrat';">
+                    <ul class="nav nav-justified" id="myTab" role="tablist" style="font-family: 'Montserrat';">
                         <li class="nav-item">
                             <a class="active"
                                id="dashboard-tab"
@@ -195,11 +195,11 @@
                             <table id="myTable" class="mt-100">
                                 <thead>
                                     <tr>
-                                        <th id="mon">Môn gia sư</th>
-                                        <th style="width: 20px!important">Ngày</th>
-                                        <th>Giờ</th>
-                                        <th>Giá</th>
-                                        <th>Đặt Lịch</th>
+                                        <th class="text-center">Môn gia sư</th>
+                                        <th class="text-center">Ngày</th>
+                                        <th class="text-center">Giờ</th>
+                                        <th class="text-center">Giá</th>
+                                        <th class="text-center">Đặt Lịch</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -213,11 +213,11 @@
                                         if (@lesson.Link == null && checkTime >= DateTime.Now)
                                         {
                                             <tr>
-                                                <td>@lesson.tenMonDay</td>
-                                                <td>@lesson.NgayDay.ToString("dd/MM/yyyy")</td>
-                                                <td>@lesson.GioBatDau:@lesson.PhutBatDau - @lesson.GioKetThuc:@lesson.PhutKetThuc</td>
-                                                <td>@lesson.giaCaDay.ToString("#,##0.###") đồng</td>
-                                                <td>
+                                                <td class="text-center">@lesson.tenMonDay</td>
+                                                <td class="text-center">@lesson.NgayDay.ToString("dd/MM/yyyy")</td>
+                                                <td class="text-center">@lesson.GioBatDau:@lesson.PhutBatDau - @lesson.GioKetThuc:@lesson.PhutKetThuc</td>
+                                                <td class="text-center">@lesson.giaCaDay.ToString("#,##0.###") đồng</td>
+                                                <td class="text-center">
                                                     <button data-toggle="modal"
                                                     data-target="#exampleModal"
                                                     onclick="document.getElementById('lessonID').value = @lesson.Id"

@@ -16,7 +16,7 @@ using static System.Net.Mime.MediaTypeNames;
 namespace VLUTUTORS.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "4")]
+    [Authorize(Roles = "1,4")]
 
     public class ManageConsultingController : Controller
     {

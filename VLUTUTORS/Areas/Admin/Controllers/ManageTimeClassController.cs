@@ -42,24 +42,34 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 var checkCa = _context.Cahocs.AsNoTracking().SingleOrDefault(x => x.LoaiCa.ToString().ToLower() == caHoc.LoaiCa.ToString().ToLower());
                 if (checkCa != null)
                 {
-                    TempData["Message"] = "Ca học này đã tồn tại!";
+                    TempData["Message"] = "Loại ca học này đã tồn tại!";
                     TempData["MessageType"] = "error";
-                    return RedirectToAction("AddTimeClass");
+                    return RedirectToAction("Index");
                 }
                 else
                 {
-                    try
+                    if (caHoc.LoaiCa > 0 && caHoc.GiaTien > 0)
                     {
-                        TempData["Message"] = "Thêm mới thành công!";
-                        TempData["MessageType"] = "success";
-                        _context.Add(caHoc);
-                        await _context.SaveChangesAsync();
+                        try
+                        {
+                            TempData["Message"] = "Thêm mới thành công!";
+                            TempData["MessageType"] = "success";
+                            _context.Add(caHoc);
+                            await _context.SaveChangesAsync();
+                        }
+                        catch (Exception ex)
+                        {
+                            return RedirectToAction(nameof(Index));
+                        }
+                        return RedirectToAction("Index");
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        return RedirectToAction(nameof(Index));
+                        TempData["Message"] = "Loại ca và số tiền phải lớn hơn 0!";
+                        TempData["MessageType"] = "error";
+                        return RedirectToAction("Index");
                     }
-                    return RedirectToAction("Index");
+
                 }
             }
             return View(caHoc);
@@ -82,11 +92,24 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult EditTimeClass(Cahoc caHoc)
         {
-            TempData["Message"] = "Cập nhật thành công!";
-            TempData["MessageType"] = "success";
-            _context.Cahocs.Update(caHoc);
-            _context.SaveChanges();
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                if (caHoc.LoaiCa > 0 && caHoc.GiaTien > 0)
+                {
+                    TempData["Message"] = "Cập nhật thành công!";
+                    TempData["MessageType"] = "success";
+                    _context.Cahocs.Update(caHoc);
+                    _context.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    TempData["Message"] = "Loại ca và số tiền phải lớn hơn 0!";
+                    TempData["MessageType"] = "error";
+                    return RedirectToAction("Index");
+                }
+            }
+            return View(caHoc);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -104,11 +127,20 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult UpdatePrice(Phiday phiday)
         {
-            _context.Phidays.Update(phiday);
-            _context.SaveChanges();
-            TempData["Message"] = "Cập nhật thành công!";
-            TempData["MessageType"] = "success";
-            return RedirectToAction("Index");
+            if (phiday.ChietKhau > 0)
+            {
+                _context.Phidays.Update(phiday);
+                _context.SaveChanges();
+                TempData["Message"] = "Cập nhật thành công!";
+                TempData["MessageType"] = "success";
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["Message"] = "Chiết khấu phải lớn hơn 0!";
+                TempData["MessageType"] = "error";
+                return RedirectToAction("Index");
+            }
         }
     }
 }
