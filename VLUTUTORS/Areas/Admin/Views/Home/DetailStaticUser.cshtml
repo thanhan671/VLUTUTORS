@@ -30,81 +30,79 @@
     <section class="content">
         <!-- Default box -->
         <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Tài khoản mới trong 1 tuần qua: @TempData["NewAcc"] tài khoản (@TempData["NewLearner"] người học, @TempData["NewTutor"] gia sư)</h3>
-                <div class="left-content">
-                    <button type="button" id="exportexcel" name="exportexcel" class="button-download" style=" width: 200px;" data-target="#myModal" data-toggle="modal">
-                        Xuất thống kê
-                    </button>
+            <div class="card-header d-flex justify-content-end">
+                <h3 class="card-title" style="position: absolute; left: 15px">Tài khoản mới trong 1 tuần qua<span style="color: red">(Từ @TempData["Day"] đến @TempData["NowDay"])</span>: <b style="color: blue; font-size:20px">@TempData["NewAcc"]</b> tài khoản (<b style="color: blue; font-size:20px">@TempData["NewLearner"]</b> người học, <b style="color: blue; font-size:20px">@TempData["NewTutor"]</b> gia sư)</h3>
+
+                <button type="button" id="exportexcel" name="exportexcel" class="button-download btn-export" data-target="#myModal" data-toggle="modal">
+                    <i class="fa-solid fa-file-excel" style="margin-right: 10px"></i>
+                    Xuất thống kê
+                </button>
+            </div>
+            <!-- Default box -->
+            <div class="row" id="dropdown-filter">
+                <div class="col d-flex">
+                    <label class="form-label" for="min">Ngày bắt đầu:</label>
+                    <input type="text"
+                           class="form-control-sm"
+                           id="min"
+                           name="min"
+                           style="width: 150px" />
+                    <label class="form-label ml-3" for="max">Ngày kết thúc:</label>
+                    <input type="text"
+                           id="max"
+                           name="max"
+                           class="form-control-sm"
+                           style="width: 150px" />
                 </div>
             </div>
-            <div class="card-body p-0">
-                <div class="row" id="dropdown-filter">
-                    <div class="col d-flex mr-10 flex-wrap">
-                        <label class="form-label" for="min">Ngày bắt đầu:</label>
-                        <input type="text"
-                               class="form-control-sm"
-                               id="min"
-                               name="min"
-                               style="width: 150px" />
-                        <label class="form-label ml-1" for="max">Ngày kết thúc:</label>
-                        <input type="text"
-                               id="max"
-                               name="max"
-                               class="form-control-sm"
-                               style="width: 150px" />
-                    </div>
-                </div>
-                <table id="myTable" class="table table-striped projects">
-                    <thead>
-                        <tr>
-                            <th class="text-center">#</th>
-                            <th class="text-center">Họ tên</th>
-                            <th class="text-center">Ngày tạo</th>
-                            <th class="text-center">Email</th>
-                            <th class="text-center">Tài khoản</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @{
-                            var index = 0;
-                            foreach (var item in Model.OrderByDescending(m => m.NgayTao))
-                            {
-                                index++;
-                                <tr>
-                                    <td class="text-center">
-                                        @index
-                                    </td>
-                                    <td class="text-center">
-                                        @item.HoTen
-                                    </td>
-                                    <td class="text-center">
-                                        @item.NgayTao.ToString("dd/MM/yyyy")
-                                    </td>
-                                    <td class="text-center">
-                                        @item.Email
-                                    </td>
-                                    @{
-                                        if (item.IdxetDuyet == 5)
-                                        {
-                                            <td class="text-center">
-                                                Gia sư
-                                            </td>
-                                        }
-                                        else
-                                        {
-                                            <td class="text-center">
-                                                Người học
-                                            </td>
-                                        }
+            <table class="table table-striped table-bordered post-list-table" id="myTable">
+                <thead>
+                    <tr>
+                        <th class="text-center">#</th>
+                        <th class="text-center">Họ tên</th>
+                        <th class="text-center">Ngày tạo</th>
+                        <th class="text-center">Email</th>
+                        <th class="text-center">Tài khoản</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        var index = 0;
+                        foreach (var item in Model.OrderByDescending(m => m.NgayTao))
+                        {
+                            index++;
+                            <tr>
+                                <td class="text-center">
+                                    @index
+                                </td>
+                                <td class="text-center">
+                                    @item.HoTen
+                                </td>
+                                <td class="text-center">
+                                    @item.NgayTao.ToString("dd/MM/yyyy")
+                                </td>
+                                <td class="text-center">
+                                    @item.Email
+                                </td>
+                                @{
+                                    if (item.IdxetDuyet == 5)
+                                    {
+                                        <td class="text-center">
+                                            Gia sư
+                                        </td>
                                     }
-                                </tr>
-                            }
+                                    else
+                                    {
+                                        <td class="text-center">
+                                            Người học
+                                        </td>
+                                    }
+                                }
+                            </tr>
                         }
-                    </tbody>
-                </table>
-            </div>
-            <!-- /.card-body -->
+                    }
+                </tbody>
+            </table>
         </div>
         <!-- /.card -->
     </section>
@@ -143,73 +141,72 @@
         </div>
     </div>
 </div>
-<script>
-    var minDate, maxDate;
+@section scripts {
+    <script>
+        var minDate, maxDate;
 
-    // Custom filtering function which will search data in column four between two values
-    $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
-        let min = moment($('#min').val(), 'DD/MM/YYYY', true).isValid() ?
-            moment($('#min').val(), 'DD/MM/YYYY', true).unix() :
-            null;
+        // Custom filtering function which will search data in column four between two values
+        $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
+            let min = moment($('#min').val(), 'DD/MM/YYYY', true).isValid() ?
+                moment($('#min').val(), 'DD/MM/YYYY', true).unix() :
+                null;
 
-        let max = moment($('#max').val(), 'DD/MM/YYYY').isValid() ?
-            moment($('#max').val(), 'DD/MM/YYYY', true).unix() :
-            null;
-        var date = moment(data[2], 'DD/MM/YYYY', true).unix();
+            let max = moment($('#max').val(), 'DD/MM/YYYY').isValid() ?
+                moment($('#max').val(), 'DD/MM/YYYY', true).unix() :
+                null;
+            var date = moment(data[2], 'DD/MM/YYYY', true).unix();
 
-        if (
-            (min === null && max === null) ||
-            (min === null && date <= max) ||
-            (min <= date && max === null) ||
-            (min <= date && date <= max)
-        ) {
-            return true;
+            if (
+                (min === null && max === null) ||
+                (min === null && date <= max) ||
+                (min <= date && max === null) ||
+                (min <= date && date <= max)
+            ) {
+                return true;
+            }
+            return false;
+        });
+
+        $(document).ready(function () {
+            // Create date inputs
+            minDate = new DateTime($('#min'), {
+                format: 'DD/MM/YYYY',
+            });
+            maxDate = new DateTime($('#max'), {
+                format: 'DD/MM/YYYY',
+            });
+
+            // DataTables initialisation
+            var table = $('#myTable').DataTable();
+
+            // Refilter the table
+            $('#min, #max').on('change', function () {
+                table.draw();
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            $('#myTable_filter').prepend($('#dropdown-filter')).clone();
+            $('#filter-fade').remove();
+        })
+    </script>
+    <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+    <script>
+        function html_table_to_excel(type) {
+            var data = document.getElementById('myTable');
+
+            var file = XLSX.utils.table_to_book(data, { sheet: "sheet1" });
+
+            XLSX.write(file, { bookType: type, bookSST: true, type: 'base64' });
+
+            XLSX.writeFile(file, 'ThongKeNguoiDung.' + type);
         }
-        return false;
-    });
 
-    $(document).ready(function () {
-        // Create date inputs
-        minDate = new DateTime($('#min'), {
-            format: 'DD/MM/YYYY',
+        const export_button = document.getElementById('export_button');
+
+        export_button.addEventListener('click', () => {
+            html_table_to_excel('xlsx');
         });
-        maxDate = new DateTime($('#max'), {
-            format: 'DD/MM/YYYY',
-        });
-
-        // DataTables initialisation
-        var table = $('#myTable').DataTable();
-
-        // Refilter the table
-        $('#min, #max').on('change', function () {
-            table.draw();
-        });
-    });
-</script>
-<script type="text/javascript">
-    $(function () {
-        $('#myTable_filter').prepend($('#dropdown-filter')).clone();
-        $('#filter-fade').remove();
-        $('#myTable_filter').css({ display: 'flex' });
-        $('#myTable').css({ width: 'auto', borderCollapse: 'collapse' });
-    });
-</script>
-<script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
-<script>
-    function html_table_to_excel(type) {
-        var data = document.getElementById('myTable');
-
-        var file = XLSX.utils.table_to_book(data, { sheet: "sheet1" });
-
-        XLSX.write(file, { bookType: type, bookSST: true, type: 'base64' });
-
-        XLSX.writeFile(file, 'ThongKeNguoiDung.' + type);
-    }
-
-    const export_button = document.getElementById('export_button');
-
-    export_button.addEventListener('click', () => {
-        html_table_to_excel('xlsx');
-    });
-</script>
-
+    </script>
+}

@@ -85,8 +85,9 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             int newAcc = 0;
             int newLearners = 0;
             int newTutors = 0;
+            DateTime day = DateTime.Today.AddDays(-7);
 
-            foreach(var user in taiKhoans)
+            foreach (var user in taiKhoans)
             {
                 TimeSpan checkTime = (TimeSpan)(DateTime.Now - user.NgayTao);
                 if(checkTime.Days <= 7)
@@ -102,9 +103,13 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                     }
                 }
             }
+
+            TempData["NowDay"] = DateTime.Now.ToString("dd/MM/yyyy");
+            TempData["Day"] = day.ToString("dd/MM/yyyy");
             TempData["NewAcc"] = newAcc;
             TempData["NewLearner"] = newLearners;
             TempData["NewTutor"] = newTutors;
+         
             return View(taiKhoans);
         }
 

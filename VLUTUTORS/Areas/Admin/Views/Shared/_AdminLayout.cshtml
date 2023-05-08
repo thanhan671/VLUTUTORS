@@ -23,7 +23,6 @@
     <!-- IonIcons -->
     <link rel="stylesheet"
           href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
-    
           <!-- Theme style -->
     <link rel="stylesheet" href="~/admin/css/datatables.css" />
     <link rel="stylesheet"
@@ -35,10 +34,7 @@
     <script src="~/lib/toastr.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-<link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet"/>
-<link rel='stylesheet' href='https://cdn.rawgit.com/daneden/animate.css/v3.1.0/animate.min.css'>
-<script src='https://cdn.rawgit.com/matthieua/WOW/1.0.1/dist/wow.min.js'></script>
-
+<link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet"/><script src='https://cdn.rawgit.com/matthieua/WOW/1.0.1/dist/wow.min.js'></script>
 </head>
 <!--
 `body` tag options:
@@ -120,22 +116,20 @@
     <!-- ./wrapper -->
     <!-- REQUIRED SCRIPTS -->
     <!-- jQuery -->
-
+    <script src="~/admin/jquery/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.2/moment.min.js"></script>
+    <script src="https://cdn.datatables.net/datetime/1.1.2/js/dataTables.dateTime.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="~/admin/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE -->
+    <script src="~/admin/js/adminlte.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="~/admin/js/demo.js"></script>
+    <script src="~/admin/js/datatables.js"></script>
+    <script src="~/admin/js/datatables2.js"></script>
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <script src="~/admin/js/pages/dashboard3.js"></script>
+    @RenderSection("scripts", required: false)
 </body>
 </html>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDC3Ip9iVC0nIxC6V14CKLQ1HZNF_65qEQ"></script>
-<script src="~/js/map-script.js"></script>
-<script src="~/admin/jquery/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.2/moment.min.js"></script>
-<script src="https://cdn.datatables.net/datetime/1.1.2/js/dataTables.dateTime.min.js"></script>
-<script src="~/admin/jquery/jquery.min.js"></script>
-<!-- Bootstrap -->
-<script src="~/admin/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- AdminLTE -->
-<script src="~/admin/js/adminlte.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="~/admin/js/demo.js"></script>
-<script src="~/admin/js/datatables.js"></script>
-<script src="~/admin/js/datatables2.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="~/admin/js/pages/dashboard3.js"></script>
+

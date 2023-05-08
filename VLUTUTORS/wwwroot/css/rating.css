@@ -72,8 +72,8 @@ form {
     form > div.action-group {
         margin-top: 2em;
         display: flex;
-        flex-direction: column;
         row-gap: 1em;
+        justify-content: space-around;
     }
 
         form > div.action-group > input[type='reset'] {
@@ -101,6 +101,7 @@ form > div.action-group > button[type='submit'] {
     color: white;
     background-color: #07294d;
     transition: all 0.1s ease-in-out;
+    font-size: 16px;
 }
 
 @media (hover: hover) {
@@ -109,6 +110,25 @@ form > div.action-group > button[type='submit'] {
         border: 2px solid #ec6923;
     }
 }
+<<<<<<< HEAD
+=======
+
+form > div.action-group > a.button_back {
+    border: 2px solid transparent;
+    padding: 1em 2em;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 700;
+    color: white;
+    background-color: #878686;
+    transition: all 0.1s ease-in-out;
+}
+
+    form > div.action-group > a.button_back:hover {
+        background-color: #eb6868;
+        border: 2px solid #ec6923;
+    }
+>>>>>>> 5bcce6df0419d1eef98c08e518cc082338166cf4
 /* Input Rating */
 .rating {
     user-select: none;
