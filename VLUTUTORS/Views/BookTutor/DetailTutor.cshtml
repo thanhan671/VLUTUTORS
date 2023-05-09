@@ -269,12 +269,19 @@
                                                         <div class="reviews-description pt-20">
                                                             @{
                                                                 var strTieuChi = string.Empty;
-                                                                @foreach (var tieuChiId in comment.Comment.TieuChi.Split(";"))
+                                                                if(comment.Comment.TieuChi != null)
                                                                 {
-                                                                    var tieuChi = comment.Tieuchi.FirstOrDefault(it => it.IdTieuChi.ToString() == tieuChiId);
-                                                                    if (tieuChi != null)
-                                                                        strTieuChi += (string.IsNullOrEmpty(strTieuChi) ? string.Empty : ", ") + tieuChi.TieuChi;
+                                                                    @foreach (var tieuChiId in comment.Comment.TieuChi.Split(";"))
+                                                                    {
+                                                                        var tieuChi = comment.Tieuchi.FirstOrDefault(it => it.IdTieuChi.ToString() == tieuChiId);
+                                                                        if (tieuChi != null)
+                                                                            strTieuChi += (string.IsNullOrEmpty(strTieuChi) ? string.Empty : ", ") + tieuChi.TieuChi;
+                                                                    }
                                                                 }
+                                                                else{
+                                                                    strTieuChi = "Người học không để lại đánh giá";
+                                                                }
+
                                                                 <p>
                                                                     @strTieuChi
                                                                 </p>

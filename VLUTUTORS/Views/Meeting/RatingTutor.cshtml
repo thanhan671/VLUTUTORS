@@ -28,13 +28,6 @@
 
                 <h1>Đánh giá</h1>
 
-                <div class="fav-tutor">
-                    <label class="fa-solid fa-heart icon-heart" for="heart" onclick="toggle()"></label>
-
-                    <input name="wishlish" type="checkbox" id="heart" value="false" hidden>
-
-                </div>
-
             </div>
 
             <p> Đánh giá gia sư sau buổi học! </p>
@@ -86,18 +79,3 @@
     </main>
 </body>
 </html>
-<script>
-    function toggle() {
-        let tim = document.querySelector('.rating__header label');
-        let check = document.querySelector('#heart');
-
-        if (check.checked) {
-            tim.classList.toggle('pink-color');
-            check.value = true
-        }
-        else {
-            tim.classList.remove('pink-color')
-            check.value = false
-        }
-    }
-</script>

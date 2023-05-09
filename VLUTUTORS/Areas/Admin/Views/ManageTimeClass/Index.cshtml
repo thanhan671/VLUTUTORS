@@ -26,13 +26,13 @@
                     <input type="hidden" asp-for="Item2.Id" />
                     <div class="card-tools d-flex align-items-center justify-content-end mb-2">
                         <p class="mb-0"> Chiết khấu (%): </p>
-                        <input type="number" class="mr-5 i-half" style="width: 18%" id="ChietKhau" name="ChietKhau" value="@Model.Item2.ChietKhau" />
+                        <input type="number" class="mr-5 i-half" style="width: 18%" id="ChietKhau" name="ChietKhau" value="@Model.Item2.ChietKhau" required />
                         <p class="mb-0"> Số tài khoản: </p>
-                        <input type="text" class="mr-5 i-half" style="width: 18%" id="SoTaiKhoan" name="SoTaiKhoan" value="@Model.Item2.SoTaiKhoan" />
+                        <input type="text" class="mr-5 i-half" style="width: 18%" id="SoTaiKhoan" name="SoTaiKhoan" value="@Model.Item2.SoTaiKhoan" required />
                         <p class="mb-0"> Tên người nhận: </p>
-                        <input type="text" class="mr-5 i-half" style="width: 18%" id="NguoiNhan" name="NguoiNhan" value="@Model.Item2.NguoiNhan" />
+                        <input type="text" class="mr-5 i-half" style="width: 18%" id="NguoiNhan" name="NguoiNhan" value="@Model.Item2.NguoiNhan" required />
                         <p class="mb-0"> Tên ngân hàng: </p>
-                        <input type="text" class="mr-5 i-half" style="width: 18%" id="NganHang" name="NganHang" value="@Model.Item2.NganHang" />
+                        <input type="text" class="mr-5 i-half" style="width: 18%" id="NganHang" name="NganHang" value="@Model.Item2.NganHang" required />
                         <button type="submit" class="btn btn-success btn-sm mr-2" style="width:100px;">
                             Cập nhật
                         </button>

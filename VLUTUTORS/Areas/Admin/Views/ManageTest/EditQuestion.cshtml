@@ -23,6 +23,7 @@
     <!-- Main content -->
     <form method="post" enctype="multipart/form-data" asp-controller="ManageTest" asp-action="EditQuestion">
         <input type="hidden" asp-for="IdCauHoi" />
+        <input type="hidden" asp-for="CauHoi" />
         <section class="content">
             <div class="container" style="margin-top: 20px; margin-bottom: 20px">
                 <div class="main-body">
@@ -36,7 +37,7 @@
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Câu hỏi:</h6>
                                         </div>
-                                        <input class="col-sm-9 text-secondary" name="CauHoi" id="CauHoi" type="text" value="@Model.CauHoi">
+                                        <div class="col-sm-9 text-secondary">@Model.CauHoi</div>
                                         @Html.ValidationMessageFor(m => m.CauHoi, "", new { @class = "text-danger" })
                                     </div>
                                     <hr />

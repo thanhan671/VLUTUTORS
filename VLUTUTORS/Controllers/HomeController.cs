@@ -49,6 +49,50 @@ namespace VLUTUTORS.Controllers
             ViewData["giaSu"] = giaSu;
             ViewData["hocVien"] = hocVien;
 
+            var giaSuList = _db.Cadays.Select(m=>m.IdnguoiDay).ToList();
+            var result = new List<DeXuat>();
+            giaSuList = giaSuList.Distinct().ToList() ;
+            double diem = 0;
+
+            foreach(var item in giaSuList)
+            {
+                var danhGias = _db.Danhgiagiasus.Where(m => m.GiasuId == item).ToList();
+                var tongDG = danhGias.Count();
+                if (tongDG != 0)
+                {
+                    var tenGiaSu = _db.Taikhoannguoidungs.Find(item).HoTen.ToString();
+                    int idGS1 = (int)_db.Taikhoannguoidungs.Find(item).IdmonGiaSu1;
+                    string monGS1 = _db.Mongiasus.Find(idGS1).TenMonGiaSu.ToString();
+                    string idMon2 = _db.Taikhoannguoidungs.Find(item).IdmonGiaSu2.ToString();
+                    string monGS2 = null;
+                    if (idMon2 != "")
+                    {
+                        int idGS2 = (int)_db.Taikhoannguoidungs.Find(item).IdmonGiaSu2;
+                        monGS2 = _db.Mongiasus.Find(idGS2).TenMonGiaSu.ToString();
+                    }
+                    string anh = _db.Taikhoannguoidungs.Find(item).AnhDaiDien.ToString().TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
+                    foreach (var danhgia in danhGias)
+                    {
+                        diem += danhgia.Diem;
+                    }
+                    diem = diem / tongDG;
+                    if(diem >= 4)
+                    {
+                        result.Add(new DeXuat()
+                        {
+                            idGiaSu = item,
+                            tenGiaSu = tenGiaSu,
+                            Anh = anh,
+                            Mon1 = monGS1,
+                            Mon2 = monGS2,
+                            Diem = diem,
+                        });
+                    }
+                    diem = 0;
+                }
+
+            }
+            ViewBag.GiaSuList = result.OrderByDescending(m=>m.Diem);
             return View();
         }
 

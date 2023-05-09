@@ -53,7 +53,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 {
                     try
                     {
-                        _context.Update(loaiTuVan);
+                        _context.Add(loaiTuVan);
                         await _context.SaveChangesAsync();
                         TempData["Message"] = "Thêm mới thành công!";
                         TempData["MessageType"] = "success";
@@ -74,15 +74,32 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult EditType(Loaituvan loaituvan)
+        public IActionResult EditType([Bind("TenLoaiTuVan")] Loaituvan loaituvan)
         {
-
-            TempData["Message"] = "Cập nhật thành công!";
-            TempData["MessageType"] = "success";
-            _context.Loaituvans.Update(loaituvan);
-            _context.SaveChanges();
-            return RedirectToAction("Index");
-
+            if (!ModelState.IsValid)
+            {
+                TempData["Message"] = "Vui lòng điền thông tin!";
+                TempData["MessageType"] = "error";
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                var tuVan = _context.Loaituvans.AsNoTracking().SingleOrDefault(x => x.TenLoaiTuVan.ToLower() == loaituvan.TenLoaiTuVan.ToLower());
+                if (tuVan != null)
+                {
+                    TempData["Message"] = "Loại tư vấn đã tồn tại, vui lòng kiểm tra lại";
+                    TempData["MessageType"] = "error";
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    TempData["Message"] = "Cập nhật thành công!";
+                    TempData["MessageType"] = "success";
+                    _context.Loaituvans.Update(loaituvan);
+                    _context.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+            }
         }
         [HttpPost]
         [ValidateAntiForgeryToken]

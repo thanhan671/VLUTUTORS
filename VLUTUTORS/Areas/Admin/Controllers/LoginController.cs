@@ -52,7 +52,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                             TempData["MessageType"] = "error";
                         }
                         HttpContext.Session.SetInt32("LoginADId", admin.Id);
-                        HttpContext.Session.SetInt32("IdQuyen", admin.IdQuyen);
+                        HttpContext.Session.SetInt32("IdQuyen", (int)admin.IdQuyen);
                         HttpContext.Session.SetString("loginName", admin.TaiKhoan);
                         HttpContext.Session.SetString("SessionInfo", JsonConvert.SerializeObject(admin));
                     }
