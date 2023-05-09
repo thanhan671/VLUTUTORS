@@ -62,7 +62,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                     return RedirectToAction("Index");
                 }
             }
-            TempData["Message"] = "Tên môn trong khoản 2-50 ký tự và không chứa ký tự đặc biệt, vui lòng kiểm tra lại!";
+            TempData["Message"] = "Tên môn trong khoản 2-50 ký tự, vui lòng kiểm tra lại!";
             TempData["MessageType"] = "error";
             return RedirectToAction("Index");
         }
@@ -101,7 +101,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                     _context.SaveChanges();
                 }
             }
-            TempData["Message"] = "Tên môn trong khoản 2-50 ký tự và không chứa ký tự đặc biệt, vui lòng kiểm tra lại!";
+            TempData["Message"] = "Tên môn trong khoản 2-50 ký tự, vui lòng kiểm tra lại!";
             TempData["MessageType"] = "error";
             return RedirectToAction("Index");
         }

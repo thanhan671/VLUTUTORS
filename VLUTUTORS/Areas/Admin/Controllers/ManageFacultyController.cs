@@ -60,7 +60,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                     return RedirectToAction("Index");
                 }
             }
-            TempData["Message"] = "Tên khoa tối đa 100 ký tự và không chứa ký tự đặc biệt!";
+            TempData["Message"] = "Tên khoa tối đa 100 ký tự!";
             TempData["MessageType"] = "error";
             return RedirectToAction("Index");
         }
@@ -107,7 +107,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                     }
                 }
             }
-            TempData["Message"] = "Tên khoa tối đa 100 ký tự và không chứa ký tự đặc biệt!";
+            TempData["Message"] = "Tên khoa tối đa 100 ký tự!";
             TempData["MessageType"] = "error";
             return RedirectToAction("Index");
 

@@ -127,17 +127,26 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult UpdatePrice(Phiday phiday)
         {
-            if (phiday.ChietKhau > 0)
+            if (ModelState.IsValid)
             {
-                _context.Phidays.Update(phiday);
-                _context.SaveChanges();
-                TempData["Message"] = "Cập nhật thành công!";
-                TempData["MessageType"] = "success";
-                return RedirectToAction("Index");
+                if (phiday.ChietKhau > 0)
+                {
+                    _context.Phidays.Update(phiday);
+                    _context.SaveChanges();
+                    TempData["Message"] = "Cập nhật thành công!";
+                    TempData["MessageType"] = "success";
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    TempData["Message"] = "Chiết khấu phải lớn hơn 0!";
+                    TempData["MessageType"] = "error";
+                    return RedirectToAction("Index");
+                }
             }
             else
             {
-                TempData["Message"] = "Chiết khấu phải lớn hơn 0!";
+                TempData["Message"] = "Vui lòng điền đủ thông tin!";
                 TempData["MessageType"] = "error";
                 return RedirectToAction("Index");
             }

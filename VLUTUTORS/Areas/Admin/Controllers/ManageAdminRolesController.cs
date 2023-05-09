@@ -60,7 +60,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                     return RedirectToAction("Index");
                 }
             }
-            TempData["Message"] = "Tên quyền tối đa 40 ký tự và không chứa ký tự đặc biệt, vui lòng kiểm tra lại!";
+            TempData["Message"] = "Tên quyền tối đa 40 ký tự, vui lòng kiểm tra lại!";
             TempData["MessageType"] = "error";
             return RedirectToAction("Index");
         }
