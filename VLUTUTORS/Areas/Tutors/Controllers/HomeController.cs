@@ -20,14 +20,24 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             if (HttpContext.Session.GetInt32("LoginId") != null)
             {
                 int checkUser = (int)_db.Taikhoannguoidungs.Where(m => m.Id == HttpContext.Session.GetInt32("LoginId")).First().IdxetDuyet;
-                if (checkUser == 5)
+                var checkBlock = _db.Taikhoannguoidungs.Find(HttpContext.Session.GetInt32("LoginId")).TrangThaiGiaSu;
+                if(checkBlock == true)
                 {
-                    int? userId = await IsExistUser();
-                    TempData["TeachingHours"] = (double)_db.Cadays.Where(x => x.TrangThai == true && x.NgayDay <= DateTime.Now.Date && x.IdnguoiDay == userId).Sum(x => ((x.GioKetThuc - x.GioBatDau) * 60) + (x.PhutKetThuc - x.PhutBatDau)) / 60;
-                    var reportIncome = GetReportIncome();
-                    TempData["ReportIncome"] = reportIncome.Result.ToString("#,##0.###");
-                    TempData["AllLesson"] = _db.Cadays.Where(m=>m.IdnguoiDay == HttpContext.Session.GetInt32("LoginId")).Count();
-                    return View();
+                    if (checkUser == 5)
+                    {
+                        int? userId = await IsExistUser();
+                        TempData["TeachingHours"] = (double)_db.Cadays.Where(x => x.TrangThai == true && x.NgayDay <= DateTime.Now.Date && x.IdnguoiDay == userId).Sum(x => ((x.GioKetThuc - x.GioBatDau) * 60) + (x.PhutKetThuc - x.PhutBatDau)) / 60;
+                        var reportIncome = GetReportIncome();
+                        TempData["ReportIncome"] = reportIncome.Result.ToString("#,##0.###");
+                        TempData["AllLesson"] = _db.Cadays.Where(m => m.IdnguoiDay == HttpContext.Session.GetInt32("LoginId")).Count();
+                        return View();
+                    }
+                }
+                else
+                {
+                    TempData["Message"] = "Tài khoản đã bị khóa, vui lòng liên hệ quản trị viên!";
+                    TempData["MessageType"] = "error";
+                    return RedirectToAction("Index", "Home", new { area = "default" });
                 }
             }
 
