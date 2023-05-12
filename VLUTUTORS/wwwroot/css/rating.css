@@ -110,8 +110,6 @@ form > div.action-group > button[type='submit'] {
         border: 2px solid #ec6923;
     }
 }
-<<<<<<< HEAD
-=======
 
 form > div.action-group > a.button_back {
     border: 2px solid transparent;
@@ -128,8 +126,7 @@ form > div.action-group > a.button_back {
         background-color: #eb6868;
         border: 2px solid #ec6923;
     }
->>>>>>> 5bcce6df0419d1eef98c08e518cc082338166cf4
-/* Input Rating */
+
 .rating {
     user-select: none;
 }

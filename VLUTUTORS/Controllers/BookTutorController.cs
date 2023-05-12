@@ -25,7 +25,7 @@ namespace VLUTUTORS.Controllers
         private CP25Team01Context _db = new CP25Team01Context();
         public IActionResult Index(string? keyword = "", int? subjectId = -1, string nameFilter = "", int page = 1)
         {
-            page = page<1 ? 1 : page;
+            page = page < 1 ? 1 : page;
             int pageSize = 6;
 
             ViewData["Keyword"] = keyword;
@@ -247,8 +247,8 @@ namespace VLUTUTORS.Controllers
                 }
             }
             ViewBag.Subjects = subjects;
-       
-            return View(models.ToPagedList(page,pageSize));
+
+            return View(models.ToPagedList(page, pageSize));
         }
 
         [HttpPost]
@@ -436,11 +436,14 @@ namespace VLUTUTORS.Controllers
             int month = caday.NgayDay.Month;
             int day = caday.NgayDay.Day;
 
+            var monDay = _db.Mongiasus.Where(acc => acc.IdmonGiaSu.Equals(caday.IdmonDay)).FirstOrDefault().TenMonGiaSu;
+            var hostMail = _db.Taikhoannguoidungs.Where(acc => acc.Id.Equals(caday.IdnguoiDay)).FirstOrDefault().Email;
+
             DateTime checkTime = new DateTime(year, month, day, caday.GioBatDau, caday.PhutBatDau, 0);
 
             TimeSpan result = DateTime.Now - checkTime;
 
-            if(result.Days <= 0 && Math.Abs(result.Hours) > 1)
+            if (result.Days <= 0 && Math.Abs(result.Hours) > 1)
             {
                 Cahoc cahoc = _db.Cahocs.Where(c => c.IdCaHoc == caday.IdloaiCaDay).FirstOrDefault();
                 Phiday phiday = _db.Phidays.Where(ph => ph.Id == 1).FirstOrDefault();
@@ -448,23 +451,32 @@ namespace VLUTUTORS.Controllers
                 float commision = (int)cahoc.GiaTien * ((float)phiday.ChietKhau / 100);
                 int money = (int)(cahoc.GiaTien - commision);
 
-                MoneyServices.SubtractMoney(money, caday.IdnguoiDay, _db); 
-                MoneyServices.AddMoney((int)cahoc.GiaTien, (int)caday.IdnguoiHoc, _db); 
+                MoneyServices.SubtractMoney(money, caday.IdnguoiDay, _db);
+                MoneyServices.AddMoney((int)cahoc.GiaTien, (int)caday.IdnguoiHoc, _db);
             }
 
-            try 
+            try
             {
                 caday.Link = null;
                 caday.TrangThai = false;
                 _db.Update(caday);
                 _db.SaveChanges();
+                TempData["Message"] = "Đã hủy ca học thành công!";
+                TempData["MessageType"] = "success";
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
 
-            return RedirectToAction("HistoryBooking", "BookTutor", new {id});
+            return RedirectToAction("SendMail", "BookTutor",
+new
+{
+    toEmail = hostMail,
+    mailBody = "<b>Xin thông báo! Ca dạy môn <b style=\"color: red;\">" + monDay + "</b> có thời gian " + caday.GioBatDau + ":" + caday.PhutBatDau + " - " + caday.GioKetThuc + ":" + caday.PhutKetThuc + " ngày " + caday.NgayDay.ToString("dd/MM/yyyy") + " đã bị <b style=\"color: red;\">HỦY</b> bởi người học!</b>" +
+"<p style = \"margin: 0%;\">Nếu có khiếu nại vui lòng liên hệ lại với chúng tôi!<br/>",
+    id = caday.IdnguoiHoc
+});
         }
 
         [HttpPost]
@@ -490,7 +502,8 @@ namespace VLUTUTORS.Controllers
 
             var userId = JsonConvert.DeserializeObject<Taikhoannguoidung>(HttpContext.Session.GetString("SessionInfo"));
             bool isOverLapse = CheckLessonHasRegister(userId.Id, caday.NgayDay, caday.GioBatDau, caday.PhutBatDau, caday.GioKetThuc, caday.PhutKetThuc);
-            if (isOverLapse) {
+            if (isOverLapse)
+            {
                 TempData["Message"] = "Thời gian bị trùng với ca dạy khác";
                 TempData["MessageType"] = "error";
                 return RedirectToAction("Index", "BookTutor");
@@ -510,8 +523,8 @@ namespace VLUTUTORS.Controllers
             float commision = (int)cahoc.GiaTien * ((float)phiday.ChietKhau / 100);
             int money = (int)(cahoc.GiaTien - commision);
 
-            MoneyServices.SubtractMoney((int)cahoc.GiaTien, (int) caday.IdnguoiHoc, _db); 
-            MoneyServices.AddMoney(money, caday.IdnguoiDay, _db); 
+            MoneyServices.SubtractMoney((int)cahoc.GiaTien, (int)caday.IdnguoiHoc, _db);
+            MoneyServices.AddMoney(money, caday.IdnguoiDay, _db);
 
             try
             {
@@ -535,9 +548,9 @@ namespace VLUTUTORS.Controllers
             });
         }
 
-        private bool CheckLessonHasRegister(int learnerId, DateTime regisDate, int startHour, int startMinute, int endHour, int endMinute) 
+        private bool CheckLessonHasRegister(int learnerId, DateTime regisDate, int startHour, int startMinute, int endHour, int endMinute)
         {
-            List<Caday> caDayByLearner = _db.Cadays.Where(c => c.IdnguoiHoc == learnerId).ToList();
+            List<Caday> caDayByLearner = _db.Cadays.Where(c => c.IdnguoiHoc == learnerId && c.Link != null).ToList();
             List<Caday> caDayByDate = caDayByLearner.Where(c => c.NgayDay.Date == regisDate.Date).ToList();
 
             if (caDayByDate.Count == 0 || caDayByLearner.Count == 0)
@@ -550,12 +563,14 @@ namespace VLUTUTORS.Controllers
 
             bool isOverLapse = false;
 
-            foreach (var caDay in caDayByDate) {
+            foreach (var caDay in caDayByDate)
+            {
                 TimeSpan caDayStartTime = new TimeSpan(caDay.GioBatDau, caDay.PhutBatDau, 0);
                 TimeSpan caDayEndTime = new TimeSpan(caDay.GioKetThuc, caDay.PhutKetThuc, 0);
 
                 isOverLapse = startTime <= caDayEndTime && caDayStartTime <= endTime;
-                if (isOverLapse) {
+                if (isOverLapse)
+                {
                     break;
                 }
             }
@@ -585,7 +600,7 @@ namespace VLUTUTORS.Controllers
 
             //Email and content
             MailMessage message = new MailMessage(new MailAddress(fromMail, mailTitle), new MailAddress(toEmail));
-            message.Subject = "[VLUTUTORS] Thông báo đặt lịch dạy";
+            message.Subject = "[VLUTUTORS] Thông báo về lịch dạy";
             message.Body = bodyMail;
             message.IsBodyHtml = true;
 
