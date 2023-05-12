@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace VLUTUTORS.Models
 {
@@ -11,11 +12,13 @@ namespace VLUTUTORS.Models
 
         public bool IsInWishlish { get; set; }
         public List<CommentViewModel> Commnents { get; set; }
+
     }
 
     public class CommentViewModel
     {
         public Danhgiagiasu Comment;
         public Taikhoannguoidung NguoiDanhGia;
+        public List<Tieuchidanhgia> Tieuchi;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,12 +11,16 @@ using VLUTUTORS.Models;
 namespace VLUTUTORS.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Quản trị viên hệ thống")]
+    [Authorize(Roles = "1")]
     public class ManageFacultyController : Controller
     {
         private readonly CP25Team01Context _context = new CP25Team01Context();
         public async Task<IActionResult> Index()
         {
+            if (HttpContext.Session.GetString("LoginADId") == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             var khoa = await _context.Khoas.ToListAsync();
             return View(khoa);
         }
@@ -37,7 +42,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 {
                     TempData["Message"] = "Khoa này đã tồn tại!";
                     TempData["MessageType"] = "error";
-                    return RedirectToAction("AddFaculty");
+                    return RedirectToAction("Index");
                 }
                 else
                 {
@@ -55,7 +60,9 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                     return RedirectToAction("Index");
                 }
             }
-            return View(khoa);
+            TempData["Message"] = "Tên khoa tối đa 100 ký tự!";
+            TempData["MessageType"] = "error";
+            return RedirectToAction("Index");
         }
         [HttpGet]
         public async Task<IActionResult> EditFaculty(int? id = -1)
@@ -75,11 +82,35 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult EditFaculty(Khoa khoa)
         {
-            TempData["Message"] = "Cập nhật thành công!";
-            TempData["MessageType"] = "success";
-            _context.Khoas.Update(khoa);
-            _context.SaveChanges();
+            if (ModelState.IsValid)
+            {
+                var checkKhoa = _context.Khoas.AsNoTracking().SingleOrDefault(x => x.TenKhoa.ToLower() == khoa.TenKhoa.ToLower());
+                if (checkKhoa != null)
+                {
+                    TempData["Message"] = "Khoa này đã tồn tại!";
+                    TempData["MessageType"] = "error";
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    try
+                    {
+                        TempData["Message"] = "Cập nhật thành công!";
+                        TempData["MessageType"] = "success";
+                        _context.Khoas.Update(khoa);
+                        _context.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
+                    catch (Exception ex)
+                    {
+                        return RedirectToAction(nameof(Index));
+                    }
+                }
+            }
+            TempData["Message"] = "Tên khoa tối đa 100 ký tự!";
+            TempData["MessageType"] = "error";
             return RedirectToAction("Index");
+
         }
         [HttpPost]
         [ValidateAntiForgeryToken]

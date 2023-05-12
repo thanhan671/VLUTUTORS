@@ -16,6 +16,7 @@ namespace VLUTUTORS.Models
         public int IdQuyen { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Vui lòng điền trường này!")]
+        [RegularExpression(@"[A-Za-z 0-9]", ErrorMessage = "Không nhập ký tự đặc biệt cho trường này!")]
         [StringLength(maximumLength: 40, ErrorMessage = "Tối đa 40 ký tự")]
         public string TenQuyen { get; set; }
 

@@ -88,8 +88,8 @@
                             <div class="items-cont">
                                 <form asp-controller="BookTutor" id="form-@item.IdmonGiaSu">
                                     <input name="subjectId" value="@item.IdmonGiaSu" hidden />
-                                    <h5 onclick="search(@item.IdmonGiaSu)"  data-id="@item.IdmonGiaSu" >@Html.DisplayFor(modeItem => item.TenMonGiaSu)</h5>
-                              </form>
+                                    <h5 onclick="search(@item.IdmonGiaSu)" data-id="@item.IdmonGiaSu">@Html.DisplayFor(modeItem => item.TenMonGiaSu)</h5>
+                                </form>
                             </div>
                         </div>
                         <!-- singel items -->
@@ -102,7 +102,7 @@
                         <img src="~/images/category/bgcolor.jpg" alt="Category" />
                     </div>
                     <div class="items-cont">
-                        <h5>Coming soon</h5>
+                        <h5>Sắp ra mắt...</h5>
                     </div>
                 </div>
                 <!-- singel items -->
@@ -118,80 +118,35 @@
 <section id="teachers-page" class="pt-50 pb-120 gray-bg">
     <div class="container">
         <h3>Gia Sư Nổi Bật</h3>
-        <div class="row">
-            <div class="col-lg-3 col-sm-6">
-                <div class="singel-teachers mt-30 text-center">
-                    <div class="image">
-                        <img src="~/images/teachers/t-1.jpg" alt="Teachers" />
+        <div class="row-item">
+            @{
+                foreach (var tutor in ViewBag.GiaSuList)
+                {
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="singel-teachers mt-30 text-center">
+                            <div class="image">
+                                <img src="https://cntttest.vanlanguni.edu.vn:18081/CP25Team01/@tutor.Anh" alt="Teachers" />
+                            </div>
+                            <div class="cont">
+                                <a href="~/BookTutor/DetailTutor/@tutor.idGiaSu"><h6>@tutor.tenGiaSu</h6></a>
+                                @{
+                                    if (@tutor.Mon2 == null)
+                                    {
+                                        <span>@tutor.Mon1</span>
+                                    }
+                                    else
+                                    {
+                                        <span>@tutor.Mon1 - @tutor.Mon2</span>
+                                    }
+                                }
+                            </div>
+                        </div>
+                        <!-- singel teachers -->
                     </div>
-                    <div class="cont">
-                        <a href="#"><h6>MarkMark alen</h6></a>
-                        <span>Vice chencelor</span>
-                    </div>
-                </div>
-                <!-- singel teachers -->
-            </div>
-            <div class="col-lg-3 col-sm-6">
-                <div class="singel-teachers mt-30 text-center">
-                    <div class="image">
-                        <img src="~/images/teachers/t-2.jpg" alt="Teachers" />
-                    </div>
-                    <div class="cont">
-                        <a href="teachers-singel.html"><h6>David card</h6></a>
-                        <span>Pro chencelor</span>
-                    </div>
-                </div>
-                <!-- singel teachers -->
-            </div>
-            <div class="col-lg-3 col-sm-6">
-                <div class="singel-teachers mt-30 text-center">
-                    <div class="image">
-                        <img src="~/images/teachers/t-3.jpg" alt="Teachers" />
-                    </div>
-                    <div class="cont">
-                        <a href="teachers-singel.html"><h6>Rebeka alig</h6></a>
-                        <span>Pro chencelor</span>
-                    </div>
-                </div>
-                <!-- singel teachers -->
-            </div>
-            <div class="col-lg-3 col-sm-6">
-                <div class="singel-teachers mt-30 text-center">
-                    <div class="image">
-                        <img src="~/images/teachers/t-4.jpg" alt="Teachers" />
-                    </div>
-                    <div class="cont">
-                        <a href="teachers-singel.html"><h6>Hanna bein</h6></a>
-                        <span>Aerobics head</span>
-                    </div>
-                </div>
-                <!-- singel teachers -->
-            </div>
+                }
+            }
         </div>
-        <!-- row -->
-        <div class="row">
-            <div class="col-lg-12">
-                <nav class="courses-pagination mt-50">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item">
-                            <a href="#" aria-label="Previous">
-                                <i class="fa fa-angle-left"></i>
-                            </a>
-                        </li>
-                        <li class="page-item"><a class="active" href="#">1</a></li>
-                        <li class="page-item"><a href="#">2</a></li>
-                        <li class="page-item"><a href="#">3</a></li>
-                        <li class="page-item">
-                            <a href="#" aria-label="Next">
-                                <i class="fa fa-angle-right"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-                <!-- courses pagination -->
-            </div>
-        </div>
-        <!-- row -->
+
     </div>
     <!-- container -->
 </section>
@@ -272,18 +227,18 @@
     {
         <script>
             var messageType = '@TempData["MessageType"]';
-        var message = '@TempData["Message"]';
+            var message = '@TempData["Message"]';
 
-        // Display the message using Toastr library
-        if (messageType === "success") {
-            toastr.success(message);
-        } else if (messageType === "error") {
-            toastr.error(message);
-        } else if (messageType === "warning") {
-            toastr.warning(message);
-        } else if (messageType === "info") {
-            toastr.info(message);
-        }
+            // Display the message using Toastr library
+            if (messageType === "success") {
+                toastr.success(message);
+            } else if (messageType === "error") {
+                toastr.error(message);
+            } else if (messageType === "warning") {
+                toastr.warning(message);
+            } else if (messageType === "info") {
+                toastr.info(message);
+            }
         </script>
     }
     @if (ViewBag.Message != null)
@@ -297,23 +252,23 @@
     <script src="~/js/app.js"></script>
     <script>
         $(function () {
-    // Check for a success message in TempData
-    var toastrSuccess = '@(TempData["toastr-success"])';
-    if (toastrSuccess) {
-        toastr.success(toastrSuccess);
-    }
+            // Check for a success message in TempData
+            var toastrSuccess = '@(TempData["toastr-success"])';
+            if (toastrSuccess) {
+                toastr.success(toastrSuccess);
+            }
 
-    // Check for an error message in TempData
-    var toastrError = '@(TempData["toastr-error"])';
-    if (toastrError) {
-        toastr.error(toastrError);
-    }
-});
-    function search(id){
-        const form = document.getElementById(`form-${id}`)
-        console.log(form)
-        $(`#form-${id}`).submit()
-    }
+            // Check for an error message in TempData
+            var toastrError = '@(TempData["toastr-error"])';
+            if (toastrError) {
+                toastr.error(toastrError);
+            }
+        });
+        function search(id) {
+            const form = document.getElementById(`form-${id}`)
+            console.log(form)
+            $(`#form-${id}`).submit()
+        }
     </script>
 
     <!-- container -->

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -12,7 +13,7 @@ using VLUTUTORS.Models;
 namespace VLUTUTORS.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Quản trị viên người học")]
+    [Authorize(Roles = "1,3")]
     public class ManageLearnerEvaluationController : Controller
     {
         private readonly CP25Team01Context _db = new();
@@ -20,6 +21,10 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            if (HttpContext.Session.GetString("LoginADId") == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             List<Danhgianguoihoc> danhGias = _db.Danhgianguoihocs.ToList();
 
             foreach (var danhgiaItem in danhGias)

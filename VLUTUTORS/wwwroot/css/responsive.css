@@ -922,7 +922,7 @@
 	.col-sm-9 {
 		-webkit-box-flex: 0;
 		flex: 0 0 100%;
-		max-width: 100%;
+		max-width: 75%;
 	}
 	.container-bat .hero {
 		display: none;

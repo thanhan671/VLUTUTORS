@@ -2,7 +2,7 @@
 @inject IHttpContextAccessor httpContextAccessor
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -61,7 +61,8 @@
                 <!-- Navbar Search -->
                 <li class="navbar-item d-flex">
                     <a class="nav-link-item" href="~/Tutors/Account/Index"> Xin chào, @httpContextAccessor.HttpContext.Session.GetString("loginName")</a>
-                    <a class="nav-link-item"
+                    <a href="#"
+                       class="nav-link-item"
                        data-toggle="modal"
                        data-target="#logoutModal"><i class="material-icons nav-link-item">logout</i></a>
                 </li>
@@ -93,7 +94,7 @@
                                 data-dismiss="modal">
                             Hủy
                         </button>
-                        <button class="btn btn-primary" type="button" onclick="location.href='@Url.Action("Logout", "Accounts", new { area = "default" })'">
+                        <button class="btn btn-5 custom-btn" type="button" onclick="location.href='@Url.Action("Logout", "Accounts", new { area = "default" })'">
                             Đồng ý
                         </button>
                     </div>

@@ -14,6 +14,8 @@ namespace VLUTUTORS.Models
         public Taikhoannguoidung()
         {
             Cadays = new HashSet<Caday>();
+            Naptiens = new HashSet<Naptien>();
+            Ruttiens = new HashSet<Ruttien>();
         }
 
         public int Id { get; set; }
@@ -36,7 +38,9 @@ namespace VLUTUTORS.Models
 
         [StringLength(maximumLength: 11, MinimumLength = 10, ErrorMessage = "Giới hạn từ 10-11 ký tự")]
         public string Sdt { get; set; }
-        public DateTime? NgaySinh { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime NgaySinh { get; set; }
 
         [Required(ErrorMessage = "Vui lòng chọn trường này")]
         [Range(1, Int32.MaxValue, ErrorMessage = "Vui lòng chọn trường này")]
@@ -73,6 +77,8 @@ namespace VLUTUTORS.Models
         public bool? TrangThaiGiaSu { get; set; }
         public int? MaXacThuc { get; set; }
         public bool? XacThuc { get; set; }
+        public int? SoDuVi { get; set; }
+        public DateTime NgayTao { get; set; }
 
         public virtual Gioitinh IdgioiTinhNavigation { get; set; }
         public virtual Khoa IdkhoaNavigation { get; set; }
@@ -81,6 +87,8 @@ namespace VLUTUTORS.Models
         public virtual Nganhang IdnganHangNavigation { get; set; }
         public virtual Xetduyet IdxetDuyetNavigation { get; set; }
         public virtual ICollection<Caday> Cadays { get; set; }
+        public virtual ICollection<Naptien> Naptiens { get; set; }
+        public virtual ICollection<Ruttien> Ruttiens { get; set; }
 
         [NotMapped]
         public SelectList DepartmentItems { get; set; }
@@ -99,6 +107,9 @@ namespace VLUTUTORS.Models
 
         [NotMapped]
         public Microsoft.AspNetCore.Http.IFormFile avatarImage { get; set; }
+
+        [NotMapped]
+        public double soSao;
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
@@ -120,6 +131,14 @@ namespace VLUTUTORS.Models
                 if (!string.IsNullOrEmpty(GioiThieuVeMonGiaSu2))
                     yield return new ValidationResult(
                         "Giới thiệu môn gia sư", new[] { "GioiThieuVeMonGiaSu2" });
+            }
+
+            var namSinh = DateTime.Parse(NgaySinh.ToString());
+            int tuoi = DateTime.Now.Year - namSinh.Year;
+            if (tuoi < 18)
+            {
+                yield return new ValidationResult(
+                    "Phải từ đủ 18 tuổi", new[] { "NgaySinh" });
             }
         }
     }

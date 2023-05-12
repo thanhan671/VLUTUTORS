@@ -1,23 +1,20 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Trang chủ";
     Layout = "~/Areas/Tutors/Views/Shared/_TutorsLayout.cshtml";
 }
 
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <div class="content-header">
+    <section class="content-header">
         <div class="container-fluid">
-            <div class="row mb-2">
+            <div class="row mb-2 justify-content-center text-center text-uppercase">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Học viên</h1>
+                    <h1>Thống Kê Gia Sư</h1>
                 </div>
-                <!-- /.col -->
             </div>
-            <!-- /.row -->
         </div>
         <!-- /.container-fluid -->
-    </div>
+    </section>
     <!-- /.content-header -->
     <!-- Main content -->
     <div class="content">
@@ -25,138 +22,24 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="card">
-                        <div class="card-header border-0">
-                            <div class="d-flex justify-content-between">
-                                <h3 class="card-title">Tất cả</h3>
-                            </div>
-                        </div>
                         <div class="card-body">
-                            <div class="d-flex">
-                                <p class="d-flex flex-column">
-                                    <span class="text-bold text-lg">150</span>
-                                    <span>Học viên</span>
-                                </p>
-                                <p class="ml-auto d-flex flex-column text-right">
-                                    <span class="text-success">
-                                        <i class="fas fa-arrow-up"></i> 12.5%
-                                    </span>
-                                    <span class="text-muted">So với tuần trước</span>
-                                </p>
-                            </div>
+                            <h3>Tổng số ca dạy của gia sư: <b style="color:red;">@TempData["AllLesson"]</b></h3>
+                            <div class="d-flex" id="charttutor" style="width:570px;height:350px"></div>
+                            <a class="btn-5 custom-btn text-center" type="button" href="~/Tutors/Home/DetailStaticLesson">Xem chi tiết</a>
                         </div>
                     </div>
-
-                    <div class="content-header">
-                        <div class="container-fluid">
-                            <div class="row mb-2">
-                                <div class="col-sm-6">
-                                    <h1 class="m-0">Lớp học</h1>
-                                </div>
-                                <!-- /.col -->
-                                <div class="col-sm-6"></div>
-                                <!-- /.col -->
-                            </div>
-                            <!-- /.row -->
-                        </div>
-                        <!-- /.container-fluid -->
-                    </div>
-
-                    <!-- /.card -->
-                    <div class="card">
-                        <div class="card-header border-0">
-                            <h3 class="card-title">Lớp học đang mở</h3>
-                            <div class="card-tools">
-                                <a href="#" class="btn btn-tool btn-sm">
-                                    <i class="fas fa-bars"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card-body table-responsive p-0">
-                            <table class="table table-striped table-valign-middle">
-                                <thead>
-                                    <tr>
-                                        <th>Lớp</th>
-                                        <th>Mã lớp</th>
-                                        <th>Giảng viên phụ trách</th>
-                                        <th>Thêm</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <img src="img/default-150x150.png"
-                                                 alt="Product 1"
-                                                 class="img-circle img-size-32 mr-2" />
-                                            Anh văn cơ bản
-                                        </td>
-                                        <td>1</td>
-                                        <td>Nguyen A</td>
-                                        <td>
-                                            <a href="#" class="text-muted">
-                                                <i class="fas fa-search"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="img/default-150x150.png"
-                                                 alt="Product 1"
-                                                 class="img-circle img-size-32 mr-2" />
-                                            Tin học
-                                        </td>
-                                        <td>2</td>
-                                        <td>Nguyen B</td>
-                                        <td>
-                                            <a href="#" class="text-muted">
-                                                <i class="fas fa-search"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="img/default-150x150.png"
-                                                 alt="Product 1"
-                                                 class="img-circle img-size-32 mr-2" />
-                                            Lập trình JS
-                                        </td>
-                                        <td>3</td>
-                                        <td>Nguyen C</td>
-                                        <td>
-                                            <a href="#" class="text-muted">
-                                                <i class="fas fa-search"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="img/default-150x150.png"
-                                                 alt="Product 1"
-                                                 class="img-circle img-size-32 mr-2" />
-                                            Anh văn chuyên ngành
-                                        </td>
-                                        <td>4</td>
-                                        <td>Nguyen C</td>
-                                        <td>
-                                            <a href="#" class="text-muted">
-                                                <i class="fas fa-search"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <!-- /.card -->
                 </div>
                 <!-- /.col-md-6 -->
                 <div class="col-lg-6">
                     <div class="card">
-                        <div class="card-header border-0">
-                            <div class="d-flex justify-content-between">
-                                <h3 class="card-title">Phân loại</h3>
-                            </div>
+                        <div class="card-body">
+                            <h3>Tổng thu nhập đạt được: <b style="color:red;">@TempData["ReportIncome"]</b> đồng</h3>
                         </div>
-                        <div class="card-body"></div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h3>Tổng số giờ đã dạy: <b style="color:red;">@TempData["TeachingHours"]</b> giờ</h3>
+                        </div>
                     </div>
                     <!-- /.card -->
                 </div>
@@ -168,4 +51,37 @@
     </div>
     <!-- /.content -->
 </div>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(DrawonLoad);
+    function DrawonLoad() {
+        $(function () {
+            $.ajax({
+                type: 'GET',
+                url: '/Tutors/Home/GetLessonTutor',
+                success: function (chartsdata) {
+                    var Data = chartsdata.jsonList;
+                    var data = new google.visualization.DataTable();
+                    data.addColumn('string', 'CategoryName');
+                    data.addColumn('number', 'PostCount');
 
+                    for (var i = 0; i < Data.length; i++) {
+                        data.addRow([Data[i].categoryName, Data[i].postCount]);
+                    }
+
+                    var chart = new google.visualization.PieChart(document.getElementById('charttutor'));
+                    chart.draw(data,
+                        {
+                            title: "Thống kê số ca dạy của gia sư",
+                            position: "top",
+                            fontsize: "20px"
+                        });
+                },
+                error: function () {
+                    alert('Lỗi dữ liệu, vui lòng thử lại sau!')
+                }
+            });
+        });
+    }
+</script>

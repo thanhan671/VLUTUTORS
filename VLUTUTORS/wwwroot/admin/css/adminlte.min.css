@@ -67472,3 +67472,12 @@ a:not(.dropdown-item):not(.btn-app):not(.nav-link):not(.brand-link) {
         width: 100%;
         transition: 800ms ease all;
     }
+
+.btn-export {
+    height: 35px;
+    width: 200px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #1E6C41;
+    color: #fff;
+}

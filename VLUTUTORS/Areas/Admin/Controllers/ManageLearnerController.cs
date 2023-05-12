@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,14 +13,18 @@ using ZoomNet.Models;
 namespace VLUTUTORS.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Quản trị viên người học")]
+    [Authorize(Roles = "1,3")]
     public class ManageLearnerController : Controller
     {
         private readonly CP25Team01Context _context = new CP25Team01Context();
 
         public async Task<IActionResult> Index()
         {
-            var taiKhoans = await _context.Taikhoannguoidungs.Where(it=> it.IdxetDuyet == 6).ToListAsync();
+            if (HttpContext.Session.GetString("LoginADId") == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            var taiKhoans = await _context.Taikhoannguoidungs.Where(it=> it.IdxetDuyet != 5).ToListAsync();
             return View(taiKhoans);
         }
         public async Task<IActionResult> DetailLearner(int? id = -1)

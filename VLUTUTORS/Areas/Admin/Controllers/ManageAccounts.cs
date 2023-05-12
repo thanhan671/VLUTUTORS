@@ -8,17 +8,22 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 
 namespace VLUTUTORS.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Quản trị viên hệ thống")]
+    [Authorize(Roles = "1")]
 
     public class ManageAccounts : Controller
     {
         private readonly CP25Team01Context _context = new CP25Team01Context();
         public async Task<IActionResult> Index()
         {
+            if (HttpContext.Session.GetString("LoginADId") == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             var taiKhoans = await _context.Taikhoanadmins.ToListAsync();
             var quyens = await _context.Quyens.ToListAsync();
             foreach (var taiKhoan in taiKhoans)
@@ -48,12 +53,12 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddNewAccounts([Bind(include:"Id,TaiKhoan,MatKhau,IdQuyen")] Taikhoanadmin taikhoanadmin)
+        public async Task<IActionResult> AddNewAccounts([Bind(include: "Id,TaiKhoan,MatKhau,IdQuyen")] Taikhoanadmin taikhoanadmin)
         {
             if (ModelState.IsValid)
             {
                 var taiKhoan = _context.Taikhoanadmins.AsNoTracking().SingleOrDefault(x => x.TaiKhoan.ToLower() == taikhoanadmin.TaiKhoan.ToLower());
-                if(taiKhoan != null)
+                if (taiKhoan != null)
                 {
                     TempData["Message"] = "Tài khoản đã tồn tại, vui lòng kiểm tra lại";
                     TempData["MessageType"] = "error";
@@ -61,11 +66,12 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 }
                 else
                 {
+                    if(taikhoanadmin.MatKhau.Length >= 6)
+                    {
                     try
                     {
-
                         _context.Add(taikhoanadmin);
-                        await _context.SaveChangesAsync();                        
+                        await _context.SaveChangesAsync();
                         TempData["Message"] = "Thêm mới tài khoản thành công!";
                         TempData["MessageType"] = "success";
                     }
@@ -74,8 +80,17 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                         return RedirectToAction(nameof(Index));
                     }
                     return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        TempData["Message"] = "Mật khẩu phải từ 6 ký tự, vui lòng kiểm tra lại";
+                        TempData["MessageType"] = "error";
+                    }
                 }
             }
+            var quyens = await _context.Quyens.ToListAsync();
+            SelectList ddlStatus = new SelectList(quyens, "IdQuyen", "TenQuyen");
+            taikhoanadmin.listQuyen = ddlStatus;
             return View(taikhoanadmin);
         }
 
@@ -107,19 +122,31 @@ namespace VLUTUTORS.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                try
+
+                if (taikhoanadmin.MatKhau.Length >= 6)
                 {
-                    _context.Update(taikhoanadmin);
-                    await _context.SaveChangesAsync();
-                    TempData["Message"] = "Cập nhật thành công!";
-                    TempData["MessageType"] = "success";
+                    try
+                    {
+                        _context.Update(taikhoanadmin);
+                        await _context.SaveChangesAsync();
+                        TempData["Message"] = "Cập nhật thành công!";
+                        TempData["MessageType"] = "success";
+                    }
+                    catch (Exception ex)
+                    {
+                        return RedirectToAction(nameof(Index));
+                    }
+                    return RedirectToAction("Index");
                 }
-                catch (Exception ex)
+                else
                 {
-                    return RedirectToAction(nameof(Index));
+                    TempData["Message"] = "Mật khẩu phải từ 6 ký tự, vui lòng kiểm tra lại";
+                    TempData["MessageType"] = "error";
                 }
-                return RedirectToAction("Index");
             }
+            var quyens = await _context.Quyens.ToListAsync();
+            SelectList ddlStatus = new SelectList(quyens, "IdQuyen", "TenQuyen");
+            taikhoanadmin.listQuyen = ddlStatus;
             return View(taikhoanadmin);
         }
         [HttpPost]

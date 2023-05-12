@@ -64,13 +64,14 @@
             <div class="textarea-group">
                 <label>
                     <span>Nhận xét: </span>
-                    <textarea id="comment-rating" name="feedback"></textarea>
+                    <textarea id="comment-rating" name="feedback" placeholder="Vui lòng đánh giá học viên này!"></textarea>
                 </label>
             </div>
 
             <input name="lessonid" value="@caDay" hidden />
 
             <div class="action-group">
+                <a href='javascript:history.go(-1)' class="button_back">Quay lại</a>
                 <button type="submit">Đánh giá</button>
             </div>
         </form>

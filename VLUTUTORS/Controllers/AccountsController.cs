@@ -100,7 +100,6 @@ namespace VLUTUTORS.Controllers
             return View();
         }
 
-
         public async Task<IActionResult> Details(int? id = -1)
         {
             if (id == null)
@@ -136,13 +135,12 @@ namespace VLUTUTORS.Controllers
 
             if (taiKhoan.AnhDaiDien != null)
             {
-                TempData["avt"] = "Yes";
+                taiKhoan.AnhDaiDien = "https://cntttest.vanlanguni.edu.vn:18081/CP25Team01/"+taiKhoan.AnhDaiDien.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
             }
             else
             {
-                TempData["avt"] = null;
+                taiKhoan.AnhDaiDien = "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png";
             }
-
             var gioiTinhs = await db.Gioitinhs.ToListAsync();
             SelectList ddlStatus = new SelectList(gioiTinhs, "IdgioiTinh", "GioiTinh1");
             taiKhoan.GenderItems = ddlStatus;
@@ -236,7 +234,7 @@ namespace VLUTUTORS.Controllers
             {
                 ModelState.Clear();
             }
-            if(HoTen!=null && Email != null)
+            if(HoTen!=null && Email != null && HoTen.Length >=5)
             {
                 if (MatKhau != null && rePass == MatKhau && MatKhau.Length >= 6)
                 {
@@ -257,7 +255,9 @@ namespace VLUTUTORS.Controllers
                             Idkhoa = 1,
                             IdxetDuyet = 6,
                             MaXacThuc = numVerify,
-                            XacThuc = false
+                            XacThuc = false,
+                            SoDuVi = 0,
+                            NgayTao = DateTime.Now
                         };
                         try
                         {
@@ -285,7 +285,7 @@ namespace VLUTUTORS.Controllers
                 TempData["MessageType"] = "error";
                 return RedirectToAction("Login", "Accounts");
             }
-            TempData["Message"] = "Vui lòng điền đủ thông tin để đăng ký tài khoản!";
+            TempData["Message"] = "Vui lòng điền đủ và đúng định dạng thông tin để đăng ký tài khoản!";
             TempData["MessageType"] = "error";
             return RedirectToAction("Login", "Accounts");
         }
@@ -315,6 +315,12 @@ namespace VLUTUTORS.Controllers
                         TempData["Message"] = "Đăng ký tài khoản thành công!";
                         TempData["MessageType"] = "success";
                     }
+                    else
+                    {
+                        TempData["Message"] = "Mã xác thực chưa đúng!";
+                        TempData["MessageType"] = "error";
+                        return View();
+                    }
                 }
                 else
                 {
@@ -334,6 +340,12 @@ namespace VLUTUTORS.Controllers
                         await db.SaveChangesAsync();
                         TempData["Message"] = "Đăng ký tài khoản thành công!";
                         TempData["MessageType"] = "success";
+                    }
+                    else
+                    {
+                        TempData["Message"] = "Mã xác thực chưa đúng!";
+                        TempData["MessageType"] = "error";
+                        return View();
                     }
                 }
                 else
@@ -371,7 +383,7 @@ namespace VLUTUTORS.Controllers
             if (checkMail != null)
             {
                 Random pass = new Random();
-                int newPass = pass.Next(100000, 999999);
+                int code = pass.Next(100000, 999999);
 
                 var sqlStringBuilder = new SqlConnectionStringBuilder();
                 sqlStringBuilder["Server"] = "tuleap.vanlanguni.edu.vn,18082";
@@ -387,9 +399,9 @@ namespace VLUTUTORS.Controllers
 
                 using var command = new SqlCommand();
                 command.Connection = connection;
-                command.CommandText = "UPDATE TAIKHOANNGUOIDUNG SET MatKhau = @MatKhau WHERE Email = @Email";
+                command.CommandText = "UPDATE TAIKHOANNGUOIDUNG SET MaXacThuc = @MaXacThuc WHERE Email = @Email";
 
-                command.Parameters.AddWithValue("@MatKhau", newPass);
+                command.Parameters.AddWithValue("@MaXacThuc", code);
                 command.Parameters.AddWithValue("@Email", Email);
 
                 command.ExecuteNonQuery();
@@ -406,7 +418,7 @@ namespace VLUTUTORS.Controllers
                                 "Xin chào, <br/>" +
                                 "Mã xác minh bạn cần dùng để thay đổi mật khẩu cho email <b>" + Email + "</b> là:</p>" +
 
-                                "<p style = \"color: green;font-size: 40px; margin: 0 0 0 50px;\">" + newPass + "</p>" +
+                                "<p style = \"color: green;font-size: 40px; margin: 0 0 0 50px;\">" + code + "</p>" +
 
                                 "<p style = \"margin: 0%;\" > Vui lòng nhập mã xác thực để thay đổi mật khẩu<br/>" +
                                 "Nếu bạn không yêu cầu mã này thì có thể ai đó đang sử dụng email <b>" + Email + "</b> để thay đổi mật khẩu tài khoản." +
@@ -441,7 +453,7 @@ namespace VLUTUTORS.Controllers
                 smtp.Credentials = credential;
 
                 smtp.Send(message);
-                HttpContext.Session.SetString("loginEmail", Email);
+                HttpContext.Session.SetString("Email", Email);
 
                 TempData["Message"] = "Mã xác nhận đã được gửi đến mail của bạn, vui lòng kiểm tra!";
                 TempData["MessageType"] = "success";
@@ -462,11 +474,11 @@ namespace VLUTUTORS.Controllers
         [HttpPost]
         public IActionResult ChangesPass(string newPass, string verifyCode)
         {
-            string email = HttpContext.Session.GetString("loginEmail");
+            string email = HttpContext.Session.GetString("Email");
             var checkAccount = db.Taikhoannguoidungs.AsNoTracking().SingleOrDefault(x => x.Email.ToLower() == email.ToLower());
             if (checkAccount != null)
             {
-                if (checkAccount.MatKhau == verifyCode)
+                if (checkAccount.MaXacThuc.ToString() == verifyCode)
                 {
                     if (newPass.Length >= 6)
                     {
@@ -483,7 +495,7 @@ namespace VLUTUTORS.Controllers
                 }
                 else
                 {
-                    TempData["Message"] = "Mã xác minh không đúng!";
+                    TempData["Message"] = "Mã xác thực không đúng!";
                     TempData["MessageType"] = "error";
                     return View();
                 }

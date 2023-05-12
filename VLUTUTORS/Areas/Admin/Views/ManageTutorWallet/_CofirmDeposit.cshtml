@@ -1,0 +1,54 @@
+﻿@model VLUTUTORS.Models.Naptien;
+
+<div class="modal fade"
+     id="confirmDepositModal-@Model.Id"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <form asp-action="ConfirmDeposit" asp-controller="ManageTutorWallet" method="post">
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="IdNguoiNap" />
+        <input type="hidden" asp-for="SoTienNap" />
+        <input type="hidden" asp-for="TrangThai" />
+        <input type="hidden" asp-for="MaNapTien" />
+        <input type="hidden" asp-for="ThoiGianNapTien" />
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        Xác nhận nạp tiền
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    <span class="alert-danger">
+                    </span>
+                    <div class="form-group">
+                        <label for="inputName">Mã nạp tiền</label>
+                        <span>@Model.MaNapTien</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputName">Tên người nạp</label>
+                        <span>@Model.tenNguoiNap</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputName">Số tiền nạp</label>
+                        <span>@Model.SoTienNap.ToString("#,##0.###") đồng</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputName">Ngày nạp</label>
+                        <span>@Model.ThoiGianNapTien.ToString("dd/MM/yyyy")</span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button"
+                            class="btn btn-secondary"
+                            data-dismiss="modal">
+                        Hủy
+                    </button>
+                    <button type="submit" class="btn btn-5 custom-btn">Xác nhận</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

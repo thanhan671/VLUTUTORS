@@ -20,7 +20,8 @@
                     </span>
                     <div class="form-group">
                         <label for="inputName">Tên khoa</label>
-                        <input asp-for="TenKhoa" type="text" id="TenKhoa" name="TenKhoa" class="form-control" data-error="Vui lòng điền đủ thông tin!" required />
+                        <input asp-for="TenKhoa" type="text" id="TenKhoa" name="TenKhoa" placeholder="Tối đa 100 ký tự" class="form-control" data-error="Vui lòng điền đủ thông tin!" required />
+                        <span asp-validation-for="TenKhoa" class="help-block with-errors" style="color:red"></span>
                     </div>
                 </div>
                 <div class="modal-footer">

@@ -18,7 +18,7 @@ using Microsoft.EntityFrameworkCore;
 namespace VLUTUTORS.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Quản trị viên hệ thống")]
+    [Authorize(Roles = "1")]
 
     public class ManageContentController : Controller
     {
@@ -33,6 +33,10 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         }
         public async Task<IActionResult> Index()
         {
+            if (HttpContext.Session.GetString("LoginADId") == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             var noiDung = await _context.Noidungs.FirstOrDefaultAsync(m => m.Id == 1);
             return View(noiDung);
         }

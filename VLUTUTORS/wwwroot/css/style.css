@@ -140,18 +140,24 @@ p {
 }
 
 section.demo {
-  margin-top: 30px;
+    margin-top: 30px;
 }
+
 section h4 {
-  margin: 30px 0 15px 0;
-  font-weight: 500;
-  font-size: 20px;
-  color: #3e3e3e;
-} */
+    margin: 30px 0 15px 0;
+    font-weight: 500;
+    font-size: 20px;
+    color: #3e3e3e;
+}
+
+*/
 @media (max-width: 600px) {
-    section.demo {
-        border-top: 0;
-    }
+    section .demo
+
+{
+    border-top: 0;
+}
+
 }
 
 @media (max-width: 600px) {
@@ -273,7 +279,7 @@ select.form-search {
         }
 
 .controls {
-/*    display: flex;*/
+    /*    display: flex;*/
     justify-content: center;
 }
 
@@ -1031,33 +1037,33 @@ select.form-search {
     padding: 0;
 }
 
-/*    .navigation .navbar .navbar-nav {
+    /*    .navigation .navbar .navbar-nav {
         width: 850px;
     }*/
 
-        .navigation .navbar .navbar-nav li {
-            margin-right: 40px;
-            position: relative;
+    .navigation .navbar .navbar-nav li {
+        margin-right: 40px;
+        position: relative;
+    }
+
+        .navigation .navbar .navbar-nav li:last-child {
+            margin-right: 0;
         }
 
-            .navigation .navbar .navbar-nav li:last-child {
-                margin-right: 0;
-            }
-
-            .navigation .navbar .navbar-nav li a {
-                font-size: 14px;
-                font-family: 'Montserrat', sans-serif;
-                font-weight: 700;
-                text-transform: uppercase;
-                -webkit-transition: all 0.4s linear;
-                transition: all 0.4s linear;
-                padding: 25px 0;
-                color: #07294d;
-                max-width: 145px;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-            }
+        .navigation .navbar .navbar-nav li a {
+            font-size: 14px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            -webkit-transition: all 0.4s linear;
+            transition: all 0.4s linear;
+            padding: 25px 0;
+            color: #07294d;
+            max-width: 145px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
 
 .right-icon.text-right ul li a {
     color: #07294d;
@@ -1402,7 +1408,7 @@ i.active,
 
 .tutor-rating {
     display: flex;
-    width: 74px;
+    width: 100%;
     align-items: center;
     overflow: hidden;
 }
@@ -2217,7 +2223,8 @@ i.active,
         .singel-teachers .image img {
             -webkit-transition: all 0.4s linear;
             transition: all 0.4s linear;
-            width: 100%;
+            width: 300px;
+            height: 260px;
         }
 
     .singel-teachers:hover .image img {
@@ -2783,35 +2790,35 @@ i.active,
         background-color: #fff;
     }
 
-/*        .category-form .main-form .singel-form {
+        /*        .category-form .main-form .singel-form {
             margin-top: 20px;
         }*/
 
-            .category-form .main-form .singel-form input {
-                width: 100%;
-                height: 60px;
-                padding: 0 5px;
-                font-size: 15px;
-                color: #8a8a8a;
-                border: 1px solid #a1a1a1;
-                border-radius: 5px;
-            }
+        .category-form .main-form .singel-form input {
+            width: 100%;
+            height: 60px;
+            padding: 0 5px;
+            font-size: 15px;
+            color: #8a8a8a;
+            border: 1px solid #a1a1a1;
+            border-radius: 5px;
+        }
 
-            .category-form .main-form .singel-form select {
-                width: 100%;
-                height: 60px;
-                padding: 0 5px;
-                font-size: 15px;
-                color: #8a8a8a;
-                border: 1px solid #a1a1a1;
-                border-radius: 5px;
-            }
+        .category-form .main-form .singel-form select {
+            width: 100%;
+            height: 60px;
+            padding: 0 5px;
+            font-size: 15px;
+            color: #8a8a8a;
+            border: 1px solid #a1a1a1;
+            border-radius: 5px;
+        }
 
-            .category-form .main-form .singel-form .main-btn {
-                width: 100%;
-                line-height: 60px;
-                margin-top: 20px;
-            }
+        .category-form .main-form .singel-form .main-btn {
+            width: 100%;
+            line-height: 60px;
+            margin-top: 20px;
+        }
 
 /*=====================================================
     15. COURSE 2 css 
@@ -3691,7 +3698,27 @@ i.active,
 
 .reviews-cont {
     padding: 25px 30px 30px;
+    height: 835px;
+    overflow-y: scroll;
 }
+    .reviews-cont::-webkit-scrollbar {
+        margin-left: 15px;
+        height: 5px;
+        margin-top: 4px;
+        width:3px;
+    }
+
+    .reviews-cont::-webkit-scrollbar-track {
+        background-color: #ebebeb;
+        -webkit-border-radius: 7px;
+        border-radius: 7px;
+    }
+
+    .reviews-cont::-webkit-scrollbar-thumb {
+        -webkit-border-radius: 7px;
+        border-radius: 7px;
+        background: #6d6d6d;
+    }
 
     .reviews-cont .title h6 {
         font-size: 18px;
@@ -5130,6 +5157,7 @@ p.form-message.error {
     font-weight: 500;
     width: 150px;
 }
+
 .course-item {
     width: 100%;
     text-align: left;
@@ -5142,11 +5170,13 @@ p.form-message.error {
     border-radius: 5px;
     border: 1px solid #ddd;
     transition: .2s ease-in-out;
-    height:100%;
+    height: 100%;
 }
-.course-item:hover{
-    background-color: #aaaaaa;
-}
+
+    .course-item:hover {
+        background-color: #aaaaaa;
+    }
+
 .course-container {
     display: flex;
     height: 100%;
@@ -5206,6 +5236,7 @@ p.form-message.error {
     height: 315px;
     overflow-x: hidden;
 }
+
     .course-video::-webkit-scrollbar {
         margin-left: 15px;
         width: 10px;
@@ -5218,11 +5249,12 @@ p.form-message.error {
         border-radius: 7px;
     }
 
-.course-video::-webkit-scrollbar-thumb {
-    -webkit-border-radius: 7px;
-    border-radius: 7px;
-    background: #6d6d6d;
-}
+    .course-video::-webkit-scrollbar-thumb {
+        -webkit-border-radius: 7px;
+        border-radius: 7px;
+        background: #6d6d6d;
+    }
+
 .course-title {
     font-size: 16px;
     font-weight: 700;
@@ -5303,9 +5335,11 @@ p.form-message.error {
     /* align-items: center; */
     margin-top: 20px;
 }
+
     .navbar-right i {
         color: #07294d;
     }
+
 .custom-btn {
     width: 8.125rem;
     height: 2.5rem;
@@ -5323,6 +5357,7 @@ p.form-message.error {
     // outline: none;
     border: none;
 }
+
 .btn-5 {
     /*    width: 100%;*/
     height: 40px;
@@ -5365,6 +5400,7 @@ p.form-message.error {
         width: 100%;
         transition: 800ms ease all;
     }
+
 .btn-success-modal {
     height: 40px;
     line-height: 42px;
@@ -5373,6 +5409,7 @@ p.form-message.error {
     background: #ec6923;
     background: #ec6923;
 }
+
     .btn-success-modal:hover {
         color: #ec6923;
         background: transparent;
@@ -5405,6 +5442,37 @@ p.form-message.error {
         transition: 800ms ease all;
     }
 
-.lb-question{
+.lb-question {
     display: contents;
+}
+.card_container {
+    display: grid;
+    padding: 10px;
+    justify-content: space-around;
+}
+
+.card-checkout {
+    width: fit-content;
+    height: 200px;
+    border-radius: 1rem;
+    display: grid;
+    align-items: center;
+    color: #ffffff;
+    /*    background: linear-gradient(to bottom, #d5252ed9 0%, #07294dd1 90%);*/
+    background-image: linear-gradient(315deg, #182b3a 0%, #20A4DA 91%);
+    box-shadow: -0.6rem 0.6rem 1.8rem #4f46f83d;
+    border: 1px solid #ffffff;
+    z-index: 200;
+    position: relative;
+    align-content: center;
+    justify-items: center;
+    width: 345px;
+}
+
+.card_name {
+    color: #fff;
+}
+
+.card_number {
+    font-size: 25px;
 }

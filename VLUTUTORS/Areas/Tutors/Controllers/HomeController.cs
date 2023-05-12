@@ -15,40 +15,65 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
     public class HomeController : Controller
     {
         private readonly CP25Team01Context _db = new();
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            int checkUser = (int)_db.Taikhoannguoidungs.Where(m => m.Id == HttpContext.Session.GetInt32("LoginId")).First().IdxetDuyet;
-            if (checkUser == 5)
+            if (HttpContext.Session.GetInt32("LoginId") != null)
             {
-                return View();
+                int checkUser = (int)_db.Taikhoannguoidungs.Where(m => m.Id == HttpContext.Session.GetInt32("LoginId")).First().IdxetDuyet;
+                var checkBlock = _db.Taikhoannguoidungs.Find(HttpContext.Session.GetInt32("LoginId")).TrangThaiGiaSu;
+                if(checkBlock == true)
+                {
+                    if (checkUser == 5)
+                    {
+                        int? userId = await IsExistUser();
+                        TempData["TeachingHours"] = (double)_db.Cadays.Where(x => x.TrangThai == true && x.NgayDay <= DateTime.Now.Date && x.IdnguoiDay == userId).Sum(x => ((x.GioKetThuc - x.GioBatDau) * 60) + (x.PhutKetThuc - x.PhutBatDau)) / 60;
+                        var reportIncome = GetReportIncome();
+                        TempData["ReportIncome"] = reportIncome.Result.ToString("#,##0.###");
+                        TempData["AllLesson"] = _db.Cadays.Where(m => m.IdnguoiDay == HttpContext.Session.GetInt32("LoginId")).Count();
+                        return View();
+                    }
+                }
+                else
+                {
+                    TempData["Message"] = "Tài khoản đã bị khóa, vui lòng liên hệ quản trị viên!";
+                    TempData["MessageType"] = "error";
+                    return RedirectToAction("Index", "Home", new { area = "default" });
+                }
             }
+
             return RedirectToAction("Login", "Accounts", new { area = "default" });
         }
 
         #region Method 
 
-        /// <summary>
-        /// Xem thống kê giờ dạy của từng gia sư.
-        /// </summary>
-        /// <returns>long</returns>
-        public async Task<long> GetReportTeachingHours()
+        public JsonResult GetLessonTutor()
         {
-            int? userId = await IsExistUser();
-            if (userId is null)
-            {
-                return 0;
-            }
+            int userId = (int)HttpContext.Session.GetInt32("LoginId");
 
-            return await _db.Cadays.Where(x => x.TrangThai == true && x.NgayDay.Date <= DateTime.Now.Date && x.IdnguoiDay == userId)
-                .SumAsync(x => ((x.GioKetThuc - x.GioBatDau) * 60) + (x.PhutKetThuc - x.PhutBatDau)) / 60;
+            int success = _db.Cadays.Where(x => x.TrangThai == true && x.NgayDay < DateTime.Now.Date && x.IdnguoiDay == userId).Count();
+            int cancel = _db.Cadays.Where(x => x.TrangThai == false && x.NgayDay < DateTime.Now.Date && x.IdnguoiDay == userId).Count();
+            int notBooking = _db.Cadays.Where(x => x.TrangThai == null && x.NgayDay < DateTime.Now.Date && x.IdnguoiHoc == null && x.IdnguoiDay == userId).Count();
+            int registBooking = _db.Cadays.Where(x => x.TrangThai == null && x.NgayDay >= DateTime.Now.Date && x.IdnguoiDay == userId).Count();
+            int booking = _db.Cadays.Where(x => x.TrangThai == false && x.Link != null && x.NgayDay >= DateTime.Now.Date && x.IdnguoiDay == userId).Count();
+
+            List<Chart> list = new List<Chart>();
+
+            list.Add(new Chart { CategoryName = "Số ca hoàn thành", PostCount = success });
+            list.Add(new Chart { CategoryName = "Số ca hủy", PostCount = cancel });
+            list.Add(new Chart { CategoryName = "Số ca không được đặt", PostCount = notBooking });
+            list.Add(new Chart { CategoryName = "Số ca đang được đặt", PostCount = booking });
+            list.Add(new Chart { CategoryName = "Số ca chưa được đặt", PostCount = registBooking });
+
+            return Json(new { JSONList = list });
+
         }
 
         /// <summary>
         /// Xem thống kê thu nhập từng gia sư.
         /// </summary>
-        /// <param name="request">GetReportIncomeByDurationRequest</param>
-        /// <returns>double</returns>
-        public async Task<double> GetReportIncomeByDuration(GetReportIncomeByDurationRequest request)
+        /// <returns>float</returns>
+
+        public async Task<float> GetReportIncome()
         {
             int? userId = await IsExistUser();
             if (userId is null)
@@ -65,17 +90,12 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
                              NgayDay = caDay.NgayDay,
                              GiaTien = caHoc.GiaTien
                          };
+            float chietKhau = (float)_db.Phidays.FirstOrDefault(x => x.Id == 1).ChietKhau / 100;
+            float tienThue = (float)await caDays.SumAsync(x => x.GiaTien) * chietKhau;
 
-            if (request.FromDate is not null)
-            {
-                caDays = caDays.Where(x => x.NgayDay <= request.FromDate.Value.Date);
-            }
-            if (request.ToDate is not null)
-            {
-                caDays = caDays.Where(x => x.NgayDay >= request.ToDate.Value.Date);
-            }
+            float tienNhan = (float)await caDays.SumAsync(x => x.GiaTien) - tienThue;
 
-            return await caDays.SumAsync(x => x.GiaTien);
+            return tienNhan;
         }
 
         private async Task<int?> IsExistUser()
@@ -96,6 +116,31 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
 
         #endregion
 
+        public IActionResult DetailStaticLesson()
+        {
+            if (HttpContext.Session.GetString("LoginId") == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            int id = (int)HttpContext.Session.GetInt32("LoginId");
+            List<Caday> caDays = _db.Cadays.Where(ca => ca.IdnguoiDay == id).ToList();
+
+            foreach (var cadayItem in caDays)
+            {
+                if(cadayItem.IdnguoiHoc != null)
+                {
+                    cadayItem.tenNguoiHoc = _db.Taikhoannguoidungs.Find(cadayItem.IdnguoiHoc).HoTen.ToString();
+                }
+                else
+                {
+                    cadayItem.tenNguoiHoc = "Không có";
+                }
+                cadayItem.tenNguoiDay = _db.Taikhoannguoidungs.Find(cadayItem.IdnguoiDay).HoTen.ToString();
+                cadayItem.tenMonDay = _db.Mongiasus.Find(cadayItem.IdmonDay).TenMonGiaSu.ToString();
+                cadayItem.giaCaDay = _db.Cahocs.Find(cadayItem.IdloaiCaDay).GiaTien;
+            }
+            return View(caDays);
         }
     }
+}
 

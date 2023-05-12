@@ -8,6 +8,8 @@ using VLUTUTORS.Areas.Tutors.Models;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using VLUTUTORS.Support.Services;
+using System.Net.Mail;
 
 namespace VLUTUTORS.Areas.Tutors.Controllers
 {
@@ -245,12 +247,104 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             // call check lesson has register
 
             Caday caDay = _db.Cadays.Where(p => p.Id == lessonPlanId).FirstOrDefault();
+
+            if(caDay.IdnguoiHoc == null)
+            {
+                _db.Cadays.Remove(caDay);
+                await _db.SaveChangesAsync();
+                TempData["Message"] = "Hủy ca dạy thành công!";
+                TempData["MessageType"] = "success";
+
+                return RedirectToAction("Index", "ManageTeachSchedule");
+            }
+
             caDay.Link = null;
             caDay.TrangThai = false;
             _db.Cadays.Update(caDay);
             await _db.SaveChangesAsync();
+
+            Cahoc cahoc = _db.Cahocs.Where(c => c.IdCaHoc == caDay.IdloaiCaDay).FirstOrDefault();
+            Phiday phiday = _db.Phidays.Where(ph => ph.Id == 1).FirstOrDefault();
+
+            float commision = (int)cahoc.GiaTien * ((float)phiday.ChietKhau/100);
+            int money = (int) (cahoc.GiaTien + commision);
+            int moneyBack = (int)(cahoc.GiaTien - commision);
+
+            int year = caDay.NgayDay.Year;
+            int month = caDay.NgayDay.Month;
+            int day = caDay.NgayDay.Day;
+
+            var monDay = _db.Mongiasus.Where(acc => acc.IdmonGiaSu.Equals(caDay.IdmonDay)).FirstOrDefault().TenMonGiaSu;
+            var hostMail = _db.Taikhoannguoidungs.Where(acc => acc.Id.Equals(caDay.IdnguoiHoc)).FirstOrDefault().Email;
+            var tenGS = _db.Taikhoannguoidungs.Where(acc => acc.Id.Equals(caDay.IdnguoiDay)).FirstOrDefault().HoTen;
+
+            DateTime checkTime = new DateTime(year, month, day, caDay.GioBatDau, caDay.PhutBatDau, 0);
+
+            TimeSpan result = DateTime.Now - checkTime;
+
+            if (caDay.IdnguoiHoc != null && result.Hours > 1)
+            {
+                MoneyServices.SubtractMoney(moneyBack, caDay.IdnguoiDay, _db);
+                MoneyServices.AddMoney((int)cahoc.GiaTien, (int)caDay.IdnguoiHoc, _db);
+            }else if(caDay.IdnguoiHoc != null && result.Hours < 1)
+            {
+                MoneyServices.SubtractMoney(money, caDay.IdnguoiDay, _db);
+                MoneyServices.AddMoney((int)cahoc.GiaTien, (int)caDay.IdnguoiHoc, _db);
+            }
+
             TempData["Message"] = "Hủy ca dạy thành công!";
             TempData["MessageType"] = "success";
+
+            return RedirectToAction("SendMail", "ManageTeachSchedule",
+new
+{
+toEmail = hostMail,
+mailBody = "<b>Xin thông báo! Ca học môn <b style=\"color: red;\">" + monDay + "</b> có thời gian " + caDay.GioBatDau + ":" + caDay.PhutBatDau + " - " + caDay.GioKetThuc + ":" + caDay.PhutKetThuc + " ngày " + caDay.NgayDay.ToString("dd/MM/yyyy") + " đã bị <b style=\"color: red;\">HỦY</b> bởi gia sư " + tenGS + "!</b>" +
+"<p style = \"margin: 0%;\">Nếu có khiếu nại vui lòng liên hệ lại với chúng tôi!<br/>"
+});
+        }
+
+        public IActionResult SendMail(string toEmail, string mailBody)
+        {
+            string mailTitle = "Gia Sư Văn Lang";
+            string fromMail = "giasuvanlang.thongtin@gmail.com";
+            string fromEmailPass = "vrzaiqmdiycujvas";
+            string bodyMail = "<!DOCTYPE html>" +
+        "<html>" +
+            "<body>" +
+                "<p style = \"margin: 0%;\">" +
+                "Xin chào bạn,<br/>" +
+                mailBody + "<br/>" +
+
+               " Trân trọng!<br/>" +
+                "<b>Gia Sư Văn Lang</b><br/>" +
+                "<b style = \"font-size: 10px;text-align: center; margin: 0%;\"> Bạn nhận được thông báo này vì địa chỉ email " + toEmail + " đang được sử dụng cho " +
+                "tài khoản trên trang Gia Sư Văn Lang. Nếu thông tin này không chính xác," +
+                "vui lòng bỏ qua và không trả lời lại mail này.<br/>Xin cảm ơn!</b>" +
+            "</body>" +
+        "</html>";
+
+            //Email and content
+            MailMessage message = new MailMessage(new MailAddress(fromMail, mailTitle), new MailAddress(toEmail));
+            message.Subject = "[VLUTUTORS] Thông báo hủy lịch học";
+            message.Body = bodyMail;
+            message.IsBodyHtml = true;
+
+            //Server detail
+            SmtpClient smtp = new SmtpClient();
+            smtp.Host = "smtp.gmail.com";
+            smtp.Port = 587;
+            smtp.EnableSsl = true;
+            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+
+            //Credentials
+            System.Net.NetworkCredential credential = new System.Net.NetworkCredential();
+            credential.UserName = fromMail;
+            credential.Password = fromEmailPass;
+            smtp.UseDefaultCredentials = false;
+            smtp.Credentials = credential;
+
+            smtp.Send(message);
 
             return RedirectToAction("Index", "ManageTeachSchedule");
         }

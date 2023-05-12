@@ -40,7 +40,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var lesson in Model)
+            @foreach (var lesson in Model.OrderByDescending(m => m.Id))
             {
                 int year = lesson.NgayDay.Year;
                 int month = lesson.NgayDay.Month;
@@ -84,7 +84,7 @@
                             }
                             else
                             {
-                                <td class="cancel text-center">Đã Huỷ</td>
+                                <td class="cancel text-center" style="color:red">Đã Huỷ</td>
                                 <td class="text-center">Không có đánh giá</td>
                                 <td class="text-center">Không có đánh giá</td>
                             }
@@ -95,22 +95,31 @@
             }
         </tbody>
     </table>
-<!-- Modal -->
+    <!-- Modal -->
 </div>
 @foreach (var lesson in Model)
 {
     var danhGiaGS = new CP25Team01Context().Danhgiagiasus.FirstOrDefault(m => m.IdCaDay == lesson.Id);
     var tieuChis = new CP25Team01Context().Tieuchidanhgias.ToList();
-    if(danhGiaGS != null)
+    if (danhGiaGS != null)
     {
         var modelName = "danhGiaGS-" + danhGiaGS.Id;
         var strTieuChi = string.Empty;
-        @foreach (var tieuChiId in danhGiaGS.TieuChi.Split(";"))
+        if (danhGiaGS.TieuChi != null)
         {
-            var tieuChi = tieuChis.FirstOrDefault(it => it.IdTieuChi.ToString() == tieuChiId);
-            if (tieuChi != null)
-                strTieuChi += (string.IsNullOrEmpty(strTieuChi) ? string.Empty : ", ") + tieuChi.TieuChi;
+            @foreach (var tieuChiId in danhGiaGS.TieuChi.Split(";"))
+            {
+                var tieuChi = tieuChis.FirstOrDefault(it => it.IdTieuChi.ToString() == tieuChiId);
+                if (tieuChi != null)
+                    strTieuChi += (string.IsNullOrEmpty(strTieuChi) ? string.Empty : ", ") + tieuChi.TieuChi;
+            }
+
         }
+        else
+        {
+            strTieuChi = "Người dạy không để lại đánh giá";
+        }
+
         <div class="modal fade" id="@modelName" tabindex="-1" role="dialog" aria-labelledby="@modelName" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -151,12 +160,20 @@
     {
         var modelName = "danhGiaHV-" + danhGiaHV.Id;
         var strTieuChi = string.Empty;
-        @foreach (var tieuChiId in danhGiaHV.TieuChi.Split(";"))
+        if (danhGiaHV.TieuChi != null)
         {
-            var tieuChi = tieuChis.FirstOrDefault(it => it.IdTieuChi.ToString() == tieuChiId);
-            if (tieuChi != null)
-                strTieuChi += (string.IsNullOrEmpty(strTieuChi) ? string.Empty : ", ") + tieuChi.TieuChi;
+            @foreach (var tieuChiId in danhGiaHV.TieuChi.Split(";"))
+            {
+                var tieuChi = tieuChis.FirstOrDefault(it => it.IdTieuChi.ToString() == tieuChiId);
+                if (tieuChi != null)
+                    strTieuChi += (string.IsNullOrEmpty(strTieuChi) ? string.Empty : ", ") + tieuChi.TieuChi;
+            }
         }
+        else
+        {
+            strTieuChi = "Người học không để lại đánh giá";
+        }
+
         <div class="modal fade" id="@modelName" tabindex="-1" role="dialog" aria-labelledby="@modelName" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -239,7 +256,7 @@
             $('#filter-fade').remove();
             $('#myTable_filter').css({ display: 'flex' });
             $('#myTable').css({ width: 'auto', borderCollapse: 'collapse' });
-            
+
         });
     </script>
     @if (TempData["Message"] != null)

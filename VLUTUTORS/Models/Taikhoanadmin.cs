@@ -15,7 +15,7 @@ namespace VLUTUTORS.Models
         public string TaiKhoan { get; set; }
         [Required(AllowEmptyStrings = false, ErrorMessage = "Vui lòng điền trường này!")]
         public string MatKhau { get; set; }
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Vui lòng điền trường này!")]
+
         public int IdQuyen { get; set; }
 
 

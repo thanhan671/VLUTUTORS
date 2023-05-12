@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor httpContextAccessor
+
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="utf-8" />
@@ -20,8 +23,10 @@
     <!-- IonIcons -->
     <link rel="stylesheet"
           href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
-    <!-- Theme style -->
+          <!-- Theme style -->
     <link rel="stylesheet" href="~/admin/css/datatables.css" />
+    <link rel="stylesheet"
+          href="https://cdn.datatables.net/datetime/1.3.0/css/dataTables.dateTime.min.css" />
     <link rel="stylesheet" href="~/admin/css/adminlte.min.css" />
     <link rel="shortcut icon" href="~/images/LogoVL.png" type="image/png" />
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -29,7 +34,7 @@
     <script src="~/lib/toastr.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-<link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet"/>
+<link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet"/><script src='https://cdn.rawgit.com/matthieua/WOW/1.0.1/dist/wow.min.js'></script>
 </head>
 <!--
 `body` tag options:
@@ -54,7 +59,7 @@
             <ul class="navbar-nav ml-auto">
                 <!-- Navbar Search -->
                 <li class="navbar-item d-flex">
-                    <a class="nav-link-item"> Xin chào Admin </a>
+                    <a class="nav-link-item"> Xin chào, @httpContextAccessor.HttpContext.Session.GetString("loginName") </a>
                     <a href="#"
                        class="nav-link-item"
                        data-toggle="modal"
@@ -111,17 +116,20 @@
     <!-- ./wrapper -->
     <!-- REQUIRED SCRIPTS -->
     <!-- jQuery -->
-
+    <script src="~/admin/jquery/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.2/moment.min.js"></script>
+    <script src="https://cdn.datatables.net/datetime/1.1.2/js/dataTables.dateTime.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="~/admin/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE -->
+    <script src="~/admin/js/adminlte.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="~/admin/js/demo.js"></script>
+    <script src="~/admin/js/datatables.js"></script>
+    <script src="~/admin/js/datatables2.js"></script>
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <script src="~/admin/js/pages/dashboard3.js"></script>
+    @RenderSection("scripts", required: false)
 </body>
 </html>
-<script src="~/admin/jquery/jquery.min.js"></script>
-<!-- Bootstrap -->
-<script src="~/admin/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- AdminLTE -->
-<script src="~/admin/js/adminlte.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="~/admin/js/demo.js"></script>
-<script src="~/admin/js/datatables.js"></script>
-<script src="~/admin/js/datatables2.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="~/admin/js/pages/dashboard3.js"></script>
+
