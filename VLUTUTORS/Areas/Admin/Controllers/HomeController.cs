@@ -26,11 +26,34 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             }
             TempData["AllLesson"] = _db.Cadays.Count();
             TempData["AllUser"] = _db.Taikhoannguoidungs.Count();
-            TempData["TeachingHours"] = (double)_db.Cadays.Where(x => x.TrangThai == true && x.NgayDay <= DateTime.Now.Date).Sum(x => ((x.GioKetThuc - x.GioBatDau) * 60) + (x.PhutKetThuc - x.PhutBatDau))/60;
+            TempData["TeachingHours"] = (double)_db.Cadays.Where(x => x.TrangThai == true && x.NgayDay <= DateTime.Now.Date).Sum(x => ((x.GioKetThuc - x.GioBatDau) * 60) + (x.PhutKetThuc - x.PhutBatDau)) / 60;
             var reportMoney = GetReportMoney();
             TempData["ReportMoney"] = reportMoney.Result.ToString("#,##0.###");
             TempData["TutorEvaluation"] = _db.Danhgiagiasus.Count();
             TempData["LearnerEvaluation"] = _db.Danhgianguoihocs.Count();
+
+            //chart user
+            TempData["learners"] = _db.Taikhoannguoidungs.Where(x => x.IdxetDuyet != 5).Count();
+            TempData["tutors"] = _db.Taikhoannguoidungs.Where(x => x.IdxetDuyet == 5).Count();
+            //chart tutor evaluation
+            TempData["1"] = _db.Danhgiagiasus.Where(m => m.Diem == 1).Count();
+            TempData["2"] = _db.Danhgiagiasus.Where(m => m.Diem == 2).Count();
+            TempData["3"] = _db.Danhgiagiasus.Where(m => m.Diem == 3).Count();
+            TempData["4"] = _db.Danhgiagiasus.Where(m => m.Diem == 4).Count();
+            TempData["5"] = _db.Danhgiagiasus.Where(m => m.Diem == 5).Count();
+            //chart lesson
+            TempData["success"] = _db.Cadays.Where(x => x.TrangThai == true && x.NgayDay < DateTime.Now.Date).Count();
+            TempData["cancel"] = _db.Cadays.Where(x => x.TrangThai == false && x.NgayDay < DateTime.Now.Date).Count();
+            TempData["notBooking"] = _db.Cadays.Where(x => x.TrangThai == null && x.NgayDay < DateTime.Now.Date && x.IdnguoiHoc == null).Count();
+            TempData["booking"] = _db.Cadays.Where(x => x.TrangThai == false && x.Link != null && x.NgayDay >= DateTime.Now.Date).Count();
+            TempData["registBooking"] = _db.Cadays.Where(x => x.TrangThai == null && x.NgayDay >= DateTime.Now.Date).Count();
+            //chart learner evaluation
+            TempData["l1"] = _db.Danhgianguoihocs.Where(m => m.Diem == 1).Count();
+            TempData["l2"] = _db.Danhgianguoihocs.Where(m => m.Diem == 2).Count();
+            TempData["l3"] = _db.Danhgianguoihocs.Where(m => m.Diem == 3).Count();
+            TempData["l4"] = _db.Danhgianguoihocs.Where(m => m.Diem == 4).Count();
+            TempData["l5"] = _db.Danhgianguoihocs.Where(m => m.Diem == 5).Count();
+
             return View();
         }
         #region Method Report
@@ -47,67 +70,67 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                           select new { caHoc.GiaTien }).SumAsync(x => x.GiaTien) * (chietKhau / 100);
         }
 
-        public JsonResult GetLessonWeb()
-        {
-            int success = _db.Cadays.Where(x => x.TrangThai == true && x.NgayDay < DateTime.Now.Date).Count();
-            int cancel = _db.Cadays.Where(x => x.TrangThai == false && x.NgayDay < DateTime.Now.Date).Count();
-            int notBooking = _db.Cadays.Where(x => x.TrangThai == null && x.NgayDay < DateTime.Now.Date && x.IdnguoiHoc == null).Count();
-            int registBooking = _db.Cadays.Where(x => x.TrangThai == null && x.NgayDay >= DateTime.Now.Date).Count();
-            int booking = _db.Cadays.Where(x => x.TrangThai == false && x.Link != null && x.NgayDay >= DateTime.Now.Date).Count();
+        //public JsonResult GetLessonWeb()
+        //{
+        //    int success = _db.Cadays.Where(x => x.TrangThai == true && x.NgayDay < DateTime.Now.Date).Count();
+        //    int cancel = _db.Cadays.Where(x => x.TrangThai == false && x.NgayDay < DateTime.Now.Date).Count();
+        //    int notBooking = _db.Cadays.Where(x => x.TrangThai == null && x.NgayDay < DateTime.Now.Date && x.IdnguoiHoc == null).Count();
+        //    int registBooking = _db.Cadays.Where(x => x.TrangThai == null && x.NgayDay >= DateTime.Now.Date).Count();
+        //    int booking = _db.Cadays.Where(x => x.TrangThai == false && x.Link != null && x.NgayDay >= DateTime.Now.Date).Count();
 
-            List<Chart> list = new List<Chart>();
+        //    List<Chart> list = new List<Chart>();
 
-            list.Add(new Chart { CategoryName = "Số ca hoàn thành", PostCount = success });
-            list.Add(new Chart { CategoryName = "Số ca hủy", PostCount = cancel });
-            list.Add(new Chart { CategoryName = "Số ca không được đặt", PostCount = notBooking });
-            list.Add(new Chart { CategoryName = "Số ca đang được đặt", PostCount = booking });
-            list.Add(new Chart { CategoryName = "Số ca chưa được đặt", PostCount = registBooking });
+        //    list.Add(new Chart { CategoryName = "Số ca hoàn thành", PostCount = success });
+        //    list.Add(new Chart { CategoryName = "Số ca hủy", PostCount = cancel });
+        //    list.Add(new Chart { CategoryName = "Số ca không được đặt", PostCount = notBooking });
+        //    list.Add(new Chart { CategoryName = "Số ca đang được đặt", PostCount = booking });
+        //    list.Add(new Chart { CategoryName = "Số ca chưa được đặt", PostCount = registBooking });
 
-            return Json(new { JSONList = list });
+        //    return Json(new { JSONList = list });
 
-        }
+        //}
 
-        public JsonResult GetUserWeb()
-        {
-            int learners = _db.Taikhoannguoidungs.Where(x => x.IdxetDuyet != 5).Count();
-            int tutors = _db.Taikhoannguoidungs.Where(x => x.IdxetDuyet == 5).Count();
+        //public JsonResult GetUserWeb()
+        //{
+        //    int learners = _db.Taikhoannguoidungs.Where(x => x.IdxetDuyet != 5).Count();
+        //    int tutors = _db.Taikhoannguoidungs.Where(x => x.IdxetDuyet == 5).Count();
 
-            List<Chart> list = new List<Chart>();
+        //    List<Chart> list = new List<Chart>();
 
-            list.Add(new Chart { CategoryName = "Số người học", PostCount = learners });
-            list.Add(new Chart { CategoryName = "Số gia sư", PostCount = tutors });
+        //    list.Add(new Chart { CategoryName = "Số người học", PostCount = learners });
+        //    list.Add(new Chart { CategoryName = "Số gia sư", PostCount = tutors });
 
-            return Json(new { JSONList = list});
+        //    return Json(new { JSONList = list});
 
-        }
+        //}
 
-        public JsonResult GetLearnerEvaluation()
-        {
-            List<Chart> list = new List<Chart>();
+        //public JsonResult GetLearnerEvaluation()
+        //{
+        //    List<Chart> list = new List<Chart>();
 
-            list.Add(new Chart { CategoryName = "Đánh giá 1 sao", PostCount = _db.Danhgianguoihocs.Where(m => m.Diem == 1).Count() });
-            list.Add(new Chart { CategoryName = "Đánh giá 2 sao", PostCount = _db.Danhgianguoihocs.Where(m => m.Diem == 2).Count() });
-            list.Add(new Chart { CategoryName = "Đánh giá 3 sao", PostCount = _db.Danhgianguoihocs.Where(m => m.Diem == 3).Count() });
-            list.Add(new Chart { CategoryName = "Đánh giá 4 sao", PostCount = _db.Danhgianguoihocs.Where(m => m.Diem == 4).Count() });
-            list.Add(new Chart { CategoryName = "Đánh giá 5 sao", PostCount = _db.Danhgianguoihocs.Where(m => m.Diem == 5).Count() });
+        //    list.Add(new Chart { CategoryName = "Đánh giá 1 sao", PostCount = _db.Danhgianguoihocs.Where(m => m.Diem == 1).Count() });
+        //    list.Add(new Chart { CategoryName = "Đánh giá 2 sao", PostCount = _db.Danhgianguoihocs.Where(m => m.Diem == 2).Count() });
+        //    list.Add(new Chart { CategoryName = "Đánh giá 3 sao", PostCount = _db.Danhgianguoihocs.Where(m => m.Diem == 3).Count() });
+        //    list.Add(new Chart { CategoryName = "Đánh giá 4 sao", PostCount = _db.Danhgianguoihocs.Where(m => m.Diem == 4).Count() });
+        //    list.Add(new Chart { CategoryName = "Đánh giá 5 sao", PostCount = _db.Danhgianguoihocs.Where(m => m.Diem == 5).Count() });
 
-            return Json(new { JSONList = list });
+        //    return Json(new { JSONList = list });
 
-        }
+        //}
 
-        public JsonResult GetTutorEvaluation()
-        {
-            List<Chart> list = new List<Chart>();
+        //public JsonResult GetTutorEvaluation()
+        //{
+        //    List<Chart> list = new List<Chart>();
 
-            list.Add(new Chart { CategoryName = "Đánh giá 1 sao", PostCount = _db.Danhgiagiasus.Where(m => m.Diem == 1).Count() });
-            list.Add(new Chart { CategoryName = "Đánh giá 2 sao", PostCount = _db.Danhgiagiasus.Where(m => m.Diem == 2).Count() });
-            list.Add(new Chart { CategoryName = "Đánh giá 3 sao", PostCount = _db.Danhgiagiasus.Where(m => m.Diem == 3).Count() });
-            list.Add(new Chart { CategoryName = "Đánh giá 4 sao", PostCount = _db.Danhgiagiasus.Where(m => m.Diem == 4).Count() });
-            list.Add(new Chart { CategoryName = "Đánh giá 5 sao", PostCount = _db.Danhgiagiasus.Where(m => m.Diem == 5).Count() });
+        //    list.Add(new Chart { CategoryName = "Đánh giá 1 sao", PostCount = _db.Danhgiagiasus.Where(m => m.Diem == 1).Count() });
+        //    list.Add(new Chart { CategoryName = "Đánh giá 2 sao", PostCount = _db.Danhgiagiasus.Where(m => m.Diem == 2).Count() });
+        //    list.Add(new Chart { CategoryName = "Đánh giá 3 sao", PostCount = _db.Danhgiagiasus.Where(m => m.Diem == 3).Count() });
+        //    list.Add(new Chart { CategoryName = "Đánh giá 4 sao", PostCount = _db.Danhgiagiasus.Where(m => m.Diem == 4).Count() });
+        //    list.Add(new Chart { CategoryName = "Đánh giá 5 sao", PostCount = _db.Danhgiagiasus.Where(m => m.Diem == 5).Count() });
 
-            return Json(new { JSONList = list });
+        //    return Json(new { JSONList = list });
 
-        }
+        //}
 
         #endregion
 
