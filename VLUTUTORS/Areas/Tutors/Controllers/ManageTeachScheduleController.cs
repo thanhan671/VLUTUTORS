@@ -118,6 +118,25 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
                     GetEndTime(lessonPlan, teachTime);
 
                     bool isOverLapse = CheckLessonHasRegister(lessonPlan.IdnguoiDay, lessonPlan.NgayDay, lessonPlan.GioBatDau, lessonPlan.PhutBatDau, lessonPlan.GioKetThuc, lessonPlan.PhutKetThuc);
+
+                    TimeSpan startTime = new TimeSpan(lessonPlan.GioBatDau, lessonPlan.PhutBatDau, 0);
+                    TimeSpan endTime = new TimeSpan(lessonPlan.GioKetThuc, lessonPlan.PhutKetThuc, 0);
+
+                    if (lessonPlans.Count() != 0)
+                    {
+                        foreach (var caDay in lessonPlans)
+                        {
+                            TimeSpan caDayStartTime = new TimeSpan(caDay.GioBatDau, caDay.PhutBatDau, 0);
+                            TimeSpan caDayEndTime = new TimeSpan(caDay.GioKetThuc, caDay.PhutKetThuc, 0);
+
+                            isOverLapse = startTime <= caDayEndTime && caDayStartTime <= endTime;
+                            if (isOverLapse)
+                            {
+                                break;
+                            }
+                        }
+                    }
+
                     if (isOverLapse)
                     {
                         TempData["Message"] = "Thời gian bị trùng với ca dạy khác";

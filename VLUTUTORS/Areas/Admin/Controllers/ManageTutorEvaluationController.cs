@@ -13,7 +13,7 @@ using VLUTUTORS.Models;
 namespace VLUTUTORS.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "1,2")]
+    [Authorize(Roles = "1,2,3,4")]
     public class ManageTutorEvaluationController : Controller
     {
         private readonly CP25Team01Context _db = new();
