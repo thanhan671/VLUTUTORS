@@ -267,7 +267,7 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
 
             Caday caDay = _db.Cadays.Where(p => p.Id == lessonPlanId).FirstOrDefault();
 
-            if(caDay.IdnguoiHoc == null)
+            if(caDay.Link == null)
             {
                 _db.Cadays.Remove(caDay);
                 await _db.SaveChangesAsync();

@@ -166,7 +166,7 @@
                                 }
                                 else
                                 {
-                                    if (lesson.NgayDay == DateTime.Today && Math.Abs(result.Minutes) <= 15)
+                                    if (lesson.NgayDay == DateTime.Today && result.Hours==0 && Math.Abs(result.Minutes) <= 15)
                                     {
                                         <td class="project-actions">
                                             <form asp-action="AcceptBooking" method="post" asp-controller="ManageTeachSchedule" asp-route-id="@lesson.Id">

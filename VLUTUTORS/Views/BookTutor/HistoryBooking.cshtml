@@ -36,7 +36,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var lesson in Model)
+            @foreach (var lesson in Model.OrderBy(m=>m.NgayDay))
             {
                 int year = lesson.NgayDay.Year;
                 int month = lesson.NgayDay.Month;
@@ -57,7 +57,7 @@
                         <td>@lesson.giaCaDay.ToString("#,##0.###") đồng</td>
 
                         @{
-                            if (lesson.NgayDay == DateTime.Today && Math.Abs(result.Minutes)<=15)
+                            if (lesson.NgayDay == DateTime.Today && result.Hours == 0 && Math.Abs(result.Minutes)<=15)
                             {
                                 <td class="done">Sắp/Đang Diễn Ra</td>
                                 <td>

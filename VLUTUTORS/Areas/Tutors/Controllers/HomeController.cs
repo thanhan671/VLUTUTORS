@@ -105,7 +105,7 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
         {
             if (HttpContext.Session.GetString("LoginId") == null)
             {
-                return RedirectToAction("Index", "Login");
+                return RedirectToAction("Index", "Login", new { area = "default" });
             }
             int id = (int)HttpContext.Session.GetInt32("LoginId");
             List<Caday> caDays = _db.Cadays.Where(ca => ca.IdnguoiDay == id).ToList();

@@ -41,7 +41,7 @@
                     <tbody>
                         @{
                             var index = 0;
-                            foreach (var item in Model)
+                            foreach (var item in Model.OrderByDescending(m=>m.NgayDay))
                             {
                                 index++;
                                 <tr>
