@@ -48,6 +48,9 @@
     }
     <div class="container">
         <div class="forms-container">
+                            <a href='javascript:history.go(-1)' class="back-btn">
+                <i class="fa-solid fa-arrow-left" style=""></i>
+            </a>
             <div class="signin-signup">
                 <form class="sign-in-form" method="post" enctype="multipart/form-data" asp-controller="Accounts" asp-action="Login">
                     @Html.AntiForgeryToken()
