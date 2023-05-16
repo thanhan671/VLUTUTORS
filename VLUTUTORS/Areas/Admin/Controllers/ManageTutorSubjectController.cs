@@ -101,8 +101,11 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                     _context.SaveChanges();
                 }
             }
-            TempData["Message"] = "Tên môn trong khoản 2-50 ký tự, vui lòng kiểm tra lại!";
-            TempData["MessageType"] = "error";
+            else
+            {
+                TempData["Message"] = "Tên môn trong khoản 2-50 ký tự, vui lòng kiểm tra lại!";
+                TempData["MessageType"] = "error";
+            }
             return RedirectToAction("Index");
         }
         [HttpPost]

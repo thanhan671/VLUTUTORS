@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Hosting;
 using System.Net.Mail;
 using SmtpClient = System.Net.Mail.SmtpClient;
 using Org.BouncyCastle.Asn1.X509;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace VLUTUTORS.Controllers
 {
@@ -153,6 +154,12 @@ namespace VLUTUTORS.Controllers
         {
             var dbTaikhoannguoidung = await db.Taikhoannguoidungs.FindAsync(id);
             string avatarPath = Path.Combine("avatars", dbTaikhoannguoidung.Id.ToString());
+
+            //foreach (IFormFile postedFile in avatar)
+            //{
+            //    string fileName = Path.GetFileName(postedFile.FileName);
+            //    Console.WriteLine("get file name: " + fileName);
+            //}
 
             if (dbTaikhoannguoidung == null || (dbTaikhoannguoidung != null && id != dbTaikhoannguoidung.Id))
             {
