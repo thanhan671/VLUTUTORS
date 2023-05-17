@@ -23,7 +23,6 @@
             @Html.AntiForgeryToken()
             @Html.HiddenFor(m => m.Id)
             @Html.HiddenFor(m => m.IdxetDuyet)
-            @Html.HiddenFor(m => m.HoTen)
             @Html.HiddenFor(m => m.Email)
 
             <div class="row gutters-sm">
@@ -67,11 +66,21 @@
                                 </div>
                             </div>
                             <hr />
+                             <div class="row-profile">
+                                <div class="col-sm-3 p-0 mt-1">
+                                    <h6 class="mb-0">Họ và tên</h6>
+                                </div>
+                                <input class="profile-input" name="HoTen"
+                                       id="HoTen"
+                                       type="text"
+                                       value="@Model.HoTen"
+                                       placeholder="Họ và tên"/>
+                            </div>
+                            <hr />
                             <div class="row-profile">
                                 <div class="col-sm-3 p-0 mt-1">
                                     <h6 class="mb-0">Giới Tính</h6>
                                 </div>
-
                                 @Html.DropDownListFor(model => model.IdgioiTinh, Model.GenderItems, new { @class = "profile-input" })
                             </div>
                             <hr />
@@ -94,7 +103,6 @@
                                        data-error="Vui lòng điền đủ thông tin."
                                        required="required" />
                             </div>
-
                             <hr />
                             <div class="row-profile">
                                 <div class="col-sm-3 p-0 mt-1">

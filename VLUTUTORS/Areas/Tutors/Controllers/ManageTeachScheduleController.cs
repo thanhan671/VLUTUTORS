@@ -246,7 +246,7 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             {
                 TempData["Message"] = "Thời gian bị trùng với ca dạy khác";
                 TempData["MessageType"] = "error";
-                return RedirectToAction("EditLessonPlan", "ManageTeachSchedule", new { lessonPlanId = caday.Id});
+                return RedirectToAction("EditLessonPlan", "ManageTeachSchedule", new { lessonPlanId = caday.Id });
             }
 
             if (ModelState.IsValid)
@@ -267,7 +267,7 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
 
             Caday caDay = _db.Cadays.Where(p => p.Id == lessonPlanId).FirstOrDefault();
 
-            if(caDay.Link == null)
+            if (caDay.Link == null)
             {
                 _db.Cadays.Remove(caDay);
                 await _db.SaveChangesAsync();
@@ -277,50 +277,62 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
                 return RedirectToAction("Index", "ManageTeachSchedule");
             }
 
-            caDay.Link = null;
-            caDay.TrangThai = false;
-            _db.Cadays.Update(caDay);
-            await _db.SaveChangesAsync();
-
             Cahoc cahoc = _db.Cahocs.Where(c => c.IdCaHoc == caDay.IdloaiCaDay).FirstOrDefault();
             Phiday phiday = _db.Phidays.Where(ph => ph.Id == 1).FirstOrDefault();
 
-            float commision = (int)cahoc.GiaTien * ((float)phiday.ChietKhau/100);
-            int money = (int) (cahoc.GiaTien + commision);
+            float commision = (int)cahoc.GiaTien * ((float)phiday.ChietKhau / 100);
+            int money = (int)(cahoc.GiaTien + commision);
             int moneyBack = (int)(cahoc.GiaTien - commision);
+            var soDu = _db.Taikhoannguoidungs.Where(m=>m.Id.Equals(caDay.IdnguoiDay)).FirstOrDefault().SoDuVi;
 
-            int year = caDay.NgayDay.Year;
-            int month = caDay.NgayDay.Month;
-            int day = caDay.NgayDay.Day;
-
-            var monDay = _db.Mongiasus.Where(acc => acc.IdmonGiaSu.Equals(caDay.IdmonDay)).FirstOrDefault().TenMonGiaSu;
-            var hostMail = _db.Taikhoannguoidungs.Where(acc => acc.Id.Equals(caDay.IdnguoiHoc)).FirstOrDefault().Email;
-            var tenGS = _db.Taikhoannguoidungs.Where(acc => acc.Id.Equals(caDay.IdnguoiDay)).FirstOrDefault().HoTen;
-
-            DateTime checkTime = new DateTime(year, month, day, caDay.GioBatDau, caDay.PhutBatDau, 0);
-
-            TimeSpan result = DateTime.Now - checkTime;
-
-            if (caDay.IdnguoiHoc != null && result.Hours > 1)
+            if (soDu < money)
             {
-                MoneyServices.SubtractMoney(moneyBack, caDay.IdnguoiDay, _db);
-                MoneyServices.AddMoney((int)cahoc.GiaTien, (int)caDay.IdnguoiHoc, _db);
-            }else if(caDay.IdnguoiHoc != null && result.Hours < 1)
-            {
-                MoneyServices.SubtractMoney(money, caDay.IdnguoiDay, _db);
-                MoneyServices.AddMoney((int)cahoc.GiaTien, (int)caDay.IdnguoiHoc, _db);
+                TempData["Message"] = "Số dư không đủ để hủy ca dạy!";
+                TempData["MessageType"] = "error";
+
+                return RedirectToAction("Index", "ManageTeachSchedule");
             }
+            else
+            {
+                caDay.Link = null;
+                caDay.TrangThai = false;
+                _db.Cadays.Update(caDay);
+                await _db.SaveChangesAsync();
 
-            TempData["Message"] = "Hủy ca dạy thành công!";
-            TempData["MessageType"] = "success";
+                int year = caDay.NgayDay.Year;
+                int month = caDay.NgayDay.Month;
+                int day = caDay.NgayDay.Day;
 
-            return RedirectToAction("SendMail", "ManageTeachSchedule",
-new
-{
-toEmail = hostMail,
-mailBody = "<b>Xin thông báo! Ca học môn <b style=\"color: red;\">" + monDay + "</b> có thời gian " + caDay.GioBatDau + ":" + caDay.PhutBatDau + " - " + caDay.GioKetThuc + ":" + caDay.PhutKetThuc + " ngày " + caDay.NgayDay.ToString("dd/MM/yyyy") + " đã bị <b style=\"color: red;\">HỦY</b> bởi gia sư " + tenGS + "!</b>" +
-"<p style = \"margin: 0%;\">Nếu có khiếu nại vui lòng liên hệ lại với chúng tôi!<br/>"
-});
+                var monDay = _db.Mongiasus.Where(acc => acc.IdmonGiaSu.Equals(caDay.IdmonDay)).FirstOrDefault().TenMonGiaSu;
+                var hostMail = _db.Taikhoannguoidungs.Where(acc => acc.Id.Equals(caDay.IdnguoiHoc)).FirstOrDefault().Email;
+                var tenGS = _db.Taikhoannguoidungs.Where(acc => acc.Id.Equals(caDay.IdnguoiDay)).FirstOrDefault().HoTen;
+
+                DateTime checkTime = new DateTime(year, month, day, caDay.GioBatDau, caDay.PhutBatDau, 0);
+
+                TimeSpan result = DateTime.Now - checkTime;
+
+                if (caDay.IdnguoiHoc != null && result.Hours > 1)
+                {
+                    MoneyServices.SubtractMoney(moneyBack, caDay.IdnguoiDay, _db);
+                    MoneyServices.AddMoney((int)cahoc.GiaTien, (int)caDay.IdnguoiHoc, _db);
+                }
+                else if (caDay.IdnguoiHoc != null && result.Hours < 1)
+                {
+                    MoneyServices.SubtractMoney(money, caDay.IdnguoiDay, _db);
+                    MoneyServices.AddMoney((int)cahoc.GiaTien, (int)caDay.IdnguoiHoc, _db);
+                }
+
+                TempData["Message"] = "Hủy ca dạy thành công!";
+                TempData["MessageType"] = "success";
+
+                return RedirectToAction("SendMail", "ManageTeachSchedule",
+    new
+    {
+        toEmail = hostMail,
+        mailBody = "<b>Xin thông báo! Ca học môn <b style=\"color: red;\">" + monDay + "</b> có thời gian " + caDay.GioBatDau + ":" + caDay.PhutBatDau + " - " + caDay.GioKetThuc + ":" + caDay.PhutKetThuc + " ngày " + caDay.NgayDay.ToString("dd/MM/yyyy") + " đã bị <b style=\"color: red;\">HỦY</b> bởi gia sư " + tenGS + "!</b>" +
+    "<p style = \"margin: 0%;\">Nếu có khiếu nại vui lòng liên hệ lại với chúng tôi!<br/>"
+    });
+            }
         }
 
         public IActionResult SendMail(string toEmail, string mailBody)
@@ -372,10 +384,10 @@ mailBody = "<b>Xin thông báo! Ca học môn <b style=\"color: red;\">" + monDa
         {
             List<Caday> caDayByTutor = _db.Cadays.Where(c => c.IdnguoiDay == tutorId).ToList();
             List<Caday> caDayByDate = caDayByTutor.Where(c => c.NgayDay.Date == regisDate.Date).ToList();
-            if(editStartMinute != 0 && editStartHour != 0)
+            if (editStartMinute != 0 && editStartHour != 0)
             {
                 caDayByDate.Remove(caDayByDate.Where(c => c.GioBatDau == editStartHour && c.PhutBatDau == editStartMinute).FirstOrDefault());
-            }    
+            }
 
             if (caDayByDate.Count == 0)
             {
@@ -398,7 +410,7 @@ mailBody = "<b>Xin thông báo! Ca học môn <b style=\"color: red;\">" + monDa
                     break;
                 }
             }
- 
+
             return isOverLapse;
         }
     }
