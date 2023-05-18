@@ -179,7 +179,7 @@
                                style="width:120px;"
                                data-toggle="modal"
                                data-target="#deleteModal"
-                               onclick="document.getElementById('lessonPlanId').value = @lesson.Id">
+                               onclick="document.getElementById('lessonPlanId').value = @lesson.Id, document.getElementById('meettingId').value = @lesson.IdCa">
                                                 <i class="fa-solid fa-ban"></i>
                                                 Hủy
                                             </a>
@@ -192,7 +192,7 @@
                                style="width:120px;"
                                data-toggle="modal"
                                data-target="#deleteModal"
-                               onclick="document.getElementById('lessonPlanId').value = @lesson.Id">
+                               onclick="document.getElementById('lessonPlanId').value = @lesson.Id, document.getElementById('meettingId').value = @lesson.IdCa">
                                                 <i class="fa-solid fa-ban"></i>
                                                 Hủy
                                             </a>
@@ -233,6 +233,7 @@
             </div>
         </div>
         <input type="hidden" id="lessonPlanId" name="lessonPlanId" />
+        <input type="hidden" id="meettingId" name="meettingId" />
     </form>
 </div>
 <script type="text/javascript">

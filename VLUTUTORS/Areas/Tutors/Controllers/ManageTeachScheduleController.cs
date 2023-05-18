@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using VLUTUTORS.Support.Services;
 using System.Net.Mail;
+using ZoomNet;
 
 namespace VLUTUTORS.Areas.Tutors.Controllers
 {
@@ -261,8 +262,10 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             return RedirectToAction("Index", "ManageTeachSchedule");
         }
 
-        public async Task<IActionResult> DeleteLessonPlan(int lessonPlanId)
+        public async Task<IActionResult> DeleteLessonPlan(int lessonPlanId, string meettingId)
         {
+            JwtConnectionInfo connectionInfo = new JwtConnectionInfo("9wPjAoQIQsSEzltlIl_vQw", "84zfXjpKoHTUS2Tqjnfswk7pyezmMsbYRxvf");
+            ZoomClient zoomClient = new ZoomClient(connectionInfo);
             // call check lesson has register
 
             Caday caDay = _db.Cadays.Where(p => p.Id == lessonPlanId).FirstOrDefault();
@@ -294,6 +297,8 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             }
             else
             {
+                await zoomClient.Meetings.DeleteAsync(long.Parse(meettingId));
+                caDay.IdCa = null;
                 caDay.Link = null;
                 caDay.TrangThai = false;
                 _db.Cadays.Update(caDay);

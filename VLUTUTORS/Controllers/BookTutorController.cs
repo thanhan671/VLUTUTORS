@@ -17,6 +17,7 @@ using VLUTUTORS.Support.Services;
 using ZoomNet;
 using ZoomNet.Models;
 using X.PagedList;
+using Org.BouncyCastle.Crypto.Paddings;
 
 namespace VLUTUTORS.Controllers
 {
@@ -426,8 +427,12 @@ namespace VLUTUTORS.Controllers
         }
 
         [HttpPost]
-        public IActionResult CancelBooking(int lessonPlanId)
+        public async Task<IActionResult> CancelBooking(int lessonPlanId, string meettingId)
         {
+
+            JwtConnectionInfo connectionInfo = new JwtConnectionInfo("9wPjAoQIQsSEzltlIl_vQw", "84zfXjpKoHTUS2Tqjnfswk7pyezmMsbYRxvf");
+            ZoomClient zoomClient = new ZoomClient(connectionInfo);
+
             Caday caday = _db.Cadays.FirstOrDefault(c => c.Id.Equals(lessonPlanId));
 
             int id = (int)caday.IdnguoiHoc;
@@ -457,6 +462,8 @@ namespace VLUTUTORS.Controllers
 
             try
             {
+                await zoomClient.Meetings.DeleteAsync(long.Parse(meettingId));
+                caday.IdCa = null;
                 caday.Link = null;
                 caday.TrangThai = false;
                 _db.Update(caday);
@@ -504,14 +511,27 @@ new
             bool isOverLapse = CheckLessonHasRegister(userId.Id, caday.NgayDay, caday.GioBatDau, caday.PhutBatDau, caday.GioKetThuc, caday.PhutKetThuc);
             if (isOverLapse)
             {
-                TempData["Message"] = "Thời gian bị trùng với ca dạy khác";
+                TempData["Message"] = "Thời gian bị trùng với ca học khác";
                 TempData["MessageType"] = "error";
                 return RedirectToAction("Index", "BookTutor");
             }
 
+            string timeStart = caday.NgayDay.ToString("d") + " " + caday.GioBatDau + ":" + caday.PhutBatDau + ":00";
+            DateTime startTime = DateTime.Parse(timeStart);
+
+            var scheduleMeeting = new ScheduledMeeting()
+            {
+                Settings = new MeetingSettings()
+                {
+                    JoinBeforeHost = false,
+                    AutoRecording = RecordingType.OnLocal
+                }
+            };
+
             var hostMail = _db.Taikhoannguoidungs.Where(acc => acc.Id.Equals(caday.IdnguoiDay)).FirstOrDefault().Email;
             int lessonDuration = _db.Cahocs.Where(l => l.IdCaHoc.Equals(caday.IdloaiCaDay)).FirstOrDefault().LoaiCa;
-            var result = await zoomClient.Meetings.CreateScheduledMeetingAsync(hostMail, "Buổi dạy và học gia sư Văn Lang", "Buổi dạy và học gia sư Văn Lang", caday.NgayDay, lessonDuration);
+            var result = await zoomClient.Meetings.CreateScheduledMeetingAsync(hostMail, "Buổi dạy và học gia sư Văn Lang", "Buổi dạy và học gia sư Văn Lang", startTime, lessonDuration, TimeZones.Asia_Saigon, null, scheduleMeeting.Settings);
+            caday.IdCa = result.Id.ToString();
             caday.Link = result.JoinUrl;
             caday.IdnguoiHoc = HttpContext.Session.GetInt32("LoginId");
             caday.TrangThai = false;
@@ -550,7 +570,7 @@ new
 
         private bool CheckLessonHasRegister(int learnerId, DateTime regisDate, int startHour, int startMinute, int endHour, int endMinute)
         {
-            List<Caday> caDayByLearner = _db.Cadays.Where(c => c.IdnguoiHoc == learnerId && c.Link != null).ToList();
+            List<Caday> caDayByLearner = _db.Cadays.Where(c => (c.IdnguoiHoc == learnerId || c.IdnguoiDay == learnerId )&& c.Link != null).ToList();
             List<Caday> caDayByDate = caDayByLearner.Where(c => c.NgayDay.Date == regisDate.Date).ToList();
 
             if (caDayByDate.Count == 0 || caDayByLearner.Count == 0)

@@ -105,6 +105,10 @@ namespace VLUTUTORS.Models
                     .HasMaxLength(150)
                     .IsUnicode(false);
 
+                entity.Property(e => e.IdCa)
+                    .HasMaxLength(11)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.NgayDay).HasColumnType("date");
 
                 entity.HasOne(d => d.IdloaiCaDayNavigation)
