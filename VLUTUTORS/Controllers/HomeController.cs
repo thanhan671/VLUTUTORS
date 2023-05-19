@@ -97,6 +97,12 @@ namespace VLUTUTORS.Controllers
         }
 
         [HttpGet]
+        public IActionResult PrivacyPolicy()
+        {
+            return View();
+        }
+
+        [HttpGet]
         public IActionResult RegisterAsTutor()
         {
             if (HttpContext.Session.GetString("LoginId") == null)
