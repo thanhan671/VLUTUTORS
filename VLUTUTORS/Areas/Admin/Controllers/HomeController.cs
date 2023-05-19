@@ -26,7 +26,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
             }
             TempData["AllLesson"] = _db.Cadays.Count();
             TempData["AllUser"] = _db.Taikhoannguoidungs.Count();
-            TempData["TeachingHours"] = (double)_db.Cadays.Where(x => x.TrangThai == true && x.NgayDay <= DateTime.Now.Date).Sum(x => ((x.GioKetThuc - x.GioBatDau) * 60) + (x.PhutKetThuc - x.PhutBatDau)) / 60;
+            TempData["TeachingHours"] = ((double)_db.Cadays.Where(x => x.TrangThai == true && x.NgayDay <= DateTime.Now.Date).Sum(x => ((x.GioKetThuc - x.GioBatDau) * 60) + (x.PhutKetThuc - x.PhutBatDau)) / 60).ToString("0.##");
             var reportMoney = GetReportMoney();
             TempData["ReportMoney"] = reportMoney.Result.ToString("#,##0.###");
             TempData["TutorEvaluation"] = _db.Danhgiagiasus.Count();

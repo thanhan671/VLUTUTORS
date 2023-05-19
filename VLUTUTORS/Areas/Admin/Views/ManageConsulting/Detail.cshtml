@@ -86,7 +86,10 @@
                                     <div class="row">
                                         <div class="col-12 flex-right mb-4">
                                             <a href='javascript:history.go(-1)' class="btn btn-secondary mr-3">Quay Lại</a>
-                                            <input type="submit" value="Lưu" class="btn btn-success" onclick="popup()" />
+                                            if (@Model.IdtrangThai != 3)
+                                            {
+                                                <input type="submit" value="Lưu" class="btn btn-success" onclick="popup()" />
+                                            }
                                         </div>
                                     </div>
                                 </div>

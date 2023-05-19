@@ -387,7 +387,7 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
 
         private bool CheckLessonHasRegister(int tutorId, DateTime regisDate, int startHour, int startMinute, int endHour, int endMinute, int editStartHour = 0, int editStartMinute = 0)
         {
-            List<Caday> caDayByTutor = _db.Cadays.Where(c => c.IdnguoiDay == tutorId).ToList();
+            List<Caday> caDayByTutor = _db.Cadays.Where(c => c.IdnguoiDay == tutorId || c.IdnguoiHoc == tutorId).ToList();
             List<Caday> caDayByDate = caDayByTutor.Where(c => c.NgayDay.Date == regisDate.Date).ToList();
             if (editStartMinute != 0 && editStartHour != 0)
             {

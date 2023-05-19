@@ -57,7 +57,7 @@
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Ngày dạy</h6>
                                         </div>
-                                        <input class="form-control form-date" type="date" id="inputName" name="inputDate" value="@Model.NgayDay.ToString("yyyy-MM-dd")" />
+                                        <input class="form-control form-date" type="date" id="inputName" name="inputDate" value="@Model.NgayDay.ToString("yyyy-MM-dd")" required/>
                                     </div>
                                     <hr />
                                     <div class="row">
@@ -70,7 +70,7 @@
                                                        id="inputDate"
                                                        name="inputHour"
                                                        class="form-control form-date"
-                                                       value="@Model.GioBatDau.ToString("D2"):@Model.PhutBatDau.ToString("D2")" />
+                                                       value="@Model.GioBatDau.ToString("D2"):@Model.PhutBatDau.ToString("D2")" required/>
                                             </div>
                                         </div>
                                     </div>

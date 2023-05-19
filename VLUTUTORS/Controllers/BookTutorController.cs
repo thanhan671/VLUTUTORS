@@ -546,17 +546,11 @@ new
             MoneyServices.SubtractMoney((int)cahoc.GiaTien, (int)caday.IdnguoiHoc, _db);
             MoneyServices.AddMoney(money, caday.IdnguoiDay, _db);
 
-            try
-            {
-                _db.Update(caday);
-                await _db.SaveChangesAsync();
-                TempData["Message"] = "Đặt lịch thành công!";
-                TempData["MessageType"] = "success";
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
+            _db.Update(caday);
+            await _db.SaveChangesAsync();
+            TempData["Message"] = "Đặt lịch thành công!";
+            TempData["MessageType"] = "success";
+
 
             return RedirectToAction("SendMail", "BookTutor",
             new
@@ -570,7 +564,7 @@ new
 
         private bool CheckLessonHasRegister(int learnerId, DateTime regisDate, int startHour, int startMinute, int endHour, int endMinute)
         {
-            List<Caday> caDayByLearner = _db.Cadays.Where(c => (c.IdnguoiHoc == learnerId || c.IdnguoiDay == learnerId )&& c.Link != null).ToList();
+            List<Caday> caDayByLearner = _db.Cadays.Where(c => (c.IdnguoiHoc == learnerId || c.IdnguoiDay == learnerId) && c.Link != null).ToList();
             List<Caday> caDayByDate = caDayByLearner.Where(c => c.NgayDay.Date == regisDate.Date).ToList();
 
             if (caDayByDate.Count == 0 || caDayByLearner.Count == 0)

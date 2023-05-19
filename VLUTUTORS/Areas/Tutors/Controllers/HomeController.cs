@@ -26,7 +26,7 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
                     if (checkUser == 5)
                     {
                         int? userId = await IsExistUser();
-                        TempData["TeachingHours"] = (double)_db.Cadays.Where(x => x.TrangThai == true && x.NgayDay <= DateTime.Now.Date && x.IdnguoiDay == userId).Sum(x => ((x.GioKetThuc - x.GioBatDau) * 60) + (x.PhutKetThuc - x.PhutBatDau)) / 60;
+                        TempData["TeachingHours"] = ((double)_db.Cadays.Where(x => x.TrangThai == true && x.NgayDay <= DateTime.Now.Date && x.IdnguoiDay == userId).Sum(x => ((x.GioKetThuc - x.GioBatDau) * 60) + (x.PhutKetThuc - x.PhutBatDau)) / 60).ToString("0.##");
                         var reportIncome = GetReportIncome();
                         TempData["ReportIncome"] = reportIncome.Result.ToString("#,##0.###");
                         TempData["AllLesson"] = _db.Cadays.Where(m => m.IdnguoiDay == HttpContext.Session.GetInt32("LoginId")).Count();
