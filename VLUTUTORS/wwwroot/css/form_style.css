@@ -56,7 +56,8 @@ input {
 .container {
     position: relative;
     width: 100%;
-    background: linear-gradient( 0deg, rgba(236, 105, 35, 1) 13%, rgba(236, 105, 35, 1) 24%, rgba(242, 133, 38, 1) 45%, rgba(244, 142, 39, 1) 67%, rgba(253, 187, 45, 1) 99% );
+    /*    background: linear-gradient( 0deg, rgba(236, 105, 35, 1) 13%, rgba(236, 105, 35, 1) 24%, rgba(242, 133, 38, 1) 45%, rgba(244, 142, 39, 1) 67%, rgba(253, 187, 45, 1) 99% );*/
+    background: linear-gradient(-45deg,#F15D22, #ffc85f);
     min-height: 100vh;
     overflow: hidden;
 }
@@ -185,7 +186,8 @@ form {
     right: 48%;
     transform: translateY(-50%);
     /* background-image: linear-gradient(-45deg, #07294d 0%, #31525b 100%); */
-    background: linear-gradient( 360deg, rgba(9, 9, 121, 1) 18%, rgba(37, 114, 196, 1) 40%, rgba(37, 114, 196, 1) 58%, rgba(37, 70, 196, 1) 70%, rgba(37, 114, 196, 1) 86% );
+/*    background: linear-gradient( 360deg, rgba(9, 9, 121, 1) 18%, rgba(37, 114, 196, 1) 40%, rgba(37, 114, 196, 1) 58%, rgba(37, 70, 196, 1) 70%, rgba(37, 114, 196, 1) 86% );*/
+    background: linear-gradient(-45deg, #052459, #1661dc);
     transition: 1.8s ease-in-out;
     border-radius: 50%;
     z-index: 6;
