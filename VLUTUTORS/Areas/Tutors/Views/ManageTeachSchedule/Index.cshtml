@@ -149,7 +149,7 @@
                             @{
                                 if (lesson.Link == null)
                                 {
-                                    <td class="project-actions">
+                                    <td class="project-actions  d-flex">
                                         <a class="btn btn-sm" style="margin-bottom:5px; width:120px" href="@Url.Action("EditLessonPlan", "ManageTeachSchedule", new { lessonPlanId = @lesson.Id })">
                                             <i class="fas fa-pencil-alt"> </i>
                                             Sửa
@@ -168,7 +168,7 @@
                                 {
                                     if (lesson.NgayDay == DateTime.Today && result.Hours==0 && Math.Abs(result.Minutes) <= 15)
                                     {
-                                        <td class="project-actions">
+                                        <td class="project-actions  d-flex">
                                             <form asp-action="AcceptBooking" method="post" asp-controller="ManageTeachSchedule" asp-route-id="@lesson.Id">
                                                 <button class="btn btn-success btn-sm" href="@lesson.Link" style="margin-bottom:5px; width:120px" target="_blank">
                                                     <i class="fas fa-chalkboard-teacher"> </i>
