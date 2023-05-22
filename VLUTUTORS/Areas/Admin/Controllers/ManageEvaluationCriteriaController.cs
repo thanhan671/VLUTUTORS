@@ -43,10 +43,23 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult EditCriteria(Tieuchidanhgia tieuChiDanhGia)
         {
-            TempData["Message"] = "Cập nhật thành công!";
-            TempData["MessageType"] = "success";
-            _context.Tieuchidanhgias.Update(tieuChiDanhGia);
-            _context.SaveChanges();
+            if (ModelState.IsValid)
+            {
+                var checkTC = _context.Tieuchidanhgias.AsNoTracking().SingleOrDefault(x => (x.TieuChi.ToLower() == tieuChiDanhGia.TieuChi.ToLower())&&(x.DanhCho.ToLower()==tieuChiDanhGia.DanhCho.ToLower()));
+                if (checkTC != null)
+                {
+                    TempData["Message"] = "Tiêu chí này đã tồn tại!";
+                    TempData["MessageType"] = "error";
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    TempData["Message"] = "Cập nhật thành công!";
+                    TempData["MessageType"] = "success";
+                    _context.Tieuchidanhgias.Update(tieuChiDanhGia);
+                    _context.SaveChanges();
+                }
+            }
             return RedirectToAction("Index");
         }
     }
