@@ -26,10 +26,17 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
                     if (checkUser == 5)
                     {
                         int? userId = await IsExistUser();
-                        TempData["TeachingHours"] = (double)_db.Cadays.Where(x => x.TrangThai == true && x.NgayDay <= DateTime.Now.Date && x.IdnguoiDay == userId).Sum(x => ((x.GioKetThuc - x.GioBatDau) * 60) + (x.PhutKetThuc - x.PhutBatDau)) / 60;
+                        TempData["TeachingHours"] = ((double)_db.Cadays.Where(x => x.TrangThai == true && x.NgayDay <= DateTime.Now.Date && x.IdnguoiDay == userId).Sum(x => ((x.GioKetThuc - x.GioBatDau) * 60) + (x.PhutKetThuc - x.PhutBatDau)) / 60).ToString("0.##");
                         var reportIncome = GetReportIncome();
                         TempData["ReportIncome"] = reportIncome.Result.ToString("#,##0.###");
                         TempData["AllLesson"] = _db.Cadays.Where(m => m.IdnguoiDay == HttpContext.Session.GetInt32("LoginId")).Count();
+
+                        TempData["success"]= _db.Cadays.Where(x => x.TrangThai == true && x.NgayDay < DateTime.Now.Date && x.IdnguoiDay == userId).Count();
+                        TempData["cancel"]= _db.Cadays.Where(x => x.TrangThai == false && x.NgayDay < DateTime.Now.Date && x.IdnguoiDay == userId).Count();
+                        TempData["notBooking"] = _db.Cadays.Where(x => x.TrangThai == null && x.NgayDay < DateTime.Now.Date && x.IdnguoiHoc == null && x.IdnguoiDay == userId).Count();
+                        TempData["registBooking"] = _db.Cadays.Where(x => x.TrangThai == null && x.NgayDay >= DateTime.Now.Date && x.IdnguoiDay == userId).Count();
+                        TempData["booking"] = _db.Cadays.Where(x => x.TrangThai == false && x.Link != null && x.NgayDay >= DateTime.Now.Date && x.IdnguoiDay == userId).Count();
+
                         return View();
                     }
                 }
@@ -45,28 +52,6 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
         }
 
         #region Method 
-
-        public JsonResult GetLessonTutor()
-        {
-            int userId = (int)HttpContext.Session.GetInt32("LoginId");
-
-            int success = _db.Cadays.Where(x => x.TrangThai == true && x.NgayDay < DateTime.Now.Date && x.IdnguoiDay == userId).Count();
-            int cancel = _db.Cadays.Where(x => x.TrangThai == false && x.NgayDay < DateTime.Now.Date && x.IdnguoiDay == userId).Count();
-            int notBooking = _db.Cadays.Where(x => x.TrangThai == null && x.NgayDay < DateTime.Now.Date && x.IdnguoiHoc == null && x.IdnguoiDay == userId).Count();
-            int registBooking = _db.Cadays.Where(x => x.TrangThai == null && x.NgayDay >= DateTime.Now.Date && x.IdnguoiDay == userId).Count();
-            int booking = _db.Cadays.Where(x => x.TrangThai == false && x.Link != null && x.NgayDay >= DateTime.Now.Date && x.IdnguoiDay == userId).Count();
-
-            List<Chart> list = new List<Chart>();
-
-            list.Add(new Chart { CategoryName = "Số ca hoàn thành", PostCount = success });
-            list.Add(new Chart { CategoryName = "Số ca hủy", PostCount = cancel });
-            list.Add(new Chart { CategoryName = "Số ca không được đặt", PostCount = notBooking });
-            list.Add(new Chart { CategoryName = "Số ca đang được đặt", PostCount = booking });
-            list.Add(new Chart { CategoryName = "Số ca chưa được đặt", PostCount = registBooking });
-
-            return Json(new { JSONList = list });
-
-        }
 
         /// <summary>
         /// Xem thống kê thu nhập từng gia sư.
@@ -120,7 +105,7 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
         {
             if (HttpContext.Session.GetString("LoginId") == null)
             {
-                return RedirectToAction("Index", "Login");
+                return RedirectToAction("Index", "Login", new { area = "default" });
             }
             int id = (int)HttpContext.Session.GetInt32("LoginId");
             List<Caday> caDays = _db.Cadays.Where(ca => ca.IdnguoiDay == id).ToList();

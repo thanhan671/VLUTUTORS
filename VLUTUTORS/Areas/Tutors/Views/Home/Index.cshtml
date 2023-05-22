@@ -24,7 +24,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h3>Tổng số ca dạy của gia sư: <b style="color:red;">@TempData["AllLesson"]</b></h3>
-                            <div class="d-flex" id="charttutor" style="width:570px;height:350px"></div>
+                            <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
                             <a class="btn-5 custom-btn text-center" type="button" href="~/Tutors/Home/DetailStaticLesson">Xem chi tiết</a>
                         </div>
                     </div>
@@ -51,37 +51,34 @@
     </div>
     <!-- /.content -->
 </div>
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<script type="text/javascript">
-    google.charts.load('current', { 'packages': ['corechart'] });
-    google.charts.setOnLoadCallback(DrawonLoad);
-    function DrawonLoad() {
-        $(function () {
-            $.ajax({
-                type: 'GET',
-                url: '/Tutors/Home/GetLessonTutor',
-                success: function (chartsdata) {
-                    var Data = chartsdata.jsonList;
-                    var data = new google.visualization.DataTable();
-                    data.addColumn('string', 'CategoryName');
-                    data.addColumn('number', 'PostCount');
+@section scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <script>
+        var xValues = ["Số ca hoàn thành", "Số ca hủy", "Số ca không được đặt", "Số ca đang được đặt", "Số ca chưa được đặt"];
+        var yValues = [@TempData["success"], @TempData["cancel"], @TempData["notBooking"], @TempData["booking"], @TempData["registBooking"]];
+var barColors = [
+  "#b91d47",
+  "#00aba9",
+  "#2b5797",
+  "#e8c3b9",
+  "#1e7145"
+];
 
-                    for (var i = 0; i < Data.length; i++) {
-                        data.addRow([Data[i].categoryName, Data[i].postCount]);
-                    }
-
-                    var chart = new google.visualization.PieChart(document.getElementById('charttutor'));
-                    chart.draw(data,
-                        {
-                            title: "Thống kê số ca dạy của gia sư",
-                            position: "top",
-                            fontsize: "20px"
-                        });
-                },
-                error: function () {
-                    alert('Lỗi dữ liệu, vui lòng thử lại sau!')
-                }
-            });
-        });
+new Chart("myChart", {
+  type: "pie",
+  data: {
+    labels: xValues,
+    datasets: [{
+      backgroundColor: barColors,
+      data: yValues
+    }]
+  },
+  options: {
+    title: {
+      display: true,
+      text: "Thống kê ca dạy của gia sư"
     }
+  }
+});
 </script>
+}

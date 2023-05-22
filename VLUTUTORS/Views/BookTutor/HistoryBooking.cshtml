@@ -36,7 +36,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var lesson in Model)
+            @foreach (var lesson in Model.OrderBy(m=>m.NgayDay))
             {
                 int year = lesson.NgayDay.Year;
                 int month = lesson.NgayDay.Month;
@@ -57,7 +57,7 @@
                         <td>@lesson.giaCaDay.ToString("#,##0.###") đồng</td>
 
                         @{
-                            if (lesson.NgayDay == DateTime.Today && Math.Abs(result.Minutes)<=15)
+                            if (lesson.NgayDay == DateTime.Today && result.Hours == 0 && Math.Abs(result.Minutes)<=15)
                             {
                                 <td class="done">Sắp/Đang Diễn Ra</td>
                                 <td>
@@ -67,7 +67,7 @@
                                     <a class="btn btn-danger btn-sm" style="margin-top: 5px; width: 90px; color:white;"
                            data-toggle="modal"
                            data-target="#deleteModal"
-                           onclick="document.getElementById('lessonPlanId').value = @lesson.Id">Hủy lịch</a>
+                           onclick="document.getElementById('lessonPlanId').value = @lesson.Id, document.getElementById('meettingId').value = @lesson.IdCa">Hủy lịch</a>
                                 </td>
                             }
                             else
@@ -77,7 +77,7 @@
                                     <a class="btn btn-danger btn-sm" style="margin-top: 5px; width: 90px; color:white;"
                            data-toggle="modal"
                            data-target="#deleteModal"
-                           onclick="document.getElementById('lessonPlanId').value = @lesson.Id">Hủy lịch</a>
+                           onclick="document.getElementById('lessonPlanId').value = @lesson.Id, document.getElementById('meettingId').value = @lesson.IdCa">Hủy lịch</a>
                                 </td>
                             }
                         }
@@ -111,6 +111,7 @@
             </div>
         </div>
         <input type="hidden" id="lessonPlanId" name="lessonPlanId" />
+        <input type="hidden" id="meettingId" name="meettingId" />
     </form>
 </div>
 @section scripts{

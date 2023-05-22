@@ -26,6 +26,7 @@ namespace VLUTUTORS.Models
         public int? IdnguoiHoc { get; set; }
         public string Link { get; set; }
         public bool? TrangThai { get; set; }
+        public string IdCa { get; set; }
 
         [NotMapped]
         public string tenNguoiDay { get; set; }

@@ -9,6 +9,8 @@ using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using VLUTUTORS.Support.Services;
+using System.Net.Mail;
+using ZoomNet;
 
 namespace VLUTUTORS.Areas.Tutors.Controllers
 {
@@ -117,6 +119,25 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
                     GetEndTime(lessonPlan, teachTime);
 
                     bool isOverLapse = CheckLessonHasRegister(lessonPlan.IdnguoiDay, lessonPlan.NgayDay, lessonPlan.GioBatDau, lessonPlan.PhutBatDau, lessonPlan.GioKetThuc, lessonPlan.PhutKetThuc);
+
+                    TimeSpan startTime = new TimeSpan(lessonPlan.GioBatDau, lessonPlan.PhutBatDau, 0);
+                    TimeSpan endTime = new TimeSpan(lessonPlan.GioKetThuc, lessonPlan.PhutKetThuc, 0);
+
+                    if (lessonPlans.Count() != 0)
+                    {
+                        foreach (var caDay in lessonPlans)
+                        {
+                            TimeSpan caDayStartTime = new TimeSpan(caDay.GioBatDau, caDay.PhutBatDau, 0);
+                            TimeSpan caDayEndTime = new TimeSpan(caDay.GioKetThuc, caDay.PhutKetThuc, 0);
+
+                            isOverLapse = startTime <= caDayEndTime && caDayStartTime <= endTime;
+                            if (isOverLapse)
+                            {
+                                break;
+                            }
+                        }
+                    }
+
                     if (isOverLapse)
                     {
                         TempData["Message"] = "Thời gian bị trùng với ca dạy khác";
@@ -226,7 +247,7 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             {
                 TempData["Message"] = "Thời gian bị trùng với ca dạy khác";
                 TempData["MessageType"] = "error";
-                return RedirectToAction("EditLessonPlan", "ManageTeachSchedule", new { lessonPlanId = caday.Id});
+                return RedirectToAction("EditLessonPlan", "ManageTeachSchedule", new { lessonPlanId = caday.Id });
             }
 
             if (ModelState.IsValid)
@@ -241,13 +262,15 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
             return RedirectToAction("Index", "ManageTeachSchedule");
         }
 
-        public async Task<IActionResult> DeleteLessonPlan(int lessonPlanId)
+        public async Task<IActionResult> DeleteLessonPlan(int lessonPlanId, string meettingId)
         {
+            JwtConnectionInfo connectionInfo = new JwtConnectionInfo("9wPjAoQIQsSEzltlIl_vQw", "84zfXjpKoHTUS2Tqjnfswk7pyezmMsbYRxvf");
+            ZoomClient zoomClient = new ZoomClient(connectionInfo);
             // call check lesson has register
 
             Caday caDay = _db.Cadays.Where(p => p.Id == lessonPlanId).FirstOrDefault();
 
-            if(caDay.IdnguoiHoc == null)
+            if (caDay.Link == null)
             {
                 _db.Cadays.Remove(caDay);
                 await _db.SaveChangesAsync();
@@ -257,50 +280,119 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
                 return RedirectToAction("Index", "ManageTeachSchedule");
             }
 
-            caDay.Link = null;
-            caDay.TrangThai = false;
-            _db.Cadays.Update(caDay);
-            await _db.SaveChangesAsync();
-
             Cahoc cahoc = _db.Cahocs.Where(c => c.IdCaHoc == caDay.IdloaiCaDay).FirstOrDefault();
             Phiday phiday = _db.Phidays.Where(ph => ph.Id == 1).FirstOrDefault();
 
-            float commision = (int)cahoc.GiaTien * ((float)phiday.ChietKhau/100);
-            int money = (int) (cahoc.GiaTien + commision);
+            float commision = (int)cahoc.GiaTien * ((float)phiday.ChietKhau / 100);
+            int money = (int)(cahoc.GiaTien + commision);
             int moneyBack = (int)(cahoc.GiaTien - commision);
+            var soDu = _db.Taikhoannguoidungs.Where(m=>m.Id.Equals(caDay.IdnguoiDay)).FirstOrDefault().SoDuVi;
 
-            int year = caDay.NgayDay.Year;
-            int month = caDay.NgayDay.Month;
-            int day = caDay.NgayDay.Day;
-
-            DateTime checkTime = new DateTime(year, month, day, caDay.GioBatDau, caDay.PhutBatDau, 0);
-
-            TimeSpan result = DateTime.Now - checkTime;
-
-            if (caDay.IdnguoiHoc != null && result.Hours > 1)
+            if (soDu < money)
             {
-                MoneyServices.SubtractMoney(moneyBack, caDay.IdnguoiDay, _db);
-                MoneyServices.AddMoney((int)cahoc.GiaTien, (int)caDay.IdnguoiHoc, _db);
-            }else if(caDay.IdnguoiHoc != null && result.Hours < 1)
-            {
-                MoneyServices.SubtractMoney(money, caDay.IdnguoiDay, _db);
-                MoneyServices.AddMoney((int)cahoc.GiaTien, (int)caDay.IdnguoiHoc, _db);
+                TempData["Message"] = "Số dư không đủ để hủy ca dạy!";
+                TempData["MessageType"] = "error";
+
+                return RedirectToAction("Index", "ManageTeachSchedule");
             }
+            else
+            {
+                await zoomClient.Meetings.DeleteAsync(long.Parse(meettingId));
+                caDay.IdCa = null;
+                caDay.Link = null;
+                caDay.TrangThai = false;
+                _db.Cadays.Update(caDay);
+                await _db.SaveChangesAsync();
 
-            TempData["Message"] = "Hủy ca dạy thành công!";
-            TempData["MessageType"] = "success";
+                int year = caDay.NgayDay.Year;
+                int month = caDay.NgayDay.Month;
+                int day = caDay.NgayDay.Day;
+
+                var monDay = _db.Mongiasus.Where(acc => acc.IdmonGiaSu.Equals(caDay.IdmonDay)).FirstOrDefault().TenMonGiaSu;
+                var hostMail = _db.Taikhoannguoidungs.Where(acc => acc.Id.Equals(caDay.IdnguoiHoc)).FirstOrDefault().Email;
+                var tenGS = _db.Taikhoannguoidungs.Where(acc => acc.Id.Equals(caDay.IdnguoiDay)).FirstOrDefault().HoTen;
+
+                DateTime checkTime = new DateTime(year, month, day, caDay.GioBatDau, caDay.PhutBatDau, 0);
+
+                TimeSpan result = DateTime.Now - checkTime;
+
+                if (caDay.IdnguoiHoc != null && result.Hours > 1)
+                {
+                    MoneyServices.SubtractMoney(moneyBack, caDay.IdnguoiDay, _db);
+                    MoneyServices.AddMoney((int)cahoc.GiaTien, (int)caDay.IdnguoiHoc, _db);
+                }
+                else if (caDay.IdnguoiHoc != null && result.Hours < 1)
+                {
+                    MoneyServices.SubtractMoney(money, caDay.IdnguoiDay, _db);
+                    MoneyServices.AddMoney((int)cahoc.GiaTien, (int)caDay.IdnguoiHoc, _db);
+                }
+
+                TempData["Message"] = "Hủy ca dạy thành công!";
+                TempData["MessageType"] = "success";
+
+                return RedirectToAction("SendMail", "ManageTeachSchedule",
+    new
+    {
+        toEmail = hostMail,
+        mailBody = "<b>Xin thông báo! Ca học môn <b style=\"color: red;\">" + monDay + "</b> có thời gian " + caDay.GioBatDau + ":" + caDay.PhutBatDau + " - " + caDay.GioKetThuc + ":" + caDay.PhutKetThuc + " ngày " + caDay.NgayDay.ToString("dd/MM/yyyy") + " đã bị <b style=\"color: red;\">HỦY</b> bởi gia sư " + tenGS + "!</b>" +
+    "<p style = \"margin: 0%;\">Nếu có khiếu nại vui lòng liên hệ lại với chúng tôi!<br/>"
+    });
+            }
+        }
+
+        public IActionResult SendMail(string toEmail, string mailBody)
+        {
+            string mailTitle = "Gia Sư Văn Lang";
+            string fromMail = "giasuvanlang.thongtin@gmail.com";
+            string fromEmailPass = "vrzaiqmdiycujvas";
+            string bodyMail = "<!DOCTYPE html>" +
+        "<html>" +
+            "<body>" +
+                "<p style = \"margin: 0%;\">" +
+                "Xin chào bạn,<br/>" +
+                mailBody + "<br/>" +
+
+               " Trân trọng!<br/>" +
+                "<b>Gia Sư Văn Lang</b><br/>" +
+                "<b style = \"font-size: 10px;text-align: center; margin: 0%;\"> Bạn nhận được thông báo này vì địa chỉ email " + toEmail + " đang được sử dụng cho " +
+                "tài khoản trên trang Gia Sư Văn Lang. Nếu thông tin này không chính xác," +
+                "vui lòng bỏ qua và không trả lời lại mail này.<br/>Xin cảm ơn!</b>" +
+            "</body>" +
+        "</html>";
+
+            //Email and content
+            MailMessage message = new MailMessage(new MailAddress(fromMail, mailTitle), new MailAddress(toEmail));
+            message.Subject = "[VLUTUTORS] Thông báo hủy lịch học";
+            message.Body = bodyMail;
+            message.IsBodyHtml = true;
+
+            //Server detail
+            SmtpClient smtp = new SmtpClient();
+            smtp.Host = "smtp.gmail.com";
+            smtp.Port = 587;
+            smtp.EnableSsl = true;
+            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+
+            //Credentials
+            System.Net.NetworkCredential credential = new System.Net.NetworkCredential();
+            credential.UserName = fromMail;
+            credential.Password = fromEmailPass;
+            smtp.UseDefaultCredentials = false;
+            smtp.Credentials = credential;
+
+            smtp.Send(message);
 
             return RedirectToAction("Index", "ManageTeachSchedule");
         }
 
         private bool CheckLessonHasRegister(int tutorId, DateTime regisDate, int startHour, int startMinute, int endHour, int endMinute, int editStartHour = 0, int editStartMinute = 0)
         {
-            List<Caday> caDayByTutor = _db.Cadays.Where(c => c.IdnguoiDay == tutorId).ToList();
+            List<Caday> caDayByTutor = _db.Cadays.Where(c => c.IdnguoiDay == tutorId || c.IdnguoiHoc == tutorId).ToList();
             List<Caday> caDayByDate = caDayByTutor.Where(c => c.NgayDay.Date == regisDate.Date).ToList();
-            if(editStartMinute != 0 && editStartHour != 0)
+            if (editStartMinute != 0 && editStartHour != 0)
             {
                 caDayByDate.Remove(caDayByDate.Where(c => c.GioBatDau == editStartHour && c.PhutBatDau == editStartMinute).FirstOrDefault());
-            }    
+            }
 
             if (caDayByDate.Count == 0)
             {
@@ -323,7 +415,7 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
                     break;
                 }
             }
- 
+
             return isOverLapse;
         }
     }

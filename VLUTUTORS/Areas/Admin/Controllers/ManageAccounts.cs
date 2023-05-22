@@ -83,11 +83,13 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                     }
                     else
                     {
-                        TempData["Message"] = "Mật khẩu phải từ 6 ký tự, vui lòng kiểm tra lại";
+                        TempData["Message"] = "Mật khẩu phải từ 6 ký tự, vui lòng kiểm tra lại!";
                         TempData["MessageType"] = "error";
                     }
                 }
             }
+            TempData["Message"] = "Tên đăng nhập phải từ 5-30 ký tự, vui lòng kiểm tra lại!";
+            TempData["MessageType"] = "error";
             var quyens = await _context.Quyens.ToListAsync();
             SelectList ddlStatus = new SelectList(quyens, "IdQuyen", "TenQuyen");
             taikhoanadmin.listQuyen = ddlStatus;

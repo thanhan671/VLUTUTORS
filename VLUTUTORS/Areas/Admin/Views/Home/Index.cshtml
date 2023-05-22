@@ -29,15 +29,15 @@
                     <div class="card">
                         <div class="card-body">
                             <h3>Tổng số người dùng web: <b style="color:red;">@TempData["AllUser"]</b></h3>
-                            <div class="d-flex" id="chartuser" style="width:570px;height:350px"></div>
+                            <canvas id="userChart" style="width:100%;max-width:600px"></canvas>
                             <a class="btn-5 custom-btn text-center" type="button" href="~/Admin/Home/DetailStaticUser">Xem chi tiết</a>
                         </div>
                     </div>
                     <div class="card">
                         <div class="card-body">
                             <h3>Tổng số đánh giá gia sư: <b style="color:red;">@TempData["TutorEvaluation"]</b></h3>
-                            <div class="d-flex" id="charttutor" style="width:570px;height:350px"></div>
-                            <a class="btn-5 custom-btn text-center" type="button" href="~/Admin/ManageTutorEvaluation/Index">Xem chi tiết</a>
+                            <canvas id="tutorChart" style="width:100%;max-width:600px"></canvas>
+                            <a class="btn-5 custom-btn text-center" type="button" href="~/Admin/ManageTutorEvaluation">Xem chi tiết</a>
                         </div>
                     </div>
                 </div>
@@ -50,15 +50,15 @@
                     <div class="card">
                         <div class="card-body">
                             <h3>Tổng số ca dạy của web: <b style="color:red;">@TempData["AllLesson"]</b></h3>
-                            <div class="d-flex" id="chartlesson" style="width:570px;height:350px"></div>
+                            <canvas id="lessonChart" style="width:100%;max-width:600px"></canvas>
                             <a class="btn-5 custom-btn text-center" type="button" href="~/Admin/Home/DetailStaticLesson">Xem chi tiết</a>
                         </div>
                     </div>
                     <div class="card">
                         <div class="card-body">
                             <h3>Tổng số đánh giá người học: <b style="color:red;">@TempData["LearnerEvaluation"]</b></h3>
-                            <div class="d-flex" id="chartlearner" style="width:570px;height:350px"></div>
-                            <a class="btn-5 custom-btn text-center" type="button" href="~/Admin/ManageLearnerEvaluation/Index">Xem chi tiết</a>
+                            <canvas id="learnerChart" style="width:100%;max-width:600px"></canvas>
+                            <a class="btn-5 custom-btn text-center" type="button" href="~/Admin/ManageLearnerEvaluation">Xem chi tiết</a>
                         </div>
                     </div>
                 </div>
@@ -70,137 +70,116 @@
     <!-- /.content -->
 </div>
 
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<script type="text/javascript">
-    google.charts.load('current', { 'packages': ['corechart'] });
-    google.charts.setOnLoadCallback(DrawonLoad);
-    function DrawonLoad() {
-        $(function () {
-            $.ajax({
-                type: 'GET',
-                url: '/Admin/Home/GetUserWeb',
-                success: function (chartsdata) {
-                    var Data = chartsdata.jsonList;
-                    var data = new google.visualization.DataTable();
-                    data.addColumn('string', 'CategoryName');
-                    data.addColumn('number', 'PostCount');
+@section scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <script>
+        var xValues = ["Số người học", "Số gia sư"];
+        var yValues = [@TempData["learners"], @TempData["tutors"]];
+        var barColors = [
+            "#b91d47",
+            "#00aba9"
+        ];
 
-                    for (var i = 0; i < Data.length; i++) {
-                        data.addRow([Data[i].categoryName, Data[i].postCount]);
-                    }
-
-                    var chart = new google.visualization.PieChart(document.getElementById('chartuser'));
-                    chart.draw(data,
-                        {
-                            title: "Thống kê số người dùng web",
-                            position: "top",
-                            fontsize: "20px"
-                        });
-                },
-                error: function () {
-                    alert('Lỗi dữ liệu, vui lòng thử lại sau!')
+        new Chart("userChart", {
+            type: "pie",
+            data: {
+                labels: xValues,
+                datasets: [{
+                    backgroundColor: barColors,
+                    data: yValues
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: "Thống kê người dùng của trang web"
                 }
-            });
+            }
         });
-    }
-</script>
-<script type="text/javascript">
-    google.charts.load('current', { 'packages': ['corechart'] });
-    google.charts.setOnLoadCallback(DrawonLoad);
-    function DrawonLoad() {
-        $(function () {
-            $.ajax({
-                type: 'GET',
-                url: '/Admin/Home/GetLessonWeb',
-                success: function (chartsdata) {
-                    var Data = chartsdata.jsonList;
-                    var data = new google.visualization.DataTable();
-                    data.addColumn('string', 'CategoryName');
-                    data.addColumn('number', 'PostCount');
+    </script>
+    <script>
+        var xValues = ["Đánh giá 1 sao", "Đánh giá 2 sao", "Đánh giá 3 sao", "Đánh giá 4 sao", "Đánh giá 5 sao"];
+        var yValues = [@TempData["1"], @TempData["2"], @TempData["3"], @TempData["4"], @TempData["5"]];
+        var barColors = [
+            "#b91d47",
+            "#00aba9",
+            "#2b5797",
+            "#e8c3b9",
+            "#1e7145"
+        ];
 
-                    for (var i = 0; i < Data.length; i++) {
-                        data.addRow([Data[i].categoryName, Data[i].postCount]);
-                    }
-
-                    var chart = new google.visualization.PieChart(document.getElementById('chartlesson'));
-                    chart.draw(data,
-                        {
-                            title: "Thống kê số ca dạy của web",
-                            position: "top",
-                            fontsize: "20px"
-                        });
-                },
-                error: function () {
-                    alert('Lỗi dữ liệu, vui lòng thử lại sau!')
+        new Chart("tutorChart", {
+            type: "pie",
+            data: {
+                labels: xValues,
+                datasets: [{
+                    backgroundColor: barColors,
+                    data: yValues
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: "Thống kê đánh giá gia sư"
                 }
-            });
+            }
         });
-    }
-</script>
-<script type="text/javascript">
-    google.charts.load('current', { 'packages': ['corechart'] });
-    google.charts.setOnLoadCallback(DrawonLoad);
-    function DrawonLoad() {
-        $(function () {
-            $.ajax({
-                type: 'GET',
-                url: '/Admin/Home/GetLearnerEvaluation',
-                success: function (chartsdata) {
-                    var Data = chartsdata.jsonList;
-                    var data = new google.visualization.DataTable();
-                    data.addColumn('string', 'CategoryName');
-                    data.addColumn('number', 'PostCount');
+    </script>
+    <script>
+        var xValues = ["Số ca hoàn thành", "Số ca hủy", "Số ca không được đặt", "Số ca đang được đặt", "Số ca chưa được đặt"];
+        var yValues = [@TempData["success"], @TempData["cancel"], @TempData["notBooking"], @TempData["booking"], @TempData["registBooking"]];
+        var barColors = [
+            "#b91d47",
+            "#00aba9",
+            "#2b5797",
+            "#e8c3b9",
+            "#1e7145"
+        ];
 
-                    for (var i = 0; i < Data.length; i++) {
-                        data.addRow([Data[i].categoryName, Data[i].postCount]);
-                    }
-
-                    var chart = new google.visualization.PieChart(document.getElementById('chartlearner'));
-                    chart.draw(data,
-                        {
-                            title: "Thống kê tổng số đánh giá người học",
-                            position: "top",
-                            fontsize: "20px"
-                        });
-                },
-                error: function () {
-                    alert('Lỗi dữ liệu, vui lòng thử lại sau!')
+        new Chart("lessonChart", {
+            type: "pie",
+            data: {
+                labels: xValues,
+                datasets: [{
+                    backgroundColor: barColors,
+                    data: yValues
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: "Thống kê ca dạy của gia sư"
                 }
-            });
+            }
         });
-    }
-</script>
-<script type="text/javascript">
-    google.charts.load('current', { 'packages': ['corechart'] });
-    google.charts.setOnLoadCallback(DrawonLoad);
-    function DrawonLoad() {
-        $(function () {
-            $.ajax({
-                type: 'GET',
-                url: '/Admin/Home/GetTutorEvaluation',
-                success: function (chartsdata) {
-                    var Data = chartsdata.jsonList;
-                    var data = new google.visualization.DataTable();
-                    data.addColumn('string', 'CategoryName');
-                    data.addColumn('number', 'PostCount');
+    </script>
+    <script>
+        var xValues = ["Đánh giá 1 sao", "Đánh giá 2 sao", "Đánh giá 3 sao", "Đánh giá 4 sao", "Đánh giá 5 sao"];
+        var yValues = [@TempData["l1"], @TempData["l2"], @TempData["l3"], @TempData["l4"], @TempData["l5"]];
+        var barColors = [
+            "#b91d47",
+            "#00aba9",
+            "#2b5797",
+            "#e8c3b9",
+            "#1e7145"
+        ];
 
-                    for (var i = 0; i < Data.length; i++) {
-                        data.addRow([Data[i].categoryName, Data[i].postCount]);
-                    }
-
-                    var chart = new google.visualization.PieChart(document.getElementById('charttutor'));
-                    chart.draw(data,
-                        {
-                            title: "Thống kê tổng số đánh giá gia sư",
-                            position: "top",
-                            fontsize: "20px"
-                        });
-                },
-                error: function () {
-                    alert('Lỗi dữ liệu, vui lòng thử lại sau!')
+        new Chart("learnerChart", {
+            type: "pie",
+            data: {
+                labels: xValues,
+                datasets: [{
+                    backgroundColor: barColors,
+                    data: yValues
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: "Thống kê đánh giá người học"
                 }
-            });
+            }
         });
-    }
-</script>
+    </script>
+}
 
