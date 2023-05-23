@@ -282,11 +282,11 @@ namespace VLUTUTORS.Controllers
                                     TempData["MessageType"] = "success";
                                     db.Entry(dbTaikhoannguoidung).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                                     db.SaveChanges();
-                                    return RedirectToAction("Details", new { id });
+                                    return RedirectToAction("Details", "Accounts", new { id });
                                 }
                                 catch (Exception ex)
                                 {
-                                    return RedirectToAction("Details", new { id });
+                                    return RedirectToAction("Details", "Accounts", new { id });
                                 }
                             }
                             else if (MatKhau != null && ReMatKhau == MatKhau && MatKhau.Length >= 6)
@@ -304,11 +304,11 @@ namespace VLUTUTORS.Controllers
                                     TempData["MessageType"] = "success";
                                     db.Entry(dbTaikhoannguoidung).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                                     db.SaveChanges();
-                                    return RedirectToAction("Details", new { id });
+                                    return RedirectToAction("Details", "Accounts", new { id });
                                 }
                                 catch (Exception ex)
                                 {
-                                    return RedirectToAction("Details", new { id });
+                                    return RedirectToAction("Details", "Accounts", new { id });
                                 }
                             }
                             else
@@ -327,7 +327,7 @@ namespace VLUTUTORS.Controllers
                 {
                     TempData["Message"] = "Ảnh có kích thước tối thiểu 200x200 (px), vui lòng kiểm tra lại!";
                     TempData["MessageType"] = "error";
-                    return RedirectToAction("EditLearnerAccounts", new { id });
+                    return RedirectToAction("EditLearnerAccounts", "Accounts", new { id });
                 }
             }
 
