@@ -257,8 +257,8 @@ namespace VLUTUTORS.Controllers
                     iwidth = image.Width;
                     iheight = image.Height;
                 }
-                Console.WriteLine(iwidth+ " " + iheight);
-                if(iwidth >= 200 && iheight >= 200)
+                Console.WriteLine(iwidth + " " + iheight);
+                if (iwidth >= 200 && iheight >= 200)
                 {
                     if (Sdt.Length < 10 || Sdt.Length >= 11)
                     {
