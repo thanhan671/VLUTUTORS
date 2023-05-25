@@ -239,20 +239,23 @@
                                         </div>
                                     </div>
                                     <hr />
-
-                                    <div class="row-nowrap">
-                                        <div class="col-sm-3">
-                                            <h6 class="mb-0">Lý do từ chối xét duyệt(Nếu có):</h6>
-                                        </div>
-                                        <div class="col-sm-9 text-secondary">
-                                            <input id="reason"
-                                                   name="reason"
-                                                   placeholder="Nhập lý do từ chối"
-                                                   type="text" />
-                                        </div>
-                                    </div>
-                                    <hr />
-
+                                    @{
+                                        if (Model.Tutor.IdxetDuyet != 5)
+                                        {
+                                            <div class="row-nowrap">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">Lý do từ chối xét duyệt(Nếu có):</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    <input id="reason"
+                                                       name="reason"
+                                                       placeholder="Nhập lý do từ chối"
+                                                       type="text" />
+                                                </div>
+                                            </div>
+                                            <hr />
+                                        }
+                                    }
                                     @{
                                         if (Model.Tutor.IdxetDuyet != 5)
                                         {
@@ -271,7 +274,7 @@
                                                 Quay lại
                                             </a>
                                             @{
-                                                if (Model.Tutor.IdxetDuyet != 6)
+                                                if (Model.Tutor.IdxetDuyet != 5)
                                                 {
                                                     <input type="submit"
                                                        value="Lưu thay đổi"

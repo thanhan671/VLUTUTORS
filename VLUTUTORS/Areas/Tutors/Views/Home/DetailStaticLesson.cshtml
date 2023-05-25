@@ -60,6 +60,18 @@
                                                 Hoàn thành
                                             </td>
                                         }
+                                        else if (item.NgayDay>=DateTime.Today && item.GioBatDau > DateTime.Now.Hour && item.TrangThai==null)
+                                        {
+                                            <td class="text-center">
+                                                Chưa được đặt
+                                            </td>
+                                        }
+                                        else if (item.NgayDay == DateTime.Today && item.GioBatDau >= DateTime.Now.Hour && item.TrangThai == false)
+                                        {
+                                            <td class="text-center">
+                                                Đang được đặt
+                                            </td>
+                                        }
                                         else if (item.TrangThai == false)
                                         {
                                             <td class="text-center" style="color:red">

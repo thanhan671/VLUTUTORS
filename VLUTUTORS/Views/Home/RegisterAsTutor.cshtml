@@ -13,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="~/css/form_style.css" />
     <link rel="stylesheet" href="~/css/responsive.css" />
-    <link rel="shortcut icon" href="~/images/favicon2.png" type="image/png" />
+    <link rel="shortcut icon" href="~/images/LogoVL.png" type="image/png" />
     <title>VLU TUTORS - Trở Thành Gia Sư</title>
     <script src="~/js/app.js"></script>
     <link rel="stylesheet"
@@ -214,23 +214,23 @@
                                     <span asp-validation-for="GioiThieuVeMonGiaSu1" class="help-block with-errors" style="color:red"></span>
                                 </div>
 
+                        </div>
+                        <div class="col-4">
+                            <p><b class="lb-form-title">Thông Tin Môn Gia Sư 2 (nếu có)</b></p>
+                            <div class="form__input">
+                                <label class="lb-form" for="name">Môn</label>
+                                @Html.DropDownListFor(m => m.IdmonGiaSu2, Model.Subject2Items, "Chọn môn gia sư", new { @class = "form__select",@id="IdmonGiaSu2", @name="IdmonGiaSu2" })
                             </div>
-                            <div class="col-4">
-                                <p><b class="lb-form-title">Thông Tin Môn Gia Sư 2 (nếu có và khác với môn thứ nhất)</b></p>
-                                <div class="form__input">
-                                    <label class="lb-form" for="name">Môn</label>
-                                    @Html.DropDownListFor(m => m.IdmonGiaSu2, Model.Subject2Items, "Chọn môn gia sư", new { @class = "form__select",@id="IdmonGiaSu2", @name="IdmonGiaSu2" })
-                                </div>
-                                <div class="message-error">
-                                    <span asp-validation-for="IdmonGiaSu2" class="help-block with-errors" style="color:red"></span>
-                                </div>
-                                <div class="form__input">
-                                    <label class="lb-form">Điểm trung bình môn hoặc tên chứng chỉ</label>
-                                    <input type="text" id="TenChungChiHoacDiemMon2" name="TenChungChiHoacDiemMon2" placeholder="Điểm trung bình hoặc chứng chỉ môn 2"></input>
-                                    <span class="warning-icon">!</span>
-                                    <p class="warning">Vui lòng điền đầy đủ thông tin</p>
-                                </div>
-                                <span asp-validation-for="TenChungChiHoacDiemMon2" class="help-block with-errors" style="color:red"> </span>
+                            <div class="message-error">
+                                <span asp-validation-for="IdmonGiaSu2" class="help-block with-errors" style="color:red"></span>
+                            </div>
+                            <div class="form__input">
+                                <label class="lb-form">Điểm trung bình môn hoặc tên chứng chỉ</label>
+                                <input type="text" id="TenChungChiHoacDiemMon2" name="TenChungChiHoacDiemMon2" placeholder="Điểm trung bình hoặc chứng chỉ môn 2"></input>
+                                <span class="warning-icon">!</span>
+                                <p class="warning">Vui lòng điền đầy đủ thông tin</p>
+                            </div>
+                            <span asp-validation-for="TenChungChiHoacDiemMon2" class="help-block with-errors" style="color:red"> </span>
 
                                 <div class="form__input">
                                     <label for="form__label" class="lb-form">Minh chứng kèm theo</label>
@@ -259,7 +259,7 @@
 
                     <p class="form__terms text-center">
                         Bằng cách nhấp vào nút đăng ký, bạn đồng ý với
-                        <span>Điều khoản và Dịch vụ</span> của chúng tôi
+                        <span><a asp-action="PrivacyPolicy">Điều khoản và Dịch vụ</a></span> của chúng tôi
                     </p>
                     <button type="submit" class="submit-btn" onclick="Button1_Click">Đăng ký</button>
                 </form>

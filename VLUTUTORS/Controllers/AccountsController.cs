@@ -137,14 +137,7 @@ namespace VLUTUTORS.Controllers
 
             var taiKhoan = await db.Taikhoannguoidungs.FirstOrDefaultAsync(m => m.Id == id);
 
-            if (taiKhoan.AnhDaiDien != null)
-            {
-                taiKhoan.AnhDaiDien = "https://cntttest.vanlanguni.edu.vn:18081/CP25Team01/" + taiKhoan.AnhDaiDien.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
-            }
-            else
-            {
-                taiKhoan.AnhDaiDien = "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png";
-            }
+
             var gioiTinhs = await db.Gioitinhs.ToListAsync();
             SelectList ddlStatus = new SelectList(gioiTinhs, "IdgioiTinh", "GioiTinh1");
             taiKhoan.GenderItems = ddlStatus;
@@ -153,20 +146,14 @@ namespace VLUTUTORS.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditLearnerAccounts(int id, [FromForm] int IdgioiTinh, [FromForm] DateTime NgaySinh, [FromForm] string Sdt, [FromForm] string HoTen, [FromForm] string MatKhau, [FromForm] string ReMatKhau, List<IFormFile> avatar)
+        public IActionResult EditLearnerAccounts([Bind(include: "Id, HoTen, Email, MatKhau, IdgioiTinh, Sdt, NgaySinh, Idkhoa, AnhDaiDien, TrangThaiTaiKhoan, SoTaiKhoan, IdnganHang, GioiThieu, DanhGiaVeViecGiaSu, DiemTrungBinh, IdmonGiaSu1, TenChungChiHoacDiemMon1, ChungChiMon1, GioiThieuVeMonGiaSu1, IdmonGiaSu2, TenChungChiHoacDiemMon2, ChungChiMon2, GioiThieuVeMonGiaSu2, MaXacThuc, XacThuc")] Taikhoannguoidung taikhoannguoidung, [FromForm] string NewMatKhau, [FromForm] string ReMatKhau, List<IFormFile> avatar)
         {
-            var dbTaikhoannguoidung = await db.Taikhoannguoidungs.FindAsync(id);
-            string avatarPath = Path.Combine("avatars", dbTaikhoannguoidung.Id.ToString());
 
-            Console.WriteLine(avatar.Count);
+            string avatarPath = Path.Combine("avatars", taikhoannguoidung.Id.ToString());
 
-            if (dbTaikhoannguoidung == null || (dbTaikhoannguoidung != null && id != dbTaikhoannguoidung.Id))
-            {
-                return NotFound();
-            }
             if (avatar.Count == 0)
             {
-                if (Sdt.Length < 10 || Sdt.Length >= 11)
+                if (taikhoannguoidung.Sdt.Length < 10 || taikhoannguoidung.Sdt.Length >= 11)
                 {
                     TempData["errorMessage"] = "Số điện thoại phải đủ 10 số!";
                 }
@@ -174,47 +161,47 @@ namespace VLUTUTORS.Controllers
                 {
                     if (ModelState.IsValid)
                     {
-                        if (MatKhau == null && ReMatKhau == null)
+                        if (NewMatKhau == null && ReMatKhau == null)
                         {
                             try
                             {
-                                dbTaikhoannguoidung.IdgioiTinh = IdgioiTinh;
-                                dbTaikhoannguoidung.NgaySinh = NgaySinh;
-                                dbTaikhoannguoidung.Sdt = Sdt;
-                                dbTaikhoannguoidung.HoTen = HoTen;
-                                dbTaikhoannguoidung.AnhDaiDien = avatar.Count != 0 ? TutorServices.SaveAvatar(this._environment.WebRootPath, avatarPath, avatar) : dbTaikhoannguoidung.AnhDaiDien;
+                                taikhoannguoidung.IdgioiTinh = taikhoannguoidung.IdgioiTinh;
+                                taikhoannguoidung.NgaySinh = taikhoannguoidung.NgaySinh;
+                                taikhoannguoidung.Sdt = taikhoannguoidung.Sdt;
+                                taikhoannguoidung.HoTen = taikhoannguoidung.HoTen;
+                                taikhoannguoidung.AnhDaiDien = taikhoannguoidung.AnhDaiDien;
 
                                 TempData["Message"] = "Cập nhật thành công!";
                                 TempData["MessageType"] = "success";
-                                db.Entry(dbTaikhoannguoidung).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                                db.Entry(taikhoannguoidung).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                                 db.SaveChanges();
-                                return RedirectToAction("Details", new { id });
+                                return RedirectToAction("Details", new { id = taikhoannguoidung.Id });
                             }
                             catch (Exception ex)
                             {
-                                return RedirectToAction("Details", new { id });
+                                return RedirectToAction("Details", new { id = taikhoannguoidung.Id });
                             }
                         }
-                        else if (MatKhau != null && ReMatKhau == MatKhau && MatKhau.Length >= 6)
+                        else if (NewMatKhau != null && ReMatKhau == NewMatKhau && NewMatKhau.Length >= 6)
                         {
                             try
                             {
-                                dbTaikhoannguoidung.IdgioiTinh = IdgioiTinh;
-                                dbTaikhoannguoidung.NgaySinh = NgaySinh;
-                                dbTaikhoannguoidung.Sdt = Sdt;
-                                dbTaikhoannguoidung.HoTen = HoTen;
-                                dbTaikhoannguoidung.AnhDaiDien = avatar.Count != 0 ? TutorServices.SaveAvatar(this._environment.WebRootPath, avatarPath, avatar) : dbTaikhoannguoidung.AnhDaiDien;
-                                dbTaikhoannguoidung.MatKhau = MatKhau;
+                                taikhoannguoidung.IdgioiTinh = taikhoannguoidung.IdgioiTinh;
+                                taikhoannguoidung.NgaySinh = taikhoannguoidung.NgaySinh;
+                                taikhoannguoidung.Sdt = taikhoannguoidung.Sdt;
+                                taikhoannguoidung.HoTen = taikhoannguoidung.HoTen;
+                                taikhoannguoidung.AnhDaiDien = taikhoannguoidung.AnhDaiDien;
+                                taikhoannguoidung.MatKhau = NewMatKhau;
 
                                 TempData["Message"] = "Cập nhật thành công!";
                                 TempData["MessageType"] = "success";
-                                db.Entry(dbTaikhoannguoidung).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                                db.Entry(taikhoannguoidung).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                                 db.SaveChanges();
-                                return RedirectToAction("Details", new { id });
+                                return RedirectToAction("Details", new { id = taikhoannguoidung.Id });
                             }
                             catch (Exception ex)
                             {
-                                return RedirectToAction("Details", new { id });
+                                return RedirectToAction("Details", new { id = taikhoannguoidung.Id });
                             }
                         }
                         else
@@ -225,7 +212,7 @@ namespace VLUTUTORS.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("EditLearnerAccounts", new { id });
+                        return RedirectToAction("EditLearnerAccounts", new { id = taikhoannguoidung.Id });
                     }
                 }
             }
@@ -257,10 +244,10 @@ namespace VLUTUTORS.Controllers
                     iwidth = image.Width;
                     iheight = image.Height;
                 }
-                Console.WriteLine(iwidth+ " " + iheight);
-                if(iwidth >= 200 && iheight >= 200)
+                Console.WriteLine(iwidth + " " + iheight);
+                if (iwidth >= 200 && iheight >= 200)
                 {
-                    if (Sdt.Length < 10 || Sdt.Length >= 11)
+                    if (taikhoannguoidung.Sdt.Length < 10 || taikhoannguoidung.Sdt.Length >= 11)
                     {
                         TempData["errorMessage"] = "Số điện thoại phải đủ 10 số!";
                     }
@@ -268,47 +255,49 @@ namespace VLUTUTORS.Controllers
                     {
                         if (ModelState.IsValid)
                         {
-                            if (MatKhau == null && ReMatKhau == null)
+                            if (NewMatKhau == null && ReMatKhau == null)
                             {
                                 try
                                 {
-                                    dbTaikhoannguoidung.IdgioiTinh = IdgioiTinh;
-                                    dbTaikhoannguoidung.NgaySinh = NgaySinh;
-                                    dbTaikhoannguoidung.Sdt = Sdt;
-                                    dbTaikhoannguoidung.HoTen = HoTen;
-                                    dbTaikhoannguoidung.AnhDaiDien = avatar.Count != 0 ? TutorServices.SaveAvatar(this._environment.WebRootPath, avatarPath, avatar) : dbTaikhoannguoidung.AnhDaiDien;
+                                    taikhoannguoidung.IdgioiTinh = taikhoannguoidung.IdgioiTinh;
+                                    taikhoannguoidung.NgaySinh = taikhoannguoidung.NgaySinh;
+                                    taikhoannguoidung.Sdt = taikhoannguoidung.Sdt;
+                                    taikhoannguoidung.HoTen = taikhoannguoidung.HoTen;
+                                    //dbTaikhoannguoidung.AnhDaiDien = avatar.Count != 0 ? TutorServices.SaveAvatar(this._environment.WebRootPath, avatarPath, avatar) : dbTaikhoannguoidung.AnhDaiDien;
+                                    taikhoannguoidung.AnhDaiDien = TutorServices.SaveAvatar(this._environment.WebRootPath, avatarPath, avatar);
 
                                     TempData["Message"] = "Cập nhật thành công!";
                                     TempData["MessageType"] = "success";
-                                    db.Entry(dbTaikhoannguoidung).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                                    db.Entry(taikhoannguoidung).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                                     db.SaveChanges();
-                                    return RedirectToAction("Details", new { id });
+                                    return RedirectToAction("Details", "Accounts", new { id = taikhoannguoidung.Id });
                                 }
                                 catch (Exception ex)
                                 {
-                                    return RedirectToAction("Details", new { id });
+                                    return RedirectToAction("Details", "Accounts", new { id = taikhoannguoidung.Id });
                                 }
                             }
-                            else if (MatKhau != null && ReMatKhau == MatKhau && MatKhau.Length >= 6)
+                            else if (NewMatKhau != null && ReMatKhau == NewMatKhau && NewMatKhau.Length >= 6)
                             {
                                 try
                                 {
-                                    dbTaikhoannguoidung.IdgioiTinh = IdgioiTinh;
-                                    dbTaikhoannguoidung.NgaySinh = NgaySinh;
-                                    dbTaikhoannguoidung.Sdt = Sdt;
-                                    dbTaikhoannguoidung.HoTen = HoTen;
-                                    dbTaikhoannguoidung.AnhDaiDien = avatar.Count != 0 ? TutorServices.SaveAvatar(this._environment.WebRootPath, avatarPath, avatar) : dbTaikhoannguoidung.AnhDaiDien;
-                                    dbTaikhoannguoidung.MatKhau = MatKhau;
+                                    taikhoannguoidung.IdgioiTinh = taikhoannguoidung.IdgioiTinh;
+                                    taikhoannguoidung.NgaySinh = taikhoannguoidung.NgaySinh;
+                                    taikhoannguoidung.Sdt = taikhoannguoidung.Sdt;
+                                    taikhoannguoidung.HoTen = taikhoannguoidung.HoTen;
+                                    //dbTaikhoannguoidung.AnhDaiDien = avatar.Count != 0 ? TutorServices.SaveAvatar(this._environment.WebRootPath, avatarPath, avatar) : dbTaikhoannguoidung.AnhDaiDien;
+                                    taikhoannguoidung.AnhDaiDien = TutorServices.SaveAvatar(this._environment.WebRootPath, avatarPath, avatar);
+                                    taikhoannguoidung.MatKhau = NewMatKhau;
 
                                     TempData["Message"] = "Cập nhật thành công!";
                                     TempData["MessageType"] = "success";
-                                    db.Entry(dbTaikhoannguoidung).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                                    db.Entry(taikhoannguoidung).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                                     db.SaveChanges();
-                                    return RedirectToAction("Details", new { id });
+                                    return RedirectToAction("Details", "Accounts", new { id = taikhoannguoidung.Id});
                                 }
                                 catch (Exception ex)
                                 {
-                                    return RedirectToAction("Details", new { id });
+                                    return RedirectToAction("Details", "Accounts", new { id = taikhoannguoidung.Id});
                                 }
                             }
                             else
@@ -319,7 +308,7 @@ namespace VLUTUTORS.Controllers
                         }
                         else
                         {
-                            return RedirectToAction("EditLearnerAccounts", new { id });
+                            return RedirectToAction("EditLearnerAccounts", new { id = taikhoannguoidung.Id });
                         }
                     }
                 }
@@ -327,11 +316,11 @@ namespace VLUTUTORS.Controllers
                 {
                     TempData["Message"] = "Ảnh có kích thước tối thiểu 200x200 (px), vui lòng kiểm tra lại!";
                     TempData["MessageType"] = "error";
-                    return RedirectToAction("EditLearnerAccounts", new { id });
+                    return RedirectToAction("EditLearnerAccounts", "Accounts", new { id = taikhoannguoidung.Id });
                 }
             }
 
-            return RedirectToAction("EditLearnerAccounts", new { id });
+            return RedirectToAction("EditLearnerAccounts", new { id = taikhoannguoidung.Id });
         }
         public IActionResult Logout()
         {

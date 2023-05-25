@@ -25,6 +25,7 @@
             <div class="main-body">
                 <form method="post" enctype="multipart/form-data" asp-controller="ManageContent" asp-action="Index" asp-route-id="1">
                     @Html.AntiForgeryToken()
+                    @Html.HiddenFor(m => m.AnhGioiThieu)
                     <div class="row gutters-sm">
                         <div class="col">
                             <div class="card mb-3">
@@ -97,15 +98,12 @@
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Ảnh trên trang</h6>
                                         </div>
-                                        @foreach (var file in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Model.AnhGioiThieu))
-                                        {
-                                            <img src="~/@file" width="100" height="100" />
-                                        }
+                                        <img src="https://cntttest.vanlanguni.edu.vn:18081/CP25Team01/@Model.AnhGioiThieu" width="100" height="100" id="preview" />
                                         <input class="col-sm-9 text-secondary"
                                                type="file"
                                                name="anhGt"
                                                multiple="multiple"
-                                               required
+                                               onchange="document.getElementById('preview').src= window.URL.createObjectURL(this.files[0])"
                                                accept=".jpg, .jpeg, .png" />
                                     </div>
                                     <hr />

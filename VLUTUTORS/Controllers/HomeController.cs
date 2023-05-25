@@ -230,9 +230,11 @@ namespace VLUTUTORS.Controllers
             return RedirectToAction("Contact", "Home");
         }
 
-        public async Task<IActionResult> AboutUs()
+        public IActionResult AboutUs()
         {
-            return View();
+            var noiDung = _db.Noidungs.FirstOrDefault(m => m.Id == 1);
+            noiDung.AnhGioiThieu = noiDung.AnhGioiThieu.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
+            return View(noiDung);
         }
     }
 }

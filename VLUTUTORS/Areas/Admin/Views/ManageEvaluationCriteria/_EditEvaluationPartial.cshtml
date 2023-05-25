@@ -21,7 +21,8 @@
                     </span>
                     <div class="form-group">
                         <label for="inputName">Tên tiêu chí</label>
-                        <input asp-for="TieuChi" type="text" id="TieuChi" name="TieuChi" class="form-control" data-error="Vui lòng điền đủ thông tin!" required />
+                        <input asp-for="TieuChi" type="text" id="TieuChi" name="TieuChi" class="form-control" data-error="Vui lòng điền đủ thông tin!" required placeholder="Tối đa 30 ký tự"/>
+                        <span asp-validation-for="TieuChi"></span>
                     </div>
                     <div class="form-group">
                         <label for="inputName">Dành cho</label>

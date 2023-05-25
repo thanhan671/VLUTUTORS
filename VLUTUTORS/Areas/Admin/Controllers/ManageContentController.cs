@@ -38,6 +38,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                 return RedirectToAction("Index", "Login");
             }
             var noiDung = await _context.Noidungs.FirstOrDefaultAsync(m => m.Id == 1);
+            noiDung.AnhGioiThieu = noiDung.AnhGioiThieu.TrimStart('[', '"').TrimEnd('"', ']').Replace("\\\\", "/");
             return View(noiDung);
         }
 

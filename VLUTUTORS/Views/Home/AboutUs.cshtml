@@ -1,9 +1,7 @@
 ﻿@model VLUTUTORS.Models.Noidung
-@using VLUTUTORS.Models;
 @{
     ViewData["Title"] = "Về Chúng Tôi";
     Layout = "~/Views/Shared/_otherPageLayout.cshtml";
-    var noiDung = new CP25Team01Context().Noidungs.FirstOrDefault(m => m.Id == 1);
 }
 <section id="about-page" class="pt-10 pb-20">
     <div class="container">
@@ -16,17 +14,14 @@
                 <!-- section title -->
                 <div>
                     <p>
-                        @noiDung.GioiThieu
-                    </p>
+                        @Model.GioiThieu
+                    </p>    
                 </div>
             </div>
             <!-- about cont -->
             <div class="col-lg-7">
                 <div class="about-image mt-50">
-                    @foreach (var file in Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(noiDung.AnhGioiThieu))
-                    {
-                        <img src="~/@file" alt="About" />
-                    }
+                    <img src="https://cntttest.vanlanguni.edu.vn:18081/CP25Team01/@Model.AnhGioiThieu" alt="About" />
                 </div>
                 <!-- about imag -->
             </div>
@@ -37,9 +32,9 @@
                 <div class="col-lg-4 col-md-6 col-sm-10">
                     <div class="about-singel-items mt-30">
                         <span>01</span>
-                        <h4>@noiDung.TieuDeGt1</h4>
+                        <h4>@Model.TieuDeGt1</h4>
                         <p style="margin-bottom:10px;">
-                            @noiDung.GioiThieu1
+                            @Model.GioiThieu1
                         </p>
                     </div>
                     <!-- about singel -->
@@ -47,9 +42,9 @@
                 <div class="col-lg-4 col-md-6 col-sm-10">
                     <div class="about-singel-items mt-30">
                         <span>02</span>
-                        <h4>@noiDung.TieuDeGt2</h4>
+                        <h4>@Model.TieuDeGt2</h4>
                         <p style="margin-bottom:10px;">
-                            @noiDung.GioiThieu2
+                            @Model.GioiThieu2
                         </p>
                     </div>
                     <!-- about singel -->
@@ -57,9 +52,9 @@
                 <div class="col-lg-4 col-md-6 col-sm-10">
                     <div class="about-singel-items mt-30">
                         <span>03</span>
-                        <h4>@noiDung.TieuDeGt3</h4>
+                        <h4>@Model.TieuDeGt3</h4>
                         <p>
-                            @noiDung.GioiThieu3
+                            @Model.GioiThieu3
                         </p>
                     </div>
                     <!-- about singel -->
