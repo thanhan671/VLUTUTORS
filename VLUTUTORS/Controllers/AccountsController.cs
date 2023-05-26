@@ -491,7 +491,7 @@ namespace VLUTUTORS.Controllers
                 sqlStringBuilder["Server"] = "tuleap.vanlanguni.edu.vn,18082";
                 sqlStringBuilder["Database"] = "CP25Team01";
                 sqlStringBuilder["UID"] = "CP25Team01";
-                sqlStringBuilder["PWD"] = "VLUTUTORS01";
+                sqlStringBuilder["PWD"] = "Cp25VLUTUTOR";
 
                 var sqlStringConnection = sqlStringBuilder.ToString();
 
