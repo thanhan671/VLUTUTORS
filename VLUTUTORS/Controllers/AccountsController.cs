@@ -219,35 +219,35 @@ namespace VLUTUTORS.Controllers
             }
             else
             {
-                string filePath = null;
-                int iwidth = 0;
-                int iheight = 0;
+                //string filePath = null;
+                //int iwidth = 0;
+                //int iheight = 0;
 
-                foreach (IFormFile postedFile in avatar)
-                {
-                    string[] drives = Directory.GetLogicalDrives();
+                //foreach (IFormFile postedFile in avatar)
+                //{
+                //    string[] drives = Directory.GetLogicalDrives();
 
-                    foreach (string path in drives)
-                    {
-                        var files = from file in Directory.EnumerateFiles(path) select file;
-                        foreach (var file in files)
-                        {
-                            if (file.Contains(postedFile.FileName))
-                            {
-                                filePath = file;
-                                break;
-                            }
-                        }
-                        if (filePath != null)
-                            break;
-                    }
-                    System.Drawing.Image image = System.Drawing.Image.FromFile(Path.GetFullPath(filePath));
-                    iwidth = image.Width;
-                    iheight = image.Height;
-                }
-                Console.WriteLine(iwidth + " " + iheight);
-                if (iwidth >= 200 && iheight >= 200)
-                {
+                //    foreach (string path in drives)
+                //    {
+                //        var files = from file in Directory.EnumerateFiles(path) select file;
+                //        foreach (var file in files)
+                //        {
+                //            if (file.Contains(postedFile.FileName))
+                //            {
+                //                filePath = file;
+                //                break;
+                //            }
+                //        }
+                //        if (filePath != null)
+                //            break;
+                //    }
+                //    System.Drawing.Image image = System.Drawing.Image.FromFile(Path.GetFullPath(filePath));
+                //    iwidth = image.Width;
+                //    iheight = image.Height;
+                //}
+                //Console.WriteLine(iwidth + " " + iheight);
+                //if (iwidth >= 200 && iheight >= 200)
+                //{
                     if (Sdt.Length < 10 || Sdt.Length >= 11)
                     {
                         TempData["errorMessage"] = "Số điện thoại phải đủ 10 số!";
@@ -311,13 +311,13 @@ namespace VLUTUTORS.Controllers
                             return RedirectToAction("EditLearnerAccounts", new { id});
                         }
                     }
-                }
-                else
-                {
-                    TempData["Message"] = "Ảnh có kích thước tối thiểu 200x200 (px), vui lòng kiểm tra lại!";
-                    TempData["MessageType"] = "error";
-                    return RedirectToAction("EditLearnerAccounts", "Accounts", new { id });
-                }
+                //}
+                //else
+                //{
+                //    TempData["Message"] = "Ảnh có kích thước tối thiểu 200x200 (px), vui lòng kiểm tra lại!";
+                //    TempData["MessageType"] = "error";
+                //    return RedirectToAction("EditLearnerAccounts", "Accounts", new { id });
+                //}
             }
 
             return RedirectToAction("EditLearnerAccounts", new { id });
