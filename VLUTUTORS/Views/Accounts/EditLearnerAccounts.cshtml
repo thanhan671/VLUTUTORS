@@ -22,31 +22,9 @@
         <form method="post" enctype="multipart/form-data" asp-controller="Accounts" asp-action="EditLearnerAccounts">
             @Html.AntiForgeryToken()
             @Html.HiddenFor(m => m.Id)
-            @Html.HiddenFor(m => m.Email)
-            @Html.HiddenFor(m => m.Idkhoa)
-            @Html.HiddenFor(m => m.TrangThaiTaiKhoan)
-            @Html.HiddenFor(m => m.SoTaiKhoan)
-            @Html.HiddenFor(m => m.IdnganHang)
-            @Html.HiddenFor(m => m.GioiThieu)
-            @Html.HiddenFor(m => m.DanhGiaVeViecGiaSu)
-            @Html.HiddenFor(m => m.DiemTrungBinh)
-            @Html.HiddenFor(m => m.IdmonGiaSu1)
-            @Html.HiddenFor(m => m.TenChungChiHoacDiemMon1)
-            @Html.HiddenFor(m => m.ChungChiMon1)
-            @Html.HiddenFor(m => m.GioiThieuVeMonGiaSu1)
-            @Html.HiddenFor(m => m.AnhDaiDien)
-            @Html.HiddenFor(m => m.MatKhau)
-            @Html.HiddenFor(m => m.IdmonGiaSu2)
-            @Html.HiddenFor(m => m.TenChungChiHoacDiemMon2)
-            @Html.HiddenFor(m => m.ChungChiMon2)
-            @Html.HiddenFor(m => m.GioiThieuVeMonGiaSu2)
             @Html.HiddenFor(m => m.IdxetDuyet)
-            @Html.HiddenFor(m => m.DiemBaiTest)
-            @Html.HiddenFor(m => m.TrangThaiGiaSu)
-            @Html.HiddenFor(m => m.MaXacThuc)
-            @Html.HiddenFor(m => m.XacThuc)
-            @Html.HiddenFor(m => m.SoDuVi)
-            @Html.HiddenFor(m => m.NgayTao)
+            @Html.HiddenFor(m => m.Email)
+
 
             <div class="row gutters-sm">
                 <div class="col-md-4 mb-3">
@@ -88,7 +66,6 @@
                                     <input style="width: 80px"
                                            type="file"
                                            name="avatar"
-                                           multiple="multiple"
                                            accept=".jpg, .jpeg, .png"
                                            onchange="document.getElementById('preview').src= window.URL.createObjectURL(this.files[0])" /><br />
                                     <span>Định dạng: .JPG, .JPEG, .PNG</span>
