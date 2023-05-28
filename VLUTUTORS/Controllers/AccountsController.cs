@@ -213,111 +213,76 @@ namespace VLUTUTORS.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("EditLearnerAccounts", new { id});
+                        return RedirectToAction("EditLearnerAccounts", new { id });
                     }
                 }
             }
             else
             {
-                string filePath = null;
-                int iwidth = 0;
-                int iheight = 0;
-
-                foreach (IFormFile postedFile in avatar)
+                if (Sdt.Length < 10 || Sdt.Length >= 11)
                 {
-                    string[] drives = Directory.GetLogicalDrives();
-
-                    foreach (string path in drives)
-                    {
-                        var files = from file in Directory.EnumerateFiles(path) select file;
-                        foreach (var file in files)
-                        {
-                            if (file.Contains(postedFile.FileName))
-                            {
-                                filePath = file;
-                                break;
-                            }
-                        }
-                        if (filePath != null)
-                            break;
-                    }
-                    System.Drawing.Image image = System.Drawing.Image.FromFile(Path.GetFullPath(filePath));
-                    iwidth = image.Width;
-                    iheight = image.Height;
-                }
-                Console.WriteLine(iwidth + " " + iheight);
-                if (iwidth >= 200 && iheight >= 200)
-                {
-                    if (Sdt.Length < 10 || Sdt.Length >= 11)
-                    {
-                        TempData["errorMessage"] = "Số điện thoại phải đủ 10 số!";
-                    }
-                    else
-                    {
-                        if (ModelState.IsValid)
-                        {
-                            if (MatKhau == null && ReMatKhau == null)
-                            {
-                                try
-                                {
-                                    dbTaikhoannguoidung.IdgioiTinh = IdgioiTinh;
-                                    dbTaikhoannguoidung.NgaySinh = NgaySinh;
-                                    dbTaikhoannguoidung.Sdt = Sdt;
-                                    //dbTaikhoannguoidung.AnhDaiDien = avatar.Count != 0 ? TutorServices.SaveAvatar(this._environment.WebRootPath, avatarPath, avatar) : dbTaikhoannguoidung.AnhDaiDien;
-                                    dbTaikhoannguoidung.AnhDaiDien = TutorServices.SaveAvatar(this._environment.WebRootPath, avatarPath, avatar);
-                                    TempData["Message"] = "Cập nhật thành công!";
-                                    TempData["MessageType"] = "success";
-                                    //db.Entry(dbTaikhoannguoidung).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                                    db.Update(dbTaikhoannguoidung);
-                                    db.SaveChanges();
-                                    return RedirectToAction("Details", new { id });
-                                }
-                                catch (Exception ex)
-                                {
-                                    return RedirectToAction("Details", new { id });
-                                }
-                            }
-                            else if (MatKhau != null && ReMatKhau == MatKhau && MatKhau.Length >= 6)
-                            {
-                                try
-                                {
-                                    dbTaikhoannguoidung.IdgioiTinh = IdgioiTinh;
-                                    dbTaikhoannguoidung.NgaySinh = NgaySinh;
-                                    dbTaikhoannguoidung.Sdt = Sdt;
-                                    //dbTaikhoannguoidung.AnhDaiDien = avatar.Count != 0 ? TutorServices.SaveAvatar(this._environment.WebRootPath, avatarPath, avatar) : dbTaikhoannguoidung.AnhDaiDien;
-                                    dbTaikhoannguoidung.AnhDaiDien = TutorServices.SaveAvatar(this._environment.WebRootPath, avatarPath, avatar);
-                                    dbTaikhoannguoidung.MatKhau = MatKhau;
-
-                                    TempData["Message"] = "Cập nhật thành công!";
-                                    TempData["MessageType"] = "success";
-                                    //db.Entry(dbTaikhoannguoidung).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                                    db.Update(dbTaikhoannguoidung);
-                                    db.SaveChanges();
-                                    return RedirectToAction("Details", new { id });
-                                }
-                                catch (Exception ex)
-                                {
-                                    return RedirectToAction("Details", new { id });
-                                }
-                            }
-                            else
-                            {
-                                TempData["errorMessage"] = "Mật khẩu phải đủ từ 6 ký tự và Xác nhận mật khẩu phải trùng khớp với Mật khẩu!";
-                            }
-
-                        }
-                        else
-                        {
-                            return RedirectToAction("EditLearnerAccounts", new { id});
-                        }
-                    }
+                    TempData["errorMessage"] = "Số điện thoại phải đủ 10 số!";
                 }
                 else
                 {
-                    TempData["Message"] = "Ảnh có kích thước tối thiểu 200x200 (px), vui lòng kiểm tra lại!";
-                    TempData["MessageType"] = "error";
-                    return RedirectToAction("EditLearnerAccounts", "Accounts", new { id });
+                    if (ModelState.IsValid)
+                    {
+                        if (MatKhau == null && ReMatKhau == null)
+                        {
+                            try
+                            {
+                                dbTaikhoannguoidung.IdgioiTinh = IdgioiTinh;
+                                dbTaikhoannguoidung.NgaySinh = NgaySinh;
+                                dbTaikhoannguoidung.Sdt = Sdt;
+                                //dbTaikhoannguoidung.AnhDaiDien = avatar.Count != 0 ? TutorServices.SaveAvatar(this._environment.WebRootPath, avatarPath, avatar) : dbTaikhoannguoidung.AnhDaiDien;
+                                dbTaikhoannguoidung.AnhDaiDien = TutorServices.SaveAvatar(this._environment.WebRootPath, avatarPath, avatar);
+                                TempData["Message"] = "Cập nhật thành công!";
+                                TempData["MessageType"] = "success";
+                                //db.Entry(dbTaikhoannguoidung).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                                db.Update(dbTaikhoannguoidung);
+                                db.SaveChanges();
+                                return RedirectToAction("Details", new { id });
+                            }
+                            catch (Exception ex)
+                            {
+                                return RedirectToAction("Details", new { id });
+                            }
+                        }
+                        else if (MatKhau != null && ReMatKhau == MatKhau && MatKhau.Length >= 6)
+                        {
+                            try
+                            {
+                                dbTaikhoannguoidung.IdgioiTinh = IdgioiTinh;
+                                dbTaikhoannguoidung.NgaySinh = NgaySinh;
+                                dbTaikhoannguoidung.Sdt = Sdt;
+                                //dbTaikhoannguoidung.AnhDaiDien = avatar.Count != 0 ? TutorServices.SaveAvatar(this._environment.WebRootPath, avatarPath, avatar) : dbTaikhoannguoidung.AnhDaiDien;
+                                dbTaikhoannguoidung.AnhDaiDien = TutorServices.SaveAvatar(this._environment.WebRootPath, avatarPath, avatar);
+                                dbTaikhoannguoidung.MatKhau = MatKhau;
+
+                                TempData["Message"] = "Cập nhật thành công!";
+                                TempData["MessageType"] = "success";
+                                //db.Entry(dbTaikhoannguoidung).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                                db.Update(dbTaikhoannguoidung);
+                                db.SaveChanges();
+                                return RedirectToAction("Details", new { id });
+                            }
+                            catch (Exception ex)
+                            {
+                                return RedirectToAction("Details", new { id });
+                            }
+                        }
+                        else
+                        {
+                            TempData["errorMessage"] = "Mật khẩu phải đủ từ 6 ký tự và Xác nhận mật khẩu phải trùng khớp với Mật khẩu!";
+                        }
+
+                    }
+                    else
+                    {
+                        return RedirectToAction("EditLearnerAccounts", new { id });
+                    }
                 }
+
             }
 
             return RedirectToAction("EditLearnerAccounts", new { id });
