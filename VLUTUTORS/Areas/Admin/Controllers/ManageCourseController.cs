@@ -89,28 +89,29 @@ namespace VLUTUTORS.Areas.Admin.Controllers
                         }
                         else if (listLink.Count == 0 && tepBaiGiang.Count != 0)
                         {
+                            filePath = Path.Combine("Files", khoadaotao.IdBaiHoc.ToString());
+
                             khoadaotao.LinkVideo = null;
-                            khoadaotao.TaiLieu = TutorServices.SaveFileNameToDb(tepBaiGiang);
+                            khoadaotao.TaiLieu = TutorServices.SaveUploadFiles(this._environment.WebRootPath, filePath, tepBaiGiang);
                             _context.Add(khoadaotao);
                             await _context.SaveChangesAsync();
                             TempData["Message"] = "Thêm thành công!";
                             TempData["MessageType"] = "success";
 
-                            filePath = Path.Combine("Files", khoadaotao.IdBaiHoc.ToString());
+                            
                             TutorServices.SaveFileToFolder(this._environment.WebRootPath, filePath, tepBaiGiang);
                             Console.WriteLine("id: " + khoadaotao.IdBaiHoc.ToString());
                         }
                         else if (listLink.Count != 0 && tepBaiGiang.Count != 0)
                         {
+                            filePath = Path.Combine("Files", khoadaotao.IdBaiHoc.ToString());
                             khoadaotao.LinkVideo = linkVideo;
-                            khoadaotao.TaiLieu = TutorServices.SaveFileNameToDb(tepBaiGiang);
+                            khoadaotao.TaiLieu = TutorServices.SaveUploadFiles(this._environment.WebRootPath, filePath, tepBaiGiang);
                             _context.Add(khoadaotao);
                             await _context.SaveChangesAsync();
                             TempData["Message"] = "Thêm thành công!";
                             TempData["MessageType"] = "success";
 
-                            filePath = Path.Combine("Files", khoadaotao.IdBaiHoc.ToString());
-                            TutorServices.SaveFileToFolder(this._environment.WebRootPath, filePath, tepBaiGiang);
                             Console.WriteLine("id: " + khoadaotao.IdBaiHoc.ToString());
                         }
                         else if (listLink.Count == 0 && tepBaiGiang.Count == 0)
@@ -209,8 +210,11 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         public IActionResult DeleteLesson([FromForm] int hdInput)
         {
             Khoadaotao khoadaotao = _context.Khoadaotaos.Where(p => p.IdBaiHoc == hdInput).FirstOrDefault();
-            string filePath = Path.Combine(this._environment.WebRootPath, "Files", khoadaotao.TenBaiHoc.Trim());
-            Directory.Delete(filePath, true);
+            if(khoadaotao.TaiLieu !=null)
+            {
+                string filePath = Path.Combine(this._environment.WebRootPath, "Files", khoadaotao.TenBaiHoc.Trim());
+                Directory.Delete(filePath, true);
+            }
             _context.Khoadaotaos.Remove(khoadaotao);
             _context.SaveChanges();
             TempData["Message"] = "Xóa thành công!";

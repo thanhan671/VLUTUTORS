@@ -52,8 +52,8 @@
     <Folder Include="Areas\Admin\Views\ManageLearnerEvaluation\" />
     <Folder Include="Areas\Tutors\Data\" />
     <Folder Include="wwwroot\avatars\" />
-    <Folder Include="wwwroot\certificates\" />
     <Folder Include="wwwroot\Files\" />
+    <Folder Include="wwwroot\certificates\" />
   </ItemGroup>
 
   <ItemGroup>
