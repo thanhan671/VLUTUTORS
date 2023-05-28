@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 using VLUTUTORS.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Moq;
+using System.Net.Sockets;
+using System.Transactions;
 
 namespace ManageTest.Tests
 {
@@ -15,6 +18,11 @@ namespace ManageTest.Tests
     public class ManageTestControllerTests
     {
         private readonly CP25Team01Context _context = new CP25Team01Context();
+        private IQueryable<Baikiemtra> _tests;
+        private Mock<DbSet<Baikiemtra>> mockSet;
+        private Mock<CP25Team01Context> _contextMock;
+        //private UnitOfWork unitOfWork;
+        private TransactionScope scope;
 
         [TestMethod()]
         public async Task IndexTest()
@@ -45,7 +53,18 @@ namespace ManageTest.Tests
         [TestMethod()]
         public void AddQuestionTest_Post()
         {
-
+            _tests = new List<Baikiemtra> {
+                new Baikiemtra() { CauHoi = "Ten cau hoi 1?", DapAnA = "A", DapAnB = "B", DapAnC = "C", DapAnD = "D", DapAnDung = "A" }
+            }.AsQueryable();
+            mockSet = new Mock<DbSet<Baikiemtra>>();
+            _contextMock = new Mock<CP25Team01Context>();
+            //unitOfWork = new UnitOfWork(_contextMock.Object);
+            scope = new TransactionScope();
+            mockSet.As<IQueryable<Baikiemtra>>().Setup(m => m.Provider).Returns(_tests.Provider);
+            mockSet.As<IQueryable<Baikiemtra>>().Setup(m => m.Expression).Returns(_tests.Expression);
+            mockSet.As<IQueryable<Baikiemtra>>().Setup(m => m.ElementType).Returns(_tests.ElementType);
+            mockSet.As<IQueryable<Baikiemtra>>().Setup(m => m.GetEnumerator()).Returns(_tests.GetEnumerator());
+            _contextMock.Setup(c => c.Baikiemtras).Returns(() => mockSet.Object);
         }
 
         [TestMethod()]

@@ -147,7 +147,8 @@ namespace VLUTUTORS.Controllers {
                             dbTaikhoannguoidung.AnhDaiDien = TutorServices.SaveAvatar(this._environment.WebRootPath, avatarPath, avatar);
                             TempData["Message"] = "Cập nhật thành công!";
                             TempData["MessageType"] = "success";
-                            db.Entry(dbTaikhoannguoidung).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                            //db.Entry(dbTaikhoannguoidung).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                            db.Update(dbTaikhoannguoidung);
                             db.SaveChanges();
                             return RedirectToAction("Details", new { id });
                         }
@@ -166,7 +167,8 @@ namespace VLUTUTORS.Controllers {
 
                             TempData["Message"] = "Cập nhật thành công!";
                             TempData["MessageType"] = "success";
-                            db.Entry(dbTaikhoannguoidung).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                            //db.Entry(dbTaikhoannguoidung).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                            db.Update(dbTaikhoannguoidung);
                             db.SaveChanges();
                             return RedirectToAction("Details", new { id });
                         }

@@ -68,7 +68,8 @@ namespace VLUTUTORS.Areas.Tutors.Controllers
                 taikhoannguoidung.IdxetDuyet = (int)ApprovalStatus.APPROVED;
 
                 Console.WriteLine("anh dai dien: " + taikhoannguoidung.AnhDaiDien);
-                _db.Entry(taikhoannguoidung).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                //_db.Entry(taikhoannguoidung).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                _db.Update(taikhoannguoidung);
                 _db.SaveChanges();
                 TempData["Message"] = "Cập nhật thành công!";
                 TempData["MessageType"] = "success";
