@@ -326,7 +326,7 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         {
             string mailTitle = "Gia Sư Văn Lang";
             string fromMail = "giasuvanlang.thongtin@gmail.com";
-            string fromEmailPass = "vrzaiqmdiycujvas";
+            string fromEmailPass = "cqucfyxjvtclgcrw";
             string email = HttpContext.Session.GetString("Email");
             string name = HttpContext.Session.GetString("Name");
             string bodyMail = "<!DOCTYPE html>" +

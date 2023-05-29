@@ -596,7 +596,7 @@ new
         {
             string mailTitle = "Gia Sư Văn Lang";
             string fromMail = "giasuvanlang.thongtin@gmail.com";
-            string fromEmailPass = "vrzaiqmdiycujvas";
+            string fromEmailPass = "cqucfyxjvtclgcrw";
             string bodyMail = "<!DOCTYPE html>" +
         "<html>" +
             "<body>" +
