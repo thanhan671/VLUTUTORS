@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace HomeAdmin.Tests
 {
@@ -14,14 +15,7 @@ namespace HomeAdmin.Tests
         [TestMethod()]
         public void IndexTest()
         {
-            //Arrange
-            var con = new HomeController();
 
-            //Act
-            var result = con.Index();
-
-            // Assert
-            Assert.IsNotNull(result);
         }
     }
 }

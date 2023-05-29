@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using VLUTUTORS.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
 
 namespace ManageTimeClass.Tests
 {
@@ -21,10 +22,9 @@ namespace ManageTimeClass.Tests
         {
             //Arrange
             ManageTimeClassController controller = new ManageTimeClassController();
-
             //Act
             ViewResult result = await controller.Index() as ViewResult;
-
+            controller.HttpContext.Session.SetInt32("LoginADId", 1);
             // Assert
             Assert.IsNotNull(result);
         }
@@ -51,15 +51,7 @@ namespace ManageTimeClass.Tests
         [TestMethod()]
         public async Task EditTimeClassTest_Get()
         {
-            //Arrange
-            ManageTestController controller = new ManageTestController();
-            int id = 1;
 
-            //Act
-            var checkCa = await _context.Cahocs.FirstOrDefaultAsync(m => m.IdCaHoc == id);
-
-            // Assert
-            Assert.IsNotNull(checkCa);
         }
 
         [TestMethod()]

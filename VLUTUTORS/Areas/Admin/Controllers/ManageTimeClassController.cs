@@ -77,11 +77,6 @@ namespace VLUTUTORS.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> EditTimeClass(int? id = -1)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             var checkCa = await _context.Cahocs.FirstOrDefaultAsync(m => m.IdCaHoc == id);
             if (checkCa == null)
                 return NotFound();

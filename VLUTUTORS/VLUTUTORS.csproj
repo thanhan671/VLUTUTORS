@@ -10,13 +10,9 @@
 	
   <ItemGroup>
     <Compile Remove="CourseFiles\**" />
-    <Compile Remove="wwwroot\Files\107\**" />
     <Content Remove="CourseFiles\**" />
-    <Content Remove="wwwroot\Files\107\**" />
     <EmbeddedResource Remove="CourseFiles\**" />
-    <EmbeddedResource Remove="wwwroot\Files\107\**" />
     <None Remove="CourseFiles\**" />
-    <None Remove="wwwroot\Files\107\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -56,8 +52,8 @@
     <Folder Include="Areas\Admin\Views\ManageLearnerEvaluation\" />
     <Folder Include="Areas\Tutors\Data\" />
     <Folder Include="wwwroot\avatars\" />
-    <Folder Include="wwwroot\Files\" />
     <Folder Include="wwwroot\certificates\" />
+    <Folder Include="wwwroot\Files\" />
   </ItemGroup>
 
   <ItemGroup>

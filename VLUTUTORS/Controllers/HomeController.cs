@@ -145,6 +145,9 @@ namespace VLUTUTORS.Controllers
                 taikhoannguoidung.AnhDaiDien = TutorServices.SaveAvatar(this._environment.WebRootPath, avatarPath, avatar);
                 taikhoannguoidung.IdxetDuyet = (int)ApprovalStatus.TRAINING;
                 taikhoannguoidung.TrangThaiGiaSu = true;
+                taikhoannguoidung.XacThuc = true;
+                taikhoannguoidung.NgayTao = DateTime.Now;
+                taikhoannguoidung.SoDuVi = 0;
 
                 _db.Entry(taikhoannguoidung).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 _db.SaveChanges();

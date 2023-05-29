@@ -69,9 +69,17 @@ namespace ManageTutorSubject.Tests
         }
 
         [TestMethod()]
-        public void DeleteSubjectTest()
+        public async Task DeleteSubjectTest()
         {
+            //Arrange
+            ManageTestController controller = new ManageTestController();
+            int id = 1;
 
+            //Act
+            var mon = await _context.Mongiasus.FirstOrDefaultAsync(m => m.IdmonGiaSu == id);
+
+            // Assert
+            Assert.IsNotNull(mon);
         }
     }
 }

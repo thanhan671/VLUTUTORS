@@ -40,11 +40,5 @@ namespace ManageEvaluationCriteria.Tests
             // Assert
             Assert.IsNotNull(checkTieuChi);
         }
-
-        [TestMethod()]
-        public void EditCriteriaTest_Post()
-        {
-
-        }
     }
 }

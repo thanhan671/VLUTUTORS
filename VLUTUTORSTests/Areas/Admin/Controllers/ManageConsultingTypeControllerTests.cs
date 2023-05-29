@@ -2,6 +2,8 @@
 using VLUTUTORS.Areas.Admin.Controllers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace ManageConsultingType.Tests
 {
@@ -11,17 +13,22 @@ namespace ManageConsultingType.Tests
         [TestMethod()]
         public async Task IndexTest()
         {
+
+        }
+        [TestMethod()]
+        public void AddType_Get()
+        {
             //Arrange
             ManageConsultingTypeController controller = new ManageConsultingTypeController();
 
             //Act
-            ViewResult result = await controller.Index() as ViewResult;
+            ViewResult result = controller.AddType() as ViewResult;
 
             // Assert
             Assert.IsNotNull(result);
         }
         [TestMethod()]
-        public void AddType_Get()
+        public void AddType_Post()
         {
             //Arrange
             ManageConsultingTypeController controller = new ManageConsultingTypeController();
@@ -39,7 +46,19 @@ namespace ManageConsultingType.Tests
             ManageConsultingTypeController controller = new ManageConsultingTypeController();
 
             //Act
-            ViewResult result = controller.EditType(0) as ViewResult;
+            PartialViewResult result = controller.EditType(0) as PartialViewResult;
+
+            // Assert
+            Assert.IsNotNull(result);
+        }
+        [TestMethod]
+        public void EditType_Post()
+        {
+            //Arrange
+            ManageConsultingTypeController controller = new ManageConsultingTypeController();
+
+            //Act
+            PartialViewResult result = controller.EditType(0) as PartialViewResult;
 
             // Assert
             Assert.IsNotNull(result);

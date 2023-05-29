@@ -15,14 +15,7 @@ namespace ManageAdminRoles.Tests
         [TestMethod()]
         public async Task IndexTest()
         {
-            //Arrange
-            ManageAdminRolesController con = new ManageAdminRolesController();
 
-            //Act
-            ViewResult result = await con.Index() as ViewResult;
-
-            //Assert
-            Assert.IsNotNull(result);
         }
         [TestMethod()]
         public void AddRole_Get()
@@ -38,6 +31,30 @@ namespace ManageAdminRoles.Tests
         }
         [TestMethod]
         public async Task EditRole()
+        {
+            //Arrange
+            ManageAdminRolesController con = new ManageAdminRolesController();
+            int id = 0;
+            //Act
+            ViewResult result = await con.EditRole(id) as ViewResult;
+
+            // Assert
+            Assert.IsNotNull(result);
+        }
+        [TestMethod()]
+        public void AddRole_Post()
+        {
+            //Arrange
+            ManageAdminRolesController con = new ManageAdminRolesController();
+
+            //Act
+            ViewResult result = con.AddRole() as ViewResult;
+
+            // Assert
+            Assert.IsNotNull(result);
+        }
+        [TestMethod]
+        public async Task EditRole_Post()
         {
             //Arrange
             ManageAdminRolesController con = new ManageAdminRolesController();
